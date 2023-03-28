@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal&display=swap');
+*{
+  /* border:red 1px solid; */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Tajawal', sans-serif;
+}
+:root{
+  --orange-color:#fa4c03;
+  --bg-color:#f2f2f2;
+  --dark--color:#08354c;
+}
+a , button{
+  cursor: pointer;
+  transition: all 0.3s;
+}
+ul{
+  list-style: none;
+}
+a{
+  text-decoration: none !important;
+}
+/* start login */
+.login-container,
+.register-container{
+  background-color: var(--bg-color);
+}
+.login-box,
+.register-box{
+  border: 2px solid var(--dark--color);
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 5px 5px 10px #8ca0aa;
+}
+input:focus{
+  box-shadow: none !important;
+}
+.login-box .btn-login,
+.btn-signup{
+  background-color: var(--orange-color) !important;
+  color: #fff !important;
+  margin-top: 20px;
+  box-shadow: 5px 5px 5px #ec9873;
+}
+.login-box .btn-login:hover,
+.btn-signup:hover{
+  background-color: #dc4606 !important;
+  color: #fff !important;
+}
+.alert{
+  background:none !important;
+  border: none !important;
+  padding: 0 !important;
+  color: rgb(207, 6, 6) !important;
+}
+.login-box img,
+.register-box img{
+  width: 80px;
+}
+label{
+  font-weight: 600;
+  color: var(--dark--color);
+}
+/* end login */
