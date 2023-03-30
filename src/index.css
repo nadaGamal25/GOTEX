@@ -32,6 +32,8 @@ a{
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 5px 5px 10px #8ca0aa;
+  width: 75%;
+  padding: 50px;
 }
 input:focus{
   box-shadow: none !important;
@@ -62,4 +64,21 @@ label{
   font-weight: 600;
   color: var(--dark--color);
 }
+.pass-box{
+  position: relative;
+}
+.seenpass{
+  position: absolute;
+  left: 10px;
+  top: 30%;
+  color: #08354c;
+  cursor: pointer;
+}
 /* end login */
+@media only screen and (max-width: 768px){
+  .login-box,
+  .register-box{
+    width: 100%;
+    padding: 20px;
+}
+}

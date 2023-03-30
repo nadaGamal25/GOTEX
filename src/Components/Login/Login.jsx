@@ -13,6 +13,7 @@ export default function Login({saveUserData}) {
     email:'',
     password:''
   })
+  const [visible , setVisible] =useState(false);
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
 
@@ -62,7 +63,7 @@ function submitLoginForm(e){
   return (
     <>
     <div className="d-flex min-vh-100 login-container">
-    <div className="login-box w-75 m-auto p-5">
+    <div className="login-box m-auto">
         <div className="text-center">
     <img className='m-auto' src={logo} alt="logo" />
     </div>
@@ -80,13 +81,18 @@ function submitLoginForm(e){
       
     })}
       <label htmlFor="password">كلمة المرور :</label>
-      <input onChange={getUserData} type="password" className='my-input my-2 form-control' name='password' id='password' />
+      <div className='pass-box'>
+      <input onChange={getUserData} type={visible? "text" :"password"} className='my-input my-2 form-control pass' name='password' id='password' />
+      <span onClick={()=> setVisible(!visible)} className="seenpass">
+      {visible?<i class="fa-regular fa-eye "></i> : <i class="fa-regular fa-eye-slash "></i> }
+      </span>
       {errorList.map((err,index)=>{
       if(err.context.label ==='password'){
         return <div key={index} className="alert alert-danger my-2">كلمة المرور غير صحيحة</div>
       }
       
     })}
+    </div>
       <button className='btn btn-login'>
         {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'تسجيل الدخول'}
       </button>

@@ -9,31 +9,57 @@ import logo from '../../assets/logo.png';
 export default function Register() {
 
   let navigate= useNavigate(); //hoke
+  const [visible , setVisible] =useState(false);
   const [errorList, seterrorList]= useState([]); 
   const [user,setUser] =useState({
     name:'',
     phone:'',
     email:'',
     password:'',
-    // passwordconfirm:'',
+    passwordconfirm:'',
     address:'',
     location:'',
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
 
-async function sendRegisterDataToApi(){
-//   let {data}= await axios.post(``,user);
-//   if(data.message == 'success'){
-//     setisLoading(false)
-//     navigate('/login')
+// async function sendRegisterDataToApi(){
+//     if (user.password !== user.passwordconfirm) {
+//         setError('Passwords do not match');
+//         setisLoading(false);
+//         return;
+//       }
+// //   let {data}= await axios.post(``,user);
+// //   if(data.message == 'success'){
+// //     setisLoading(false)
+// //     navigate('/login')
 
-//   }
-//   else{
-//     setisLoading(false)
-//     setError(data.message)
-//   }
-}
+// //   }
+// //   else{
+// //     setisLoading(false)
+// //     setError(data.message)
+// //   }
+// }
+async function sendRegisterDataToApi(){
+    console.log('sending data', user);
+    
+  
+    // try {
+    //   const response = await axios.post(``, user);
+    //   console.log('response', response.data);
+    //   if (response.data.message === 'success') {
+    //     setisLoading(false);
+    //     navigate('/login');
+    //   } else {
+    //     setisLoading(false);
+    //     setError(response.data.message);
+    //   }
+    // } catch (error) {
+    //   setisLoading(false);
+    //   setError(error.message);
+    // }
+  }
+  
 function submitRegisterForm(e){
   e.preventDefault();
   setisLoading(true)
@@ -44,9 +70,14 @@ function submitRegisterForm(e){
     seterrorList(validation.error.details)
 
   }else{
+    if (user.password !== user.passwordconfirm) {
+    setError('Passwords do not match');
+    setisLoading(false);
+    return;
+  }else{
     sendRegisterDataToApi();
   }
-
+  }
 }
 
   function getUserData(e){
@@ -62,7 +93,11 @@ function submitRegisterForm(e){
       phone:Joi.string().required(),
       email:Joi.string().email({ tlds: { allow: ['com', 'net'] }}).required(),
       password:Joi.string().pattern(/^[a-zA-Z0-9]{8,}$/),
-    //   passwordconfirm:Joi.string().pattern(/^[a-zA-Z0-9]{8,}$/),
+    //   passwordconfirm: Joi.any().valid(Joi.ref('password')).required(),
+    passwordconfirm: Joi.valid(Joi.ref('password')).required().messages({
+        'any.only': 'Passwords do not match',
+        'any.required': 'Password confirmation is required',
+      }),
       address:Joi.string().required(),
       location:Joi.string().required(),
 
@@ -72,7 +107,7 @@ function submitRegisterForm(e){
   return (
     <>
     <div className="d-flex min-vh-100 p-5 register-container">
-    <div className="register-box w-75 m-auto p-5 ">
+    <div className="register-box m-auto">
     <div className="text-center">
     <img className='m-auto' src={logo} alt="logo" />
     </div>
@@ -105,15 +140,31 @@ function submitRegisterForm(e){
       
     })}
       <label htmlFor="password">كلمة المرور :</label>
-      <input onChange={getUserData} type="password" className='my-input my-2 form-control' name='password' id='password' />
+      <div className='pass-box'>
+      <input onChange={getUserData} type={visible? "text" :"password"} className='my-input my-2 form-control' name='password' id='password' />
+      <span onClick={()=> setVisible(!visible)} className="seenpass">
+      {visible?<i class="fa-regular fa-eye "></i> : <i class="fa-regular fa-eye-slash "></i> }
+      </span>
       {errorList.map((err,index)=>{
       if(err.context.label ==='password'){
         return <div key={index} className="alert alert-danger my-2">كلمة المرور يجب ان  لا تقل عن ثمانية احرف وارقام على الاقل</div>
       }
       
     })}
-      {/* <label htmlFor="passwordconfirm">تأكيد كلمة المرور :</label> */}
-      {/* <input onChange={getUserData} type="password" className='my-input my-2 form-control' name='passwordconfirm' id='passwordconfirm' /> */}
+    </div>
+      <label htmlFor="passwordconfirm">تأكيد كلمة المرور :</label>
+      <div className='pass-box'>
+      <input onChange={getUserData} type={visible? "text" :"password"} className='my-input my-2 form-control' name='passwordconfirm' id='passwordconfirm' />
+      <span onClick={()=> setVisible(!visible)} className="seenpass">
+      </span>
+      {/* {error.length >0 ?<div className='alert alert-danger my-2'>{error}</div>:''} */}
+      {errorList.map((err,index)=>{
+      if(err.context.label ==='passwordconfirm'){
+        return <div key={index} className="alert alert-danger my-2">كلمة السر غير متطابقة</div>
+      }
+      
+    })}
+    </div>
       <label htmlFor="address">العنوان :</label>
       <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='address' id='address' />
       {errorList.map((err,index)=>{
@@ -134,6 +185,15 @@ function submitRegisterForm(e){
         {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'انشاء حساب'}
       </button>
      </form>
+     {/* {errorList.length > 0 && (
+      <div className="alert alert-danger">
+        <ul>
+          {errorList.map((error, index) => (
+            <li key={index}>{error.message}</li>
+          ))}
+        </ul>
+      </div>
+    )} */}
      <div className='text-center'>
       <p>هل لديك حساب بالفعل؟ <Link className='sign-link' to='/'>قم بتسجيل الدخول..</Link> </p>
      </div>
