@@ -11,7 +11,7 @@
   --bg-color:#f2f2f2;
   --dark--color:#08354c;
 }
-a , button{
+a , button ,i{
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -20,6 +20,9 @@ ul{
 }
 a{
   text-decoration: none !important;
+}
+body{
+  background-color: #fff !important;
 }
 /* start login */
 .login-container,
@@ -81,4 +84,228 @@ label{
     width: 100%;
     padding: 20px;
 }
+}
+
+/* start side navbar */
+#sidebar{
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100%;
+  background: #f2f2f2;
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+#sidebar.hide{
+  width: 60px;
+}
+#sidebar .brand{
+  font-size: 24px;
+  font-weight: 700;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  color: var(--blue);
+  overflow-x: hidden;
+}
+.brand .bx{
+  min-width: 60px;
+  display: flex;
+  justify-content: center;
+}
+.side-menu{
+  width: 100%;
+  margin-top: 48px;
+}
+.side-menu li{
+  height: 48px;
+  background-color: transparent;
+  margin-right: 6px;
+  border-radius: 0px 48px 48px 0px;
+  padding: 4px;
+}
+/* .side-menu li.active{
+  background-color: #f2f2f2;
+  position: relative;
+} */
+/* .side-menu li.active::before{
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  bottom: 10px;
+  left: 0;
+  box-shadow: -20px 20px 0 #f2f2f2;
+  z-index: -1;
+}
+.side-menu li.active::after{
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  top: 10px;
+  left: 0;
+  box-shadow: -20px -20px 0 #f2f2f2;
+  z-index: -1;
+} */
+.side-menu li a{
+  width: 100%;
+  height: 100%;
+  background-color:#f9f9f9 ;
+  display: flex;
+  align-items: center;
+  border-radius: 48px;
+  color: var(--dark--color);
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+.side-menu li a:focus{
+  color: var(--orange-color);
+}
+/* .side-menu li a span{
+  padding-right: 15px;
+}*/
+.side-menu li a i{
+  font-size: 20px;
+} 
+#sidebar .side-menu li.active a{
+  color:var(--orange-color);
+}
+#sidebar.hide .side-menu li.active a{
+  color: var(--dark--color);
+}
+#sidebar.hide .side-menu li a{
+  width: calc(48px - (4px * 2));
+  transition: width 0.3s ease;
+}
+.side-menu.top li a:hover{
+  color: var(--orange-color) ;
+}
+.side-menu li a .bx{
+  min-width: calc(60px - ((4px + 6px) * 2));
+  display: flex;
+  justify-content: center;
+}
+.side-menu li .logout{
+  color: rgb(228, 30, 30);
+}
+/* end side navbar */
+/* start content */
+#content{
+  position: relative;
+  width: calc(100% - 280px);
+  transition: all 0.3s ease;
+  right: 280px;
+}
+#sidebar.hide ~ #content{
+  width: calc(100% - 60px);
+  right: 60px;
+}
+#sidebar img{
+  width: 50px;
+  margin-right: 10px;
+}
+/* start navbar */
+nav{
+  height: 56px;
+  background-color: #f2f2f2;
+  padding: 0 24px;
+  grid-gap: 24px;
+  position: relative;
+}
+nav::before{
+  content: '';
+  position: absolute;
+  width: 40px ;
+  height: 40px;
+  bottom: -40px;
+  left: 0;
+  border-radius: 50%;
+  box-shadow: -20 -20 0 var(--light);
+}
+nav a{
+  color: var(--dark);
+}
+nav .nav-link{
+  color: var(--dark);
+  font-size: 16px;
+  transition:all 0.3s ease;
+}
+nav .nav-link:hover,
+.fa-bars:hover{
+  color: var(--blue);
+}
+nav form{
+  max-width: 400px;
+  width: 100%;
+  margin-right: auto;
+}
+nav form .form-input{
+  height: 36px;
+}
+nav form .form-input input{
+  flex-grow: 1;
+  padding: 0 16px;
+  height: 100%;
+  border: none;
+  background: var(--grey);
+  border-radius: 36px 0 0 36px;
+  outline: none;
+}
+nav form .form-input button{
+  width: 36px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--blue);
+  color: var(--light);
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 0 36px 36px 0;
+}
+.fa-bars{
+  font-size: 22px;
+}
+
+/* end navbar */
+
+.company{
+  background-color: var(--dark--color);
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 8px 8px 10px #adb6ba;
+}
+.company img{
+  width: 160px;
+  height: 80px;
+  border-radius: 5px;
+}
+.company h4{
+  color: #f9f9f9;
+  padding-right: 15px;
+
+}
+.company .btn-choose{
+  color: #fff !important;
+  background-color: var(--orange-color);
+  margin-left: 15px;
+}
+.company .btn-choose:hover{
+  color: #fff !important;
+  background-color: #be430e !important;
+}
+@media only screen and (max-width: 768px){
+  #content{
+      width: calc(100% - 60px);
+  }
+  .fa-bars{
+    margin-right: auto;
+  }
 }

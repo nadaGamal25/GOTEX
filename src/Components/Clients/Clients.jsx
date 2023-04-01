@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Home() {
+export default function Clients() {
   return (
     <>
     <div className='' id='content'></div>
