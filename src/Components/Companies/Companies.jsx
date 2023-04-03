@@ -20,7 +20,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={glt} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -31,7 +38,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={armx} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -42,7 +56,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={imile} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -53,7 +74,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={jonex} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -64,7 +92,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={jt} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -75,7 +110,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={mkan} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -86,7 +128,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={sae} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -97,7 +146,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={sms} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
@@ -108,7 +164,14 @@ export default function Companies() {
               <div className="text-center">
               <img src={spl} alt="company" />
               </div>
-              <div className="d-flex pt-5 justify-content-between">
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
                 <button className="btn btn-choose">أختر</button>
               </div>
