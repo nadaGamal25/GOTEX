@@ -309,3 +309,72 @@ nav form .form-input button{
     margin-right: auto;
   }
 }
+/* start clients */
+.clients-heading h3{
+  color: var(--dark--color);
+  font-weight: 600;
+}
+.clients-heading h3 i{
+  font-size: 19px;
+  padding-left: 5px;
+}
+.clients-heading a{
+  background-color: var(--orange-color);
+  color: #fff !important;
+  font-weight: 500;
+}
+.clients-heading a:hover{
+  background-color: #dc4606;
+  color: #fff !important;
+}
+.clients-heading a i{
+  font-size: 14px;
+  padding-left: 3px;
+}
+.search-box{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+}
+.search-box button{
+  background-color: var(--dark--color);
+  color: #fff;
+  width: 100%;
+}
+.search-box button:hover{
+  background-color: var(--dark--color);
+  box-shadow: 2px 2px 5px #8ca0aa;
+  color: #fff;
+}
+.clients-table{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  overflow-x: scroll;
+}
+.clients-table th{
+  color: var(--dark--color);
+}
+.clienrformbox h3{
+  color: var(--dark--color);
+  font-weight: 600;
+}
+.client-form{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+}
+.client-form label{
+  color: #f59685;
+  padding-bottom: 5px;
+  padding-right: 5px;
+}
+.btn-add{
+  background-color: var(--dark--color) !important;
+  color: #fff !important;
+  margin-top: 20px;
+}
+.btn-add:hover{
+  background-color: var(--dark--color) !important;
+  color: #fff !important;
+  box-shadow: 2px 2px 5px #8ca0aa;
+
+}
+/* end clients */

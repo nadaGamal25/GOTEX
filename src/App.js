@@ -5,6 +5,8 @@ import Layout from './Components/Layout/Layout';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import Companies from './Components/Companies/Companies';
+import Clients from './Components/Clients/Clients';
+import AddClient from './Components/AddClient/AddClient';
 function App() {
 
   let routers =createBrowserRouter([
@@ -13,6 +15,8 @@ function App() {
       {path:'/',element:<Layout/> ,children:[
       {path:'home',element:<Home/>},
       {path:'/companies',element:<Companies/>},
+      {path:'/clients',element:<Clients/>},
+      {path:'/addclient',element:<AddClient/>},
     ]}
   ])
   return (

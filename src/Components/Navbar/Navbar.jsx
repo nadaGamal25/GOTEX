@@ -18,7 +18,7 @@ const sideBar = document.getElementById('sidebar');
             <img src={logo} alt='logo'/>
         </a>
         <ul class="side-menu top">
-            <li class="active">
+            <li class="">
                 <a href="#">
                     <i class="bx fa-solid fa-table-columns"></i>
                     <span class="text">لوحة التحكم</span>
@@ -31,10 +31,10 @@ const sideBar = document.getElementById('sidebar');
                 </a>
             </li>
             <li>
-                <a href="#">
+                <Link to="/clients">
                     <i class="fa-solid fa-users bx"></i>
                     <span class="text">العملاء</span>
-                </a>
+                </Link>
             </li>
             <li>
                 <a href="#">
