@@ -25,10 +25,10 @@ const sideBar = document.getElementById('sidebar');
                 </a>
             </li>
             <li>
-                <a href="#">
+                <Link to="/payment">
                 <i class="fa-solid fa-sack-dollar bx"></i>
                 <span class="text">المحفظة(ر.س0)</span>
-                </a>
+                </Link>
             </li>
             <li>
                 <Link to="/clients">
@@ -37,10 +37,10 @@ const sideBar = document.getElementById('sidebar');
                 </Link>
             </li>
             <li>
-                <a href="#">
+                <Link to="shipments">
                 <i class="fa-solid fa-box-open bx"></i>
                     <span class="text">الشحنات</span>
-                </a>
+                </Link>
             </li>
             <li>
                 <Link to="/companies">

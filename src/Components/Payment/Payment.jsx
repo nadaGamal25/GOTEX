@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function Shipments() {
+export default function Payment() {
   return (
-    <>
+  <>    
 <div className='p-4' id='content'>
       <div className="clients-heading py-2 d-flex justify-content-between">
-        <h3><i class="fa-solid fa-box-open bx"></i>
-الشحنات</h3>
+        <h3><i class="fa-solid fa-sack-dollar bx"></i>
+المحفظة</h3>
         <Link to="/companies" className='btn'><i class="fa-solid fa-plus"></i>إنشاء  </Link>
       </div>
       <div className="search-box p-4 mt-2 row g-1">
@@ -24,20 +24,16 @@ export default function Shipments() {
     <tr>
       <th scope="col"></th>
       <th scope="col">اسم الشركة/المتجر</th>
-      <th scope="col">اسم العميل</th>
       <th scope="col">الشاحنون </th>
-      <th scope="col">قيمة الشحنة</th>
-      <th scope="col">الكمية</th>
-      <th scope="col">فاتورة الشحن</th>
-      <th scope="col">تاريخ الاستلام</th>
+      <th scope="col">نوع الدفع</th>
       <th scope="col">الحالة</th>
-      <th scope="col">رقم الفاتورة</th>
+      <th scope="col">الكمية</th>
+      <th scope="col">تاريخ الاستلام</th>
       <th scope="col">الاجراءات</th>
     </tr>
   </thead>
         </table>
       </div>
-    </div> 
-      </>  
+    </div>  </>
   )
 }
