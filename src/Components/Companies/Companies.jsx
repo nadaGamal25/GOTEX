@@ -8,6 +8,7 @@ import sae from '../../assets/sae.jpg'
 import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
+import { Link } from 'react-router-dom'
 
 export default function Companies() {
   return (
@@ -29,7 +30,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -47,7 +48,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -65,7 +66,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -83,7 +84,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -101,7 +102,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -119,7 +120,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -137,7 +138,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -155,7 +156,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
@@ -173,7 +174,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <button className="btn btn-choose">أختر</button>
+                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>

@@ -384,3 +384,8 @@ nav form .form-input button{
 
 }
 /* end clients */
+.brdr-grey{
+  border: 2px solid #f2f2f2;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+}
