@@ -24,6 +24,17 @@ a{
 body{
   background-color: #fff !important;
 }
+.btn-orange{
+  background-color: var(--orange-color) !important;
+  color: #fff !important;
+}
+.btn-orange:hover{
+  background-color: #dc4606 !important;
+  color: #fff !important;
+}
+.btn-orange i{
+  font-size: 14px;
+}
 /* start login */
 .login-container,
 .register-container{
@@ -60,12 +71,14 @@ input:focus{
   color: rgb(207, 6, 6) !important;
 }
 .login-box img,
-.register-box img{
+.register-box .logo{
   width: 80px;
 }
 label{
   font-weight: 600;
   color: var(--dark--color);
+  padding-right: 8px;
+  padding-bottom: 5px;
 }
 .pass-box{
   position: relative;
@@ -76,6 +89,29 @@ label{
   top: 30%;
   color: #08354c;
   cursor: pointer;
+}
+.phoneInput{
+  width: 100%;
+}
+.PhoneInputInput{
+  display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.PhoneInputInput:focus{
+  border: 1px solid #ced4da !important;
+  box-shadow: none !important;
+
 }
 /* end login */
 @media only screen and (max-width: 768px){
@@ -305,7 +341,7 @@ nav form .form-input button{
 }
 .company .btn-choose:hover{
   color: #fff !important;
-  background-color: #be430e !important;
+  background-color: #dc4606 !important;
 }
 @media only screen and (max-width: 768px){
   #content{
@@ -385,7 +421,26 @@ nav form .form-input button{
 }
 /* end clients */
 .brdr-grey{
-  border: 2px solid #f2f2f2;
+  border: 3px solid #dadada;
   background-color: #f9f9f9;
+  border-radius: 15px;
+}
+.brdr-grey h6{
+  color: var(--dark--color);
+  
+}
+.brdr-grey h3{
+  font-weight: 500;
+  color: var(--dark--color);
+  padding-bottom: 15px;
+}
+.clients-table h6{
+  color: var(--orange-color);
+  font-weight: 600;
+  padding-bottom: 18px;
+}
+.shipmenForm{
+  background-color: #f9f9f9;
+  padding: 20px;
   border-radius: 15px;
 }

@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import Joi from 'joi';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
-
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css'
+import ar from 'react-phone-number-input/locale/ar'
 export default function Register() {
 
   let navigate= useNavigate(); //hoke
@@ -22,6 +24,7 @@ export default function Register() {
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
+  const [value ,setPhoneValue]=useState()
 
 // async function sendRegisterDataToApi(){
 //     if (user.password !== user.passwordconfirm) {
@@ -109,7 +112,7 @@ function submitRegisterForm(e){
     <div className="d-flex min-vh-100 p-5 register-container">
     <div className="register-box m-auto">
     <div className="text-center">
-    <img className='m-auto' src={logo} alt="logo" />
+    <img className='m-auto logo' src={logo} alt="logo" />
     </div>
     
     {error.length >0 ?<div className='alert alert-danger my-2'>{error}</div>:''}
@@ -122,16 +125,7 @@ function submitRegisterForm(e){
       }
       
     })}
-      <label htmlFor="phone">رقم الهاتف :</label>
-      <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='phone' id='phone' />
-      {errorList.map((err,index)=>{
-      if(err.context.label ==='phone'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
-      }
-      
-    })}
-      
-      <label htmlFor="email">البريد الالكترونى :</label>
+    <label htmlFor="email">البريد الالكترونى :</label>
       <input onChange={getUserData} type="email" className='my-input my-2 form-control' name='email' id='email' />
       {errorList.map((err,index)=>{
       if(err.context.label ==='email'){
@@ -165,6 +159,21 @@ function submitRegisterForm(e){
       
     })}
     </div>
+      {/* <label htmlFor="phone">رقم الهاتف :</label>
+      <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='phone' id='phone' />
+      {errorList.map((err,index)=>{
+      if(err.context.label ==='phone'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })} */}
+    <label htmlFor="phone">رقم الهاتف :</label>
+
+    <PhoneInput name='phone' 
+    labels={ar} defaultCountry='EG' className='phoneInput' value={value}
+    onChange={value=>setPhoneValue(value)}/>
+      
+      
       <label htmlFor="address">العنوان :</label>
       <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='address' id='address' />
       {errorList.map((err,index)=>{

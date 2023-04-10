@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css'
+import ar from 'react-phone-number-input/locale/ar'
+
 
 export default function AddClient() {
+    const [value ,setPhoneValue]=useState()
+
   return (
     <>
     <div className='p-4 clienrformbox' id='content'>
@@ -17,7 +23,11 @@ export default function AddClient() {
                 </div>
                 <div className="col-md-4">
                     <label htmlFor="">رقم الهاتف *</label>
-                    <input type="text" className="form-control" placeholder='الهاتف'/>
+                    <PhoneInput name='phone' 
+    labels={ar} defaultCountry='EG' className='phoneInput' value={value}
+    onChange={value=>setPhoneValue(value)}/>
+      
+                    {/* <input type="text" className="form-control" placeholder='الهاتف'/> */}
                 </div>
             </div>
             <div className='pb-3'>
