@@ -444,3 +444,25 @@ nav form .form-input button{
   padding: 20px;
   border-radius: 15px;
 }
+/* start admin */
+.admin h3,
+h3{
+  font-weight: 600;
+  padding-right: 8px;
+}
+.shipment-details{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  margin-top: 20ppx;
+}
+.admin .company-links img{
+  width: 120px;
+  height: 50px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+
+
+}
+.company-links a{
+  margin-left: 10px;
+}

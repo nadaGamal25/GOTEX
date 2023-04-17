@@ -10,6 +10,8 @@ import AddClient from './Components/AddClient/AddClient';
 import Payment from './Components/Payment/Payment';
 import Shipments from './Components/Shipments/Shipments';
 import ShipmentForms from './Components/ShipmentForms/ShipmentForms';
+import Admin from './Components/Admin/Admin';
+import GltShipments from './Components/GltShipments/GltShipments';
 function App() {
 
   let routers =createBrowserRouter([
@@ -23,6 +25,8 @@ function App() {
       {path:'/payment',element:<Payment/>},
       {path:'/shipments',element:<Shipments/>},
       {path:'/shipmentForms',element:<ShipmentForms/>},
+      {path:'/admin',element:<Admin/>},
+      {path:'/gltShipment',element:<GltShipments/>}
     ]}
   ])
   return (

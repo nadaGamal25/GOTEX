@@ -1,0 +1,106 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+import glt from '../../assets/glt.jpg'
+import imile from '../../assets/imile.jpg'
+import jonex from '../../assets/jonex.jpg'
+import jt from '../../assets/jt.jpg'
+import mkan from '../../assets/mkan.jpg'
+import sae from '../../assets/sae.jpg'
+import sms from '../../assets/sms.jpg'
+import spl from '../../assets/spl.jpg'
+import armx from '../../assets/armx.jpg'
+
+export default function Admin() {
+  return (
+    <>
+        <div className='p-4 admin' id='content'>
+            <h3>أسعار الشركات</h3>
+            <div className="clients-table p-4 mt-4">
+        <table className="table">
+        <thead>
+    <tr>
+      <th scope="col">الأسعار</th>
+      <th scope="col">glt </th>
+      <th scope="col">ارامكس </th>
+      <th scope="col">iMile</th>
+      <th scope="col">jonex</th>
+      <th scope="col"> J&T</th>
+      <th scope="col">أى مكان</th>
+      <th scope="col">ساعى </th>
+      <th scope="col">سبل </th>
+      <th scope="col">smsa </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">سعر المسوقين</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th scope="row">سعر المتاجر</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    </tbody>
+        </table>
+      </div>
+      <div className="shipment-details mt-4 p-4">
+        <h3>تفاصيل الشحنات</h3>
+        <div className="company-links py-3">
+        <Link to="/gltShipment"><img src={glt} alt="company" /></Link>
+        <Link to=""><img src={imile} alt="company" /></Link>
+        <Link to=""><img src={jonex} alt="company" /></Link>
+        <Link to=""><img src={sms} alt="company" /></Link>
+        <Link to=""><img src={mkan} alt="company" /></Link>
+        <Link to=""><img src={sae} alt="company" /></Link>
+        <Link to=""><img src={jt} alt="company" /></Link>
+        <Link to=""><img src={spl} alt="company" /></Link>
+        <Link to=""><img src={armx} alt="company" /></Link>
+        </div>
+      </div>
+      <div className="merchants mt-5">
+      <h3>تفاصيل التجار</h3>
+            <div className="clients-table p-4 mt-4">
+        <table className="table">
+        <thead>
+    <tr>
+      <th scope="col">الاسم</th>
+      <th scope="col">رقم الهاتف  </th>
+      <th scope="col">العنوان </th>
+      <th scope="col">قيمة الشحنة </th>
+      <th scope="col">فاتورة الشحنة</th>
+      <th scope="col"> الكمية </th>
+      <th scope="col">تاريخ الاستلام </th>
+      <th scope="col">رقم الفاتورة </th>
+      <th scope="col">الشركة </th>
+
+    </tr>
+  </thead>
+  </table>
+  </div>
+
+      </div>
+
+
+
+
+        </div>
+    </>
+  )
+}
