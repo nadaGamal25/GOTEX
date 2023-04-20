@@ -5,6 +5,7 @@ import ar from 'react-phone-number-input/locale/ar'
 
 export default function ShipmentForms() {
     const [value ,setPhoneValue]=useState()
+    const [phone2,setPhone2] =useState()
 
   return (
     <div className='p-4' id='content'>
@@ -108,19 +109,20 @@ export default function ShipmentForms() {
             <div className='pb-3'>
                 <label htmlFor=""> رقم الهاتف</label>
                 {/* <input type="text" className="form-control"/> */}
-                <PhoneInput name='phone' 
-    labels={ar} defaultCountry='EG' className='phoneInput' value={value}
-    onChange={value=>setPhoneValue(value)}/>
+                <PhoneInput name='phone2' 
+    labels={ar} defaultCountry='EG' className='phoneInput' value={phone2}
+    onChange={phone2=>setPhone2(phone2)}/>
       
-            </div>
-            <div className='pb-3'>
-                <label htmlFor=""> العنوان</label>
-                <input type="text" className="form-control"/>
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
                 <input type="text" className="form-control"/>
             </div>
+            <div className='pb-3'>
+                <label htmlFor=""> العنوان</label>
+                <input type="text" className="form-control"/>
+            </div>
+            
             <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
             <div className='pb-3'>
                 <label htmlFor=""> العنوان 2</label>
@@ -130,7 +132,7 @@ export default function ShipmentForms() {
                 <label htmlFor=""> البريد الالكترونى</label>
                 <input type="text" className="form-control"/>
             </div>
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> اضافة عميل</button>
+            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> اضافة مستلم</button>
             </div>
             </div>
             </div>
