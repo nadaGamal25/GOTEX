@@ -15,7 +15,7 @@ export default function Register() {
   const [errorList, seterrorList]= useState([]); 
   const [user,setUser] =useState({
     name:'',
-    phone:'',
+    mobile:'',
     email:'',
     password:'',
     passwordconfirm:'',
@@ -26,46 +26,27 @@ export default function Register() {
   const [isLoading, setisLoading] =useState(false)
   const [value ,setPhoneValue]=useState()
 
-// async function sendRegisterDataToApi(){
-//     if (user.password !== user.passwordconfirm) {
-//         setError('Passwords do not match');
-//         setisLoading(false);
-//         return;
-//       }
-// //   let {data}= await axios.post(``,user);
-// //   if(data.message == 'success'){
-// //     setisLoading(false)
-// //     navigate('/login')
-
-// //   }
-// //   else{
-// //     setisLoading(false)
-// //     setError(data.message)
-// //   }
-// }
-async function sendRegisterDataToApi(){
-    console.log('sending data', user);
-    
+  async function sendRegisterDataToApi(){
+    let {data}= await axios.post(`http://83.136.219.95:5000/user/signup`,user);
+    if(data.message == 'success'){
+      setisLoading(false)
+      console.log(data)
+      console.log("yes")
+      navigate('/login')
   
-    // try {
-    //   const response = await axios.post(``, user);
-    //   console.log('response', response.data);
-    //   if (response.data.message === 'success') {
-    //     setisLoading(false);
-    //     navigate('/login');
-    //   } else {
-    //     setisLoading(false);
-    //     setError(response.data.message);
-    //   }
-    // } catch (error) {
-    //   setisLoading(false);
-    //   setError(error.message);
-    // }
+    }
+    else{
+      setisLoading(false)
+      setError(data.message)
+    }
   }
+
+
   
 function submitRegisterForm(e){
   e.preventDefault();
   setisLoading(true)
+  seterrorList([]); 
   let validation = validateRegisterForm();
   console.log(validation);
   if(validation.error){
@@ -84,18 +65,21 @@ function submitRegisterForm(e){
 }
 
   function getUserData(e){
+    if (e && e.target) {
     let myUser={...user};
     myUser[e.target.name]= e.target.value;
     setUser(myUser);
     console.log(myUser);
+    }
   }
 
   function validateRegisterForm(){
     let scheme= Joi.object({
       name:Joi.string().min(3).max(10).required(),
-      phone:Joi.string().required(),
+      mobile:Joi.string(),
       email:Joi.string().email({ tlds: { allow: ['com', 'net'] }}).required(),
-      password:Joi.string().pattern(/^[a-zA-Z0-9]{8,}$/),
+      password:Joi.string(),
+      // password:Joi.string().pattern(/^[a-zA-Z0-9]{8,}$/),
     //   passwordconfirm: Joi.any().valid(Joi.ref('password')).required(),
     passwordconfirm: Joi.valid(Joi.ref('password')).required().messages({
         'any.only': 'Passwords do not match',
@@ -159,19 +143,21 @@ function submitRegisterForm(e){
       
     })}
     </div>
-      {/* <label htmlFor="phone">رقم الهاتف :</label>
-      <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='phone' id='phone' />
-      {errorList.map((err,index)=>{
-      if(err.context.label ==='phone'){
+     
+    <label htmlFor="mobile">رقم الهاتف :</label>
+    <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='mobile' id='mobile' />
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='mobile'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       
-    })} */}
-    <label htmlFor="phone">رقم الهاتف :</label>
-
-    <PhoneInput name='phone' 
+    })}
+    {/* <PhoneInput name='mobile' 
     labels={ar} defaultCountry='EG' className='phoneInput' value={value}
-    onChange={value=>setPhoneValue(value)}/>
+    onChange={(value, country, e) => {
+      setPhoneValue(value);
+      getUserData(e);
+    }}/> */}
       
       
       <label htmlFor="address">العنوان :</label>
@@ -194,7 +180,17 @@ function submitRegisterForm(e){
         {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'انشاء حساب'}
       </button>
      </form>
-     {/* {errorList.length > 0 && (
+     
+     <div className='text-center'>
+      <p>هل لديك حساب بالفعل؟ <Link className='sign-link' to='/'>قم بتسجيل الدخول..</Link> </p>
+     </div>
+     </div>
+     </div>
+     
+    </>
+  )
+}
+{/* {errorList.length > 0 && (
       <div className="alert alert-danger">
         <ul>
           {errorList.map((error, index) => (
@@ -203,11 +199,47 @@ function submitRegisterForm(e){
         </ul>
       </div>
     )} */}
-     <div className='text-center'>
-      <p>هل لديك حساب بالفعل؟ <Link className='sign-link' to='/'>قم بتسجيل الدخول..</Link> </p>
-     </div>
-     </div>
-     </div>
-    </>
-  )
-}
+     {/* <label htmlFor="phone">رقم الهاتف :</label>
+      <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='phone' id='phone' />
+      {errorList.map((err,index)=>{
+      if(err.context.label ==='phone'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })} */}
+    // async function sendRegisterDataToApi(){
+//     if (user.password !== user.passwordconfirm) {
+//         setError('Passwords do not match');
+//         setisLoading(false);
+//         return;
+//       }
+// //   let {data}= await axios.post(``,user);
+// //   if(data.message == 'success'){
+// //     setisLoading(false)
+// //     navigate('/login')
+
+// //   }
+// //   else{
+// //     setisLoading(false)
+// //     setError(data.message)
+// //   }
+// }
+// async function sendRegisterDataToApi(){
+//     console.log('sending data', user);
+    
+  
+//     // try {
+//     //   const response = await axios.post(``, user);
+//     //   console.log('response', response.data);
+//     //   if (response.data.message === 'success') {
+//     //     setisLoading(false);
+//     //     navigate('/login');
+//     //   } else {
+//     //     setisLoading(false);
+//     //     setError(response.data.message);
+//     //   }
+//     // } catch (error) {
+//     //   setisLoading(false);
+//     //   setError(error.message);
+//     // }
+//   }

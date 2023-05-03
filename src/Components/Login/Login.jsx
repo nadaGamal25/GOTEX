@@ -9,7 +9,7 @@ export default function Login({saveUserData}) {
 
   let navigate= useNavigate(); //hoke
   const [errorList, seterrorList]= useState([]); 
-  const [user,setUser] =useState({
+  const [theUser,setUser] =useState({
     email:'',
     password:''
   })
@@ -17,18 +17,35 @@ export default function Login({saveUserData}) {
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
 
+  // async function sendLoginDataToApi() {
+  //   try {
+  //     const { data } = await axios.post('http://83.136.219.95:5000/user/signup', theUser);
+  //     if (data.msg === 'ok') {
+  //       setisLoading(false);
+  //       navigate('/companies');
+  //     } else {
+  //       setisLoading(false);
+  //       setError(data.msg);
+  //     }
+  //   } catch (error) {
+  //     setisLoading(false);
+  //     setError('An error occurred while logging in');
+  //   }
+  // }
+
 async function sendLoginDataToApi(){
-//   let {data}= await axios.post(``,user);
-//   if(data.message == 'success'){
-//     setisLoading(false)
-//     localStorage.setItem('userToken', data.token);
-//     saveUserData();
-//     navigate('/');
-//   }
-//   else{
-//     setisLoading(false)
-//     setError(data.message)
-//   }
+  let {data}= await axios.post(`http://83.136.219.95:5000/user/login`,theUser);
+  if(data.msg == 'ok'){
+    console.log(data.token)
+    setisLoading(false)
+    localStorage.setItem('userToken', data.token);
+    saveUserData();
+    navigate('/companies');
+  }
+  else{
+    setisLoading(false)
+    setError(data.msg)
+  }
 }
 function submitLoginForm(e){
   e.preventDefault();
@@ -46,7 +63,7 @@ function submitLoginForm(e){
 }
 
   function getUserData(e){
-    let myUser={...user};
+    let myUser={...theUser};
     myUser[e.target.name]= e.target.value;
     setUser(myUser);
     console.log(myUser);
@@ -55,10 +72,11 @@ function submitLoginForm(e){
   function validateLoginForm(){
     let scheme= Joi.object({
       email:Joi.string().email({ tlds: { allow: ['com', 'net'] }}).required(),
-      password:Joi.string().pattern(/^[a-zA-Z0-9]{8,}$/)
+      password:Joi.string().pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+      )
 
     });
-    return scheme.validate(user, {abortEarly:false});
+    return scheme.validate(theUser, {abortEarly:false});
   }
   return (
     <>
