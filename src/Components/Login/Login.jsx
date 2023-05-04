@@ -34,19 +34,41 @@ export default function Login({saveUserData}) {
   // }
 
 async function sendLoginDataToApi(){
-  let {data}= await axios.post(`https://dashboard.go-tex.net/api/user/login`,theUser);
-  if(data.msg == 'ok'){
-    console.log(data.token)
-    setisLoading(false)
-    localStorage.setItem('userToken', data.token);
-    saveUserData();
-    navigate('/companies');
-  }
-  else{
-    setisLoading(false)
-    setError(data.msg)
-  }
-}
+  try {
+        const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
+        if (data.msg === 'ok') {
+          console.log(data.token)
+          setisLoading(false)
+          localStorage.setItem('userToken', data.token);
+          saveUserData();
+          navigate('/companies');
+        } else {
+          setisLoading(false)
+          setError(data.msg)
+          console.log(data.msg)
+        }
+      } catch (error) {
+        console.log(error);
+        window.alert('كلمة المرور او البريد الالكترونى قد يكون خطأ');
+      }
+    }
+  
+//   let {data}= await axios.post(`https://dashboard.go-tex.net/api/user/login`,theUser);
+//   if(data.msg == 'ok'){
+//     console.log(data.token)
+//     setisLoading(false)
+//     localStorage.setItem('userToken', data.token);
+//     saveUserData();
+//     navigate('/companies');
+//   }
+//   else{
+//     setisLoading(false)
+//     setError(data.msg)
+//     window.alert("lol")
+//     console.log(data.msg)
+//     console.log(data.response.data.msg)
+//   }
+// }
 function submitLoginForm(e){
   e.preventDefault();
   setisLoading(true)
