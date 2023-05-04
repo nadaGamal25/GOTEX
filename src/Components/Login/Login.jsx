@@ -34,7 +34,7 @@ export default function Login({saveUserData}) {
   // }
 
 async function sendLoginDataToApi(){
-  let {data}= await axios.post(`http://83.136.219.95:5000/user/login`,theUser);
+  let {data}= await axios.post(`https://dashboard.go-tex.net/api/user/login`,theUser);
   if(data.msg == 'ok'){
     console.log(data.token)
     setisLoading(false)
