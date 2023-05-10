@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import glt from '../../assets/glt.jpg'
 import imile from '../../assets/imile.jpg'
@@ -9,13 +9,119 @@ import sae from '../../assets/sae.jpg'
 import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
+import axios from 'axios'
+import Joi from 'joi'
 
 export default function Admin() {
+  const [errorList, seterrorList]= useState([]); 
+  const [saeePrices,setSaeePrices] =useState({
+    status :'',
+    userprice :'',
+    marketerprice:'',
+    kgprice :'',
+  })
+  const [error , setError]= useState('')
+  const [isLoading, setisLoading] =useState(false)
+
+async function sendSaeePricesToApi(){
+  let {data}= await axios.post(`https://dashboard.go-tex.net/api/saee/edit`,saeePrices);
+  if(data.msg == 'ok'){
+    setisLoading(false)
+    window.alert("تم التسجيل بنجاح")
+    console.log(data)
+
+  }
+  else{
+    setisLoading(false)
+    setError(data.msg)
+  }
+}
+function submitSaeePricesForm(e){
+  e.preventDefault();
+  setisLoading(true)
+  let validation = validateSaeePricesForm();
+  console.log(validation);
+  if(validation.error){
+    setisLoading(false)
+    seterrorList(validation.error.details)
+
+  }else{
+    sendSaeePricesToApi();
+  }
+
+}
+
+  function getSaeePrices(e){
+    let mySaeePrices={...saeePrices};
+    mySaeePrices[e.target.name]= e.target.value;
+    setSaeePrices(mySaeePrices);
+    console.log(mySaeePrices);
+  }
+
+  function validateSaeePricesForm(){
+    let scheme= Joi.object({
+        status:Joi.required(),
+        userprice:Joi.number().required(),
+        marketerprice:Joi.number().required(),
+        kgprice :Joi.number().required()
+
+    });
+    return scheme.validate(saeePrices, {abortEarly:false});
+  }
   return (
     <>
         <div className='p-4 admin' id='content'>
             <h3>أسعار الشركات</h3>
-            <div className="clients-table p-4 mt-4">
+            <div className="row py-3">
+              <div className="col-md-6">
+                <div className="p-saee p-3">
+                  <h5 className="text-center">أسعار شركة ساعي</h5>
+                  <form onSubmit={submitSaeePricesForm} action="">
+                    <label htmlFor="">سعر المسخدم</label>
+                    <input onChange={getSaeePrices} type="number" className='my-input my-2 form-control' name='userprice' />
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='address'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+                    <label htmlFor="">سعر المتاجر</label>
+                    <input onChange={getSaeePrices} type="number" className='my-input my-2 form-control' name='marketerprice' />
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='address'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+                    <label htmlFor="">سعر الزيادة</label>
+                    <input onChange={getSaeePrices} type="number" className='my-input my-2 form-control' name='kgprice' />
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='address'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+                    <label htmlFor="">الحالة</label>
+                    <select className='my-input my-2 form-control' onChange={getSaeePrices} name='status'>
+                      <option></option>
+                      <option>True</option>
+                      <option>False</option>
+                      </select>
+                      {errorList.map((err,index)=>{
+      if(err.context.label ==='address'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+
+                      <button className='btn btn-primary mt-3'>
+                      {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'تسجيل'}
+                     </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {/* <div className="clients-table p-4 mt-4">
         <table className="table">
         <thead>
     <tr>
@@ -59,7 +165,7 @@ export default function Admin() {
     </tr>
     </tbody>
         </table>
-      </div>
+      </div> */}
       <div className="shipment-details mt-4 p-4">
         <h3>تفاصيل الشحنات</h3>
         <div className="company-links py-3">

@@ -466,3 +466,11 @@ h3{
 .company-links a{
   margin-left: 10px;
 }
+/*saee prices in admin*/
+.p-saee{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+}
+.p-saee h5{
+  color: var(--dark--color);
+}
