@@ -23,19 +23,44 @@ export default function Admin() {
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
 
-async function sendSaeePricesToApi(){
-  let {data}= await axios.post(`https://dashboard.go-tex.net/api/saee/edit`,saeePrices);
-  if(data.msg == 'ok'){
-    setisLoading(false)
-    window.alert("تم التسجيل بنجاح")
-    console.log(data)
-
+  async function sendSaeePricesToApi() {
+    console.log(localStorage.getItem('userToken'))
+    try {
+      const {data} = await axios.post(`https://dashboard.go-tex.net/api/saee/edit`, saeePrices,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      if (data.msg === 'ok') {
+        console.log(data.token)
+        setisLoading(false)
+        window.alert("تم التسجيل بنجاح");
+      } else {
+        setisLoading(false)
+        setError(data.msg)
+        console.log(data.msg)
+      }
+    } catch (error) {
+      console.log(error);
+      window.alert('wrong');
+    }
+  //  let { data } = await axios.post(`https://dashboard.go-tex.net/api/saee/edit`, saeePrices,
+  //   {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+  //     },
+  //   });
+  //   if (data.msg === 'ok') {
+  //     setisLoading(false);
+  //     window.alert("تم التسجيل بنجاح");
+  //     console.log(data);
+  //   } else {
+  //     setisLoading(false);
+  //     setError(data.msg);
+  //   }
   }
-  else{
-    setisLoading(false)
-    setError(data.msg)
-  }
-}
+  
 function submitSaeePricesForm(e){
   e.preventDefault();
   setisLoading(true)
@@ -60,7 +85,7 @@ function submitSaeePricesForm(e){
 
   function validateSaeePricesForm(){
     let scheme= Joi.object({
-        status:Joi.required(),
+        status:Joi.string().required(),
         userprice:Joi.number().required(),
         marketerprice:Joi.number().required(),
         kgprice :Joi.number().required()
@@ -80,7 +105,7 @@ function submitSaeePricesForm(e){
                     <label htmlFor="">سعر المسخدم</label>
                     <input onChange={getSaeePrices} type="number" className='my-input my-2 form-control' name='userprice' />
                     {errorList.map((err,index)=>{
-      if(err.context.label ==='address'){
+      if(err.context.label ==='userprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       
@@ -88,7 +113,7 @@ function submitSaeePricesForm(e){
                     <label htmlFor="">سعر المتاجر</label>
                     <input onChange={getSaeePrices} type="number" className='my-input my-2 form-control' name='marketerprice' />
                     {errorList.map((err,index)=>{
-      if(err.context.label ==='address'){
+      if(err.context.label ==='marketerprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       
@@ -96,7 +121,7 @@ function submitSaeePricesForm(e){
                     <label htmlFor="">سعر الزيادة</label>
                     <input onChange={getSaeePrices} type="number" className='my-input my-2 form-control' name='kgprice' />
                     {errorList.map((err,index)=>{
-      if(err.context.label ==='address'){
+      if(err.context.label ==='kgprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       
@@ -108,7 +133,7 @@ function submitSaeePricesForm(e){
                       <option>False</option>
                       </select>
                       {errorList.map((err,index)=>{
-      if(err.context.label ==='address'){
+      if(err.context.label ==='status'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       
@@ -121,7 +146,52 @@ function submitSaeePricesForm(e){
                 </div>
               </div>
             </div>
-            {/* <div className="clients-table p-4 mt-4">
+            
+      <div className="shipment-details mt-4 p-4">
+        <h3>تفاصيل الشحنات</h3>
+        <div className="company-links py-3">
+        <Link to="/gltShipment"><img src={glt} alt="company" /></Link>
+        <Link to=""><img src={imile} alt="company" /></Link>
+        <Link to=""><img src={jonex} alt="company" /></Link>
+        <Link to=""><img src={sms} alt="company" /></Link>
+        <Link to=""><img src={mkan} alt="company" /></Link>
+        <Link to=""><img src={sae} alt="company" /></Link>
+        <Link to=""><img src={jt} alt="company" /></Link>
+        <Link to=""><img src={spl} alt="company" /></Link>
+        <Link to=""><img src={armx} alt="company" /></Link>
+        </div>
+      </div>
+      <div className="merchants mt-5">
+      <h3>تفاصيل التجار</h3>
+            <div className="clients-table p-4 mt-4">
+        <table className="table">
+        <thead>
+    <tr>
+      <th scope="col">الاسم</th>
+      <th scope="col">رقم الهاتف  </th>
+      <th scope="col">العنوان </th>
+      <th scope="col">قيمة الشحنة </th>
+      <th scope="col">فاتورة الشحنة</th>
+      <th scope="col"> الكمية </th>
+      <th scope="col">تاريخ الاستلام </th>
+      <th scope="col">رقم الفاتورة </th>
+      <th scope="col">الشركة </th>
+
+    </tr>
+  </thead>
+  </table>
+  </div>
+
+      </div>
+        </div>
+    </>
+  )
+}
+
+
+  // "proxy": "http://localhost:8080",
+
+{/* <div className="clients-table p-4 mt-4">
         <table className="table">
         <thead>
     <tr>
@@ -166,47 +236,3 @@ function submitSaeePricesForm(e){
     </tbody>
         </table>
       </div> */}
-      <div className="shipment-details mt-4 p-4">
-        <h3>تفاصيل الشحنات</h3>
-        <div className="company-links py-3">
-        <Link to="/gltShipment"><img src={glt} alt="company" /></Link>
-        <Link to=""><img src={imile} alt="company" /></Link>
-        <Link to=""><img src={jonex} alt="company" /></Link>
-        <Link to=""><img src={sms} alt="company" /></Link>
-        <Link to=""><img src={mkan} alt="company" /></Link>
-        <Link to=""><img src={sae} alt="company" /></Link>
-        <Link to=""><img src={jt} alt="company" /></Link>
-        <Link to=""><img src={spl} alt="company" /></Link>
-        <Link to=""><img src={armx} alt="company" /></Link>
-        </div>
-      </div>
-      <div className="merchants mt-5">
-      <h3>تفاصيل التجار</h3>
-            <div className="clients-table p-4 mt-4">
-        <table className="table">
-        <thead>
-    <tr>
-      <th scope="col">الاسم</th>
-      <th scope="col">رقم الهاتف  </th>
-      <th scope="col">العنوان </th>
-      <th scope="col">قيمة الشحنة </th>
-      <th scope="col">فاتورة الشحنة</th>
-      <th scope="col"> الكمية </th>
-      <th scope="col">تاريخ الاستلام </th>
-      <th scope="col">رقم الفاتورة </th>
-      <th scope="col">الشركة </th>
-
-    </tr>
-  </thead>
-  </table>
-  </div>
-
-      </div>
-
-
-
-
-        </div>
-    </>
-  )
-}

@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
 
-export default function ShipmentForms() {
+export default function ShipmentForms({userData}) {
+  useEffect(()=>{
+    console.log(userData)
+  },[])
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
 
@@ -25,19 +28,56 @@ export default function ShipmentForms() {
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
 
-async function sendOrderDataToApi(){
-  let {data}= await axios.post(`https://dashboard.go-tex.net/api/saee/create-user-order`,orderData);
-  if(data.message == 'success'){
-    setisLoading(false)
-    window.alert("تم التسجيل بنجاح")
-    console.log(data)
+  async function sendOrderDataToApi() {
+    console.log(localStorage.getItem('userToken'))
+    try {
+      const response = await axios.post(
+        "https://dashboard.go-tex.net/api/saee/create-user-order",
+        orderData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
+  
+      if (response.data.msg === "ok") {
+        setisLoading(false);
+        window.alert("تم التسجيل بنجاح");
+        console.log(response.data);
+        console.log("okkkkkkkkkkk")
+      } else {
+        setisLoading(false);
+        setError(response.data.msg);
+      }
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      setisLoading(false);
+      setError("An error occurred. Please try again.");
+    }
+  }
+  
+// async function sendOrderDataToApi(){
+//       console.log(localStorage.getItem('userToken'))
+//   let {data}= await axios.post(`https://dashboard.go-tex.net/api/saee/create-user-order`,orderData,
+//   {
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+//     },
+//   });
+//   if(data.message == 'success'){
+//     setisLoading(false)
+//     window.alert("تم التسجيل بنجاح")
+//     console.log(data)
 
-  }
-  else{
-    setisLoading(false)
-    setError(data.message)
-  }
-}
+//   }
+//   else{
+//     setisLoading(false)
+//     setError(data.message)
+//   }
+// }
+
 function submitOrderUserForm(e){
   e.preventDefault();
   setisLoading(true)
@@ -89,7 +129,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> اسم الشركة/المتجر</label>
                 <input type="text" className="form-control" name='p_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='p_name'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -102,7 +142,7 @@ function submitOrderUserForm(e){
     labels={ar} defaultCountry='EG' className='phoneInput' value={value}
     onChange={value=>setPhoneValue(value)} onClick={getOrderData}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='mobile'){
+      if(err.context.label ==='p_mobile'){
         return <div key={index} className="alert alert-danger my-2">رقم الهاتف يجب الا يقل عن 12 رقما</div>
       }
       
@@ -113,7 +153,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> الموقع</label>
                 <input type="text" className="form-control" name='p_city' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='p_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -124,7 +164,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> العنوان </label>
                 <input type="text" className="form-control" name='p_streetaddress' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='p_streetaddress'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -143,7 +183,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> الوزن</label>
                 <input type="text" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='weight'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -173,7 +213,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> عدد القطع</label>
                 <input type="text" className="form-control" name='quantity' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='quantity'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -212,7 +252,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> الاسم</label>
                 <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='c_name'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -225,7 +265,7 @@ function submitOrderUserForm(e){
     labels={ar} defaultCountry='EG' className='phoneInput' value={phone2}
     onChange={phone2=>setPhone2(phone2)} onClick={getOrderData}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='mobile'){
+      if(err.context.label ==='c_mobile'){
         return <div key={index} className="alert alert-danger my-2">رقم الهاتف يجب الا يقل عن 12 رقما</div>
       }
       
@@ -236,7 +276,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> الموقع</label>
                 <input type="text" className="form-control" name='c_city' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='c_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -246,7 +286,7 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> العنوان</label>
                 <input type="text" className="form-control" name='c_streetaddress' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='location'){
+      if(err.context.label ==='c_streetaddress'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
