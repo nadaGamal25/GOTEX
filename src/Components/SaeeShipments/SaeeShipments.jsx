@@ -4,11 +4,12 @@ import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
+import { Link } from 'react-router-dom';
 
-export default function ShipmentForms({userData}) {
-  useEffect(()=>{
-    console.log(userData)
-  },[])
+export default function SaeeShipments() {
+//   useEffect(()=>{
+//     console.log(userData)
+//   },[])
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
 
@@ -30,35 +31,35 @@ export default function ShipmentForms({userData}) {
 
   async function sendOrderDataToApi() {
     console.log(localStorage.getItem('userToken'))
-    // try {
-    //   const response = await axios.post(
-    //     "https://dashboard.go-tex.net/api/saee/create-user-order",
-    //     orderData,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-    //       },
-    //     }
-    //   );
+    try {
+      const response = await axios.post(
+        "https://dashboard.go-tex.net/api/saee/create-user-order",
+        orderData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
   
-    //   if (response.status === 200) {
-    //     setisLoading(false);
-    //     window.alert("تم تسجيل الشحنة بنجاح");
-    //     console.log(response.data);
-    //     console.log("okkkkkkkkkkk")
-    //   }else if (response.status === 400) {
-    //     setisLoading(false);
-    //     const errorMessage = response.data?.msg || "An error occurred.";
-    //     window.alert(`${errorMessage}`);
-    //     console.log(response.data);
-    //   }
-    // } catch (error) {
-    //   // Handle error
-    //   console.error(error);
-    //   setisLoading(false);
-    //   const errorMessage = error.response?.data?.msg || "An error occurred.";
-    //   window.alert(`${errorMessage}`);
-    // }
+      if (response.status === 200) {
+        setisLoading(false);
+        window.alert("تم تسجيل الشحنة بنجاح");
+        console.log(response.data);
+        console.log("okkkkkkkkkkk")
+      }else if (response.status === 400) {
+        setisLoading(false);
+        const errorMessage = response.data?.msg || "An error occurred.";
+        window.alert(`${errorMessage}`);
+        console.log(response.data);
+      }
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      setisLoading(false);
+      const errorMessage = error.response?.data?.msg || "An error occurred.";
+      window.alert(`${errorMessage}`);
+    }
   }
   
 // async function sendOrderDataToApi(){
@@ -131,7 +132,8 @@ function submitOrderUserForm(e){
 
   return (
     <div className='p-4' id='content'>
-        <form onSubmit={submitOrderUserForm} className='shipmenForm' action="">
+        <div className="shipmenForm">
+        <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
             <div className="col-md-6">
             <div className="shipper-details brdr-grey p-4">
@@ -319,6 +321,10 @@ function submitOrderUserForm(e){
             </div>
             </div>
         </form>
+        <div className="text-center">
+            <Link to="/saeeSticker" className="btn btn-success">عرض الاستيكر</Link>
+        </div>
+        </div>
         <div className="clients-table p-4 mt-5">
             <h6 className='text-center'>بيانات المستلم</h6>
         <table className="table">

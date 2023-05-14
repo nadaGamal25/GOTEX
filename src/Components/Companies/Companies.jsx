@@ -16,6 +16,24 @@ export default function Companies() {
     <div className='p-5' id='content'>
       <div className="container">
         <div className="row g-4">
+        <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img src={sae} alt="company" />
+              </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
+                <h4>SAR 28.75</h4>
+                <Link to="/saeeShipments" className="btn btn-choose">أختر</Link>
+              </div>
+            </div>
+          </div>
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">
@@ -124,24 +142,7 @@ export default function Companies() {
               </div>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={sae} alt="company" />
-              </div>
-              <div className="stars text-center mt-3">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
-              </div>
-            </div>
-          </div>
+          
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">

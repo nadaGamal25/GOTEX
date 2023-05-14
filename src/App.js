@@ -17,6 +17,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
+import SaeeShipments from './Components/SaeeShipments/SaeeShipments';
+import SaeeSticker from './Components/SaeeSticker/SaeeSticker';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -36,6 +38,7 @@ function App() {
   let routers =createBrowserRouter([
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
+    {path:'saeeSticker',element:<SaeeSticker userData={userData}/>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
       {path:'/companies',element:<ProtectedRoute userData={userData}><Companies/></ProtectedRoute>},
@@ -44,6 +47,7 @@ function App() {
       {path:'/payment',element:<ProtectedRoute userData={userData}><Payment/></ProtectedRoute>},
       {path:'/shipments',element:<ProtectedRoute userData={userData}><Shipments/></ProtectedRoute>},
       {path:'/shipmentForms',element:<ProtectedRoute userData={userData}><ShipmentForms userData={userData}/></ProtectedRoute>},
+      {path:'/saeeShipments',element:<ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute>},
       {path:'/admin',element:<Admin userData={userData}/>},
       {path:'/gltShipment',element:<ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>}
     ]}
