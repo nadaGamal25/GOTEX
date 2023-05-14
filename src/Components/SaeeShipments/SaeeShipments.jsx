@@ -321,9 +321,7 @@ function submitOrderUserForm(e){
             </div>
             </div>
         </form>
-        <div className="text-center">
-            <Link to="/saeeSticker" className="btn btn-success">عرض الاستيكر</Link>
-        </div>
+        
         </div>
         <div className="clients-table p-4 mt-5">
             <h6 className='text-center'>بيانات المستلم</h6>
