@@ -117,14 +117,14 @@ function submitOrderUserForm(e){
     let scheme= Joi.object({
         p_name:Joi.string().required(),
         p_city:Joi.string().required(),
-        p_mobile:Joi.string().min(12).required(),
+        p_mobile:Joi.string().required(),
         p_streetaddress:Joi.string().required(),
         weight:Joi.string().required(),
         quantity:Joi.string().required(),
         c_name:Joi.string().required(),
         c_city:Joi.string().required(),
         c_streetaddress:Joi.string().required(),
-        c_mobile:Joi.string().min(12).required()
+        c_mobile:Joi.string().required()
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -153,11 +153,14 @@ function submitOrderUserForm(e){
                 <label htmlFor="">رقم الهاتف</label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='p_mobile' 
-    labels={ar} defaultCountry='EG' className='phoneInput' value={value}
-    onChange={value=>setPhoneValue(value)} onClick={getOrderData}/>
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
+    onChange={(value) => {
+      setPhoneValue(value);
+      getOrderData({ target: { name: 'p_mobile', value } });
+    }}/>
     {errorList.map((err,index)=>{
       if(err.context.label ==='p_mobile'){
-        return <div key={index} className="alert alert-danger my-2">رقم الهاتف يجب الا يقل عن 12 رقما</div>
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
       }
       
     })}
@@ -276,11 +279,14 @@ function submitOrderUserForm(e){
                 <label htmlFor=""> رقم الهاتف</label>
                 {/* <input type="text" className="form-control"/> */}
                 <PhoneInput name='c_mobile' 
-    labels={ar} defaultCountry='EG' className='phoneInput' value={phone2}
-    onChange={phone2=>setPhone2(phone2)} onClick={getOrderData}/>
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
+    onChange={(phone2) => {
+      setPhone2(phone2);
+      getOrderData({ target: { name: 'c_mobile', value: phone2 } });
+    }}/>
     {errorList.map((err,index)=>{
       if(err.context.label ==='c_mobile'){
-        return <div key={index} className="alert alert-danger my-2">رقم الهاتف يجب الا يقل عن 12 رقما</div>
+        return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
       }
       
     })}

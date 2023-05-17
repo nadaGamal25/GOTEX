@@ -134,7 +134,7 @@ function submitRegisterForm(e){
   function validateRegisterForm(){
     let scheme= Joi.object({
         name:Joi.string().required(),
-        mobile:Joi.string().min(12).required(),
+        mobile:Joi.string().required(),
         email:Joi.string().email({ tlds: { allow: ['com', 'net'] }}).required(),
         password:Joi.string().pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
         ).required(),
@@ -214,13 +214,16 @@ function submitRegisterForm(e){
     </div>
      
     <label htmlFor="mobile">رقم الهاتف :</label>    
-    <PhoneInput name='mobile' 
-    labels={ar} defaultCountry='EG' className='phoneInput' onChange={(value)=>setPhoneValue(value)} onClick={getUserData}
+    <PhoneInput name='mobile' value={value} 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' onChange={(value) => {
+      setPhoneValue(value);
+      getUserData({ target: { name: 'mobile', value } });
+    }}
 
     />
     {errorList.map((err,index)=>{
       if(err.context.label ==='mobile'){
-        return <div key={index} className="alert alert-danger my-2">رقم الهاتف يجب الا يقل عن 12 رقما</div>
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات</div>
       }
       
     })}
