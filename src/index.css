@@ -86,7 +86,7 @@ label{
 .seenpass{
   position: absolute;
   left: 10px;
-  top: 30%;
+  top: 7px;
   color: #08354c;
   cursor: pointer;
 }
