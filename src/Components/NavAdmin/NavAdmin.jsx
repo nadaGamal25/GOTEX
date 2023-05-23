@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 
-export default function Navbar() {
-
-  const [sideToggle ,setSideToggle]=useState(false);
+export default function NavAdmin() {
+    const [sideToggle ,setSideToggle]=useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,13 +33,20 @@ export default function Navbar() {
         <p className='iclose'><i class="fa-solid fa-xmark"></i></p>
         </div> */}
         <ul class="side-menu top">
-            <li class="">
-                <a href="#">
-                    <i class="bx fa-solid fa-table-columns"></i>
-                    <span class="text">لوحة التحكم</span>
-                </a>
-            </li>
             <li>
+                <Link to="/admin">
+                    <i class="bx fa-solid fa-table-columns"></i>
+                    <span class="text">لوحة تحكم الادمن </span>
+                </Link>
+            </li>
+        <li>
+                <Link to="/companiesAdmin">
+                    <i class="fa-solid fa-truck-fast bx"></i>
+                    <span class="text">شركات الشحن</span>
+                </Link>
+            </li>
+            
+            {/* <li>
                 <Link to="/payment">
                 <i class="fa-solid fa-sack-dollar bx"></i>
                 <span class="text">المحفظة(ر.س0)</span>
@@ -57,13 +63,8 @@ export default function Navbar() {
                 <i class="fa-solid fa-box-open bx"></i>
                     <span class="text">الشحنات</span>
                 </Link>
-            </li>
-            <li>
-                <Link to="/companies">
-                    <i class="fa-solid fa-truck-fast bx"></i>
-                    <span class="text">شركات الشحن</span>
-                </Link>
-            </li>
+            </li> */}
+           
         </ul>
         <ul class="side-menu">
             
@@ -90,14 +91,5 @@ export default function Navbar() {
         {/* <!--end navbar --> */}
         </section>
         
-    </>
-  )
+    </>  )
 }
-
-
-//   const menuBar =document.querySelector('nav .fa-bars');
-// const sideBar = document.getElementById('sidebar');
-
-  // function sideToggle(){
-  //   sideBar.classList.toggle('hide');
-  // };

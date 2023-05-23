@@ -35,7 +35,7 @@ body{
 .btn-orange i{
   font-size: 14px;
 }
-/* start login */
+/* start login & register */
 .login-container,
 .register-container{
   background-color: var(--bg-color);
@@ -113,7 +113,6 @@ label{
   box-shadow: none !important;
 
 }
-/* end login */
 @media only screen and (max-width: 768px){
   .login-box,
   .register-box{
@@ -121,7 +120,7 @@ label{
     padding: 20px;
 }
 }
-
+/* end login & register */
 /* start side navbar */
 #sidebar{
   position: fixed;
@@ -246,6 +245,27 @@ label{
   width: 50px;
   margin-right: 10px;
 }
+.iclose{
+background-color: var(--dark--color);
+border-radius: 50%;
+display: inline;
+padding: 2px 5px;
+margin-top: 5px;
+position: relative;
+left: 0px;
+}
+.iclose i{
+  color: #f9f9f9;
+}
+@media only screen and (max-width: 768px){
+  #content{
+      width: calc(100% - 60px);
+      right: 60px;
+  }
+  .fa-bars{
+    margin-right: auto;
+  }
+}
 /* start navbar */
 nav{
   height: 56px;
@@ -311,7 +331,7 @@ nav form .form-input button{
 }
 
 /* end navbar */
-
+/* start companies */
 .company{
   background-color: var(--dark--color);
   padding: 15px;
@@ -343,14 +363,13 @@ nav form .form-input button{
   color: #fff !important;
   background-color: #dc4606 !important;
 }
-@media only screen and (max-width: 768px){
-  #content{
-      width: calc(100% - 60px);
-  }
-  .fa-bars{
-    margin-right: auto;
+@media only screen and (max-width: 380px){
+  .company img{
+    width: 70px;
+    height: 50px;
   }
 }
+/* end companies */
 /* start clients */
 .clients-heading h3{
   color: var(--dark--color);
@@ -420,6 +439,7 @@ nav form .form-input button{
 
 }
 /* end clients */
+/* start shipment forms */
 .brdr-grey{
   border: 3px solid #dadada;
   background-color: #f9f9f9;
@@ -444,6 +464,7 @@ nav form .form-input button{
   padding: 20px;
   border-radius: 15px;
 }
+/* end shipment forms */
 /* start admin */
 .admin h3,
 h3{

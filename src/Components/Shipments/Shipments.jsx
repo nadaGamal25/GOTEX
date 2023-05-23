@@ -54,6 +54,65 @@ export default function Shipments() {
           console.error(error);
         }
       }
+
+      async function trackOrder(orderId) {
+        try {
+          const response = await axios.post(
+            'https://dashboard.go-tex.net/api/saee/track-order-by-number',
+            {
+              orderId: orderId,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            }
+          );
+          console.log(response); 
+          const { trackingnum, status } = response.data.data;
+          let alertMessage = '';
+          switch (status) {
+            case 0:
+              alertMessage = 'order created';
+              break;
+            case 1:
+              alertMessage = 'in storing area';
+              break;
+            case 2:
+              alertMessage = 'picked up from supplier';
+              break;
+            case 3:
+              alertMessage = 'in warehouse';
+              break;
+            case 4:
+              alertMessage = 'out for delivery';
+              break;
+            case 5:
+              alertMessage = 'delivered';
+              break;
+            case 6:
+              alertMessage = 'failed delivery attempt / failure reason';
+              break;
+            case 7:
+              alertMessage = 'returned to supplier warehouse';
+              break;
+            case 9:
+              alertMessage = 'in transit';
+              break;
+            case 10:
+              alertMessage = 'out for return';
+              break;
+            default:
+              alertMessage = 'unknown status';
+              break;
+          }
+          // console.log(response.data.data.details.status)
+          console.log(`Status: ${status}`);
+          alert(`Tracking Number: ${trackingnum}\nStatus: ${alertMessage}`);
+        } catch (error) {
+          console.error(error);
+        }
+      }
   return (
     <>
 <div className='p-4' id='content'>
@@ -71,6 +130,7 @@ export default function Shipments() {
             <th scope="col">epayment_url</th>
             <th scope="col">message</th>
             <th scope="col">waybill</th>
+            <th scope="col"></th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -92,9 +152,17 @@ export default function Shipments() {
       عرض الاستيكر
     </Link>
                 </td>
+                <td>
+                  {/* <button className="btn btn-info text-white">تتبع الشحنة</button> */}
+                  <button
+                        className="btn btn-info text-white"
+                        onClick={() => trackOrder(item._id)}
+                      >
+                        تتبع الشحنة
+                      </button>
+                </td>
               </tr>
             )
-
           }
           )}
         </tbody>

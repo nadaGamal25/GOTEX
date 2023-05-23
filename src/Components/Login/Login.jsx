@@ -17,22 +17,6 @@ export default function Login({saveUserData}) {
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
 
-  // async function sendLoginDataToApi() {
-  //   try {
-  //     const { data } = await axios.post('http://83.136.219.95:5000/user/signup', theUser);
-  //     if (data.msg === 'ok') {
-  //       setisLoading(false);
-  //       navigate('/companies');
-  //     } else {
-  //       setisLoading(false);
-  //       setError(data.msg);
-  //     }
-  //   } catch (error) {
-  //     setisLoading(false);
-  //     setError('An error occurred while logging in');
-  //   }
-  // }
-
 async function sendLoginDataToApi(){
   try {
         const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
@@ -52,37 +36,43 @@ async function sendLoginDataToApi(){
         window.alert('كلمة المرور او البريد الالكترونى قد يكون خطأ');
       }
     }
-  
-//   let {data}= await axios.post(`https://dashboard.go-tex.net/api/user/login`,theUser);
-//   if(data.msg == 'ok'){
-//     console.log(data.token)
-//     setisLoading(false)
-//     localStorage.setItem('userToken', data.token);
-//     saveUserData();
-//     navigate('/companies');
-//   }
-//   else{
-//     setisLoading(false)
-//     setError(data.msg)
-//     window.alert("lol")
-//     console.log(data.msg)
-//     console.log(data.response.data.msg)
-//   }
-// }
-function submitLoginForm(e){
-  e.preventDefault();
-  setisLoading(true)
-  let validation = validateLoginForm();
-  console.log(validation);
-  if(validation.error){
-    setisLoading(false)
-    seterrorList(validation.error.details)
 
-  }else{
-    sendLoginDataToApi();
-  }
+    async function sendLoginAdminToApi(){
+      try {
+            const {data} = await axios.post('https://dashboard.go-tex.net/api/admin/login', theUser);
+            if (data.msg === 'ok') {
+              console.log(data.token)
+              setisLoading(false)
+              localStorage.setItem('userToken', data.token);
+              saveUserData();
+              navigate('/admin');
+            } else {
+              setisLoading(false)
+              setError(data.msg)
+              console.log(data.msg)
+            }
+          } catch (error) {
+            console.log(error);
+            window.alert('كلمة المرور او البريد الالكترونى قد يكون خطأ');
+          }
+        }
 
-}
+        function submitLoginForm(e) {
+          e.preventDefault();
+          setisLoading(true);
+          let validation = validateLoginForm();
+          console.log(validation);
+          if (validation.error) {
+            setisLoading(false);
+            seterrorList(validation.error.details);
+          } else {
+            if (theUser.email === 'admin@gotex.com' && theUser.password === '123') {
+              sendLoginAdminToApi();
+            } else {
+              sendLoginDataToApi();
+            }
+          }
+        }
 
   function getUserData(e){
     let myUser={...theUser};
@@ -94,8 +84,7 @@ function submitLoginForm(e){
   function validateLoginForm(){
     let scheme= Joi.object({
       email:Joi.string().email({ tlds: { allow: ['com', 'net'] }}).required(),
-      password:Joi.string().pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
-      )
+      password:Joi.string().required()
 
     });
     return scheme.validate(theUser, {abortEarly:false});
@@ -145,3 +134,39 @@ function submitLoginForm(e){
     </>
   )
 }
+
+
+
+  // async function sendLoginDataToApi() {
+  //   try {
+  //     const { data } = await axios.post('http://83.136.219.95:5000/user/signup', theUser);
+  //     if (data.msg === 'ok') {
+  //       setisLoading(false);
+  //       navigate('/companies');
+  //     } else {
+  //       setisLoading(false);
+  //       setError(data.msg);
+  //     }
+  //   } catch (error) {
+  //     setisLoading(false);
+  //     setError('An error occurred while logging in');
+  //   }
+  // }
+
+  
+//   let {data}= await axios.post(`https://dashboard.go-tex.net/api/user/login`,theUser);
+//   if(data.msg == 'ok'){
+//     console.log(data.token)
+//     setisLoading(false)
+//     localStorage.setItem('userToken', data.token);
+//     saveUserData();
+//     navigate('/companies');
+//   }
+//   else{
+//     setisLoading(false)
+//     setError(data.msg)
+//     window.alert("lol")
+//     console.log(data.msg)
+//     console.log(data.response.data.msg)
+//   }
+// }
