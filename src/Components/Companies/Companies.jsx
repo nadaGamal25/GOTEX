@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import glt from '../../assets/glt.jpg'
 import imile from '../../assets/imile.jpg'
 import jonex from '../../assets/jonex.jpg'
@@ -9,12 +9,57 @@ import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Companies() {
+  useEffect(()=>{
+    getCompaniesDetailsOrders()
+  },[])
+  const [companiesDetails,setCompaniesDetails]=useState([])
+
+  async function getCompaniesDetailsOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const companiesPrices = response.data.data;
+      // Process the orders as needed
+      console.log(companiesPrices)
+      setCompaniesDetails(companiesPrices)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <>
     <div className='p-5' id='content'>
       <div className="container">
+        {/* <p>{companiesDetails[0].name}</p> */}
+      <div className="clients-table p-4 my-4">
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">اسم الشركة</th>
+            <th scope="col">سعر المستخدم</th>
+            <th scope="col">سعر المتاجر</th>
+            <th scope="col">سعر الزيادة </th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* {companiesDetails.map((item,index) =>{
+            return(
+              <tr key={index}>
+                <td>{index+1}</td>
+                <td>{item.name}</td>
+                <td>{item.userprice}</td>
+                <td>{item.marketerprice}</td>
+                <td>{item.kgprice}</td>
+              </tr>
+            )
+          }
+          )} */}
+        </tbody>
+      </table>
+     </div>
         <div className="row g-4">
         <div className="col-md-6">
             <div className="company">

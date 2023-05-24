@@ -46,13 +46,13 @@ export default function NavAdmin() {
                 </Link>
             </li>
             
-            {/* <li>
-                <Link to="/payment">
-                <i class="fa-solid fa-sack-dollar bx"></i>
-                <span class="text">المحفظة(ر.س0)</span>
+             <li>
+                <Link to="/clientsAdmin">
+                <i class="fa-solid fa-users bx"></i>
+                <span class="text">العملاء</span>
                 </Link>
             </li>
-            <li>
+            {/*<li>
                 <Link to="/clients">
                     <i class="fa-solid fa-users bx"></i>
                     <span class="text">العملاء</span>

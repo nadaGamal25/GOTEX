@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Shipments() {
   const [saeeAllOrders,setSaeeAllOrders]=useState([]);
+  const [gltAllOrders,setGltAllOrders]=useState([]);
   const [sticker, setSticker] = useState('');
 
   useEffect(()=>{
     getUserOrders()
+    getGltUserOrders()
   },[])
 
       async function getUserOrders() {
@@ -25,6 +27,23 @@ export default function Shipments() {
           // Process the orders as needed
           console.log(orders)
           setSaeeAllOrders(orders)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      async function getGltUserOrders() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/glt/get-all-orders',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const GltOrders = response.data.data;
+          // Process the orders as needed
+          console.log(GltOrders)
+          setGltAllOrders(GltOrders)
         } catch (error) {
           console.error(error);
         }
@@ -69,7 +88,8 @@ export default function Shipments() {
             }
           );
           console.log(response); 
-          const { trackingnum, status } = response.data.data;
+          const { trackingnum} = response.data.data;
+          const { status} = response.data.data.details[0];
           let alertMessage = '';
           switch (status) {
             case 0:
@@ -106,9 +126,9 @@ export default function Shipments() {
               alertMessage = 'unknown status';
               break;
           }
-          // console.log(response.data.data.details.status)
+          // console.log(response.data.data.details[0].status)
           console.log(`Status: ${status}`);
-          alert(`Tracking Number: ${trackingnum}\nStatus: ${alertMessage}`);
+          alert(`رقم التتبع: ${trackingnum}\nStatus: ${alertMessage}`);
         } catch (error) {
           console.error(error);
         }
@@ -121,7 +141,7 @@ export default function Shipments() {
 الشحنات</h3>
         <Link to="/companies" className='btn'><i class="fa-solid fa-plus"></i>إنشاء  </Link>
       </div>
-     <div className="clients-table p-4 mt-4">
+     <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
           <tr>
@@ -129,7 +149,7 @@ export default function Shipments() {
             <th scope="col">اسم الشركة</th>
             <th scope="col">epayment_url</th>
             <th scope="col">message</th>
-            <th scope="col">waybill</th>
+            <th scope="col">رقم التتبع</th>
             <th scope="col"></th>
             <th scope="col"></th>
           </tr>
@@ -153,14 +173,59 @@ export default function Shipments() {
     </Link>
                 </td>
                 <td>
-                  {/* <button className="btn btn-info text-white">تتبع الشحنة</button> */}
+                  <a href='https://www.saee.sa/ar/track-your-shipment/' target='_blank'
+                        className="btn btn-info text-white"
+                        onClick={() => trackOrder(item._id)}
+                      >
+                        تتبع الشحنة
+                      </a>
+                </td>
+              </tr>
+            )
+          }
+          )}
+        </tbody>
+      </table>
+     </div>
+     <div className="clients-table p-4 mt-4">
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">اسم الشركة</th>
+            <th scope="col">order_Number</th>
+            <th scope="col">Tracking_Number</th>
+            <th scope="col">message</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {gltAllOrders.map((item,index) =>{
+            return(
+              <tr key={index}>
+                <td>{index+1}</td>
+                <td>{item.company}</td>
+                <td>{item.data.orderNumber}</td>
+                <td>{item.data.orderTrackingNumber}</td>
+                <td>{item.data.msg}</td>
+                {/* <td>
+                <Link
+      to="/saeeSticker"
+      className="btn btn-success"
+      onClick={() => getOrderSticker(item._id)}
+    >
+      عرض الاستيكر
+    </Link>
+                </td>
+                <td>
                   <button
                         className="btn btn-info text-white"
                         onClick={() => trackOrder(item._id)}
                       >
                         تتبع الشحنة
                       </button>
-                </td>
+                </td> */}
               </tr>
             )
           }

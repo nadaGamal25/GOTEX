@@ -23,6 +23,7 @@ import CompaniesAdmin from './Components/CompaniesAdmin/CompaniesAdmin';
 import SaeeEdit from './Components/SaeeEdit/SaeeEdit';
 import GltEdit from './Components/GltEdit/GltEdit';
 import GltOrdersShipment from './Components/GltOrdersShipment/GltOrdersShipment';
+import ClientsAdmin from './Components/ClientsAdmin/ClientsAdmin';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -44,6 +45,7 @@ function App() {
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'admin',element:<Admin userData={userData}/>},
     {path:'companiesAdmin',element:<CompaniesAdmin userData={userData}/>},
+    {path:'clientsAdmin',element:<ClientsAdmin userData={userData}/>},
     {path:'saeeEdit',element:<SaeeEdit userData={userData}/>},
     {path:'gltEdit',element:<GltEdit userData={userData}/>},
     {path:'saeeSticker',element:<SaeeSticker userData={userData}/>},

@@ -132,7 +132,7 @@ export default function GltOrdersShipment() {
             <div className="col-md-6">
             <div className="shipper-details brdr-grey p-4">
                 <h3>تفاصيل المرسل</h3>
-                
+                {/* <p>{cities[0].name}</p> */}
                 <div className='pb-3'>
                 <label htmlFor=""> اسم الشركة/المتجر</label>
                 <input type="text" className="form-control" name='s_name' onChange={getOrderData}/>
@@ -162,16 +162,14 @@ export default function GltOrdersShipment() {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                {/* <select className="form-control" name='s_city' onChange={getOrderData}>
-                    {cities.map}
-
+                <select className="form-control" name='s_city' onChange={getOrderData}>
+                  <option></option>
                 {cities.map((item,index)=>{
                     return(
-                        <option>{item.name}</option>
+                        <option key={index}>{item.name}</option>
                     )
                 })}
-                </select> */}
-                <input type="text" className="form-control" name='s_city' onChange={getOrderData}/>
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -315,7 +313,14 @@ export default function GltOrdersShipment() {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='c_city' onChange={getOrderData}/>
+                <select className="form-control" name='c_city' onChange={getOrderData}>
+                  <option></option>
+                {cities.map((item,index)=>{
+                    return(
+                        <option key={index}>{item.name}</option>
+                    )
+                })}
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

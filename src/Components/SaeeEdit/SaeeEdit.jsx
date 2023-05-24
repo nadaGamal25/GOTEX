@@ -63,7 +63,7 @@ function submitSaeePricesForm(e){
 
   function validateSaeePricesForm(){
     let scheme= Joi.object({
-        status:Joi.boolean(),
+        status:Joi.boolean().required(),
         userprice:Joi.number().required(),
         marketerprice:Joi.number().required(),
         kgprice :Joi.number().required()
