@@ -50,31 +50,66 @@ export default function Shipments() {
   //   }
   // }
 
+  // async function getGltSticker(orderId) {
+  //   try {
+  //     const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+  //       },
+  //       responseType: 'arraybuffer', // Set the response type to arraybuffer
+  //     });
+
+  //     const stickerGlt = response.data.data;
+  //     console.log(stickerGlt);
+  //     openStickerInNewTab(stickerGlt); // Open the sticker in a new tab
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
+  // Helper function to open the sticker in a new tab
+  // function openStickerInNewTab(stickerData) {
+  //   const blob = new Blob([stickerData], { type: 'application/pdf' });
+  //   const url = URL.createObjectURL(blob);
+  //   console.log(url)
+  //   const newTab = window.open();
+  //   newTab.location.href = url;
+  // }
+      
+  // async function getGltSticker(orderId) {
+  //   try {
+  //     const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+  //       },
+  //       // responseType: 'blob', // Set the response type to blob
+  //     });
+  //    console.log(response.data.data)
+  //     // const stickerData = new Blob([response.data.data], { type: 'application/pdf' });
+  //     const stickerUrl = URL.createObjectURL(response.data.data);
+  //     const newTab = window.open();
+  //     newTab.location.href = stickerUrl;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
   async function getGltSticker(orderId) {
     try {
       const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
-        responseType: 'arraybuffer', // Set the response type to arraybuffer
       });
-
-      const stickerGlt = response.data;
-      console.log(stickerGlt);
-      openStickerInNewTab(stickerGlt); // Open the sticker in a new tab
+           console.log(response.data.data)
+      const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
     } catch (error) {
       console.error(error);
     }
   }
-
-  // Helper function to open the sticker in a new tab
-  function openStickerInNewTab(stickerData) {
-    const blob = new Blob([stickerData], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
-    const newTab = window.open();
-    newTab.location.href = url;
-  }
-      
+  
    async function getUserOrders() {
         console.log(localStorage.getItem('userToken'))
         try {
