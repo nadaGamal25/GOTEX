@@ -43,12 +43,12 @@ function App() {
   let routers =createBrowserRouter([
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
-    {path:'admin',element:<Admin userData={userData}/>},
-    {path:'companiesAdmin',element:<CompaniesAdmin userData={userData}/>},
-    {path:'clientsAdmin',element:<ClientsAdmin userData={userData}/>},
-    {path:'saeeEdit',element:<SaeeEdit userData={userData}/>},
-    {path:'gltEdit',element:<GltEdit userData={userData}/>},
-    {path:'saeeSticker',element:<SaeeSticker userData={userData}/>},
+    {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
+    {path:'companiesAdmin',element:<ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute>},
+    {path:'clientsAdmin',element:<ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute>},
+    {path:'saeeEdit',element:<ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute>},
+    {path:'gltEdit',element:<ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute>},
+    // {path:'saeeSticker',element:<SaeeSticker userData={userData}/>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
       {path:'/companies',element:<ProtectedRoute userData={userData}><Companies/></ProtectedRoute>},

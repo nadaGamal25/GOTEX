@@ -39,14 +39,14 @@ export default function CompaniesAdmin() {
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">اسم الشركة</th>
+            <th scope="col"> الشركة</th>
             <th scope="col">سعر المستخدم</th>
             <th scope="col">سعر المتاجر</th>
             <th scope="col">سعر الزيادة </th>
           </tr>
         </thead>
         <tbody>
-          {/* {companiesDetails.map((item,index) =>{
+          {companiesDetails.map((item,index) =>{
             return(
               <tr key={index}>
                 <td>{index+1}</td>
@@ -57,7 +57,7 @@ export default function CompaniesAdmin() {
               </tr>
             )
           }
-          )} */}
+          )}
         </tbody>
       </table>
      </div>

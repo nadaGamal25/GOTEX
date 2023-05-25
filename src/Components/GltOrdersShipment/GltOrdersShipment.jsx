@@ -163,12 +163,16 @@ export default function GltOrdersShipment() {
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='s_city' onChange={getOrderData}>
-                  <option></option>
-                {cities.map((item,index)=>{
+                {/* <option>{cities[0].name}</option> */}
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+
+                {/* {cities.map((item,index)=>{
                     return(
-                        <option key={index}>{item.name}</option>
+                        <option>{item.name}</option>
                     )
-                })}
+                })} */}
                 </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_city'){
@@ -314,12 +318,14 @@ export default function GltOrdersShipment() {
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='c_city' onChange={getOrderData}>
-                  <option></option>
-                {cities.map((item,index)=>{
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+                {/* {cities.map((item,index)=>{
                     return(
-                        <option key={index}>{item.name}</option>
+                        <option>{item.name}</option>
                     )
-                })}
+                })} */}
                 </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_city'){

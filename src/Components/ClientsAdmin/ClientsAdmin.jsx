@@ -17,7 +17,6 @@ export default function ClientsAdmin() {
             },
           });
           const clients = response.data.data;
-          // Process the orders as needed
           console.log(clients)
           setClientsAdmin(clients)
         } catch (error) {
@@ -34,8 +33,11 @@ export default function ClientsAdmin() {
           <tr>
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
-            <th scope="col">العميل </th>
             <th scope="col">رقم تتبع الشحنة</th>
+            <th scope="col">العميل </th>
+            <th scope="col">الهاتف </th>
+            <th scope="col">الايميل </th>
+            
           </tr>
         </thead>
         <tbody>
@@ -43,9 +45,17 @@ export default function ClientsAdmin() {
             return(
               <tr key={index}>
                 <td>{index+1}</td>
-                <td>{item.company}</td>
-                <td>{item.user}</td>
+                {item.company?<td>{item.company}</td>:''}
+                {item.data.orderTrackingNumber?<td>{item.data.orderTrackingNumber}</td>:''}
+                {item.user && item.user.name ? <td>{item.user.name}</td> : ''}
+                {item.user && item.user.mobile?<td>{item.user.mobile}</td>:''}
+                {item.user && item.user.email?<td>{item.user.email}</td>:''}
+
+{/*                 
                 <td>{item.data.waybill} {item.data.orderTrackingNumber}</td>
+                <td>{item.user.name}</td>
+                <td>{item.user.mobile}</td>
+                <td>{item.user.email}</td> */}
               </tr>
             )
           }

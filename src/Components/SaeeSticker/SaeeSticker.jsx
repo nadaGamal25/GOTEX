@@ -3,13 +3,13 @@ import { useLocation } from 'react-router-dom';
 
 export default function SaeeSticker() {
   const location = useLocation();
-  const stickerHTML = location.state.stickerHTML;
+  // const stickerHTML = location.state.stickerHTML;
 
   // Use the stickerHTML data in your component
 
   return (
-    <div dangerouslySetInnerHTML={{ __html: stickerHTML }} />
-
+    // <div dangerouslySetInnerHTML={{ __html: stickerHTML }} />
+<></>
   );
 }
 
