@@ -52,18 +52,18 @@ export default function NavAdmin() {
                 <span class="text">العملاء</span>
                 </Link>
             </li>
-            {/*<li>
-                <Link to="/clients">
+            <li>
+                <Link to="/userListAdmin">
                     <i class="fa-solid fa-users bx"></i>
-                    <span class="text">العملاء</span>
+                    <span class="text">المستخدمين</span>
                 </Link>
             </li>
             <li>
-                <Link to="shipments">
-                <i class="fa-solid fa-box-open bx"></i>
-                    <span class="text">الشحنات</span>
+                <Link to="/addDepositAdmin">
+                <i class="fa-solid fa-dollar-sign bx"></i>
+                    <span class="text">اضافة رصيد</span>
                 </Link>
-            </li> */}
+            </li>
            
         </ul>
         <ul class="side-menu">

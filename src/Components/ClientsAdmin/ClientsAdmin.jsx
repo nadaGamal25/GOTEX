@@ -45,11 +45,11 @@ export default function ClientsAdmin() {
             return(
               <tr key={index}>
                 <td>{index+1}</td>
-                {item.company?<td>{item.company}</td>:''}
-                {item.data.orderTrackingNumber?<td>{item.data.orderTrackingNumber}</td>:''}
-                {item.user && item.user.name ? <td>{item.user.name}</td> : ''}
-                {item.user && item.user.mobile?<td>{item.user.mobile}</td>:''}
-                {item.user && item.user.email?<td>{item.user.email}</td>:''}
+                {item.company?<td>{item.company}</td>:<td>_</td>}
+                {item.data.orderTrackingNumber?<td>{item.data.orderTrackingNumber}</td>:<td>_</td>}
+                {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
+                {item.user && item.user.mobile?<td>{item.user.mobile}</td>:<td>_</td>}
+                {item.user && item.user.email?<td>{item.user.email}</td>:<td>_</td>}
 
 {/*                 
                 <td>{item.data.waybill} {item.data.orderTrackingNumber}</td>

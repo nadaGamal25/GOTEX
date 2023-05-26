@@ -24,6 +24,8 @@ import SaeeEdit from './Components/SaeeEdit/SaeeEdit';
 import GltEdit from './Components/GltEdit/GltEdit';
 import GltOrdersShipment from './Components/GltOrdersShipment/GltOrdersShipment';
 import ClientsAdmin from './Components/ClientsAdmin/ClientsAdmin';
+import UsersListAdmin from './Components/UsersListAdmin/UsersListAdmin';
+import AddDepositAdmin from './Components/AddDepositAdmin/AddDepositAdmin';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -48,6 +50,8 @@ function App() {
     {path:'clientsAdmin',element:<ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute>},
     {path:'saeeEdit',element:<ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute>},
     {path:'gltEdit',element:<ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute>},
+    {path:'userListAdmin',element:<ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute>},
+    {path:'addDepositAdmin',element:<ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute>},
     // {path:'saeeSticker',element:<SaeeSticker userData={userData}/>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
