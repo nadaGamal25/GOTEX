@@ -58,12 +58,12 @@ export default function NavAdmin() {
                     <span class="text">المستخدمين</span>
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link to="/addDepositAdmin">
                 <i class="fa-solid fa-dollar-sign bx"></i>
                     <span class="text">اضافة رصيد</span>
                 </Link>
-            </li>
+            </li> */}
            
         </ul>
         <ul class="side-menu">

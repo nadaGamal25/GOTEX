@@ -45,7 +45,7 @@ async function sendLoginDataToApi(){
               setisLoading(false)
               localStorage.setItem('userToken', data.token);
               saveUserData();
-              navigate('/admin');
+              navigate('/companiesAdmin');
             } else {
               setisLoading(false)
               setError(data.msg)
