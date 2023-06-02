@@ -26,6 +26,7 @@ import GltOrdersShipment from './Components/GltOrdersShipment/GltOrdersShipment'
 import ClientsAdmin from './Components/ClientsAdmin/ClientsAdmin';
 import UsersListAdmin from './Components/UsersListAdmin/UsersListAdmin';
 import AddDepositAdmin from './Components/AddDepositAdmin/AddDepositAdmin';
+import AramexShippments from './Components/AramexShipments/AramexShippments';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -63,6 +64,7 @@ function App() {
       {path:'/shipmentForms',element:<ProtectedRoute userData={userData}><ShipmentForms userData={userData}/></ProtectedRoute>},
       {path:'/saeeShipments',element:<ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute>},
       {path:'/gltShipment',element:<ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
+      {path:'/aramexShipment',element:<ProtectedRoute userData={userData}><AramexShippments/></ProtectedRoute>},
       {path:'/gltOrders',element:<ProtectedRoute userData={userData}><GltOrdersShipment/></ProtectedRoute>}
     ]}
   ])

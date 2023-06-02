@@ -111,7 +111,7 @@ export default function Companies() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
+                <Link to="/aramexShipment" className="btn btn-choose">أختر</Link>
               </div>
             </div>
           </div>
