@@ -20,7 +20,7 @@ export default function AramexShippments() {
     c_email: "",
     c_phone: "",
     c_CellPhone: "",
-    c_PhoneNumber1Ext: "",
+    // c_PhoneNumber1Ext: "",
     c_line1: "",
     c_line2: "",
     c_city: "",
@@ -100,7 +100,7 @@ export default function AramexShippments() {
           c_email: Joi.string().required(),
           c_phone: Joi.string().required(),
           c_CellPhone: Joi.string().required(),
-          c_PhoneNumber1Ext: Joi.string(),
+        //   c_PhoneNumber1Ext: Joi.string(),
           c_line1: Joi.string().required(),
           c_line2: Joi.string().required(),
           c_city: Joi.string().required(),
@@ -386,9 +386,8 @@ export default function AramexShippments() {
     })}
       
             </div>
-            <div className='pb-3'>
+            {/* <div className='pb-3'>
                 <label htmlFor="">رقم هاتف اضافى </label>
-                {/* <input type="text" className="form-control"/> */}
                 <PhoneInput name='c_PhoneNumber1Ext' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={c_PhoneNumber}
     onChange={(c_PhoneNumber) => {
@@ -402,7 +401,7 @@ export default function AramexShippments() {
       
     })}
       
-            </div>
+            </div> */}
             
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
