@@ -7,12 +7,14 @@ import { useNavigate } from 'react-router-dom';
 export default function Shipments() {
   const [saeeAllOrders,setSaeeAllOrders]=useState([]);
   const [gltAllOrders,setGltAllOrders]=useState([]);
+  const [aramexAllOrders,setAramexAllOrders]=useState([]);
   const [sticker, setSticker] = useState('');
   const [gltSticker, setGltSticker] = useState('');
 
   useEffect(()=>{
     getUserOrders()
     getGltUserOrders()
+    getAramexUserOrders()
   },[])
 
       async function getGltUserOrders() {
@@ -32,6 +34,23 @@ export default function Shipments() {
         }
       }
 
+      async function getAramexUserOrders() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/aramex/get-all-orders',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const aramexOrders = response.data.data;
+          // Process the orders as needed
+          console.log(aramexOrders)
+          setAramexAllOrders(aramexOrders)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
       
   
 
@@ -44,6 +63,22 @@ export default function Shipments() {
       });
            console.log(response.data.data)
       const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getAramexSticker(orderId) {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/aramex/print-sticker/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+           console.log(response.data.data)
+      const stickerUrl = `${response.data.data}`;
       const newTab = window.open();
       newTab.location.href = stickerUrl;
     } catch (error) {
@@ -224,15 +259,14 @@ export default function Shipments() {
      </div> 
 
      <div className="clients-table p-4 mt-4">
-      {/* <div>{gltSticker}</div> */}
        <table className="table">
          <thead>
            <tr>
             <th scope="col">#</th>
             <th scope="col">اسم الشركة</th>
              <th scope="col">order_Number</th>
-             <th scope="col">Tracking_Number</th>
              <th scope="col">message</th>
+             <th scope="col">Tracking_Number</th>
              <th scope="col"></th>
              <th scope="col"></th>
            </tr>
@@ -244,13 +278,60 @@ export default function Shipments() {
                 <td>{index+1}</td>
                 <td>{item.company}</td>
                 <td>{item.data.orderNumber}</td>
-                <td>{item.data.orderTrackingNumber}</td>
                 <td>{item.data.msg}</td>
+                <td>{item.data.orderTrackingNumber}</td>
                 <td>
                 <button
       
       className="glt-btn btn btn-success"
       onClick={() => getGltSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+                {/* <td>
+                  <button
+                        className="btn btn-info text-white"
+                        onClick={() => trackOrder(item._id)}
+                      >
+                        تتبع الشحنة
+                      </button>
+                </td> */}
+              </tr>
+            )
+          }
+          )}
+        </tbody>
+      </table>
+     </div> 
+
+     <div className="clients-table p-4 mt-4">
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col">اسم الشركة</th>
+             <th scope="col">order_Number</th>
+             {/* <th scope="col">message</th> */}
+             {/* <th scope="col">Tracking_Number</th> */}
+             <th scope="col"></th>
+             {/* <th scope="col"></th> */}
+           </tr>
+         </thead>
+       <tbody>
+           {aramexAllOrders.map((item,index) =>{
+            return(
+              <tr key={index}>
+                <td>{index+1}</td>
+                <td>{item.company}</td>
+                <td>{item.ordernumber}</td>
+                {/* <td>{item.data.msg}</td> */}
+                {/* <td>{item.data.orderTrackingNumber}</td> */}
+                <td>
+                <button
+      
+      className="aramex-btn btn btn-success"
+      onClick={() => getAramexSticker(item._id)}
     >
       عرض الاستيكر
     </button>

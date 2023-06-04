@@ -54,13 +54,12 @@ export default function AramexShippments() {
   
       if (response.status === 200) {
         setisLoading(false);
-        window.alert(`تم تسجيل الشحنة بنجاح \n ${response.data.data.Shipments[0].ShipmentLabel.LabelURL}`);
+        window.alert(`تم تسجيل الشحنة بنجاح`);
         console.log(response.data);
-        console.log(response.data.data.Shipments[0].ShipmentLabel.LabelURL);
-        const stickerUrl = `${response.data.data.Shipments[0].ShipmentLabel.LabelURL}`;
-      const newTab = window.open();
-      newTab.location.href = stickerUrl;
-        // {response.data.Shipments[0]?console.log(response.data.Shipments[0].ShipmentLabel.LabelURL):''}
+      //   console.log(response.data.data.Shipments[0].ShipmentLabel.LabelURL);
+      //   const stickerUrl = `${response.data.data.Shipments[0].ShipmentLabel.LabelURL}`;
+      // const newTab = window.open();
+      // newTab.location.href = stickerUrl;
         console.log("okkkkkkkkkkk")
       }else if (response.status === 400) {
         setisLoading(false);

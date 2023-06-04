@@ -27,6 +27,7 @@ import ClientsAdmin from './Components/ClientsAdmin/ClientsAdmin';
 import UsersListAdmin from './Components/UsersListAdmin/UsersListAdmin';
 import AddDepositAdmin from './Components/AddDepositAdmin/AddDepositAdmin';
 import AramexShippments from './Components/AramexShipments/AramexShippments';
+import AramexEdit from './Components/AramexEdit/AramexEdit';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -51,6 +52,7 @@ function App() {
     {path:'clientsAdmin',element:<ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute>},
     {path:'saeeEdit',element:<ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute>},
     {path:'gltEdit',element:<ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute>},
+    {path:'aramexEdit',element:<ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute>},
     {path:'userListAdmin',element:<ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute>},
     {path:'addDepositAdmin',element:<ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute>},
     // {path:'saeeSticker',element:<SaeeSticker userData={userData}/>},

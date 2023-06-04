@@ -112,7 +112,7 @@ export default function CompaniesAdmin() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <a className="btn btn-choose">تعديل</a>
+                <Link to='/aramexEdit' className="btn btn-choose">تعديل</Link>
               </div>
             </div>
           </div>
