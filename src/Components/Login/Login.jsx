@@ -91,7 +91,7 @@ async function sendLoginDataToApi(){
   }
   return (
     <>
-    <div className="d-flex min-vh-100 login-container">
+    <div className="d-flex min-vh-100 login-container px-3">
     <div className="login-box m-auto">
         <div className="text-center">
     <img className='m-auto' src={logo} alt="logo" />

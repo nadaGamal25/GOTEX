@@ -88,7 +88,7 @@ function submitGltPricesForm(e){
       }
       
     })}
-                    <label htmlFor="">سعر المتاجر</label>
+                    <label htmlFor="">سعر المدخلات</label>
                     <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='marketerprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='marketerprice'){

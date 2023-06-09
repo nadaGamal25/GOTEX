@@ -140,7 +140,7 @@ function submitOrderUserForm(e){
                 <h3>تفاصيل المرسل</h3>
                 
                 <div className='pb-3'>
-                <label htmlFor=""> اسم الشركة/المتجر</label>
+                <label htmlFor=""> الاسم</label>
                 <input type="text" className="form-control" name='p_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_name'){
@@ -176,7 +176,6 @@ function submitOrderUserForm(e){
       
     })}
             </div>
-            <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
             <div className='pb-3'>
                 <label htmlFor=""> العنوان </label>
                 <input type="text" className="form-control" name='p_streetaddress' onChange={getOrderData}/>
@@ -187,10 +186,18 @@ function submitOrderUserForm(e){
       
     })}
             </div>
-            <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
-                <input type="text" className="form-control"/>
+            <div className="pb-3">
+            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                    <div className='pe-2'>
+                    <input  type="radio" value="true" name='pay' />
+                    <label htmlFor="status">الدفع عند الاستلام(COD)</label>
+                    </div>
+                    <div className='pe-2'>
+                    <input type="radio" value="false"  name='pay' />
+                    <label htmlFor="status">الدفع اونلاين </label>
+                    </div>
             </div>
+            
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">
                 <h3>بيانات الشحنة</h3>
@@ -207,24 +214,7 @@ function submitOrderUserForm(e){
     })}
             </div>
                 </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> القيمة</label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> محتويات الشحنة</label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> رقم الفاتورة</label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
+                
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> عدد القطع</label>
@@ -237,25 +227,7 @@ function submitOrderUserForm(e){
     })}
             </div>
                 </div>
-                <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> الامتداد </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> العرض </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> الطول </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
+                
                 </div>
             </div>
             </div>
@@ -313,23 +285,16 @@ function submitOrderUserForm(e){
     })}
             </div>
             
-            <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
-            <div className='pb-3'>
-                <label htmlFor=""> العنوان 2</label>
-                <input type="text" className="form-control"/>
-            </div>
-            <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
-                <input type="text" className="form-control"/>
-            </div>
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> اضافة مستلم</button>
+            {/* <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6> */}
+            
+            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
             </div>
             </div>
             </div>
         </form>
         
         </div>
-        <div className="clients-table p-4 mt-5">
+        {/* <div className="clients-table p-4 mt-5">
             <h6 className='text-center'>بيانات المستلم</h6>
         <table className="table">
         <thead>
@@ -344,7 +309,7 @@ function submitOrderUserForm(e){
     </tr>
   </thead>
         </table>
-      </div>
+      </div> */}
     </div>
   )
 }

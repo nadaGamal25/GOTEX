@@ -266,7 +266,7 @@ export default function Shipments() {
             <th scope="col">اسم الشركة</th>
              <th scope="col">order_Number</th>
              <th scope="col">message</th>
-             <th scope="col">Tracking_Number</th>
+             <th scope="col">رقم التتبع</th>
              <th scope="col"></th>
              <th scope="col"></th>
            </tr>

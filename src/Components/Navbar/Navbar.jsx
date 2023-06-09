@@ -30,28 +30,26 @@ export default function Navbar() {
         <a href="#" class="brand">
             <img src={logo} alt='logo'/>
         </a>
-        {/* <div>
-        <p className='iclose'><i class="fa-solid fa-xmark"></i></p>
-        </div> */}
+       
         <ul class="side-menu top">
-            <li class="">
+            {/* <li class="">
                 <a href="#">
                     <i class="bx fa-solid fa-table-columns"></i>
                     <span class="text">لوحة التحكم</span>
                 </a>
-            </li>
+            </li> */}
             <li>
                 <Link to="/payment">
                 <i class="fa-solid fa-sack-dollar bx"></i>
                 <span class="text">المحفظة(ر.س0)</span>
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link to="/clients">
                     <i class="fa-solid fa-users bx"></i>
                     <span class="text">العملاء</span>
                 </Link>
-            </li>
+            </li> */}
             <li>
                 <Link to="shipments">
                 <i class="fa-solid fa-box-open bx"></i>
@@ -93,11 +91,3 @@ export default function Navbar() {
     </>
   )
 }
-
-
-//   const menuBar =document.querySelector('nav .fa-bars');
-// const sideBar = document.getElementById('sidebar');
-
-  // function sideToggle(){
-  //   sideBar.classList.toggle('hide');
-  // };

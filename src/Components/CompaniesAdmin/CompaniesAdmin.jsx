@@ -41,7 +41,7 @@ export default function CompaniesAdmin() {
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
             <th scope="col">سعر المستخدم</th>
-            <th scope="col">سعر المتاجر</th>
+            <th scope="col">سعر المدخلات</th>
             <th scope="col">سعر الزيادة </th>
           </tr>
         </thead>
@@ -119,7 +119,7 @@ export default function CompaniesAdmin() {
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">
-              <img src={imile} alt="company" />
+              <img src={sms} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               <i class="fa-solid fa-star"></i>
@@ -130,7 +130,24 @@ export default function CompaniesAdmin() {
               </div>
               <div className="d-flex pt-4 justify-content-between">
                 <h4>SAR 28.75</h4>
-                <a className="btn btn-choose">تعديل</a>
+                {/* <a className="btn btn-choose">تعديل</a> */}
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img src={imile} alt="company" />
+              </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
@@ -146,9 +163,8 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <a className="btn btn-choose">تعديل</a>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
@@ -164,9 +180,8 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <a className="btn btn-choose">تعديل</a>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
@@ -182,31 +197,13 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <a className="btn btn-choose">تعديل</a>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
           
-          <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={sms} alt="company" />
-              </div>
-              <div className="stars text-center mt-3">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <a className="btn btn-choose">تعديل</a>
-              </div>
-            </div>
-          </div>
+          
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">
@@ -219,9 +216,8 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <a className="btn btn-choose">تعديل</a>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>

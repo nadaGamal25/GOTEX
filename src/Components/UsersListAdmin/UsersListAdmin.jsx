@@ -80,7 +80,7 @@ export default function UsersListAdmin() {
         <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
         </div>
         <div className="col-md-10">
-        <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الايميل' />
+        <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' />
         </div>
       </div>
     <div className="clients-table p-4 my-4">
@@ -92,7 +92,7 @@ export default function UsersListAdmin() {
             {/* <th scope="col">id_المسخدم</th> */}
             <th scope="col"> المحفظة </th>
             <th scope="col">الهاتف </th>
-            <th scope="col">الايميل </th>
+            <th scope="col">الإيميل </th>
             <th scope="col">العنوان </th>
             <th></th>
             

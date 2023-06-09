@@ -134,7 +134,7 @@ export default function GltOrdersShipment() {
                 <h3>تفاصيل المرسل</h3>
                 {/* <p>{cities[0].name}</p> */}
                 <div className='pb-3'>
-                <label htmlFor=""> اسم الشركة/المتجر</label>
+                <label htmlFor=""> الاسم</label>
                 <input type="text" className="form-control" name='s_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_name'){
@@ -181,7 +181,6 @@ export default function GltOrdersShipment() {
       
     })}
             </div>
-            <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
             <div className='pb-3'>
                 <label htmlFor=""> العنوان </label>
                 <input type="text" className="form-control" name='s_address' onChange={getOrderData}/>
@@ -192,10 +191,18 @@ export default function GltOrdersShipment() {
       
     })}
             </div>
-            <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
-                <input type="text" className="form-control"/>
+            <div className="pb-3">
+            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                    <div className='pe-2'>
+                    <input  type="radio" value="true" name='pay' />
+                    <label htmlFor="status">الدفع عند الاستلام(COD)</label>
+                    </div>
+                    <div className='pe-2'>
+                    <input type="radio" value="false"  name='pay' />
+                    <label htmlFor="status">الدفع اونلاين </label>
+                    </div>
             </div>
+            
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">
                 <h3>بيانات الشحنة</h3>
@@ -224,18 +231,7 @@ export default function GltOrdersShipment() {
     })}
             </div>
                 </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> محتويات الشحنة</label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> رقم الفاتورة</label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
+                
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> عدد القطع</label>
@@ -260,34 +256,14 @@ export default function GltOrdersShipment() {
     })}
             </div>
                 </div>
-                <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> الامتداد </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> العرض </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> الطول </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
+                
                 </div>
             </div>
             </div>
             <div className="col-md-6">
             <div className="reciever-details brdr-grey p-3">
                 <h3>تفاصيل المستلم</h3>
-                {/* <div className=" mb-4 mt-2">
-        <input className='form-control' type="search" placeholder='بحث بالأسم' />
-        </div> */}
+                
         <div className='pb-3'>
                 <label htmlFor=""> الاسم</label>
                 <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
@@ -365,23 +341,15 @@ export default function GltOrdersShipment() {
     })}
             </div>
             
-            <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
-            <div className='pb-3'>
-                <label htmlFor=""> العنوان 2</label>
-                <input type="text" className="form-control"/>
-            </div>
-            <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
-                <input type="text" className="form-control"/>
-            </div>
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> اضافة مستلم</button>
+            
+            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
             </div>
             </div>
             </div>
         </form>
         
         </div>
-        <div className="clients-table p-4 mt-5">
+        {/* <div className="clients-table p-4 mt-5">
             <h6 className='text-center'>بيانات المستلم</h6>
         <table className="table">
         <thead>
@@ -396,7 +364,7 @@ export default function GltOrdersShipment() {
     </tr>
   </thead>
         </table>
-      </div>
+      </div> */}
     </div>
       )
 }

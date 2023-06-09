@@ -55,17 +55,16 @@ function App() {
     {path:'aramexEdit',element:<ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute>},
     {path:'userListAdmin',element:<ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute>},
     {path:'addDepositAdmin',element:<ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute>},
-    // {path:'saeeSticker',element:<SaeeSticker userData={userData}/>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
-      {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
+      // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
       {path:'/companies',element:<ProtectedRoute userData={userData}><Companies/></ProtectedRoute>},
-      {path:'/clients',element:<ProtectedRoute userData={userData}><Clients/></ProtectedRoute>},
-      {path:'/addclient',element:<ProtectedRoute userData={userData}><AddClient/></ProtectedRoute>},
+      // {path:'/clients',element:<ProtectedRoute userData={userData}><Clients/></ProtectedRoute>},
+      // {path:'/addclient',element:<ProtectedRoute userData={userData}><AddClient/></ProtectedRoute>},
       {path:'/payment',element:<ProtectedRoute userData={userData}><Payment/></ProtectedRoute>},
       {path:'/shipments',element:<ProtectedRoute userData={userData}><Shipments/></ProtectedRoute>},
       {path:'/shipmentForms',element:<ProtectedRoute userData={userData}><ShipmentForms userData={userData}/></ProtectedRoute>},
       {path:'/saeeShipments',element:<ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute>},
-      {path:'/gltShipment',element:<ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
+      // {path:'/gltShipment',element:<ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
       {path:'/aramexShipment',element:<ProtectedRoute userData={userData}><AramexShippments/></ProtectedRoute>},
       {path:'/gltOrders',element:<ProtectedRoute userData={userData}><GltOrdersShipment/></ProtectedRoute>}
     ]}

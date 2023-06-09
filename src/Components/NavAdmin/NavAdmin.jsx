@@ -34,10 +34,10 @@ export default function NavAdmin() {
         </div> */}
         <ul class="side-menu top">
             <li>
-                <Link to="/admin">
+                <a>
                     <i class="bx fa-solid fa-table-columns"></i>
                     <span class="text">لوحة تحكم الادمن </span>
-                </Link>
+                </a>
             </li>
         <li>
                 <Link to="/companiesAdmin">

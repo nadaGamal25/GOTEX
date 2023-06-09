@@ -88,7 +88,7 @@ function submitSaeePricesForm(e){
       }
       
     })}
-                    <label htmlFor="">سعر المتاجر</label>
+                    <label htmlFor="">سعر المدخلات</label>
                     <input onChange={getSaeePrices} type="number" className='my-input my-2 form-control' name='marketerprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='marketerprice'){

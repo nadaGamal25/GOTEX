@@ -363,6 +363,13 @@ nav form .form-input button{
   color: #fff !important;
   background-color: #dc4606 !important;
 }
+.soon-word{
+  font-weight: 600;
+  color: #f9f9f9;
+  padding-right: 15px;
+  letter-spacing: 1px;
+  font-size:larger;
+}
 @media only screen and (max-width: 380px){
   .company img{
     width: 70px;

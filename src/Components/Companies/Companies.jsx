@@ -16,12 +16,12 @@ export default function Companies() {
     getCompaniesDetailsOrders()
   },[])
   const [companiesDetails,setCompaniesDetails]=useState([])
+  const num =0;
 
   async function getCompaniesDetailsOrders() {
     try {
       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
       const companiesPrices = response.data.data;
-      // Process the orders as needed
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
     } catch (error) {
@@ -32,7 +32,6 @@ export default function Companies() {
     <>
     <div className='p-5' id='content'>
       <div className="container">
-        {/* <p>{companiesDetails[0].name}</p> */}
       <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
@@ -40,23 +39,25 @@ export default function Companies() {
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
             <th scope="col">سعر المستخدم</th>
-            <th scope="col">سعر المتاجر</th>
+            <th scope="col">سعر المدخلات</th>
             <th scope="col">سعر الزيادة </th>
           </tr>
         </thead>
         <tbody>
-          {companiesDetails.map((item,index) =>{
-            return(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{item.name}</td>
-                <td>{item.userprice}</td>
-                <td>{item.marketerprice}</td>
-                <td>{item.kgprice}</td>
-              </tr>
-            )
-          }
-          )}
+            {companiesDetails.map((item, index) => {
+                  if (item.status) {
+                    return (
+                      <tr key={index}>
+                        <td></td>
+                        <td>{item.name}</td>
+                        <td>{item.userprice}</td>
+                        <td>{item.marketerprice}</td>
+                        <td>{item.kgprice}</td>
+                      </tr>
+                    );
+                  }
+                  return null;
+                })}
         </tbody>
       </table>
      </div>
@@ -73,10 +74,19 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/saeeShipments" className="btn btn-choose">أختر</Link>
-              </div>
+              {companiesDetails.map((item, index) => (
+                item.status === false && item.name === "saee" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "saee" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                   <h4>SAR 28.75</h4>
+                   <Link to="/saeeShipments" className="btn btn-choose">أختر</Link>
+                  </div>
+                ) : null
+                ))}
+              
             </div>
           </div>
           <div className="col-md-6">
@@ -91,10 +101,19 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/gltOrders" className="btn btn-choose">أختر</Link>
-              </div>
+              {companiesDetails.map((item, index) => (
+                item.status === false && item.name === "glt" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "glt" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    <h4>SAR 28.75</h4>
+                    <Link to="/gltOrders" className="btn btn-choose">أختر</Link>
+                  </div>
+                ) : null
+                ))}
+              
             </div>
           </div>
           <div className="col-md-6">
@@ -109,10 +128,44 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/aramexShipment" className="btn btn-choose">أختر</Link>
+              {companiesDetails.map((item, index) => (
+                item.status === false && item.name === "aramex" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "aramex" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    <h4>SAR 28.75</h4>
+                    <Link to="/aramexShipment" className="btn btn-choose">أختر</Link>
+                  </div>
+                ) : null
+                ))}
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img src={sms} alt="company" />
               </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              {companiesDetails.map((item, index) => (
+                item.status === false && item.name === "smsa" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "smsa" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    <h4>SAR 28.75</h4>
+                    <a className="btn btn-choose">أختر</a>
+                  </div>
+                ) : null
+                ))}
             </div>
           </div>
           <div className="col-md-6">
@@ -127,9 +180,8 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
@@ -145,9 +197,8 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
@@ -163,9 +214,8 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
@@ -181,28 +231,8 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
-              </div>
-            </div>
-          </div>
-          
-          <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={sms} alt="company" />
-              </div>
-              <div className="stars text-center mt-3">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
@@ -218,15 +248,17 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
-                <Link to="/shipmentForms" className="btn btn-choose">أختر</Link>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
     </>
       )
 }
+
+

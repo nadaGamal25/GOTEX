@@ -245,6 +245,17 @@ export default function AramexShippments() {
       
     })}
             </div>
+            <div className="pb-3">
+            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                    <div className='pe-2'>
+                    <input  type="radio" value="true" name='pay' />
+                    <label htmlFor="status">الدفع عند الاستلام(COD)</label>
+                    </div>
+                    <div className='pe-2'>
+                    <input type="radio" value="false"  name='pay' />
+                    <label htmlFor="status">الدفع اونلاين </label>
+                    </div>
+            </div>
            
             
             </div>
@@ -274,49 +285,8 @@ export default function AramexShippments() {
       
     })}               
             </div>
-                </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> القيمة</label>
-                <input type="text" className="form-control" name=''/>
+                </div>                
                 
-            </div>
-                </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> محتويات الشحنة</label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-6">
-                <div className='pb-3'>
-                <label htmlFor=""> رقم الفاتورة</label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                
-                <div className="">
-                
-                </div>
-                <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> الامتداد </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> العرض </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
-                <div className="col-md-4">
-                <div className='pb-3'>
-                <label htmlFor=""> الطول </label>
-                <input type="text" className="form-control"/>
-            </div>
-                </div>
                 </div>
             </div>
             </div>
@@ -439,14 +409,14 @@ export default function AramexShippments() {
     })}
             </div>
             
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> اضافة مستلم</button>
+            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
             </div>
             </div>
             </div>
         </form>
         
         </div>
-        <div className="clients-table p-4 mt-5">
+        {/* <div className="clients-table p-4 mt-5">
             <h6 className='text-center'>بيانات المستلم</h6>
         <table className="table">
         <thead>
@@ -461,7 +431,7 @@ export default function AramexShippments() {
     </tr>
   </thead>
         </table>
-      </div>
+      </div> */}
     </div>
       )
 }
