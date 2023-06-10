@@ -34,7 +34,9 @@ export default function AramexShippments() {
     p_city: "",
     p_CellPhone: "",
     p_postCode: "",
-    weight: ""
+    weight: "",
+    cod:''
+
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -119,6 +121,7 @@ export default function AramexShippments() {
           p_CellPhone: Joi.string().required(),
           p_postCode: Joi.string().required(),
           weight: Joi.number().required(),
+          cod:Joi.boolean().required(),
     
 
   
@@ -248,12 +251,12 @@ export default function AramexShippments() {
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
-                    <input  type="radio" value="true" name='pay' />
-                    <label htmlFor="status">الدفع عند الاستلام(COD)</label>
+                    <input  type="radio" value="true" name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
                     </div>
                     <div className='pe-2'>
-                    <input type="radio" value="false"  name='pay' />
-                    <label htmlFor="status">الدفع اونلاين </label>
+                    <input type="radio" value="false"  name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
                     </div>
             </div>
            

@@ -24,7 +24,8 @@ export default function SaeeShipments() {
     c_name:'',
     c_city:'',
     c_streetaddress:'',
-    c_mobile:''
+    c_mobile:'',
+    cod:''
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -124,7 +125,9 @@ function submitOrderUserForm(e){
         c_name:Joi.string().required(),
         c_city:Joi.string().required(),
         c_streetaddress:Joi.string().required(),
-        c_mobile:Joi.string().required()
+        c_mobile:Joi.string().required(),
+        cod:Joi.boolean().required(),
+
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -189,14 +192,20 @@ function submitOrderUserForm(e){
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
-                    <input  type="radio" value="true" name='pay' />
-                    <label htmlFor="status">الدفع عند الاستلام(COD)</label>
+                    <input  type="radio" value="true" name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
                     </div>
                     <div className='pe-2'>
-                    <input type="radio" value="false"  name='pay' />
-                    <label htmlFor="status">الدفع اونلاين </label>
+                    <input type="radio" value="false"  name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
                     </div>
             </div>
+            {errorList.map((err,index)=>{
+      if(err.context.label ==='weight'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
             
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">

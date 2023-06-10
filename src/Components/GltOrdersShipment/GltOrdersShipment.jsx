@@ -44,7 +44,9 @@ export default function GltOrdersShipment() {
     c_address: "",
     c_areaName: "",
     c_city: '',
-    c_mobile: ''
+    c_mobile: '',
+    cod:''
+
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -119,6 +121,8 @@ export default function GltOrdersShipment() {
           description:Joi.string().required(),
           clintComment:Joi.string().required(),
           value:Joi.string().required(),
+          cod:Joi.boolean().required(),
+
 
   
       });
@@ -194,12 +198,12 @@ export default function GltOrdersShipment() {
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
-                    <input  type="radio" value="true" name='pay' />
-                    <label htmlFor="status">الدفع عند الاستلام(COD)</label>
+                    <input  type="radio" value="true" name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
                     </div>
                     <div className='pe-2'>
-                    <input type="radio" value="false"  name='pay' />
-                    <label htmlFor="status">الدفع اونلاين </label>
+                    <input type="radio" value="false"  name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
                     </div>
             </div>
             

@@ -28,6 +28,7 @@ import UsersListAdmin from './Components/UsersListAdmin/UsersListAdmin';
 import AddDepositAdmin from './Components/AddDepositAdmin/AddDepositAdmin';
 import AramexShippments from './Components/AramexShipments/AramexShippments';
 import AramexEdit from './Components/AramexEdit/AramexEdit';
+import MarketerSignUp from './Components/MarketerSignUp/MarketerSignUp';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -47,6 +48,7 @@ function App() {
   let routers =createBrowserRouter([
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
+    {path:'marketerSignUp',element:<MarketerSignUp/>},
     {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
     {path:'companiesAdmin',element:<ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute>},
     {path:'clientsAdmin',element:<ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute>},
