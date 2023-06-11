@@ -572,3 +572,31 @@ h3{
 .label-cod{
   color: #1572a0;
 }
+
+/* . */
+.email-container{
+  background-color: #f6f8fc;
+}
+.emailtemplate-box{
+  width: 75%;
+  background-color: #fff;
+  box-shadow: 5px 5px 10px #8ca0aa;
+  border-radius: 5px;
+}
+.emailtemplate-box h3{
+  color: var(--dark--color);
+}
+.emailtemplate-box h6{
+  color: var(--dark--color);
+}
+.emailtemplate-box .logo{
+  width: 80px;
+}
+.emailtemplate-box .btn-email{
+  color: #fff !important;
+  background-color: var(--dark--color) !important;
+}
+.emailtemplate-box .btn-email:hover{
+  color: #fff !important;
+  background-color: #11577a !important;
+}

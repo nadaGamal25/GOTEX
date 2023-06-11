@@ -7,78 +7,6 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 export default function RegisterForm() {
-//   var signEmail=document.getElementById("email");
-//   var theAlert =document.getElementById("alerto");
-//   var signArray=[];
-// if (localStorage.getItem('theUsers') == null) {
-//     signArray = [];
-// } else {
-//     signArray = JSON.parse(localStorage.getItem('theUsers'));
-// };
-// function existEmailFunc(){
-//   let messages = []
-
-// var signup={
-//   email:signEmail.value,
-// };
-// if (signArray.length == 0){
-//   signArray.push(signup);
-//   localStorage.setItem("theUsers",JSON.stringify(signArray));
-// };
-
-// for(i=0;i<signArray.length;i++){
-//   if(signArray[i].email.toLowerCase() ==signEmail.value.toLowerCase()){
-//       messages.push("email already exists");
-//   };
-// };
-//   if (messages.length > 0) {
-//     theAlert.innerText = "exist";
-// }else{
-//     signArray.push(signup);
-//     localStorage.setItem('theUsers', JSON.stringify(signArray));
-// };
-// }
-
-  const [signEmail, setSignEmail] = useState("");
-  const [signArray, setSignArray] = useState(() => {
-    if (localStorage.getItem('theUsers') == null) {
-      return [];
-    } else {
-      return JSON.parse(localStorage.getItem('theUsers'));
-    }
-  });
-  const [alertMsg, setAlertMsg] = useState("");
-
-  function existEmailFunc() {
-    let messages = [];
-
-    const signup = {
-      email: signEmail,
-    };
-
-    if (signArray.length === 0) {
-      setSignArray([...signArray, signup]);
-      localStorage.setItem("theUsers", JSON.stringify([...signArray, signup]));
-    }
-
-    for (let i = 0; i < signArray.length; i++) {
-      if (signArray[i].email.toLowerCase() === signEmail.toLowerCase()) {
-        messages.push("email already exists");
-      }
-    }
-
-    if (messages.length > 0) {
-      setAlertMsg("exist");
-    } else {
-      setAlertMsg("")
-      setSignArray([...signArray, signup]);
-      localStorage.setItem('theUsers', JSON.stringify([...signArray, signup]));
-    }
-  }
-
-  
-
-
   const [visible , setVisible] =useState(false);  
   let navigate= useNavigate(); //hoke
   const [errorList, seterrorList]= useState([]); 
@@ -183,7 +111,7 @@ function submitRegisterForm(e){
       
     })}
     {/* <div id='alerto'></div> */}
-    {alertMsg === "exist" && <p id="alerto" className="alert alert-danger my-2">هذا البريد الالكترونى موجود بالفعل</p>}
+    {/* {alertMsg === "exist" && <p id="alerto" className="alert alert-danger my-2">هذا البريد الالكترونى موجود بالفعل</p>} */}
 
     {/* {messages?<div className="alert alert-danger my-2">الايميل يجب ان يكون   </div>: ''} */}
       <label htmlFor="password">كلمة المرور :</label>
@@ -301,3 +229,72 @@ function submitRegisterForm(e){
 // }
 
 {/* <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='mobile' id='mobile' /> */}
+////////////////////
+//   var signEmail=document.getElementById("email");
+//   var theAlert =document.getElementById("alerto");
+//   var signArray=[];
+// if (localStorage.getItem('theUsers') == null) {
+//     signArray = [];
+// } else {
+//     signArray = JSON.parse(localStorage.getItem('theUsers'));
+// };
+// function existEmailFunc(){
+//   let messages = []
+
+// var signup={
+//   email:signEmail.value,
+// };
+// if (signArray.length == 0){
+//   signArray.push(signup);
+//   localStorage.setItem("theUsers",JSON.stringify(signArray));
+// };
+
+// for(i=0;i<signArray.length;i++){
+//   if(signArray[i].email.toLowerCase() ==signEmail.value.toLowerCase()){
+//       messages.push("email already exists");
+//   };
+// };
+//   if (messages.length > 0) {
+//     theAlert.innerText = "exist";
+// }else{
+//     signArray.push(signup);
+//     localStorage.setItem('theUsers', JSON.stringify(signArray));
+// };
+// }
+
+  // const [signEmail, setSignEmail] = useState("");
+  // const [signArray, setSignArray] = useState(() => {
+  //   if (localStorage.getItem('theUsers') == null) {
+  //     return [];
+  //   } else {
+  //     return JSON.parse(localStorage.getItem('theUsers'));
+  //   }
+  // });
+  // const [alertMsg, setAlertMsg] = useState("");
+
+  // function existEmailFunc() {
+  //   let messages = [];
+
+  //   const signup = {
+  //     email: signEmail,
+  //   };
+
+  //   if (signArray.length === 0) {
+  //     setSignArray([...signArray, signup]);
+  //     localStorage.setItem("theUsers", JSON.stringify([...signArray, signup]));
+  //   }
+
+  //   for (let i = 0; i < signArray.length; i++) {
+  //     if (signArray[i].email.toLowerCase() === signEmail.toLowerCase()) {
+  //       messages.push("email already exists");
+  //     }
+  //   }
+
+  //   if (messages.length > 0) {
+  //     setAlertMsg("exist");
+  //   } else {
+  //     setAlertMsg("")
+  //     setSignArray([...signArray, signup]);
+  //     localStorage.setItem('theUsers', JSON.stringify([...signArray, signup]));
+  //   }
+  // }

@@ -29,6 +29,7 @@ import AddDepositAdmin from './Components/AddDepositAdmin/AddDepositAdmin';
 import AramexShippments from './Components/AramexShipments/AramexShippments';
 import AramexEdit from './Components/AramexEdit/AramexEdit';
 import MarketerSignUp from './Components/MarketerSignUp/MarketerSignUp';
+import EmailTemplate from './Components/EmailTemplate/EmailTemplate';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){

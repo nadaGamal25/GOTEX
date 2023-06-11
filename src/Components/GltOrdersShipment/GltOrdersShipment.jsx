@@ -66,7 +66,7 @@ export default function GltOrdersShipment() {
   
       if (response.status === 200) {
         setisLoading(false);
-        window.alert("تم تسجيل الشحنة بنجاح");
+        window.alert(response.data.msg);
         console.log(response.data);
         console.log("okkkkkkkkkkk")
       }else if (response.status === 400) {
