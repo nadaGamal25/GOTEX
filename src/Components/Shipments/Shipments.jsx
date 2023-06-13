@@ -111,9 +111,9 @@ export default function Shipments() {
         },
       });
            console.log(response.data.data)
-      const stickerUrl = `${response.data.data}`;
-      const newTab = window.open();
-      newTab.location.href = stickerUrl;
+           const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+           const newTab = window.open();
+           newTab.location.href = stickerUrl;
     } catch (error) {
       console.error(error);
     }
@@ -297,7 +297,7 @@ export default function Shipments() {
            <tr>
             <th scope="col">#</th>
             <th scope="col">اسم الشركة</th>
-             <th scope="col">order_Number</th>
+             <th scope="col">رقم الشحنة</th>
              <th scope="col">message</th>
              <th scope="col">رقم التتبع</th>
              <th scope="col"></th>
@@ -344,7 +344,7 @@ export default function Shipments() {
            <tr>
             <th scope="col">#</th>
             <th scope="col">اسم الشركة</th>
-             <th scope="col">order_Number</th>
+             <th scope="col">رقم الشحنة</th>
              {/* <th scope="col">message</th> */}
              {/* <th scope="col">Tracking_Number</th> */}
              <th scope="col"></th>
@@ -390,8 +390,8 @@ export default function Shipments() {
            <tr>
             <th scope="col">#</th>
             <th scope="col">اسم الشركة</th>
-             <th scope="col">order_Number</th>
-             {/* <th scope="col">message</th> */}
+             <th scope="col">رقم الشحنة</th>
+             <th scope="col">طرقة الدفع</th>
              {/* <th scope="col">Tracking_Number</th> */}
              <th scope="col"></th>
              {/* <th scope="col"></th> */}
@@ -401,10 +401,10 @@ export default function Shipments() {
            {smsaAllOrders.map((item,index) =>{
             return(
               <tr key={index}>
-                {/* <td>{index+1}</td>
+                <td>{index+1}</td>
                 <td>{item.company}</td>
-                <td>{item.ordernumber}</td> */}
-                {/* <td>{item.data.msg}</td> */}
+                <td>{item.ordernumber}</td>
+                <td>{item.paytype}</td>
                 {/* <td>{item.data.orderTrackingNumber}</td> */}
                 <td>
                 <button

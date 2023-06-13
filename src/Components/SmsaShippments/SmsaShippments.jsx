@@ -42,7 +42,7 @@ export default function SmsaShippments() {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "http://localhost:3000/smsa/create-user-order",
+        "https://dashboard.go-tex.net/api/smsa/create-user-order",
         orderData,
         {
           headers: {
@@ -97,14 +97,14 @@ export default function SmsaShippments() {
       let scheme= Joi.object({
           c_name: Joi.string().required(),
           c_ContactPhoneNumber: Joi.string().required(),
-          c_ContactPhoneNumber2: Joi.string().required(),
+          c_ContactPhoneNumber2: Joi.string().allow(null, ''),
           c_District: Joi.string().required(),
-        c_AddressLine1: Joi.string().required(),
-        c_AddressLine2: Joi.string().required(),
-        c_City: Joi.string().required(),
+          c_AddressLine1: Joi.string().required(),
+          c_AddressLine2: Joi.string().allow(null, ''),
+          c_City: Joi.string().required(),
           p_name: Joi.string().required(),
           p_ContactPhoneNumber: Joi.string().required(),
-          p_AddressLine2: Joi.string(),
+          p_AddressLine2:Joi.string().allow(null, ''),
           p_AddressLine1: Joi.string().required(),
           p_City: Joi.string().required(),
           p_District: Joi.string().required(),
@@ -313,12 +313,7 @@ export default function SmsaShippments() {
       setcPhone(cPhoneNumber2);
       getOrderData({ target: { name: 'c_ContactPhoneNumber2', value: cPhoneNumber2 } });
     }}/>
-    {errorList.map((err,index)=>{
-      if(err.context.label ==='c_ContactPhoneNumber2'){
-        return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
-      }
-      
-    })}
+   
       
             </div>
             

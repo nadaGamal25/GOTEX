@@ -32,7 +32,7 @@ export default function Companies() {
     <>
     <div className='p-5' id='content'>
       <div className="container">
-      <div className="clients-table p-4 my-4">
+      {/* <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
           <tr>
@@ -60,7 +60,7 @@ export default function Companies() {
                 })}
         </tbody>
       </table>
-     </div>
+     </div> */}
         <div className="row g-4">
         <div className="col-md-6">
             <div className="company">
