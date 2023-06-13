@@ -574,7 +574,7 @@ h3{
 }
 
 /* . */
-.email-container{
+/* .email-container{
   background-color: #f6f8fc;
 }
 .emailtemplate-box{
@@ -584,7 +584,7 @@ h3{
   border-radius: 5px;
 }
 .emailtemplate-box h3{
-  color: var(--dark--color);
+  color: #08354c;
 }
 .emailtemplate-box h6{
   color: var(--dark--color);
@@ -594,9 +594,23 @@ h3{
 }
 .emailtemplate-box .btn-email{
   color: #fff !important;
-  background-color: var(--dark--color) !important;
+  background-color:#08354c !important;
 }
 .emailtemplate-box .btn-email:hover{
   color: #fff !important;
   background-color: #11577a !important;
+} */
+
+/* user balance */
+.balance-box{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+}
+.balance-box h5 ,h3{
+  font-weight: 600;
+  color: var(--dark--color);
+
+}
+.active{
+  color: #dc4606;
 }

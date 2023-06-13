@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
+import axios from 'axios';
 
 export default function Navbar() {
 
@@ -23,6 +24,27 @@ export default function Navbar() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(()=>{
+    getUserBalance()
+  },[])
+
+      const [userBalance,setUserBalance]=useState('')
+      async function getUserBalance() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/user/get-user-balance',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const balance = response.data.data;
+          console.log(balance)
+          setUserBalance(balance)
+        } catch (error) {
+          console.error(error);
+        }
+      }
   return (
     <>
     {/* <!-- start side navbar --> */}
@@ -41,7 +63,7 @@ export default function Navbar() {
             <li>
                 <Link to="/payment">
                 <i class="fa-solid fa-sack-dollar bx"></i>
-                <span class="text">المحفظة(ر.س0)</span>
+                <span class="text">المحفظة({userBalance} ر.س)</span>
                 </Link>
             </li>
             {/* <li>

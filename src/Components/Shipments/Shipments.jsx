@@ -8,6 +8,7 @@ export default function Shipments() {
   const [saeeAllOrders,setSaeeAllOrders]=useState([]);
   const [gltAllOrders,setGltAllOrders]=useState([]);
   const [aramexAllOrders,setAramexAllOrders]=useState([]);
+  const [smsaAllOrders,setSmsaAllOrders]=useState([]);
   const [sticker, setSticker] = useState('');
   const [gltSticker, setGltSticker] = useState('');
 
@@ -15,8 +16,10 @@ export default function Shipments() {
     getUserOrders()
     getGltUserOrders()
     getAramexUserOrders()
+    getSmsaUserOrders()
   },[])
 
+  
       async function getGltUserOrders() {
         try {
           const response = await axios.get('https://dashboard.go-tex.net/api/glt/get-all-orders',
@@ -29,6 +32,21 @@ export default function Shipments() {
           // Process the orders as needed
           console.log(GltOrders)
           setGltAllOrders(GltOrders)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      async function getSmsaUserOrders() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/smsa/get-all-orders',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const smsaOrders = response.data.data;
+          console.log(smsaOrders)
+          setSmsaAllOrders(smsaOrders)
         } catch (error) {
           console.error(error);
         }
@@ -73,6 +91,21 @@ export default function Shipments() {
   async function getAramexSticker(orderId) {
     try {
       const response = await axios.get(`https://dashboard.go-tex.net/api/aramex/print-sticker/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+           console.log(response.data.data)
+      const stickerUrl = `${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function getSmsaSticker(orderId) {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -332,6 +365,52 @@ export default function Shipments() {
       
       className="aramex-btn btn btn-success"
       onClick={() => getAramexSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+                {/* <td>
+                  <button
+                        className="btn btn-info text-white"
+                        onClick={() => trackOrder(item._id)}
+                      >
+                        تتبع الشحنة
+                      </button>
+                </td> */}
+              </tr>
+            )
+          }
+          )}
+        </tbody>
+      </table>
+     </div> 
+     <div className="clients-table p-4 mt-4">
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col">اسم الشركة</th>
+             <th scope="col">order_Number</th>
+             {/* <th scope="col">message</th> */}
+             {/* <th scope="col">Tracking_Number</th> */}
+             <th scope="col"></th>
+             {/* <th scope="col"></th> */}
+           </tr>
+         </thead>
+       <tbody>
+           {smsaAllOrders.map((item,index) =>{
+            return(
+              <tr key={index}>
+                {/* <td>{index+1}</td>
+                <td>{item.company}</td>
+                <td>{item.ordernumber}</td> */}
+                {/* <td>{item.data.msg}</td> */}
+                {/* <td>{item.data.orderTrackingNumber}</td> */}
+                <td>
+                <button
+      
+      className="smsa-btn btn btn-success"
+      onClick={() => getSmsaSticker(item._id)}
     >
       عرض الاستيكر
     </button>

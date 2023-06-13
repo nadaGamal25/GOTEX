@@ -199,13 +199,14 @@ function submitOrderUserForm(e){
                     <input type="radio" value="false"  name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
                     </div>
-            </div>
-            {errorList.map((err,index)=>{
-      if(err.context.label ==='weight'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='cod'){
+        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
       }
       
     })}
+            </div>
+           
             
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">

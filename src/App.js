@@ -30,6 +30,8 @@ import AramexShippments from './Components/AramexShipments/AramexShippments';
 import AramexEdit from './Components/AramexEdit/AramexEdit';
 import MarketerSignUp from './Components/MarketerSignUp/MarketerSignUp';
 import EmailTemplate from './Components/EmailTemplate/EmailTemplate';
+import SmsaEdit from './Components/SmsaEdit/SmsaEdit';
+import SmsaShippments from './Components/SmsaShippments/SmsaShippments';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -56,6 +58,7 @@ function App() {
     {path:'saeeEdit',element:<ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute>},
     {path:'gltEdit',element:<ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute>},
     {path:'aramexEdit',element:<ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute>},
+    {path:'smsaEdit',element:<ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute>},
     {path:'userListAdmin',element:<ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute>},
     {path:'addDepositAdmin',element:<ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
@@ -69,6 +72,7 @@ function App() {
       {path:'/saeeShipments',element:<ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute>},
       // {path:'/gltShipment',element:<ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
       {path:'/aramexShipment',element:<ProtectedRoute userData={userData}><AramexShippments/></ProtectedRoute>},
+      {path:'/smsaShipment',element:<ProtectedRoute userData={userData}><SmsaShippments/></ProtectedRoute>},
       {path:'/gltOrders',element:<ProtectedRoute userData={userData}><GltOrdersShipment/></ProtectedRoute>}
     ]}
   ])

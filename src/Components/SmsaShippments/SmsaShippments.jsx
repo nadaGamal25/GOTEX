@@ -5,10 +5,10 @@ import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
 
-export default function AramexShippments() {
+export default function SmsaShippments() {
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
-    const [pcellPhone,setPcellPhone] =useState()
+    const [cPhoneNumber2,setcPhone] =useState()
     const [CcellPhone,setCcellPhone] =useState()
     const [p_PhoneNumber,setp_PhoneNumber1Ext] =useState()
     const [c_PhoneNumber,setc_PhoneNumber1Ext] =useState()
@@ -16,26 +16,23 @@ export default function AramexShippments() {
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
     c_name: "",
-    c_company: "",
-    c_email: "",
-    c_phone: "",
-    c_CellPhone: "",
-    // c_PhoneNumber1Ext: "",
-    c_line1: "",
-    c_line2: "",
-    c_city: "",
-    pieces: "",
+    c_ContactPhoneNumber: "",
+    c_ContactPhoneNumber2: "",
+    c_District: "",
+    c_City: "",
+    c_AddressLine1: "",
+    c_AddressLine2: "",
     p_name: "",
-    p_company: "",
-    p_email: "",
-    p_phone: "",
-    p_PhoneNumber1Ext: "",
-    p_line1: "",
-    p_city: "",
-    p_CellPhone: "",
-    p_postCode: "",
+    p_ContactPhoneNumber: "",
+    p_District: "",
+    p_City: "",
+    p_AddressLine1: "",
+    p_AddressLine2: "",
+    pieces: "",
     weight: "",
-    cod:''
+    description: "",
+    Value: "",
+    cod: "",
 
   })
   const [error , setError]= useState('')
@@ -45,7 +42,7 @@ export default function AramexShippments() {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "https://dashboard.go-tex.net/api/aramex/create-user-order",
+        "http://localhost:3000/smsa/create-user-order",
         orderData,
         {
           headers: {
@@ -58,10 +55,7 @@ export default function AramexShippments() {
         setisLoading(false);
         window.alert(`تم تسجيل الشحنة بنجاح`);
         console.log(response.data);
-      //   console.log(response.data.data.Shipments[0].ShipmentLabel.LabelURL);
-      //   const stickerUrl = `${response.data.data.Shipments[0].ShipmentLabel.LabelURL}`;
-      // const newTab = window.open();
-      // newTab.location.href = stickerUrl;
+      
         console.log("okkkkkkkkkkk")
       }else if (response.status === 400) {
         setisLoading(false);
@@ -102,25 +96,22 @@ export default function AramexShippments() {
     function validateOrderUserForm(){
       let scheme= Joi.object({
           c_name: Joi.string().required(),
-          c_company: Joi.string().required(),
-          c_email: Joi.string().required(),
-          c_phone: Joi.string().required(),
-          c_CellPhone: Joi.string().required(),
-        //   c_PhoneNumber1Ext: Joi.string(),
-          c_line1: Joi.string().required(),
-          c_line2: Joi.string().required(),
-          c_city: Joi.string().required(),
-          pieces: Joi.number().required(),
+          c_ContactPhoneNumber: Joi.string().required(),
+          c_ContactPhoneNumber2: Joi.string().required(),
+          c_District: Joi.string().required(),
+        c_AddressLine1: Joi.string().required(),
+        c_AddressLine2: Joi.string().required(),
+        c_City: Joi.string().required(),
           p_name: Joi.string().required(),
-          p_company: Joi.string().required(),
-          p_email: Joi.string().required(),
-          p_phone: Joi.string().required(),
-          p_PhoneNumber1Ext: Joi.string(),
-          p_line1: Joi.string().required(),
-          p_city: Joi.string().required(),
-          p_CellPhone: Joi.string().required(),
-          p_postCode: Joi.string().required(),
+          p_ContactPhoneNumber: Joi.string().required(),
+          p_AddressLine2: Joi.string(),
+          p_AddressLine1: Joi.string().required(),
+          p_City: Joi.string().required(),
+          p_District: Joi.string().required(),
           weight: Joi.number().required(),
+          pieces: Joi.number().required(),
+          Value: Joi.number().required(),
+          description:Joi.string().required(),
           cod:Joi.boolean().required(),
     
 
@@ -137,7 +128,7 @@ export default function AramexShippments() {
             <div className="shipper-details brdr-grey p-4">
                 <h3>تفاصيل المرسل</h3>
                 <div className='pb-3'>
-                <label htmlFor=""> اسم المرسل</label>
+                <label htmlFor=""> الاسم </label>
                 <input type="text" className="form-control" name='p_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_name'){
@@ -146,83 +137,38 @@ export default function AramexShippments() {
       
     })}
             </div>
-                <div className='pb-3'>
-                <label htmlFor=""> اسم الشركة/المتجر</label>
-                <input type="text" className="form-control" name='p_company' onChange={getOrderData}/>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='p_company'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
-            <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
-                <input type="text" className="form-control" name='p_email' onChange={getOrderData}/>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='p_email'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
             <div className='pb-3'>
                 <label htmlFor="">رقم الهاتف</label>
                 {/* <input type="text" className="form-control" /> */}
-                <PhoneInput name='p_phone' 
+                <PhoneInput name='p_ContactPhoneNumber' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
     onChange={(value) => {
       setPhoneValue(value);
-      getOrderData({ target: { name: 'p_phone', value } });
+      getOrderData({ target: { name: 'p_ContactPhoneNumber', value } });
     }}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='p_phone'){
+      if(err.context.label ==='p_ContactPhoneNumber'){
         return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
       }
       
     })}
       
-            </div>
-            <div className='pb-3'>
-                <label htmlFor="">الهاتف الخلوى</label>
-                {/* <input type="text" className="form-control"/> */}
-                <PhoneInput name='p_CellPhone' 
-    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={pcellPhone}
-    onChange={(pcellPhone) => {
-      setPcellPhone(pcellPhone);
-      getOrderData({ target: { name: 'p_CellPhone', value: pcellPhone } });
-    }}/>
-    {errorList.map((err,index)=>{
-      if(err.context.label ==='p_CellPhone'){
-        return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
-      }
-      
-    })}
-      
-            </div>
-            <div className='pb-3'>
-                <label htmlFor="">رقم هاتف اضافى </label>
-                {/* <input type="text" className="form-control"/> */}
-                <PhoneInput name='p_PhoneNumber1Ext' 
-    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={p_PhoneNumber}
-    onChange={(p_PhoneNumber) => {
-      setp_PhoneNumber1Ext(p_PhoneNumber);
-      getOrderData({ target: { name: 'p_PhoneNumber1Ext', value: p_PhoneNumber } });
-    }}/>
-    {errorList.map((err,index)=>{
-      if(err.context.label ==='p_PhoneNumber1Ext'){
-        return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
-      }
-      
-    })}
-      
-            </div>
-            
+            </div>            
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='p_city' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='p_City' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='p_city'){
+      if(err.context.label ==='p_City'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            <div className='pb-3'>
+                <label htmlFor=""> المنطقة</label>
+                <input type="text" className="form-control" name='p_District' onChange={getOrderData}/>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='p_District'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -230,24 +176,25 @@ export default function AramexShippments() {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> العنوان</label>
-                <input type="text" className="form-control" name='p_line1' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='p_AddressLine1' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='p_line1'){
+      if(err.context.label ==='p_AddressLine1'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> الرمز البريدى</label>
-                <input type="text" className="form-control" name='p_postCode' onChange={getOrderData}/>
+                <label htmlFor=""> عنوان اضافى</label>
+                <input type="text" className="form-control" name='p_AddressLine2' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='p_postCode'){
+      if(err.context.label ==='p_AddressLine2'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
     })}
             </div>
+            
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
@@ -294,7 +241,31 @@ export default function AramexShippments() {
       
     })}               
             </div>
-                </div>                
+                </div>  
+                <div className="col-md-6">
+                <div className='pb-3'>
+                <label htmlFor=""> القيمة </label>
+                <input type="number" className="form-control" name='Value' onChange={getOrderData}/>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='Value'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}               
+            </div>
+                </div> 
+                <div className="">
+                <div className='pb-3'>
+                <label htmlFor=""> الوصف </label>
+                <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='description'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+                </div>               
                 
                 </div>
             </div>
@@ -315,38 +286,18 @@ export default function AramexShippments() {
       
     })}
             </div>
-            <div className='pb-3'>
-                <label htmlFor=""> اسم الشركة</label>
-                <input type="text" className="form-control" name='c_company' onChange={getOrderData}/>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='c_company'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-       
-            </div>
-            <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
-                <input type="text" className="form-control" name='c_email' onChange={getOrderData}/>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='c_email'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
+            
             <div className='pb-3'>
                 <label htmlFor=""> رقم الهاتف</label>
                 {/* <input type="text" className="form-control"/> */}
-                <PhoneInput name='c_phone' 
+                <PhoneInput name='c_ContactPhoneNumber' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
     onChange={(phone2) => {
       setPhone2(phone2);
-      getOrderData({ target: { name: 'c_phone', value: phone2 } });
+      getOrderData({ target: { name: 'c_ContactPhoneNumber', value: phone2 } });
     }}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='c_phone'){
+      if(err.context.label ==='c_ContactPhoneNumber'){
         return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
       }
       
@@ -354,43 +305,38 @@ export default function AramexShippments() {
       
             </div>
             <div className='pb-3'>
-                <label htmlFor="">الهاتف الخلوى</label>
-                <PhoneInput name='c_CellPhone' 
-    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={CcellPhone}
-    onChange={(CcellPhone) => {
-      setCcellPhone(CcellPhone);
-      getOrderData({ target: { name: 'c_CellPhone', value: CcellPhone } });
+                <label htmlFor=""> رقم هاتف اضافى</label>
+                {/* <input type="text" className="form-control"/> */}
+                <PhoneInput name='c_ContactPhoneNumber2' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={cPhoneNumber2}
+    onChange={(cPhoneNumber2) => {
+      setcPhone(cPhoneNumber2);
+      getOrderData({ target: { name: 'c_ContactPhoneNumber2', value: cPhoneNumber2 } });
     }}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='c_CellPhone'){
+      if(err.context.label ==='c_ContactPhoneNumber2'){
         return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
       }
       
     })}
       
             </div>
-            {/* <div className='pb-3'>
-                <label htmlFor="">رقم هاتف اضافى </label>
-                <PhoneInput name='c_PhoneNumber1Ext' 
-    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={c_PhoneNumber}
-    onChange={(c_PhoneNumber) => {
-      setc_PhoneNumber1Ext(c_PhoneNumber);
-      getOrderData({ target: { name: 'c_PhoneNumber1Ext', value: c_PhoneNumber } });
-    }}/>
-    {errorList.map((err,index)=>{
-      if(err.context.label ==='c_PhoneNumber1Ext'){
-        return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
-      }
-      
-    })}
-      
-            </div> */}
             
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='c_city' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_City' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='c_city'){
+      if(err.context.label ==='c_City'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            <div className='pb-3'>
+                <label htmlFor=""> المنطقة</label>
+                <input type="text" className="form-control" name='c_District' onChange={getOrderData}/>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='c_District'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -399,9 +345,9 @@ export default function AramexShippments() {
             
             <div className='pb-3'>
                 <label htmlFor=""> العنوان</label>
-                <input type="text" className="form-control" name='c_line1' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_AddressLine1' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='c_line1'){
+      if(err.context.label ==='c_AddressLine1'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -409,9 +355,9 @@ export default function AramexShippments() {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> عنوان اضافى</label>
-                <input type="text" className="form-control" name='c_line2' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_AddressLine2' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='c_line2'){
+      if(err.context.label ==='c_AddressLine2'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -425,22 +371,7 @@ export default function AramexShippments() {
         </form>
         
         </div>
-        {/* <div className="clients-table p-4 mt-5">
-            <h6 className='text-center'>بيانات المستلم</h6>
-        <table className="table">
-        <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">الأسم</th>
-      <th scope="col">البريد الالكترونى</th>
-      <th scope="col">الهاتف </th>
-      <th scope="col">الموقع</th>
-      <th scope="col">الدفع عند الاستلام</th>
-      <th scope="col">الاجراءات</th>
-    </tr>
-  </thead>
-        </table>
-      </div> */}
-    </div>
-      )
+        
+    </div> 
+     )
 }

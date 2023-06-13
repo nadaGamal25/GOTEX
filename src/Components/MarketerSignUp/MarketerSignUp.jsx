@@ -85,11 +85,10 @@ function submitRegisterForm(e){
     <div className="text-center">
     <img className='m-auto logo' src={logo} alt="logo" />
     </div>
-    <h4>المتجر = الموظف</h4>
     
     {/* {error.length >0 ?<div className='alert alert-danger my-2'>{error}</div>:''} */}
     <form onSubmit={submitRegisterForm} className='my-3' action="">
-      <label htmlFor="name">اسم المتجر :</label>
+      <label htmlFor="name">اسم الموظف :</label>
       <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='name' id='name' />
       {errorList.map((err,index)=>{
       if(err.context.label ==='name'){

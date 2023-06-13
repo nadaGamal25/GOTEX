@@ -162,7 +162,7 @@ export default function Companies() {
                 ) : item.status === true && item.name === "smsa" ? (
                   <div key={index} className="d-flex pt-4 justify-content-between">
                     <h4>SAR 28.75</h4>
-                    <a className="btn btn-choose">أختر</a>
+                    <Link to="/smsaShipment" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null
                 ))}
