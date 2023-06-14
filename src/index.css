@@ -672,3 +672,12 @@ h3{
     flex-direction: column;
   }
 }
+/* not found */
+.notfound{
+  font-size: 40px;
+  background-color: #c1c6c2;
+  color: rgb(197, 6, 6);
+}
+/* .errorboundary{
+  margin:70px;
+} */

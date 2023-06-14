@@ -33,6 +33,8 @@ import EmailTemplate from './Components/EmailTemplate/EmailTemplate';
 import SmsaEdit from './Components/SmsaEdit/SmsaEdit';
 import SmsaShippments from './Components/SmsaShippments/SmsaShippments';
 import VerifyUser from './Components/VerifyUser/VerifyUser';
+import PageNotFound from './Components/PageNotFound/PageNotFound';
+import ErrorBoundary from './Components/ErrorBoundary';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -54,30 +56,31 @@ function App() {
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
-    {path:'verifyUser',element:<VerifyUser/>},
-    {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
-    {path:'companiesAdmin',element:<ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute>},
-    {path:'clientsAdmin',element:<ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute>},
-    {path:'saeeEdit',element:<ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute>},
-    {path:'gltEdit',element:<ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute>},
-    {path:'aramexEdit',element:<ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute>},
-    {path:'smsaEdit',element:<ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute>},
-    {path:'userListAdmin',element:<ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute>},
-    {path:'addDepositAdmin',element:<ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute>},
+    {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
+    // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
+    {path:'companiesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'clientsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'saeeEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'gltEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'aramexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'smsaEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
-      {path:'/companies',element:<ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute>},
+      {path:'/companies',element:<ErrorBoundary><ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/clients',element:<ProtectedRoute userData={userData}><Clients/></ProtectedRoute>},
       // {path:'/addclient',element:<ProtectedRoute userData={userData}><AddClient/></ProtectedRoute>},
-      {path:'/payment',element:<ProtectedRoute userData={userData}><Payment/></ProtectedRoute>},
-      {path:'/shipments',element:<ProtectedRoute userData={userData}><Shipments/></ProtectedRoute>},
-      {path:'/shipmentForms',element:<ProtectedRoute userData={userData}><ShipmentForms userData={userData}/></ProtectedRoute>},
-      {path:'/saeeShipments',element:<ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute>},
-      // {path:'/gltShipment',element:<ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
-      {path:'/aramexShipment',element:<ProtectedRoute userData={userData}><AramexShippments/></ProtectedRoute>},
-      {path:'/smsaShipment',element:<ProtectedRoute userData={userData}><SmsaShippments/></ProtectedRoute>},
-      {path:'/gltOrders',element:<ProtectedRoute userData={userData}><GltOrdersShipment/></ProtectedRoute>}
-    ]}
+      {path:'/payment',element:<ErrorBoundary><ProtectedRoute userData={userData}><Payment/></ProtectedRoute></ErrorBoundary>},
+      {path:'/shipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><Shipments/></ProtectedRoute></ErrorBoundary>},
+      {path:'/shipmentForms',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentForms userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/saeeShipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      // {path:'/gltShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
+      {path:'/aramexShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexShippments/></ProtectedRoute></ErrorBoundary>},
+      {path:'/smsaShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaShippments/></ProtectedRoute></ErrorBoundary>},
+      {path:'/gltOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltOrdersShipment/></ProtectedRoute></ErrorBoundary>}
+    ]},
+    {path:'*', element:<PageNotFound/>}
   ])
   return (
     <>
