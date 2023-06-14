@@ -88,7 +88,7 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               </div>
               <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
+                <h4></h4>
                 <Link to="/saeeEdit" className="btn btn-choose">تعديل</Link>
               </div>
             </div>
@@ -106,7 +106,7 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               </div>
               <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
+                <h4></h4>
                 <Link to='/gltEdit' className="btn btn-choose">تعديل</Link>
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               </div>
               <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
+                <h4></h4>
                 <Link to='/aramexEdit' className="btn btn-choose">تعديل</Link>
               </div>
             </div>
@@ -142,7 +142,7 @@ export default function CompaniesAdmin() {
               <i class="fa-solid fa-star"></i>
               </div>
               <div className="d-flex pt-4 justify-content-between">
-                <h4>SAR 28.75</h4>
+                <h4></h4>
                 <Link to="/smsaEdit" className="btn btn-choose">تعديل</Link>
               </div>
             </div>

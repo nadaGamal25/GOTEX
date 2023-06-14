@@ -35,6 +35,9 @@ body{
 .btn-orange i{
   font-size: 14px;
 }
+.logo{
+  width: 80px;
+}
 /* start login & register */
 .login-container,
 .register-container{
@@ -52,12 +55,21 @@ body{
 input:focus{
   box-shadow: none !important;
 }
-.login-box .btn-login,
-.btn-signup{
+.login-box .btn-login{
   background-color: var(--orange-color) !important;
   color: #fff !important;
   margin-top: 20px;
   box-shadow: 5px 5px 5px #ec9873;
+}
+.btn-signup{
+  background-color: var(--orange-color) !important;
+  color: #fff !important;
+  box-shadow: 5px 5px 5px #ec9873;
+}
+.email-note{
+  color: #888;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 .login-box .btn-login:hover,
 .btn-signup:hover{
@@ -228,6 +240,9 @@ label{
 }
 .side-menu li .logout{
   color: rgb(228, 30, 30);
+}
+.active{
+  color: var(--orange-color);
 }
 /* end side navbar */
 /* start content */
@@ -601,7 +616,7 @@ h3{
   background-color: #11577a !important;
 } */
 
-/* user balance */
+/* user balance  wallet page*/
 .balance-box{
   background-color: #f9f9f9;
   border-radius: 15px;
@@ -611,6 +626,49 @@ h3{
   color: var(--dark--color);
 
 }
-.active{
-  color: #dc4606;
+
+
+/* verify user */
+.verify-container{
+  background-color: var(--bg-color);
+}
+.verify-box{
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 5px 5px 10px #8ca0aa;
+  width: 50%;
+  padding:20px 30px;
+}
+.verify-box p{
+  color: #0c5276;
+  font-weight:600;
+}
+.verify-box .loginlink{
+  color: var(--orange-color);
+  font-weight: 600;
+  margin-bottom: 5px;
+  border: solid 1px var(--orange-color);
+  padding: 6px;
+  border-radius: 5px;
+}
+.verify-box .loginlink:hover{
+  color: #e14806;
+}
+.verify-box .verify-btn{
+  color: #fff !important;
+  background-color:#08354c !important;
+  margin-bottom: 5px;
+}
+.verify-box .verify-btn:hover{
+  color: #fff !important;
+  background-color: #11577a !important;
+}
+@media only screen and (max-width: 768px){
+  .verify-box{
+    width: 90%;
+    padding: 20px 15px;
+  }
+  .verify-box .btns{
+    flex-direction: column;
+  }
 }

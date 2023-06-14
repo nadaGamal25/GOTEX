@@ -28,7 +28,7 @@ export default function RegisterForm() {
     setisLoading(false)
     console.log(response.data)
     window.alert("تم التسجيل بنجاح")
-    navigate('/')
+    navigate('/verifyUser')
 
   }
   else{
@@ -63,7 +63,7 @@ function submitRegisterForm(e){
     let scheme= Joi.object({
         name:Joi.string().required(),
         mobile:Joi.string().required(),
-        email:Joi.string().email({ tlds: { allow: ['com', 'net'] }}).required(),
+        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
         password:Joi.string().pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
         ).required(),
         // password:Joi.string().pattern(/^[a-zA-Z0-9]{8,}$/),
@@ -94,7 +94,7 @@ function submitRegisterForm(e){
     
     {/* {error.length >0 ?<div className='alert alert-danger my-2'>{error}</div>:''} */}
     <form onSubmit={submitRegisterForm} className='my-3' action="">
-      <label htmlFor="name">اسم المتجر :</label>
+      <label htmlFor="name">الاسم :</label>
       <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='name' id='name' />
       {errorList.map((err,index)=>{
       if(err.context.label ==='name'){
@@ -173,6 +173,7 @@ function submitRegisterForm(e){
       }
       
     })}
+      <p className="email-note">* يرجى عدم التسجيل بنفس الايميل أكثر من مرة</p>
       <button className='btn btn-signup'>
         {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'انشاء حساب'}
       </button>

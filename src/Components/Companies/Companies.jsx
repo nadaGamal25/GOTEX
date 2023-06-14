@@ -84,7 +84,8 @@ export default function Companies(userData) {
                   </div>
                 ) : item.status === true && item.name === "saee" ? (
                   <div key={index} className="d-flex pt-4 justify-content-between">
-                   <h4>SAR 28.75</h4>
+                   {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                   userData.userData.data.user.roll === "admin"?(<h4>SAR {item.marketerprice}</h4>):null}
                    <Link to="/saeeShipments" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null
@@ -112,7 +113,8 @@ export default function Companies(userData) {
                   </div>
                 ) : item.status === true && item.name === "glt" ? (
                   <div key={index} className="d-flex pt-4 justify-content-between">
-                    <h4>SAR 28.75</h4>
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                   userData.userData.data.user.roll === "admin"?(<h4>SAR {item.marketerprice}</h4>):null}
                     <Link to="/gltOrders" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null
@@ -140,7 +142,8 @@ export default function Companies(userData) {
                   </div>
                 ) : item.status === true && item.name === "aramex" ? (
                   <div key={index} className="d-flex pt-4 justify-content-between">
-                    <h4>SAR 28.75</h4>
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                   userData.userData.data.user.roll === "admin"?(<h4>SAR {item.marketerprice}</h4>):null}
                     <Link to="/aramexShipment" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null
@@ -167,7 +170,8 @@ export default function Companies(userData) {
                   </div>
                 ) : item.status === true && item.name === "smsa" ? (
                   <div key={index} className="d-flex pt-4 justify-content-between">
-                    <h4>SAR 28.75</h4>
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                   userData.userData.data.user.roll === "admin"?(<h4>SAR {item.marketerprice}</h4>):null}
                     <Link to="/smsaShipment" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null

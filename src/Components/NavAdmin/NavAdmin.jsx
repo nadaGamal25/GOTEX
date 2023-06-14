@@ -22,6 +22,7 @@ export default function NavAdmin() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
   return (
     <>
     {/* <!-- start side navbar --> */}
@@ -39,7 +40,7 @@ export default function NavAdmin() {
                     <span class="text">لوحة تحكم الادمن </span>
                 </a>
             </li>
-        <li>
+            <li>
                 <Link to="/companiesAdmin">
                     <i class="fa-solid fa-truck-fast bx"></i>
                     <span class="text">شركات الشحن</span>

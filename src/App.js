@@ -32,6 +32,7 @@ import MarketerSignUp from './Components/MarketerSignUp/MarketerSignUp';
 import EmailTemplate from './Components/EmailTemplate/EmailTemplate';
 import SmsaEdit from './Components/SmsaEdit/SmsaEdit';
 import SmsaShippments from './Components/SmsaShippments/SmsaShippments';
+import VerifyUser from './Components/VerifyUser/VerifyUser';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -53,6 +54,7 @@ function App() {
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
+    {path:'verifyUser',element:<VerifyUser/>},
     {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
     {path:'companiesAdmin',element:<ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute>},
     {path:'clientsAdmin',element:<ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute>},

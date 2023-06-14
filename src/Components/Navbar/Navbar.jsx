@@ -16,10 +16,8 @@ export default function Navbar() {
       }
     };
 
-    // Add event listener for window resize
     window.addEventListener('resize', handleResize);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -45,6 +43,29 @@ export default function Navbar() {
           console.error(error);
         }
       }
+      useEffect(() => {
+        const handleClick = (e) => {
+          const allSideMenu = document.querySelectorAll('.side-menu.top li a');
+          const li = e.currentTarget.parentElement;
+    
+          allSideMenu.forEach((i) => {
+            i.parentElement.classList.remove('active');
+          });
+          
+          li.classList.add('active');
+        };
+    
+        const allSideMenu = document.querySelectorAll('.side-menu.top li a');
+        allSideMenu.forEach((item) => {
+          item.addEventListener('click', handleClick);
+        });
+    
+        return () => {
+          allSideMenu.forEach((item) => {
+            item.removeEventListener('click', handleClick);
+          });
+        };
+      }, []);
   return (
     <>
     {/* <!-- start side navbar --> */}
@@ -78,8 +99,8 @@ export default function Navbar() {
                     <span class="text">الشحنات</span>
                 </Link>
             </li>
-            <li>
-                <Link to="/companies">
+            <li className='active'>
+                <Link  to="/companies">
                     <i class="fa-solid fa-truck-fast bx"></i>
                     <span class="text">شركات الشحن</span>
                 </Link>
