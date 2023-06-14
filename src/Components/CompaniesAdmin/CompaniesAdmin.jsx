@@ -46,17 +46,30 @@ export default function CompaniesAdmin() {
           </tr>
         </thead>
         <tbody>
-          {companiesDetails.map((item,index) =>{
-            return(
+          {companiesDetails.map((item,index) =>(
+            item !== null ? (
               <tr key={index}>
                 <td>{index+1}</td>
-                <td>{item.name}</td>
-                <td>{item.userprice}</td>
-                <td>{item.marketerprice}</td>
-                <td>{item.kgprice}</td>
+                {item.name?<td>{item.name}</td>:<td>_</td>}
+                {item.userprice?<td>{item.userprice}</td>:<td>_</td>}
+                {item.marketerprice?<td>{item.marketerprice}</td>:<td>_</td>}
+                {item.kgprice?<td>{item.kgprice}</td>:<td>_</td>}
               </tr>
-            )
-          }
+            ): null
+          )
+          
+          // {
+          //   return(
+          //     <tr key={index}>
+          //       <td>{index+1}</td>
+          //       {/* {item.name?<td>{item.name}</td>:<td>_</td>} */}
+          //       {/* {item.name? <td>{item.name}</td> :<td>_</td>} */}
+          //       {/* <td>{item.userprice}</td>
+          //       <td>{item.marketerprice}</td>
+          //       <td>{item.kgprice}</td> */}
+          //     </tr>
+          //   )
+          // }
           )}
         </tbody>
       </table>

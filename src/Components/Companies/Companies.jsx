@@ -11,9 +11,11 @@ import armx from '../../assets/armx.jpg'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-export default function Companies() {
+export default function Companies(userData) {
   useEffect(()=>{
     getCompaniesDetailsOrders()
+    console.log(userData)
+    console.log(userData.userData.data.user.rolle)
   },[])
   const [companiesDetails,setCompaniesDetails]=useState([])
   const num =0;
@@ -75,6 +77,7 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               </div>
               {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
                 item.status === false && item.name === "saee" ? (
                   <div key={index} className="d-flex pt-4 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
@@ -102,6 +105,7 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               </div>
               {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
                 item.status === false && item.name === "glt" ? (
                   <div key={index} className="d-flex pt-4 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
@@ -129,6 +133,7 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               </div>
               {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
                 item.status === false && item.name === "aramex" ? (
                   <div key={index} className="d-flex pt-4 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
@@ -155,6 +160,7 @@ export default function Companies() {
               <i class="fa-solid fa-star"></i>
               </div>
               {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
                 item.status === false && item.name === "smsa" ? (
                   <div key={index} className="d-flex pt-4 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>

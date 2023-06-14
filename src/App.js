@@ -46,6 +46,7 @@ function App() {
     let decodedToken = jwtDecode(encodedToken);
     console.log(decodedToken);
     setuserData(decodedToken)
+    console.log(userData)
   }
 
   let routers =createBrowserRouter([
@@ -63,7 +64,7 @@ function App() {
     {path:'addDepositAdmin',element:<ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
-      {path:'/companies',element:<ProtectedRoute userData={userData}><Companies/></ProtectedRoute>},
+      {path:'/companies',element:<ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute>},
       // {path:'/clients',element:<ProtectedRoute userData={userData}><Clients/></ProtectedRoute>},
       // {path:'/addclient',element:<ProtectedRoute userData={userData}><AddClient/></ProtectedRoute>},
       {path:'/payment',element:<ProtectedRoute userData={userData}><Payment/></ProtectedRoute>},
