@@ -66,12 +66,12 @@ export default function GltOrdersShipment() {
   
       if (response.status === 200) {
         setisLoading(false);
-        window.alert(response.data.msg);
+        window.alert(response.data.data.data.msg);
         console.log(response.data);
         console.log("okkkkkkkkkkk")
       }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data?.msg || "An error occurred.";
+        const errorMessage = response.data.data?.msg || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }
@@ -79,7 +79,7 @@ export default function GltOrdersShipment() {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg || "An error occurred.";
+      const errorMessage = error.response?.data?.data?.msg || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
@@ -167,16 +167,10 @@ export default function GltOrdersShipment() {
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='s_city' onChange={getOrderData}>
-                {/* <option>{cities[0].name}</option> */}
+                <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
-
-                {/* {cities.map((item,index)=>{
-                    return(
-                        <option>{item.name}</option>
-                    )
-                })} */}
                 </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_city'){
@@ -304,6 +298,7 @@ export default function GltOrdersShipment() {
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='c_city' onChange={getOrderData}>
+                  <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}

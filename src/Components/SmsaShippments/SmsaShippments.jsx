@@ -119,6 +119,25 @@ export default function SmsaShippments() {
       });
       return scheme.validate(orderData, {abortEarly:false});
     }
+    useEffect(()=>{
+      getCities()
+  },[])
+    const [cities,setCities]=useState()
+    async function getCities() {
+      console.log(localStorage.getItem('userToken'))
+      try {
+        const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        });
+        setCities(response.data.data.data)
+        console.log(response.data.data.data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
@@ -156,7 +175,12 @@ export default function SmsaShippments() {
             </div>            
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='p_City' onChange={getOrderData}/>
+                <select className="form-control" name='p_City' onChange={getOrderData}>
+                <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+                  </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_City'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -319,7 +343,12 @@ export default function SmsaShippments() {
             
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='c_City' onChange={getOrderData}/>
+                <select className="form-control" name='c_City' onChange={getOrderData}>
+                <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_City'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

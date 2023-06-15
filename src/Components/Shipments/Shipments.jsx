@@ -250,9 +250,9 @@ export default function Shipments() {
           <tr>
             <th scope="col">#</th>
             <th scope="col">اسم الشركة</th>
-            <th scope="col">epayment_url</th>
             <th scope="col">message</th>
             <th scope="col">رقم التتبع</th>
+            <th scope="col">طريقة الدفع</th>
             <th scope="col"></th>
             <th scope="col"></th>
           </tr>
@@ -263,9 +263,9 @@ export default function Shipments() {
               <tr key={index}>
                 <td>{index+1}</td>
                 <td>ساعي</td>
-                <td>{item.data.epayment_url}</td>
                 <td>{item.data.message}</td>
                 <td>{item.data.waybill}</td>
+                <td>{item.paytype}</td>
                 <td>
                 <button
       
@@ -300,6 +300,7 @@ export default function Shipments() {
              <th scope="col">رقم الشحنة</th>
              <th scope="col">message</th>
              <th scope="col">رقم التتبع</th>
+             <th scope="col">طريقة الدفع</th>
              <th scope="col"></th>
              <th scope="col"></th>
            </tr>
@@ -313,6 +314,8 @@ export default function Shipments() {
                 <td>{item.data.orderNumber}</td>
                 <td>{item.data.msg}</td>
                 <td>{item.data.orderTrackingNumber}</td>
+                <td>{item.paytype}</td>
+
                 <td>
                 <button
       
@@ -345,6 +348,7 @@ export default function Shipments() {
             <th scope="col">#</th>
             <th scope="col">اسم الشركة</th>
              <th scope="col">رقم الشحنة</th>
+             <th scope="col">طريقة الدفع</th>
              {/* <th scope="col">message</th> */}
              {/* <th scope="col">Tracking_Number</th> */}
              <th scope="col"></th>
@@ -358,6 +362,7 @@ export default function Shipments() {
                 <td>{index+1}</td>
                 <td>{item.company}</td>
                 <td>{item.ordernumber}</td>
+                <td>{item.paytype}</td>
                 {/* <td>{item.data.msg}</td> */}
                 {/* <td>{item.data.orderTrackingNumber}</td> */}
                 <td>
