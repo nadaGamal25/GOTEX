@@ -34,7 +34,7 @@ export default function GltOrdersShipment() {
     pieces: '',
     description: '',
     clintComment:'',
-    value: '',
+    // value: '',
     weight: '',
     s_address: '',
     s_city: '',
@@ -120,7 +120,7 @@ export default function GltOrdersShipment() {
           c_mobile:Joi.string().required(),
           description:Joi.string().required(),
           clintComment:Joi.string().required(),
-          value:Joi.string().required(),
+          // value:Joi.string().required(),
           cod:Joi.boolean().required(),
 
 
@@ -223,7 +223,7 @@ export default function GltOrdersShipment() {
     })}
             </div>
                 </div>
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> القيمة</label>
                 <input type="text" className="form-control" name='value' onChange={getOrderData}/>
@@ -235,7 +235,7 @@ export default function GltOrdersShipment() {
     })}
             </div>
                 </div>
-                
+                 */}
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> عدد القطع</label>

@@ -239,12 +239,13 @@ export default function AramexShippments() {
             
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <select className="form-control" name='p_city' onChange={getOrderData}>
+                <input type="text" className="form-control" name='p_city' onChange={getOrderData}/>
+                {/* <select className="form-control" name='p_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
-                </select>
+                </select> */}
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -412,12 +413,13 @@ export default function AramexShippments() {
             
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <select className="form-control" name='c_city' onChange={getOrderData}>
+                <input type="text" className="form-control" name='c_city' onChange={getOrderData}/>
+                {/* <select className="form-control" name='c_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
-                </select>
+                </select> */}
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
