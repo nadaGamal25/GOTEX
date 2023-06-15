@@ -32,7 +32,7 @@ export default function SmsaShippments() {
     weight: "",
     description: "",
     Value: "",
-    cod: "",
+    cod: false,
 
   })
   const [error , setError]= useState('')
@@ -219,7 +219,7 @@ export default function SmsaShippments() {
     })}
             </div>
             
-            <div className="pb-3">
+            {/* <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
                     <input  type="radio" value="true" name='cod' onChange={getOrderData}/>
@@ -236,7 +236,7 @@ export default function SmsaShippments() {
       
     })}
             </div>
-           
+            */}
             
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">

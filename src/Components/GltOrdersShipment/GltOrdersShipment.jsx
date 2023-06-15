@@ -45,7 +45,7 @@ export default function GltOrdersShipment() {
     c_areaName: "",
     c_city: '',
     c_mobile: '',
-    cod:''
+    cod: false,
 
   })
   const [error , setError]= useState('')
@@ -112,7 +112,7 @@ export default function GltOrdersShipment() {
           s_mobile:Joi.string().required(),
           s_address:Joi.string().required(),
           weight:Joi.string().required(),
-          pieces:Joi.string().required(),
+          pieces:Joi.number().required(),
           c_name:Joi.string().required(),
           c_city:Joi.string().required(),
           c_address:Joi.string().required(),
@@ -189,14 +189,14 @@ export default function GltOrdersShipment() {
       
     })}
             </div>
-            <div className="pb-3">
+            {/* <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
-                    <input  type="radio" value="true" name='cod' onChange={getOrderData}/>
+                    <input  type="radio" value={9} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
                     </div>
                     <div className='pe-2'>
-                    <input type="radio" value="false"  name='cod' onChange={getOrderData}/>
+                    <input type="radio" value={0}  name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
                     </div>
                     {errorList.map((err,index)=>{
@@ -205,7 +205,7 @@ export default function GltOrdersShipment() {
       }
       
     })}
-            </div>
+            </div> */}
             
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">
@@ -239,7 +239,7 @@ export default function GltOrdersShipment() {
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> عدد القطع</label>
-                <input type="text" className="form-control" name='pieces' onChange={getOrderData}/>
+                <input type="number" className="form-control" name='pieces' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='pieces'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

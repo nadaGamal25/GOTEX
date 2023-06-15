@@ -25,7 +25,7 @@ export default function SaeeShipments() {
     c_city:'',
     c_streetaddress:'',
     c_mobile:'',
-    cod:''
+    cod: false,
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -215,7 +215,7 @@ function submitOrderUserForm(e){
       
     })}
             </div>
-            <div className="pb-3">
+            {/* <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
                     <input  type="radio" value="true" name='cod' onChange={getOrderData}/>
@@ -231,7 +231,7 @@ function submitOrderUserForm(e){
       }
       
     })}
-            </div>
+            </div> */}
            
             
             </div>
