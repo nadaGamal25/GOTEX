@@ -31,7 +31,7 @@ export default function SmsaShippments() {
     pieces: "",
     weight: "",
     description: "",
-    // Value: "",
+    Value: "",
     cod: false,
 
   })
@@ -110,7 +110,7 @@ export default function SmsaShippments() {
           p_District: Joi.string().required(),
           weight: Joi.number().required(),
           pieces: Joi.number().required(),
-          // Value: Joi.number().required(),
+          Value: Joi.number().required(),
           description:Joi.string().required(),
           cod:Joi.boolean().required(),
     
@@ -266,9 +266,9 @@ export default function SmsaShippments() {
     })}               
             </div>
                 </div>  
-                {/* <div className="col-md-6">
+                <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> القيمة </label>
+                <label htmlFor=""> قيمة الشحنة </label>
                 <input type="number" className="form-control" name='Value' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='Value'){
@@ -277,7 +277,7 @@ export default function SmsaShippments() {
       
     })}               
             </div>
-                </div>  */}
+                </div> 
                 <div className="">
                 <div className='pb-3'>
                 <label htmlFor=""> الوصف </label>

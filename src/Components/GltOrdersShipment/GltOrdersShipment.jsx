@@ -111,7 +111,7 @@ export default function GltOrdersShipment() {
           s_city:Joi.string().required(),
           s_mobile:Joi.string().required(),
           s_address:Joi.string().required(),
-          weight:Joi.string().required(),
+          weight:Joi.number().required(),
           pieces:Joi.number().required(),
           c_name:Joi.string().required(),
           c_city:Joi.string().required(),
@@ -214,7 +214,7 @@ export default function GltOrdersShipment() {
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> الوزن</label>
-                <input type="text" className="form-control" name='weight' onChange={getOrderData}/>
+                <input type="number" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

@@ -120,8 +120,8 @@ function submitOrderUserForm(e){
         p_city:Joi.string().required(),
         p_mobile:Joi.string().required(),
         p_streetaddress:Joi.string().required(),
-        weight:Joi.string().required(),
-        quantity:Joi.string().required(),
+        weight:Joi.number().required(),
+        quantity:Joi.number().required(),
         c_name:Joi.string().required(),
         c_city:Joi.string().required(),
         c_streetaddress:Joi.string().required(),
@@ -241,7 +241,7 @@ function submitOrderUserForm(e){
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> الوزن</label>
-                <input type="text" className="form-control" name='weight' onChange={getOrderData}/>
+                <input type="number" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -254,7 +254,7 @@ function submitOrderUserForm(e){
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> عدد القطع</label>
-                <input type="text" className="form-control" name='quantity' onChange={getOrderData}/>
+                <input type="number" className="form-control" name='quantity' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='quantity'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
