@@ -125,7 +125,7 @@ export default function GltOrdersShipment() {
           clintComment:Joi.string().required(),
           // value:Joi.string().required(),
           cod:Joi.boolean().required(),
-          shipmentValue:Joi.number().required(),  
+          shipmentValue:Joi.number().allow(null, ''),  
       });
       return scheme.validate(orderData, {abortEarly:false});
     }
@@ -210,7 +210,7 @@ export default function GltOrdersShipment() {
             {orderData.cod === 'true' && (
   <div className='pb-3'>
     <label htmlFor=""> قيمة الشحنة</label>
-    <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} />
+    <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
     {errorList.map((err, index) => {
       if (err.context.label === 'shipmentValue') {
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
