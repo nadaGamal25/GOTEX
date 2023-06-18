@@ -43,6 +43,9 @@ export default function CompaniesAdmin() {
             <th scope="col">سعر المستخدم</th>
             <th scope="col">سعر المدخلات</th>
             <th scope="col">سعر الزيادة </th>
+            <th scope="col">سعر الcod </th>
+            <th scope="col">أكبر سعر للمسوقين  </th>
+            <th scope="col">أقل سعر للمسوقين  </th>
           </tr>
         </thead>
         <tbody>
@@ -54,6 +57,9 @@ export default function CompaniesAdmin() {
                 {item.userprice?<td>{item.userprice}</td>:<td>_</td>}
                 {item.marketerprice?<td>{item.marketerprice}</td>:<td>_</td>}
                 {item.kgprice?<td>{item.kgprice}</td>:<td>_</td>}
+                {item.codprice?<td>{item.codprice}</td>:<td>_</td>}
+                {item.maxcodmarkteer?<td>{item.maxcodmarkteer}</td>:<td>_</td>}
+                {item.mincodmarkteer?<td>{item.mincodmarkteer}</td>:<td>_</td>}
               </tr>
             ): null
           )

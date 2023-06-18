@@ -11,6 +11,9 @@ export default function GltEdit() {
     userprice :'',
     marketerprice:'',
     kgprice :'',
+    codprice : '',
+    maxcodmarkteer :'',
+    mincodmarkteer :'',
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -66,7 +69,10 @@ function submitGltPricesForm(e){
         status:Joi.boolean().required(),
         userprice:Joi.number().required(),
         marketerprice:Joi.number().required(),
-        kgprice :Joi.number().required()
+        kgprice :Joi.number().required(),
+        codprice :Joi.number().required(),
+        maxcodmarkteer :Joi.number().required(),
+        mincodmarkteer :Joi.number().required(),
 
     });
     return scheme.validate(gltPrices, {abortEarly:false});
@@ -88,6 +94,7 @@ function submitGltPricesForm(e){
       }
       
     })}
+                    
                     <label htmlFor="">سعر المدخلات</label>
                     <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='marketerprice' />
                     {errorList.map((err,index)=>{
@@ -100,6 +107,30 @@ function submitGltPricesForm(e){
                     <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='kgprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='kgprice'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+                    <label htmlFor="">سعر الدفع عند الاستلام</label>
+                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='codprice' />
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='codprice'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+                    <label htmlFor="">اكبر سعر للمسوقين   </label>
+                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='maxcodmarkteer' />
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='maxcodmarkteer'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+                    <label htmlFor="">اقل سعر للمسوقين   </label>
+                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='mincodmarkteer' />
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='mincodmarkteer'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       
