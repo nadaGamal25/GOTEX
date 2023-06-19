@@ -99,14 +99,28 @@ export default function GltOrdersShipment() {
   
   }
   
-    function getOrderData(e){
-      let myOrderData={...orderData};
-      myOrderData[e.target.name]= e.target.value;
-      setOrderData(myOrderData);
-      console.log(myOrderData);
-      console.log(myOrderData.cod);
-      
+  function getOrderData(e) {
+    let myOrderData = { ...orderData };
+  
+    if (e.target.value === "true" || e.target.value === "false") {
+      myOrderData[e.target.name] = e.target.value === "true";
+    } else {
+      myOrderData[e.target.name] = e.target.value;
     }
+  
+    setOrderData(myOrderData);
+    console.log(myOrderData);
+    console.log(myOrderData.cod);
+  }
+  
+    // function getOrderData(e){
+    //   let myOrderData={...orderData};
+    //   myOrderData[e.target.name]= e.target.value;
+    //   setOrderData(myOrderData);
+    //   console.log(myOrderData);
+    //   console.log(myOrderData.cod);
+      
+    // }
   
     function validateOrderUserForm(){
       let scheme= Joi.object({
@@ -124,7 +138,7 @@ export default function GltOrdersShipment() {
           description:Joi.string().required(),
           clintComment:Joi.string().required(),
           // value:Joi.string().required(),
-          cod:Joi.boolean().required(),
+          cod:Joi.boolean(),
           shipmentValue:Joi.number().allow(null, ''),  
       });
       return scheme.validate(orderData, {abortEarly:false});
@@ -193,11 +207,11 @@ export default function GltOrdersShipment() {
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
-                    <input  type="radio" value='true' name='cod' onChange={getOrderData}/>
+                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
                     </div>
                     <div className='pe-2'>
-                    <input type="radio" value='false'  name='cod' onChange={getOrderData}/>
+                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
                     </div>
                     {errorList.map((err,index)=>{
@@ -207,7 +221,7 @@ export default function GltOrdersShipment() {
       
     })}
             </div>
-            {orderData.cod === 'true' && (
+            {orderData.cod === true && (
   <div className='pb-3'>
     <label htmlFor=""> قيمة الشحنة</label>
     <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
@@ -219,7 +233,7 @@ export default function GltOrdersShipment() {
   </div>
 )}
 
-{orderData.cod === 'false' && (
+{orderData.cod === false && (
   <div></div>
 )}
 
