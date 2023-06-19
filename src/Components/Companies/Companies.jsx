@@ -86,6 +86,7 @@ export default function Companies(userData) {
                 ) : item.status === true && item.name === "saee" ? (
                   <div key={index} className="d-flex pt-4 justify-content-between">
                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                   userData.userData.data.user.rolle === "marketer"?(<h4></h4>):
                    <h4></h4>}
                    <Link to="/saeeShipments" className="btn btn-choose">أختر</Link>
                   </div>

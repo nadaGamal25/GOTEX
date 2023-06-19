@@ -5,9 +5,21 @@ import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
 
-export default function GltOrdersShipment() {
+export default function GltOrdersShipment(userData) {
+  const [companiesDetails,setCompaniesDetails]=useState([])
+  async function getCompaniesDetailsOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const companiesPrices = response.data.data;
+      console.log(companiesPrices)
+      setCompaniesDetails(companiesPrices)
+    } catch (error) {
+      console.error(error);
+    }
+  }
     useEffect(()=>{
         getCities()
+        getCompaniesDetailsOrders()
     },[])
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
@@ -72,7 +84,7 @@ export default function GltOrdersShipment() {
         console.log("okkkkkkkkkkk")
       }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data.data?.msg || "An error occurred.";
+        const errorMessage = response.data.msg || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }
@@ -80,7 +92,7 @@ export default function GltOrdersShipment() {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.data?.msg || "An error occurred.";
+      const errorMessage = error.response.data.msg || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
@@ -139,7 +151,7 @@ export default function GltOrdersShipment() {
           description:Joi.string().required(),
           clintComment:Joi.string().required(),
           // value:Joi.string().required(),
-          cod:Joi.boolean().required(),
+          cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),  
       });
       return scheme.validate(orderData, {abortEarly:false});
@@ -147,6 +159,15 @@ export default function GltOrdersShipment() {
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
+          { userData.userData.data.user.rolle === "marketer"?(
+            <div className="prices-box text-center">
+            {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
+                item.name === "glt" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer}</span> الى <span>{item.maxcodmarkteer}</span></p>):
+                null))}
+          </div>
+          ): null}
+          
         <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
             <div className="col-md-6">
@@ -205,40 +226,10 @@ export default function GltOrdersShipment() {
       
     })}
             </div>
-            <div className="pb-3">
-            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
-                    <div className='pe-2'>
-                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
-                    <div className='pe-2'>
-                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
-                    </div>
-                    {errorList.map((err,index)=>{
-      if(err.context.label ==='cod'){
-        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
-      }
-      
-    })}
-            </div>
-            {orderData.cod === true && (
-  <div className='pb-3'>
-    <label htmlFor=""> قيمة الشحنة</label>
-    <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
-    {errorList.map((err, index) => {
-      if (err.context.label === 'shipmentValue') {
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
-      }
-    })}
-  </div>
-)}
+            
+            
 
-{orderData.cod === false && (
-  <div></div>
-)}
-
-            {/* <div className='pb-3'>
+           {/* <div className='pb-3'>
                 <label htmlFor=""> قيمة الشحنة</label>
                 <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
@@ -248,6 +239,7 @@ export default function GltOrdersShipment() {
       
     })}
             </div> */}
+    
             
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">
@@ -291,6 +283,67 @@ export default function GltOrdersShipment() {
             </div>
                 </div>
                 <div className="">
+                {userData.userData.data.user.rolle === "user"?(
+              <>
+              <div className="pb-3">
+              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                      <div className='pe-2'>
+                      <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                      </div>
+                      <div className='pe-2'>
+                      <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                      </div>
+                      {errorList.map((err,index)=>{
+        if(err.context.label ==='cod'){
+          return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+        }
+        
+      })}
+              </div>
+              {orderData.cod === true && (
+    <div className='pb-3'>
+      <label htmlFor=""> قيمة الشحنة</label>
+      <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      {errorList.map((err, index) => {
+        if (err.context.label === 'shipmentValue') {
+          return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
+        }
+      })}
+    </div>
+              )}
+              {orderData.cod === false && (
+                <div></div>
+              )}
+               
+              </>
+   
+            ):userData.userData.data.user.rolle === "marketer"?(
+                    <>
+                    <div className='pb-3'>
+                <label htmlFor=""> قيمة الشحن (cod)</label>
+                <input type="number" className="form-control" name='cod' onChange={getOrderData}/>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='cod'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            <div className='pb-3'>
+                <label htmlFor=""> قيمة الشحنة</label>
+                <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData}/>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='shipmentValue'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+                    </>
+                   ):
+                   <h4></h4>}
                 <div className='pb-3'>
                 <label htmlFor=""> الوصف </label>
                 <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>

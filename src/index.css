@@ -681,3 +681,19 @@ h3{
 /* .errorboundary{
   margin:70px;
 } */
+
+.prices-box{
+  border: 2px solid #08354c;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 15px 5px 30px 5px !important;
+}
+.prices-box p{
+  margin: 0;
+  color: #08354c;
+  font-size: 18px;
+}
+.prices-box span{
+  color: var(--orange-color);
+  font-weight: 800;
+}
