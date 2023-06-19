@@ -5,7 +5,7 @@ import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
 
-export default function SmsaShippments() {
+export default function SmsaShippments(userData) {
   const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
@@ -70,16 +70,16 @@ export default function SmsaShippments() {
         console.log("okkkkkkkkkkk")
       }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data?.msg || "An error occurred.";
-        window.alert(`يوجد خطأ ما ..لم يتم تسجيل الشحنة`);
+        const errorMessage = response.data.msg || "An error occurred.";
+        window.alert(errorMessage);
         console.log(response.data);
       }
     } catch (error) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg || "An error occurred.";
-      window.alert(`يوجد خطأ ما ..لم يتم تسجيل الشحنة`);
+      const errorMessage = error.response.data.msg || "An error occurred.";
+      window.alert(errorMessage);
     }
   }
   function submitOrderUserForm(e){
@@ -96,13 +96,28 @@ export default function SmsaShippments() {
     }
   
   }
-  
-    function getOrderData(e){
-      let myOrderData={...orderData};
-      myOrderData[e.target.name]= e.target.value;
-      setOrderData(myOrderData);
-      console.log(myOrderData);
+
+  function getOrderData(e) {
+    let myOrderData = { ...orderData };
+    if (e.target.type === "number") { // Check if the value is a number
+      myOrderData[e.target.name] = Number(e.target.value);
+    } else if (e.target.value === "true" || e.target.value === "false") {
+      myOrderData[e.target.name] = e.target.value === "true";
+    } else {
+      myOrderData[e.target.name] = e.target.value;
     }
+  
+    setOrderData(myOrderData);
+    console.log(myOrderData);
+    console.log(myOrderData.cod);
+  }
+  
+    // function getOrderData(e){
+    //   let myOrderData={...orderData};
+    //   myOrderData[e.target.name]= e.target.value;
+    //   setOrderData(myOrderData);
+    //   console.log(myOrderData);
+    // }
   
     function validateOrderUserForm(){
       let scheme= Joi.object({
@@ -123,7 +138,8 @@ export default function SmsaShippments() {
           pieces: Joi.number().required(),
           Value: Joi.number().required(),
           description:Joi.string().required(),
-          cod:Joi.boolean().required(),
+          cod:Joi.required(),
+          shipmentValue:Joi.number().allow(null, ''),
     
 
   
@@ -153,6 +169,14 @@ export default function SmsaShippments() {
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
+        { userData.userData.data.user.rolle === "marketer"?(
+            <div className="prices-box text-center">
+            {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
+                item.name === "smsa" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
+                null))}
+          </div>
+          ): null}
         <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
             <div className="col-md-6">
@@ -290,6 +314,93 @@ export default function SmsaShippments() {
     })}               
             </div>
                 </div> 
+                {userData.userData.data.user.rolle === "user"?(
+              <>
+              <div className="pb-3">
+              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                      <div className='pe-2'>
+                      <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                      </div>
+                      <div className='pe-2'>
+                      <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                      </div>
+                      {errorList.map((err,index)=>{
+        if(err.context.label ==='cod'){
+          return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+        }
+        
+      })}
+              </div>
+              {orderData.cod === true && (
+    <div className='pb-3'>
+      <label htmlFor=""> قيمة الشحنة</label>
+      <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      {errorList.map((err, index) => {
+        if (err.context.label === 'shipmentValue') {
+          return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
+        }
+      })}
+    </div>
+              )}
+              {orderData.cod === false && (
+                <div></div>
+              )}
+               
+              </>
+   
+            ):userData.userData.data.user.rolle === "marketer"?(
+              <>
+              <div className="pb-3">
+              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                      <div className='pe-2'>
+                      <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                      </div>
+                      <div className='pe-2'>
+                      <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                      </div>
+                      {errorList.map((err,index)=>{
+        if(err.context.label ==='cod'){
+          return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+        }
+        
+      })}
+              </div>
+              {orderData.cod !== false && (
+                <>
+                <div className='pb-3'>
+                <label htmlFor=""> قيمة الشحن (cod)</label>
+                <input type="number" className="form-control" name='cod' onChange={getOrderData} required/>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='cod'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+    <div className='pb-3'>
+      <label htmlFor=""> قيمة الشحنة</label>
+      <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      {errorList.map((err, index) => {
+        if (err.context.label === 'shipmentValue') {
+          return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
+        }
+      })}
+    </div>
+    </>
+              )}
+              {/* {orderData.cod === false && (
+                <div></div>
+              )} */}
+               
+              </>
+   
+                   
+                   ):
+                   <h4></h4>}
                 <div className="">
                 <div className='pb-3'>
                 <label htmlFor=""> الوصف </label>
