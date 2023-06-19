@@ -101,8 +101,9 @@ export default function GltOrdersShipment() {
   
   function getOrderData(e) {
     let myOrderData = { ...orderData };
-  
-    if (e.target.value === "true" || e.target.value === "false") {
+    if (e.target.type === "number") { // Check if the value is a number
+      myOrderData[e.target.name] = Number(e.target.value);
+    } else if (e.target.value === "true" || e.target.value === "false") {
       myOrderData[e.target.name] = e.target.value === "true";
     } else {
       myOrderData[e.target.name] = e.target.value;
@@ -138,7 +139,7 @@ export default function GltOrdersShipment() {
           description:Joi.string().required(),
           clintComment:Joi.string().required(),
           // value:Joi.string().required(),
-          cod:Joi.boolean(),
+          cod:Joi.boolean().required(),
           shipmentValue:Joi.number().allow(null, ''),  
       });
       return scheme.validate(orderData, {abortEarly:false});
