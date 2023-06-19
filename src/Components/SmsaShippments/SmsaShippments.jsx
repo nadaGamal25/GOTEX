@@ -6,6 +6,17 @@ import axios from 'axios';
 import Joi from 'joi';
 
 export default function SmsaShippments() {
+  const [companiesDetails,setCompaniesDetails]=useState([])
+  async function getCompaniesDetailsOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const companiesPrices = response.data.data;
+      console.log(companiesPrices)
+      setCompaniesDetails(companiesPrices)
+    } catch (error) {
+      console.error(error);
+    }
+  }
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
     const [cPhoneNumber2,setcPhone] =useState()
@@ -121,6 +132,7 @@ export default function SmsaShippments() {
     }
     useEffect(()=>{
       getCities()
+      getCompaniesDetailsOrders()
   },[])
     const [cities,setCities]=useState()
     async function getCities() {
