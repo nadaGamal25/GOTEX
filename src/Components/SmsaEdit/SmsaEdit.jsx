@@ -11,7 +11,7 @@ export default function SmsaEdit() {
     userprice :'',
     marketerprice:'',
     kgprice :'',
-    codprice : '',
+    userCodPrice : '',
     maxcodmarkteer :'',
     mincodmarkteer :'',
   })
@@ -70,7 +70,7 @@ function submitPricesForm(e){
         userprice:Joi.number().required(),
         marketerprice:Joi.number().required(),
         kgprice :Joi.number().required(),
-        codprice :Joi.number().required(),
+        userCodPrice :Joi.number().required(),
         maxcodmarkteer :Joi.number().required(),
         mincodmarkteer :Joi.number().required(),
 
@@ -111,9 +111,9 @@ function submitPricesForm(e){
       
     })}
                     <label htmlFor="">سعر الدفع عند الاستلام</label>
-                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='codprice' />
+                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='userCodPrice' />
                     {errorList.map((err,index)=>{
-      if(err.context.label ==='codprice'){
+      if(err.context.label ==='userCodPrice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       
