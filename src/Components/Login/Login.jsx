@@ -83,7 +83,7 @@ async function sendLoginDataToApi(){
 
   function validateLoginForm(){
     let scheme= Joi.object({
-      email:Joi.string().email({ tlds: { allow: ['com', 'net'] }}).required(),
+      email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
       password:Joi.string().required()
 
     });

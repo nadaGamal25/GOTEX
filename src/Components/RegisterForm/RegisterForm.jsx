@@ -20,7 +20,8 @@ export default function RegisterForm() {
     password: "",
     passwordconfirm:"",
     address: "",
-    location: ""
+    location: "",
+    cr:"",
   })
   async function sendRegisterDataToApi(){
   let response= await axios.post(`https://dashboard.go-tex.net/api/user/signup`,theUser);
@@ -52,12 +53,24 @@ function submitRegisterForm(e){
     }
   
   }
-  function getUserData(e){
-    let myUser={...theUser};
-    myUser[e.target.name]= e.target.value;
+  function getUserData(e) {
+    let myUser = { ...theUser };
+  
+    if (e.target.type === 'file') {
+      myUser[e.target.name] = e.target.files[0];
+    } else {
+      myUser[e.target.name] = e.target.value;
+    }
+  
     setUser(myUser);
     console.log(myUser);
   }
+  // function getUserData(e){
+  //   let myUser={...theUser};
+  //   myUser[e.target.name]= e.target.value;
+  //   setUser(myUser);
+  //   console.log(myUser);
+  // }
 
   function validateRegisterForm(){
     let scheme= Joi.object({
@@ -74,6 +87,7 @@ function submitRegisterForm(e){
         }),
         address:Joi.string().required(),
         location:Joi.string().required(),
+        cr:Joi.allow(null, ''),
     });
 
     return scheme.validate(theUser, {abortEarly:false});
@@ -173,6 +187,9 @@ function submitRegisterForm(e){
       }
       
     })}
+      <label htmlFor="cr">توثيق النشاط التجارى :</label><br/>
+      <input onChange={getUserData} type="file" className=' my-2' name='cr' id='cr' />
+      
       <p className="email-note">* يرجى عدم التسجيل بنفس الايميل أكثر من مرة</p>
       <button className='btn btn-signup'>
         {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'انشاء حساب'}

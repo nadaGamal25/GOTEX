@@ -35,6 +35,8 @@ import SmsaShippments from './Components/SmsaShippments/SmsaShippments';
 import VerifyUser from './Components/VerifyUser/VerifyUser';
 import PageNotFound from './Components/PageNotFound/PageNotFound';
 import ErrorBoundary from './Components/ErrorBoundary';
+import AnwanEdit from './Components/AnwanEdit/AnwanEdit';
+import AnwanShippments from './Components/AnwanShippments/AnwanShippments';
 function App() {
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
@@ -64,6 +66,7 @@ function App() {
     {path:'gltEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'aramexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'smsaEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'anwanEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
@@ -78,6 +81,7 @@ function App() {
       // {path:'/gltShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
       {path:'/aramexShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/smsaShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/anwanShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/gltOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltOrdersShipment userData={userData}/></ProtectedRoute></ErrorBoundary>}
     ]},
     {path:'*', element:<PageNotFound/>}

@@ -8,6 +8,7 @@ import sae from '../../assets/sae.jpg'
 import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
+import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
@@ -176,6 +177,34 @@ export default function Companies(userData) {
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
                     <Link to="/smsaShipment" className="btn btn-choose">أختر</Link>
+                  </div>
+                ) : null
+                ))}
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img src={logo} className='bg-white' alt="company" />
+              </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              {companiesDetails.map((item, index) => (
+                item === null?(<div className=" pt-4"></div>):
+                item.status === false && item.name === "anwan" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "anwan" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                    <h4></h4>}
+                    <Link to="/anwanShipment" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null
                 ))}
