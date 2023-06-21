@@ -5,7 +5,7 @@ import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
 
-export default function AramexShippments() {
+export default function AramexShippments(userData) {
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
     const [pcellPhone,setPcellPhone] =useState()
@@ -36,6 +36,7 @@ export default function AramexShippments() {
     p_postCode: "",
     weight: "",
     cod: false,
+    shipmentValue:'',
 
   })
   const [error , setError]= useState('')
@@ -73,8 +74,8 @@ export default function AramexShippments() {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg || "An error occurred.";
-      window.alert(`يوجد خطأ ما ..لم يتم تسجيل الشحنة`);
+      const errorMessage = error.response?.data?.data.Shipments[0].Notifications[0]?.Message || "An error occurred.";
+      window.alert(errorMessage);
     }
   }
   function submitOrderUserForm(e){
@@ -91,13 +92,28 @@ export default function AramexShippments() {
     }
   
   }
-  
-    function getOrderData(e){
-      let myOrderData={...orderData};
-      myOrderData[e.target.name]= e.target.value;
-      setOrderData(myOrderData);
-      console.log(myOrderData);
+
+  function getOrderData(e) {
+    let myOrderData = { ...orderData };
+    if (e.target.type === "number") { // Check if the value is a number
+      myOrderData[e.target.name] = Number(e.target.value);
+    } else if (e.target.value === "true" || e.target.value === "false") {
+      myOrderData[e.target.name] = e.target.value === "true";
+    } else {
+      myOrderData[e.target.name] = e.target.value;
     }
+  
+    setOrderData(myOrderData);
+    console.log(myOrderData);
+    console.log(myOrderData.cod);
+  }
+  
+    // function getOrderData(e){
+    //   let myOrderData={...orderData};
+    //   myOrderData[e.target.name]= e.target.value;
+    //   setOrderData(myOrderData);
+    //   console.log(myOrderData);
+    // }
   
     function validateOrderUserForm(){
       let scheme= Joi.object({
@@ -121,8 +137,8 @@ export default function AramexShippments() {
           p_CellPhone: Joi.string().required(),
           p_postCode: Joi.string().required(),
           weight: Joi.number().required(),
-          cod:Joi.boolean().required(),
-    
+          cod:Joi.required(),
+          shipmentValue:Joi.number().allow(null, ''),      
 
   
       });
@@ -130,26 +146,46 @@ export default function AramexShippments() {
     }
     useEffect(()=>{
       getCities()
+      getCompaniesDetailsOrders()
   },[])
     const [cities,setCities]=useState()
     async function getCities() {
       console.log(localStorage.getItem('userToken'))
       try {
-        const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
+        const response = await axios.get('https://dashboard.go-tex.net/api/aramex/cities',
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
           },
         });
-        setCities(response.data.data.data)
-        console.log(response.data.data.data)
+        setCities(response.data.data.Cities)
+        console.log(response.data.data.Cities)
       } catch (error) {
         console.error(error);
       }
     }
+    const [companiesDetails,setCompaniesDetails]=useState([])
+  async function getCompaniesDetailsOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const companiesPrices = response.data.data;
+      console.log(companiesPrices)
+      setCompaniesDetails(companiesPrices)
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
+        { userData.userData.data.user.rolle === "marketer"?(
+            <div className="prices-box text-center">
+            {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
+                item.name === "glt" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
+                null))}
+          </div>
+          ): null}
         <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
             <div className="col-md-6">
@@ -239,13 +275,13 @@ export default function AramexShippments() {
             
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='p_city' onChange={getOrderData}/>
-                {/* <select className="form-control" name='p_city' onChange={getOrderData}>
+                {/* <input type="text" className="form-control" name='p_city' onChange={getOrderData}/> */}
+                <select className="form-control" name='p_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
-                  <option key={index}>{item.name}</option>
+                  <option key={index}>{item}</option>
                   ))}
-                </select> */}
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -319,7 +355,94 @@ export default function AramexShippments() {
       
     })}               
             </div>
-                </div>                
+                </div>
+                {userData.userData.data.user.rolle === "user"?(
+              <>
+              <div className="pb-3">
+              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                      <div className='pe-2'>
+                      <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                      </div>
+                      <div className='pe-2'>
+                      <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                      </div>
+                      {errorList.map((err,index)=>{
+        if(err.context.label ==='cod'){
+          return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+        }
+        
+      })}
+              </div>
+              {orderData.cod === true && (
+    <div className='pb-3'>
+      <label htmlFor=""> قيمة الشحنة</label>
+      <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      {errorList.map((err, index) => {
+        if (err.context.label === 'shipmentValue') {
+          return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
+        }
+      })}
+    </div>
+              )}
+              {orderData.cod === false && (
+                <div></div>
+              )}
+               
+              </>
+   
+            ):userData.userData.data.user.rolle === "marketer"?(
+              <>
+              <div className="pb-3">
+              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                      <div className='pe-2'>
+                      <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                      </div>
+                      <div className='pe-2'>
+                      <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                      <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                      </div>
+                      {errorList.map((err,index)=>{
+        if(err.context.label ==='cod'){
+          return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+        }
+        
+      })}
+              </div>
+              {orderData.cod !== false && (
+                <>
+                <div className='pb-3'>
+                <label htmlFor=""> قيمة الشحن (cod)</label>
+                <input type="number" className="form-control" name='cod' onChange={getOrderData} required/>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='cod'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+    <div className='pb-3'>
+      <label htmlFor=""> قيمة الشحنة</label>
+      <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      {errorList.map((err, index) => {
+        if (err.context.label === 'shipmentValue') {
+          return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
+        }
+      })}
+    </div>
+    </>
+              )}
+              {/* {orderData.cod === false && (
+                <div></div>
+              )} */}
+               
+              </>
+   
+                   
+                   ):
+                   <h4></h4>}
                 
                 </div>
             </div>
@@ -413,13 +536,13 @@ export default function AramexShippments() {
             
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='c_city' onChange={getOrderData}/>
-                {/* <select className="form-control" name='c_city' onChange={getOrderData}>
+                {/* <input type="text" className="form-control" name='c_city' onChange={getOrderData}/> */}
+                <select className="form-control" name='c_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
-                  <option key={index}>{item.name}</option>
+                  <option key={index}>{item}</option>
                   ))}
-                </select> */}
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

@@ -44,6 +44,7 @@ export default function SmsaShippments(userData) {
     description: "",
     Value: "",
     cod: false,
+    shipmentValue:'',
 
   })
   const [error , setError]= useState('')
