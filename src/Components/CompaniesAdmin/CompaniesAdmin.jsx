@@ -54,7 +54,7 @@ export default function CompaniesAdmin() {
             item !== null ? (
               <tr key={index}>
                 <td>{index+1}</td>
-                {item.name?<td>{item.name}</td>:<td>_</td>}
+                {item.name ==="anwan"?<td>gotex</td>:<td>{item.name}</td>}
                 {item.userprice?<td>{item.userprice}</td>:<td>_</td>}
                 {item.marketerprice?<td>{item.marketerprice}</td>:<td>_</td>}
                 {item.kgprice?<td>{item.kgprice}</td>:<td>_</td>}
