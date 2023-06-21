@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Joi from 'joi';
 import logo from '../../assets/logo.png';
@@ -7,6 +7,9 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 export default function RegisterForm() {
+  // const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const [visible , setVisible] =useState(false);  
   let navigate= useNavigate(); //hoke
   const [errorList, seterrorList]= useState([]); 
@@ -23,20 +26,68 @@ export default function RegisterForm() {
     location: "",
     cr:"",
   })
-  async function sendRegisterDataToApi(){
-  let response= await axios.post(`https://dashboard.go-tex.net/api/user/signup`,theUser);
-  if(response.data.msg == 'ok'){
-    setisLoading(false)
-    console.log(response.data)
-    window.alert("تم التسجيل بنجاح")
-    navigate('/verifyUser')
+  async function sendRegisterDataToApi() {
+    const formData = new FormData();
+    formData.append('name', theUser.name);
+    formData.append('mobile', theUser.mobile);
+    formData.append('email', theUser.email);
+    formData.append('password', theUser.password);
+    formData.append('passwordconfirm', theUser.passwordconfirm);
+    formData.append('address', theUser.address);
+    formData.append('location', theUser.location);
+    
+    // Check if a file is selected
+    // if (selectedFile) {
+    //   formData.append('cr', selectedFile);
+    // }
+    if (selectedFile) {
+      formData.append('cr', selectedFile, selectedFile.name);
+    }
+  
+    try {
+      const response = await axios.post('https://dashboard.go-tex.net/api/user/signup', formData
+      // , {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // }
+      );
+  
+      if (response.data.msg === 'ok') {
+        setisLoading(false);
+        console.log(response.data);
+        window.alert('تم التسجيل بنجاح');
+        navigate('/verifyUser');
+      } else {
+        setisLoading(true);
+        setError(response.data.msg);
+      }
+    } catch (error) {
+      setisLoading(true);
+      setError('An error occurred while registering');
+    }
+  }
 
+  function handleFileChange(event) {
+    console.log(event.target.files)
+    setSelectedFile(event.target.files[0]);
   }
-  else{
-    setisLoading(true)
-    setError(response.data.msg)
-  }
-}
+  
+  
+//   async function sendRegisterDataToApi(){
+//   let response= await axios.post(`https://dashboard.go-tex.net/api/user/signup`,theUser);
+//   if(response.data.msg == 'ok'){
+//     setisLoading(false)
+//     console.log(response.data)
+//     window.alert("تم التسجيل بنجاح")
+//     navigate('/verifyUser')
+
+//   }
+//   else{
+//     setisLoading(true)
+//     setError(response.data.msg)
+//   }
+// }
 function submitRegisterForm(e){
     e.preventDefault();
     setisLoading(true)
@@ -53,24 +104,13 @@ function submitRegisterForm(e){
     }
   
   }
-  function getUserData(e) {
-    let myUser = { ...theUser };
   
-    if (e.target.type === 'file') {
-      myUser[e.target.name] = e.target.files[0];
-    } else {
-      myUser[e.target.name] = e.target.value;
-    }
-  
+  function getUserData(e){
+    let myUser={...theUser};
+    myUser[e.target.name]= e.target.value;
     setUser(myUser);
     console.log(myUser);
   }
-  // function getUserData(e){
-  //   let myUser={...theUser};
-  //   myUser[e.target.name]= e.target.value;
-  //   setUser(myUser);
-  //   console.log(myUser);
-  // }
 
   function validateRegisterForm(){
     let scheme= Joi.object({
@@ -127,7 +167,6 @@ function submitRegisterForm(e){
     {/* <div id='alerto'></div> */}
     {/* {alertMsg === "exist" && <p id="alerto" className="alert alert-danger my-2">هذا البريد الالكترونى موجود بالفعل</p>} */}
 
-    {/* {messages?<div className="alert alert-danger my-2">الايميل يجب ان يكون   </div>: ''} */}
       <label htmlFor="password">كلمة المرور :</label>
       <div className='pass-box'>
       <input onChange={getUserData} type={visible? "text" :"password"} className='my-input my-2 form-control' name='password' id='password' />
@@ -146,7 +185,6 @@ function submitRegisterForm(e){
       <input onChange={getUserData} type={visible? "text" :"password"} className='my-input my-2 form-control' name='passwordconfirm' id='passwordconfirm' />
       <span onClick={()=> setVisible(!visible)} className="seenpass">
       </span>
-      {/* {error.length >0 ?<div className='alert alert-danger my-2'>{error}</div>:''} */}
       {errorList.map((err,index)=>{
       if(err.context.label ==='passwordconfirm'){
         return <div key={index} className="alert alert-danger my-2">كلمة السر غير متطابقة</div>
@@ -188,7 +226,18 @@ function submitRegisterForm(e){
       
     })}
       <label htmlFor="cr">توثيق النشاط التجارى :</label><br/>
-      <input onChange={getUserData} type="file" className=' my-2' name='cr' id='cr' />
+      {/* <input onChange={getUserData} type="file" className=' my-2' name='cr' id='cr' /> */}
+      <input
+        type="file"
+        className="my-2"
+        name="cr"
+        id="cr"
+        onChange={(e) => {
+          handleFileChange(e);
+          getUserData(e);
+        }}
+    
+      />
       
       <p className="email-note">* يرجى عدم التسجيل بنفس الايميل أكثر من مرة</p>
       <button className='btn btn-signup'>

@@ -10,6 +10,10 @@ export default function UsersListAdmin() {
       const [showModal, setShowModal] = useState(false);
       const [depositAmount, setDepositAmount] = useState('');
       const [selectedUserId, setSelectedUserId] = useState(null);
+      const [showModal2, setShowModal2] = useState(false);
+      const [emailCR, setEmailCR] = useState('');
+      const [emailCR2, setEmailCR2] = useState('');
+
     
       async function getUsersListsAdmin() {
         try {
@@ -52,6 +56,45 @@ export default function UsersListAdmin() {
           console.error(error);
         }
       }
+      async function proofCR() {
+        try {
+          const response = await axios.post(
+            'https://dashboard.go-tex.net/api/admin/proof-user-cr',
+            {
+              email: emailCR,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            }
+
+          );
+          // Handle the response as per your requirement
+          console.log(response.data);
+          if (response.data.msg === 'ok') {
+            closeModal2();
+            getUsersListsAdmin();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      const openModal2 = (email2) => {
+        setShowModal2(true);
+        setEmailCR2(email2)
+      };
+    
+      const closeModal2 = () => {
+        setShowModal2(false);
+        setEmailCR('');
+      };
+    
+      const handleCRChange = (event) => {
+        setEmailCR(event.target.value);
+      };
+      ///
 
       const openModal = (userId) => {
         setSelectedUserId(userId);
@@ -94,6 +137,8 @@ export default function UsersListAdmin() {
             <th scope="col">الهاتف </th>
             <th scope="col">الإيميل </th>
             <th scope="col">العنوان </th>
+            <th scope="col">cr </th>
+            <th></th>
             <th></th>
             
           </tr>
@@ -112,6 +157,12 @@ export default function UsersListAdmin() {
                 {item.mobile?<td>{item.mobile}</td>:<td>_</td>}
                 {item.email?<td>{item.email}</td>:<td>_</td>}
                 {item.address?<td>{item.address}</td>:<td>_</td>}
+                {item.cr && item.cr[0] ? (
+        <td><a className='text-danger' href={item.cr[0].replace('public', 'https://dashboard.go-tex.net/api')} target='_blank'>ملف التوثيق</a>
+          </td>
+      ) : (
+        <td>_</td>
+      )}                {/* {item.cr?<td>{item.cr[0]}</td>:<td>_</td>} */}
                 <td>
                 <button
                         className='sdd-deposite btn btn-success mt-2'
@@ -119,6 +170,14 @@ export default function UsersListAdmin() {
                       >
                         إضافة رصيد
                       </button>
+              </td>
+              <td>
+                {item.iscrproofed === false?<button
+                        className='btn btn-orange mt-2'
+                        onClick={() =>  openModal2(item.email)}>
+                        توثيق النشاط  
+                      </button>: null}
+                
               </td>
                 
               </tr>
@@ -168,6 +227,55 @@ export default function UsersListAdmin() {
                   type='button'
                   className='btn btn-secondary'
                   onClick={closeModal}
+                >
+                  إلغاء
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showModal2 && (
+        <div className='modal' style={{ display: 'block' }}>
+          <div className='modal-dialog'>
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <h5 className='modal-title'>توثيق النشاط التجارى </h5>
+                <button
+                  type='button'
+                  className='close'
+                  onClick={closeModal2}
+                >
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div className='modal-body'>
+                <div className='form-group'>
+                  <label htmlFor='email'>هل تريد بالفعل توثيق النشاط التجارى لهذا الايميل :</label>
+                  <p className='text-danger'>{emailCR2}</p>
+                  <label>للتوثيق يرجى ادخاله هنا</label>
+                  <input
+                    type='email'
+                    className='form-control'
+                    id='emailcr'
+                    value={emailCR}
+                    onChange={handleCRChange}
+                   
+                  />
+                </div>
+              </div>
+              <div className='modal-footer'>
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  onClick={proofCR}
+                >
+                  توثيق
+                </button>
+                <button
+                  type='button'
+                  className='btn btn-secondary'
+                  onClick={closeModal2}
                 >
                   إلغاء
                 </button>

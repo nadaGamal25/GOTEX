@@ -84,7 +84,7 @@ function submitPricesForm(e){
             <div className="row py-3">
               <div className="col-md-6">
                 <div className="p-saee p-3">
-                  <h5 className="text-center mb-3">أسعار شركة smsa </h5>
+                  <h5 className="text-center mb-3">أسعار شركة Gotex </h5>
                   <form onSubmit={submitPricesForm} action="">
                     <label htmlFor="">سعر المسخدم</label>
                     <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='userprice' />

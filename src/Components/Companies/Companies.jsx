@@ -66,6 +66,65 @@ export default function Companies(userData) {
       </table>
      </div> */}
         <div className="row g-4">
+          {/* <div className="">
+          <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul> */}
+            <div className="col-md-12  position-relative">
+            <div className="company-main company area position-relative">
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+              <div className="text-center">
+              <img src={logo} className='bg-white' alt="company" />
+              </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              {companiesDetails.map((item, index) => (
+                item === null?(<div className=" pt-4"></div>):
+                item.status === false && item.name === "anwan" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "anwan" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                    <h4></h4>}
+                    <Link to="/anwanShipment" className="btn btn-choose">أختر</Link>
+                  </div>
+                ) : null
+                ))}
+            </div>
+          </div>
+    {/* </div >
+    
+          </div> */}
+       
+        
         <div className="col-md-6">
             <div className="company">
               <div className="text-center">
@@ -182,34 +241,7 @@ export default function Companies(userData) {
                 ))}
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={logo} className='bg-white' alt="company" />
-              </div>
-              <div className="stars text-center mt-3">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              </div>
-              {companiesDetails.map((item, index) => (
-                item === null?(<div className=" pt-4"></div>):
-                item.status === false && item.name === "anwan" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
-                    <p className="soon-word">متوقفة مؤقتاً ...</p>
-                  </div>
-                ) : item.status === true && item.name === "anwan" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
-                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
-                    <h4></h4>}
-                    <Link to="/anwanShipment" className="btn btn-choose">أختر</Link>
-                  </div>
-                ) : null
-                ))}
-            </div>
-          </div>
+          
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">

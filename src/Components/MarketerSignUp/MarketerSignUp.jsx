@@ -29,7 +29,7 @@ export default function MarketerSignUp() {
     setisLoading(false)
     console.log(response.data)
     window.alert("تم التسجيل بنجاح")
-    navigate('/')
+    navigate('/verifyUser')
 
   }
   else{
