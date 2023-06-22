@@ -87,7 +87,7 @@ function submitGltPricesForm(e){
                   <h5 className="text-center mb-3">أسعار شركة glt</h5>
                   <form onSubmit={submitGltPricesForm} action="">
                     <label htmlFor="">سعر المسخدم</label>
-                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='userprice' />
+                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='userprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='userprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -96,7 +96,7 @@ function submitGltPricesForm(e){
     })}
                     
                     <label htmlFor="">سعر المدخلات</label>
-                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='marketerprice' />
+                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='marketerprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='marketerprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -104,7 +104,7 @@ function submitGltPricesForm(e){
       
     })}
                     <label htmlFor="">سعر الزيادة</label>
-                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='kgprice' />
+                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='kgprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='kgprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -112,7 +112,7 @@ function submitGltPricesForm(e){
       
     })}
                     <label htmlFor="">سعر الدفع عند الاستلام</label>
-                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='userCodPrice' />
+                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='userCodPrice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='userCodPrice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -120,7 +120,7 @@ function submitGltPricesForm(e){
       
     })}
                     <label htmlFor="">اكبر سعر للمسوقين   </label>
-                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='maxcodmarkteer' />
+                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='maxcodmarkteer' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='maxcodmarkteer'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -128,7 +128,7 @@ function submitGltPricesForm(e){
       
     })}
                     <label htmlFor="">اقل سعر للمسوقين   </label>
-                    <input onChange={getPrices} type="number" className='my-input my-2 form-control' name='mincodmarkteer' />
+                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='mincodmarkteer' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='mincodmarkteer'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
