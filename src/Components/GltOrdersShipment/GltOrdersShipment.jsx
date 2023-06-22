@@ -248,7 +248,7 @@ export default function GltOrdersShipment(userData) {
                 <div className="col-md-6">
                 <div className='pb-3'>
                 <label htmlFor=""> الوزن</label>
-                <input type="number" className="form-control" name='weight' onChange={getOrderData}/>
+                <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -305,7 +305,7 @@ export default function GltOrdersShipment(userData) {
               {orderData.cod === true && (
     <div className='pb-3'>
       <label htmlFor=""> قيمة الشحنة</label>
-      <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -342,7 +342,7 @@ export default function GltOrdersShipment(userData) {
                 <>
                 <div className='pb-3'>
                 <label htmlFor=""> قيمة الشحن (cod)</label>
-                <input type="number" className="form-control" name='cod' onChange={getOrderData} required/>
+                <input type="number" step="0.001" className="form-control" name='cod' onChange={getOrderData} required/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='cod'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -352,7 +352,7 @@ export default function GltOrdersShipment(userData) {
             </div>
     <div className='pb-3'>
       <label htmlFor=""> قيمة الشحنة</label>
-      <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
