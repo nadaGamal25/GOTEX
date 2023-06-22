@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import axios from 'axios';
 
-export default function Navbar() {
+export default function Navbar(userData) {
 
   const [sideToggle ,setSideToggle]=useState(false);
 
@@ -23,8 +23,10 @@ export default function Navbar() {
     };
   }, []);
 
+
   useEffect(()=>{
     getUserBalance()
+    console.log(userData)
   },[])
 
       const [userBalance,setUserBalance]=useState('')
@@ -38,6 +40,8 @@ export default function Navbar() {
           });
           const balance = response.data.data;
           console.log(balance)
+          console.log(userData)
+          console.log(userData.userData.userData.data.user.rolle)
           setUserBalance(balance)
         } catch (error) {
           console.error(error);
@@ -81,6 +85,12 @@ export default function Navbar() {
                     <span class="text">لوحة التحكم</span>
                 </a>
             </li> */}
+            <li className='active'>
+                <Link  to="/companies">
+                    <i class="fa-solid fa-truck-fast bx"></i>
+                    <span class="text">شركات الشحن</span>
+                </Link>
+            </li>
             <li>
                 <Link to="/payment">
                 <i class="fa-solid fa-sack-dollar bx"></i>
@@ -99,12 +109,16 @@ export default function Navbar() {
                     <span class="text">الشحنات</span>
                 </Link>
             </li>
-            <li className='active'>
-                <Link  to="/companies">
-                    <i class="fa-solid fa-truck-fast bx"></i>
-                    <span class="text">شركات الشحن</span>
-                </Link>
-            </li>
+            
+            {userData?.userData.userData.data?.user?.rolle === "marketer"?(
+              <li className=''>
+              <Link  to="/inviteLink">
+              <i class="fa-solid fa-link bx"></i>
+                  <span class="text"> إنشاء دعوة</span>
+              </Link>
+          </li>
+            ):null}
+            
         </ul>
         <ul class="side-menu">
             

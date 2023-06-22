@@ -19,10 +19,10 @@ export default function AnwanShippments(userData) {
     }
       useEffect(()=>{
           getCompaniesDetailsOrders()
+          getCities()
       },[])
       const [value ,setPhoneValue]=useState()
       const [phone2,setPhone2] =useState()
-      const [cities,setCities]=useState()
     
       const [errorList, seterrorList]= useState([]); 
     const [orderData,setOrderData] =useState({
@@ -138,6 +138,22 @@ export default function AnwanShippments(userData) {
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
+      const [cities,setCities]=useState()
+      async function getCities() {
+        console.log(localStorage.getItem('userToken'))
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          setCities(response.data.data.data)
+          console.log(response.data.data.data)
+        } catch (error) {
+          console.error(error);
+        }
+      }
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
@@ -195,7 +211,13 @@ export default function AnwanShippments(userData) {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='s_city' onChange={getOrderData}/>
+                {/* <input type="text" className="form-control" name='s_city' onChange={getOrderData}/> */}
+                <select className="form-control" name='s_city' onChange={getOrderData}>
+                <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -438,7 +460,13 @@ export default function AnwanShippments(userData) {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='c_city' onChange={getOrderData}/>
+                {/* <input type="text" className="form-control" name='c_city' onChange={getOrderData}/> */}
+                <select className="form-control" name='c_city' onChange={getOrderData}>
+                <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

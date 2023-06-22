@@ -811,6 +811,9 @@ h3{
   .verify-box .btns{
     flex-direction: column;
   }
+  .invit-box{
+    width: 90%;
+  }
 }
 /* not found */
 .notfound{
@@ -836,4 +839,13 @@ h3{
 .prices-box span{
   color: var(--orange-color);
   font-weight: 800;
+}
+
+
+.invit-box{
+  width: 80%;
+}
+.label-company{
+  color: #f89368 !important;
+  padding: 15px 0px 6px 0px;
 }
