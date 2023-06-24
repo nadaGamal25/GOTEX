@@ -73,7 +73,7 @@ export default function SmsaShippments(userData) {
         console.log("okkkkkkkkkkk")
       }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data.msg || "An error occurred.";
+        const errorMessage = error.response.data?.msg?.message|| "An error occurred.";
         window.alert(errorMessage);
         console.log(response.data);
       }
@@ -81,7 +81,7 @@ export default function SmsaShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response.data.msg || "An error occurred.";
+      const errorMessage = error.response.data?.msg?.message || "An error occurred.";
       window.alert(errorMessage);
     }
   }
@@ -143,7 +143,7 @@ export default function SmsaShippments(userData) {
           description:Joi.string().required(),
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),
-          markterCode:Joi.number(),
+          markterCode:Joi.number().allow(null, ''),
 
     
 

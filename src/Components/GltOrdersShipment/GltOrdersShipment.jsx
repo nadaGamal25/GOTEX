@@ -224,7 +224,7 @@ export default function GltOrdersShipment(userData) {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <input type="text" className="form-control" name='s_city'
+                {/* <input type="text" className="form-control" name='s_city'
                 onChange={(e)=>{ setSearch(e.target.value)
                   getOrderData(e)
                   }}
@@ -246,7 +246,7 @@ export default function GltOrdersShipment(userData) {
            )
           }
           )}
-          </ul>
+          </ul> */}
 
 {/* <ul className="ul-cities">
         {cities.map((item, index) => {
@@ -268,12 +268,12 @@ export default function GltOrdersShipment(userData) {
       </ul> */}
 
                  
-                {/* <select className="form-control" name='s_city' onChange={getOrderData}>
+                <select className="form-control" name='s_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
-                </select> */}
+                </select>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

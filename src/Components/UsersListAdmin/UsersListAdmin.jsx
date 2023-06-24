@@ -13,6 +13,9 @@ export default function UsersListAdmin() {
       const [showModal2, setShowModal2] = useState(false);
       const [emailCR, setEmailCR] = useState('');
       const [emailCR2, setEmailCR2] = useState('');
+      const [showModal3, setShowModal3] = useState(false);
+      const [emailCR3, setEmailCR3] = useState('');
+      const [emailCR33, setEmailCR33] = useState('');
 
     
       async function getUsersListsAdmin() {
@@ -70,10 +73,36 @@ export default function UsersListAdmin() {
             }
 
           );
+          
           // Handle the response as per your requirement
           console.log(response.data);
           if (response.data.msg === 'ok') {
             closeModal2();
+            getUsersListsAdmin();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      async function proofCR3() {
+        try {
+          const response = await axios.post(
+            'https://dashboard.go-tex.net/api/admin/un-proof-user-cr',
+            {
+              email: emailCR3,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            }
+
+          );
+          
+          // Handle the response as per your requirement
+          console.log(response.data);
+          if (response.data.msg === 'ok') {
+            closeModal3();
             getUsersListsAdmin();
           }
         } catch (error) {
@@ -105,6 +134,20 @@ export default function UsersListAdmin() {
         setSelectedUserId(null);
         setShowModal(false);
         setDepositAmount('');
+      };
+      ///
+      const openModal3 = (email33) => {
+        setShowModal3(true);
+        setEmailCR33(email33)
+      };
+    
+      const closeModal3 = () => {
+        setShowModal3(false);
+        setEmailCR3('');
+      };
+    
+      const handleCRChange3 = (event) => {
+        setEmailCR3(event.target.value);
       };
     
       const handleDepositChange = (event) => {
@@ -138,6 +181,7 @@ export default function UsersListAdmin() {
             <th scope="col">الإيميل </th>
             <th scope="col">العنوان </th>
             <th scope="col">cr </th>
+            <th></th>
             <th></th>
             <th></th>
             
@@ -177,6 +221,14 @@ export default function UsersListAdmin() {
                         onClick={() =>  openModal2(item.email)}>
                         توثيق النشاط  
                       </button>: null}
+                
+              </td>
+              <td>
+                <button
+                        className='btn btn-danger mt-2'
+                        onClick={() =>  openModal3(item.email)}>
+                        الغاء التوثيق   
+                      </button>
                 
               </td>
                 
@@ -278,6 +330,56 @@ export default function UsersListAdmin() {
                   onClick={closeModal2}
                 >
                   إلغاء
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+{showModal3 && (
+        <div className='modal' style={{ display: 'block' }}>
+          <div className='modal-dialog'>
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <h5 className='modal-title'>الغاء توثيق النشاط التجارى </h5>
+                <button
+                  type='button'
+                  className='close'
+                  onClick={closeModal3}
+                >
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div className='modal-body'>
+                <div className='form-group'>
+                  <label htmlFor='email'>هل تريد بالفعل  الغاء توثيق النشاط التجارى لهذا الايميل :</label>
+                  <p className='text-danger'>{emailCR33}</p>
+                  <label>لالغاء التوثيق يرجى ادخاله هنا</label>
+                  <input
+                    type='email'
+                    className='form-control'
+                    id='emailcr'
+                    value={emailCR3}
+                    onChange={handleCRChange3}
+                   
+                  />
+                </div>
+              </div>
+              <div className='modal-footer'>
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  onClick={proofCR3}
+                >
+                  الغاء التوثيق
+                </button>
+                <button
+                  type='button'
+                  className='btn btn-secondary'
+                  onClick={closeModal3}
+                >
+                  إغلاق
                 </button>
               </div>
             </div>

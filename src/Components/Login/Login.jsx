@@ -17,30 +17,57 @@ export default function Login({saveUserData}) {
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
   
-  const [sessionExpired, setSessionExpired] = useState(false);
+//   // const [sessionExpired, setSessionExpired] = useState(false);
+//   const [loginTime, setLoginTime] = useState(null);
+// const [sessionExpired, setSessionExpired] = useState(false);
+// function checkSessionExpired() {
+//   const currentTime = new Date().getTime();
+//   console.log(currentTime)
+//   const oneHour = 10000; // One hour in milliseconds
 
-  useEffect(() => {
-    let countdown;
-    const sessionDuration = 5000; // 1 hour in milliseconds
+//   if (loginTime && currentTime - loginTime >= oneHour) {
+//     setSessionExpired(true);
+//   }
+// }
 
-    if (sessionExpired) {
-      const logout = () => {
-        console.log('الجلسة انتهت .. قم بتسجيل الدخول مرة اخرى');
-        navigate('/');
-      };
+// useEffect(() => {
+//   checkSessionExpired();
 
-      countdown = setTimeout(logout, sessionDuration);
+//   const interval = setInterval(() => {
+//     checkSessionExpired();
+//   }, 1000); // Check every second
 
-      console.log('Session countdown started');
+//   return () => clearInterval(interval); // Clean up the interval when the component unmounts
+// }, [loginTime]);
 
-      const remainingTime = sessionDuration / 1000; // Convert milliseconds to seconds
-      console.log(`Remaining time: ${remainingTime} seconds`);
-    }
+// function showAlertAndRedirect() {
+//   window.alert('الجلسة انتهت .. قم بتسجيل الدخول مرة أخرى');
+//   navigate('/');
+// }
 
-    return () => {
-      clearTimeout(countdown);
-    };
-  }, [sessionExpired, navigate]);
+
+  // useEffect(() => {
+  //   let countdown;
+  //   const sessionDuration = 10000; // 1 hour in milliseconds
+
+  //   if (sessionExpired) {
+  //     const logout = () => {
+  //       console.log('الجلسة انتهت .. قم بتسجيل الدخول مرة اخرى');
+  //       navigate('/');
+  //     };
+
+  //     countdown = setTimeout(logout, sessionDuration);
+
+  //     console.log('Session countdown started');
+
+  //     const remainingTime = sessionDuration / 1000; // Convert milliseconds to seconds
+  //     console.log(`Remaining time: ${remainingTime} seconds`);
+  //   }
+
+  //   return () => {
+  //     clearTimeout(countdown);
+  //   };
+  // }, [sessionExpired, navigate]);
 async function sendLoginDataToApi(){
   try {
         const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
@@ -49,7 +76,7 @@ async function sendLoginDataToApi(){
           setisLoading(false)
           localStorage.setItem('userToken', data.token);
           saveUserData();
-          setSessionExpired(true); 
+          // setLoginTime(new Date().getTime()); 
           navigate('/companies');
         } else {
           setisLoading(false)
@@ -70,10 +97,11 @@ async function sendLoginDataToApi(){
               setisLoading(false)
               localStorage.setItem('userToken', data.token);
               saveUserData();
-              setSessionExpired(true); // Start the session countdown
+              // setLoginTime(new Date().getTime());               
               navigate('/companiesAdmin');
             } else {
               setisLoading(false)
+
               setError(data.msg)
               console.log(data.msg)
             }
@@ -117,6 +145,8 @@ async function sendLoginDataToApi(){
   }
   return (
     <>
+        {/* {sessionExpired && showAlertAndRedirect()} */}
+
     <div className="d-flex min-vh-100 login-container px-3">
     <div className="login-box m-auto">
         <div className="text-center">
