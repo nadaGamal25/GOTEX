@@ -59,6 +59,8 @@ export default function GltOrdersShipment(userData) {
     c_mobile: '',
     cod: false,
     shipmentValue:'',
+    markterCode:'',
+
 
   })
   const [error , setError]= useState('')
@@ -153,9 +155,28 @@ export default function GltOrdersShipment(userData) {
           // value:Joi.string().required(),
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),  
+          markterCode:Joi.number(),
+
       });
       return scheme.validate(orderData, {abortEarly:false});
     }
+   
+
+  const [search, setSearch]= useState('')
+  const [selectedCity, setSelectedCity] = useState('');
+
+  const handleCitySelection = (cityName) => {
+    setSelectedCity(cityName);
+    setSearch('');
+  };
+
+
+
+  // const filteredCities = cities.filter((item) => {
+  //   return search === '' ? item : item.name.toLowerCase().includes(search.toLowerCase());
+  // });
+
+
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
@@ -203,12 +224,56 @@ export default function GltOrdersShipment(userData) {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <select className="form-control" name='s_city' onChange={getOrderData}>
+                <input type="text" className="form-control" name='s_city'
+                onChange={(e)=>{ setSearch(e.target.value)
+                  getOrderData(e)
+                  }}
+                  />
+                  <ul  className='ul-cities'>
+          {cities && cities.filter((item)=>{
+          return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
+          }).map((item,index) =>{
+           return(
+            <li key={index} name='s_city'
+            // onClick={() => handleCitySelection(item.name)}
+            onClick={(e)=>{ 
+              
+              // handleCitySelection(item.name)
+            getOrderData({ target: { name: 's_city', value:e } })}}
+            >
+              {item.name}
+           </li>
+           )
+          }
+          )}
+          </ul>
+
+{/* <ul className="ul-cities">
+        {cities.map((item, index) => {
+          return (
+            {cities.filter((item)=>{
+              return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
+              }).map((item,index) =>{
+               return(
+                <li key={index} onClick={() => handleCitySelection(item.name)}>
+                {item.name}
+              </li>               )
+              }
+              )}
+            // <li key={index} onClick={() => handleCitySelection(item.name)}>
+            //   {item.name}
+            // </li>
+          );
+        })}
+      </ul> */}
+
+                 
+                {/* <select className="form-control" name='s_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
-                </select>
+                </select> */}
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -226,7 +291,19 @@ export default function GltOrdersShipment(userData) {
       
     })}
             </div>
-            
+
+            { userData.userData.data.user.rolle === "marketer"?(
+              <div className='pb-3'>
+              <label htmlFor=""> كود المسوق </label>
+              <input type="number" className="form-control" name='markterCode' onChange={getOrderData} required/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='markterCode'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+            ):null}
             
 
            {/* <div className='pb-3'>

@@ -26,6 +26,7 @@ export default function SaeeShipments(userData) {
     c_streetaddress:'',
     c_mobile:'',
     cod: false,
+    markterCode:'',
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -143,6 +144,7 @@ function getOrderData(e) {
         c_mobile:Joi.string().required(),
         cod:Joi.required(),
         shipmentValue:Joi.number().allow(null, ''),
+        markterCode:Joi.number(),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -250,6 +252,19 @@ function getOrderData(e) {
       
     })}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+              <div className='pb-3'>
+              <label htmlFor=""> كود المسوق </label>
+              <input type="number" className="form-control" name='markterCode' onChange={getOrderData} required/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='markterCode'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+            ):null}
+            
             {/* <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>

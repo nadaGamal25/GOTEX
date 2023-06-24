@@ -45,6 +45,8 @@ export default function SmsaShippments(userData) {
     Value: "",
     cod: false,
     shipmentValue:'',
+    markterCode:'',
+
 
   })
   const [error , setError]= useState('')
@@ -141,6 +143,8 @@ export default function SmsaShippments(userData) {
           description:Joi.string().required(),
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),
+          markterCode:Joi.number(),
+
     
 
   
@@ -255,6 +259,18 @@ export default function SmsaShippments(userData) {
       
     })}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+              <div className='pb-3'>
+              <label htmlFor=""> كود المسوق </label>
+              <input type="number" className="form-control" name='markterCode' onChange={getOrderData} required/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='markterCode'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+            ):null}
             
             {/* <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>

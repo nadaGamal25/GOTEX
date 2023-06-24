@@ -21,7 +21,7 @@ export default function AnwanEdit() {
   async function sendPricesToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const {data} = await axios.post(`https://dashboard.go-tex.net/api/smsa/edit`, anwanPrices,
+      const {data} = await axios.post(`https://dashboard.go-tex.net/api/anwan/edit`, anwanPrices,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -56,17 +56,29 @@ function submitPricesForm(e){
   }
 
 }
-
-  function getPrices(e){
-    let myPrices={...anwanPrices};
-    myPrices[e.target.name]= e.target.value;
-    setAnwanPrices(myPrices);
-    console.log(myPrices);
+function getPrices(e) {
+  let myPrices = { ...anwanPrices };
+  if (e.target.type === "number") { // Check if the value is a number
+    myPrices[e.target.name] = Number(e.target.value);
+  } else if (e.target.value === "true" || e.target.value === "false") {
+    myPrices[e.target.name] = e.target.value === "true";
+  } else {
+    myPrices[e.target.name] = e.target.value;
   }
+
+  setAnwanPrices(myPrices);
+  console.log(myPrices);
+}
+  // function getPrices(e){
+  //   let myPrices={...anwanPrices};
+  //   myPrices[e.target.name]= e.target.value;
+  //   setAnwanPrices(myPrices);
+  //   console.log(myPrices);
+  // }
 
   function validatePricesForm(){
     let scheme= Joi.object({
-        status:Joi.boolean().required(),
+      status:Joi.boolean().required(),
         userprice:Joi.number().required(),
         marketerprice:Joi.number().required(),
         kgprice :Joi.number().required(),

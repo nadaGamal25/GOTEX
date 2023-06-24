@@ -41,6 +41,8 @@ export default function AnwanShippments(userData) {
       c_phone: '',
       cod: false,
       shipmentValue:'',
+      markterCode:'',
+
   
     })
     const [error , setError]= useState('')
@@ -135,6 +137,8 @@ export default function AnwanShippments(userData) {
             // value:Joi.string().required(),
             cod:Joi.required(),
             shipmentValue:Joi.number().allow(null, ''),  
+            markterCode:Joi.number(),
+
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
@@ -235,6 +239,18 @@ export default function AnwanShippments(userData) {
       
     })}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+              <div className='pb-3'>
+              <label htmlFor=""> كود المسوق </label>
+              <input type="number" className="form-control" name='markterCode' onChange={getOrderData} required/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='markterCode'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+            ):null}
             
             
 

@@ -12,8 +12,26 @@ import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom'
 import NavAdmin from '../NavAdmin/NavAdmin'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function CompaniesAdmin() {
+  // const [sessionExpired, setSessionExpired] = useState(true);
+  // let navigate= useNavigate(); //hoke
+  // useEffect(() => {
+  //   let sessionTimeout;
+
+  //   if (sessionExpired) {
+  //     sessionTimeout = setTimeout(() => {
+  //       alert('الجلسة انتهت .. قم بتسجيل الدخول مرة اخرى');
+  //       navigate('/');
+  //     }, 5000); // 10 seconds for testing, change to 1 hour (3600000 milliseconds) in production
+  //   }
+
+  //   return () => {
+  //     clearTimeout(sessionTimeout);
+  //   };
+  // }, [sessionExpired, navigate]);
   useEffect(()=>{
     getCompaniesDetailsOrders()
   },[])
@@ -23,7 +41,6 @@ export default function CompaniesAdmin() {
     try {
       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
       const companiesPrices = response.data.data;
-      // Process the orders as needed
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
     } catch (error) {

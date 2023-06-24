@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Joi from 'joi';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,31 @@ export default function Login({saveUserData}) {
   const [visible , setVisible] =useState(false);
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
+  
+  const [sessionExpired, setSessionExpired] = useState(false);
 
+  useEffect(() => {
+    let countdown;
+    const sessionDuration = 5000; // 1 hour in milliseconds
+
+    if (sessionExpired) {
+      const logout = () => {
+        console.log('الجلسة انتهت .. قم بتسجيل الدخول مرة اخرى');
+        navigate('/');
+      };
+
+      countdown = setTimeout(logout, sessionDuration);
+
+      console.log('Session countdown started');
+
+      const remainingTime = sessionDuration / 1000; // Convert milliseconds to seconds
+      console.log(`Remaining time: ${remainingTime} seconds`);
+    }
+
+    return () => {
+      clearTimeout(countdown);
+    };
+  }, [sessionExpired, navigate]);
 async function sendLoginDataToApi(){
   try {
         const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
@@ -25,6 +49,7 @@ async function sendLoginDataToApi(){
           setisLoading(false)
           localStorage.setItem('userToken', data.token);
           saveUserData();
+          setSessionExpired(true); 
           navigate('/companies');
         } else {
           setisLoading(false)
@@ -45,6 +70,7 @@ async function sendLoginDataToApi(){
               setisLoading(false)
               localStorage.setItem('userToken', data.token);
               saveUserData();
+              setSessionExpired(true); // Start the session countdown
               navigate('/companiesAdmin');
             } else {
               setisLoading(false)
