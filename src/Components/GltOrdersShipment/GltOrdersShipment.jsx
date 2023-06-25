@@ -20,6 +20,7 @@ export default function GltOrdersShipment(userData) {
     useEffect(()=>{
         getCities()
         getCompaniesDetailsOrders()
+        console.log(orderData.c_name.target)
     },[])
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
@@ -175,6 +176,14 @@ export default function GltOrdersShipment(userData) {
   // const filteredCities = cities.filter((item) => {
   //   return search === '' ? item : item.name.toLowerCase().includes(search.toLowerCase());
   // });
+  const [showCitiesList, setCitiesList] = useState(false);
+  const openCitiesList = () => {
+    setCitiesList(true);
+  };
+
+  const closeCitiesList = () => {
+    setCitiesList(false);
+  };
 
 
   return (
@@ -222,31 +231,46 @@ export default function GltOrdersShipment(userData) {
     })}
       
             </div>
-            <div className='pb-3'>
+            <div className='pb-3 ul-box'>
                 <label htmlFor=""> الموقع</label>
-                {/* <input type="text" className="form-control" name='s_city'
-                onChange={(e)=>{ setSearch(e.target.value)
+                <input type="text" className="form-control" name='s_city'
+                onChange={(e)=>{ 
+                  const searchValue = e.target.value;
+                  setSearch(searchValue);
                   getOrderData(e)
-                  }}
-                  />
-                  <ul  className='ul-cities'>
-          {cities && cities.filter((item)=>{
-          return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
-          }).map((item,index) =>{
-           return(
-            <li key={index} name='s_city'
-            // onClick={() => handleCitySelection(item.name)}
-            onClick={(e)=>{ 
+                  const matchingCities = cities.filter((item) => {
+                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                  });
               
-              // handleCitySelection(item.name)
-            getOrderData({ target: { name: 's_city', value:e } })}}
-            >
-              {item.name}
-           </li>
-           )
-          }
-          )}
-          </ul> */}
+                  if (matchingCities.length === 0) {
+                    closeCitiesList();
+                  } else {
+                    openCitiesList();
+                  }
+                  }}
+                  onClick={openCitiesList}
+                  />
+                  {showCitiesList && (
+                    <ul  className='ul-cities'>
+                    {cities && cities.filter((item)=>{
+                    return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <li key={index} name='s_city' 
+                      onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        getOrderData({ target: { name: 's_city', value: selectedCity } });
+                        document.querySelector('input[name="s_city"]').value = selectedCity;
+                        closeCitiesList();
+                    }}
+                      >
+                        {item.name}
+                     </li>
+                     )
+                    }
+                    )}
+                    </ul>
+                  )}
 
 {/* <ul className="ul-cities">
         {cities.map((item, index) => {
@@ -268,12 +292,12 @@ export default function GltOrdersShipment(userData) {
       </ul> */}
 
                  
-                <select className="form-control" name='s_city' onChange={getOrderData}>
+                {/* <select className="form-control" name='s_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
-                </select>
+                </select> */}
                 {errorList.map((err,index)=>{
       if(err.context.label ==='s_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

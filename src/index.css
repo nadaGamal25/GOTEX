@@ -848,11 +848,19 @@ h3{
   color: #f89368 !important;
   padding: 15px 0px 6px 0px;
 }
-
+.ul-box{
+  position: relative;
+}
 .ul-cities{
   background-color: #fff;
   padding: 10px;
-  height: 240px;
+  height: 300px;
   overflow-y: scroll;
   border: solid 0.1px #adb6ba;
+  position: absolute;
+  width: 100%;
+}
+.ul-cities li:hover{
+  background-color: #0a95ff;
+  color: #fff;
 }
