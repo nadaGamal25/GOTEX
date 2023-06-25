@@ -140,7 +140,7 @@ export default function AramexShippments(userData) {
           weight: Joi.number().required(),
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),      
-          markterCode:Joi.number(),
+          markterCode:Joi.string().allow(null, ''),
 
   
       });
@@ -177,6 +177,27 @@ export default function AramexShippments(userData) {
       console.error(error);
     }
   }
+  const [search, setSearch]= useState('')
+  const [search2, setSearch2]= useState('')
+
+  const [showCitiesList, setCitiesList] = useState(false);
+  const openCitiesList = () => {
+    setCitiesList(true);
+  };
+
+  const closeCitiesList = () => {
+    setCitiesList(false);
+  };
+  const [showCitiesList2, setCitiesList2] = useState(false);
+  const openCitiesList2 = () => {
+    setCitiesList2(true);
+  };
+
+  const closeCitiesList2 = () => {
+    setCitiesList2(false);
+  };
+
+
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
@@ -274,10 +295,63 @@ export default function AramexShippments(userData) {
     })}
       
             </div>
-            
-            <div className='pb-3'>
+            <div className='pb-3 ul-box'>
                 <label htmlFor=""> الموقع</label>
-                {/* <input type="text" className="form-control" name='p_city' onChange={getOrderData}/> */}
+                <input type="text" className="form-control" name='p_city'
+                onChange={(e)=>{ 
+                  const searchValue = e.target.value;
+                  setSearch(searchValue);
+                  getOrderData(e)
+                  const matchingCities = cities.filter((item) => {
+                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+                  });
+              
+                  if (matchingCities.length === 0) {
+                    closeCitiesList();
+                  } else {
+                    openCitiesList();
+                  }
+                  }}
+                  onClick={openCitiesList}
+                  />
+                  {showCitiesList && (
+                    <ul  className='ul-cities'>
+                    {cities && cities.filter((item)=>{
+                    return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <li key={index} name='p_city' 
+                      onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        getOrderData({ target: { name: 'p_city', value: selectedCity } });
+                        document.querySelector('input[name="p_city"]').value = selectedCity;
+                        closeCitiesList();
+                    }}
+                      >
+                        {item}
+                     </li>
+                     )
+                    }
+                    )}
+                    </ul>
+                  )}
+                 
+                {/* <select className="form-control" name='p_city' onChange={getOrderData}>
+                <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+                </select> */}
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='p_city'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            
+            {/* <div className='pb-3'>
+                <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='p_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
@@ -290,7 +364,7 @@ export default function AramexShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> العنوان</label>
                 <input type="text" className="form-control" name='p_line1' onChange={getOrderData}/>
@@ -313,7 +387,7 @@ export default function AramexShippments(userData) {
     { userData.userData.data.user.rolle === "marketer"?(
               <div className='pb-3'>
               <label htmlFor=""> كود المسوق </label>
-              <input type="number" className="form-control" name='markterCode' onChange={getOrderData} required/>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='markterCode'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -547,10 +621,61 @@ export default function AramexShippments(userData) {
     })}
       
             </div> */}
-            
-            <div className='pb-3'>
+            <div className='pb-3 ul-box'>
                 <label htmlFor=""> الموقع</label>
-                {/* <input type="text" className="form-control" name='c_city' onChange={getOrderData}/> */}
+                <input type="text" className="form-control" name='c_city'
+                onChange={(e)=>{ 
+                  const searchValue = e.target.value;
+                  setSearch2(searchValue);
+                  getOrderData(e)
+                  const matchingCities = cities.filter((item) => {
+                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+                  });
+              
+                  if (matchingCities.length === 0) {
+                    closeCitiesList2();
+                  } else {
+                    openCitiesList2();
+                  }
+                  }}
+                  onClick={openCitiesList2}
+                  />
+                  {showCitiesList2 && (
+                    <ul  className='ul-cities'>
+                    {cities && cities.filter((item)=>{
+                    return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <li key={index} name='c_city' 
+                      onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        getOrderData({ target: { name: 'c_city', value: selectedCity } });
+                        document.querySelector('input[name="c_city"]').value = selectedCity;
+                        closeCitiesList2();
+                    }}
+                      >
+                        {item}
+                     </li>
+                     )
+                    }
+                    )}
+                    </ul>
+                  )}
+                {/* <select className="form-control" name='c_city' onChange={getOrderData}>
+                  <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}                
+                </select> */}
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='c_city'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            {/* <div className='pb-3'>
+                <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='c_city' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
@@ -563,7 +688,7 @@ export default function AramexShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             
             <div className='pb-3'>
                 <label htmlFor=""> العنوان</label>

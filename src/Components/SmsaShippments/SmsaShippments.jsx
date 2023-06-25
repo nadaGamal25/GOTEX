@@ -143,7 +143,7 @@ export default function SmsaShippments(userData) {
           description:Joi.string().required(),
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),
-          markterCode:Joi.number().allow(null, ''),
+          markterCode:Joi.string().allow(null, ''),
 
     
 
@@ -171,6 +171,27 @@ export default function SmsaShippments(userData) {
         console.error(error);
       }
     }
+
+    const [search, setSearch]= useState('')
+    const [search2, setSearch2]= useState('')
+  
+    const [showCitiesList, setCitiesList] = useState(false);
+    const openCitiesList = () => {
+      setCitiesList(true);
+    };
+  
+    const closeCitiesList = () => {
+      setCitiesList(false);
+    };
+    const [showCitiesList2, setCitiesList2] = useState(false);
+    const openCitiesList2 = () => {
+      setCitiesList2(true);
+    };
+  
+    const closeCitiesList2 = () => {
+      setCitiesList2(false);
+    };
+    
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
@@ -213,8 +234,62 @@ export default function SmsaShippments(userData) {
       
     })}
       
-            </div>            
-            <div className='pb-3'>
+            </div>  
+            <div className='pb-3 ul-box'>
+                <label htmlFor=""> الموقع</label>
+                <input type="text" className="form-control" name='p_City'
+                onChange={(e)=>{ 
+                  const searchValue = e.target.value;
+                  setSearch(searchValue);
+                  getOrderData(e)
+                  const matchingCities = cities.filter((item) => {
+                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                  });
+              
+                  if (matchingCities.length === 0) {
+                    closeCitiesList();
+                  } else {
+                    openCitiesList();
+                  }
+                  }}
+                  onClick={openCitiesList}
+                  />
+                  {showCitiesList && (
+                    <ul  className='ul-cities'>
+                    {cities && cities.filter((item)=>{
+                    return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <li key={index} name='p_City' 
+                      onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        getOrderData({ target: { name: 'p_City', value: selectedCity } });
+                        document.querySelector('input[name="p_City"]').value = selectedCity;
+                        closeCitiesList();
+                    }}
+                      >
+                        {item.name}
+                     </li>
+                     )
+                    }
+                    )}
+                    </ul>
+                  )}
+                 
+                {/* <select className="form-control" name='p_City' onChange={getOrderData}>
+                <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}
+                </select> */}
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='p_City'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>          
+            {/* <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='p_City' onChange={getOrderData}>
                 <option></option>
@@ -228,7 +303,7 @@ export default function SmsaShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> المنطقة</label>
                 <input type="text" className="form-control" name='p_District' onChange={getOrderData}/>
@@ -262,7 +337,7 @@ export default function SmsaShippments(userData) {
             { userData.userData.data.user.rolle === "marketer"?(
               <div className='pb-3'>
               <label htmlFor=""> كود المسوق </label>
-              <input type="number" className="form-control" name='markterCode' onChange={getOrderData} required/>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='markterCode'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -480,8 +555,60 @@ export default function SmsaShippments(userData) {
    
       
             </div>
-            
-            <div className='pb-3'>
+            <div className='pb-3 ul-box'>
+                <label htmlFor=""> الموقع</label>
+                <input type="text" className="form-control" name='c_City'
+                onChange={(e)=>{ 
+                  const searchValue = e.target.value;
+                  setSearch2(searchValue);
+                  getOrderData(e)
+                  const matchingCities = cities.filter((item) => {
+                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                  });
+              
+                  if (matchingCities.length === 0) {
+                    closeCitiesList2();
+                  } else {
+                    openCitiesList2();
+                  }
+                  }}
+                  onClick={openCitiesList2}
+                  />
+                  {showCitiesList2 && (
+                    <ul  className='ul-cities'>
+                    {cities && cities.filter((item)=>{
+                    return search2 === ''? item : item.name.toLowerCase().includes(search2.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <li key={index} name='c_City' 
+                      onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        getOrderData({ target: { name: 'c_City', value: selectedCity } });
+                        document.querySelector('input[name="c_City"]').value = selectedCity;
+                        closeCitiesList2();
+                    }}
+                      >
+                        {item.name}
+                     </li>
+                     )
+                    }
+                    )}
+                    </ul>
+                  )}
+                {/* <select className="form-control" name='c_City' onChange={getOrderData}>
+                  <option></option>
+                {cities && cities.map((item, index) => (
+                  <option key={index}>{item.name}</option>
+                  ))}                
+                </select> */}
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='c_City'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            {/* <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
                 <select className="form-control" name='c_City' onChange={getOrderData}>
                 <option></option>
@@ -495,7 +622,7 @@ export default function SmsaShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> المنطقة</label>
                 <input type="text" className="form-control" name='c_District' onChange={getOrderData}/>
