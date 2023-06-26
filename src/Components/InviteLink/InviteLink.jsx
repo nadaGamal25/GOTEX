@@ -159,7 +159,7 @@ export default function InviteLink() {
             <div className='pb-2'>
                 <label htmlFor=""> اسم الشركة</label>
                 <input type="text"
-                 name={`name-${0}`} className="form-control" onChange={getUserData}/>
+                 name={`name-${0}`} className="form-control " onChange={getUserData}/>
                 
             </div>
         <div className="col-md-6">
@@ -173,7 +173,7 @@ export default function InviteLink() {
         <label htmlFor="" className=' label-company'>شركة Saee :</label>
         <div className='pb-2'>
                 <label htmlFor=""> اسم الشركة</label>
-                <input type="text" name={`name-${1}`}  className="form-control" onChange={getUserData}/>
+                <input type="text" name={`name-${1}`} value='saee'  className="form-control" onChange={getUserData}/>
             </div>
         <div className="col-md-6">
             <label htmlFor="">سعر الدفع اونلاين</label>

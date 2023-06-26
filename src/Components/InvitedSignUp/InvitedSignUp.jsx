@@ -43,7 +43,7 @@ export default function InvitedSignUp() {
       }
     
       try {
-        const response = await axios.post('https://dashboard.go-tex.net/api/user/signup', formData
+        const response = await axios.post('https://dashboard.go-tex.net/api/invatation/invited-user-signup', formData
         
         );
     
