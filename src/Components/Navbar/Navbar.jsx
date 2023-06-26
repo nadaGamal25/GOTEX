@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import axios from 'axios';
 
-export default function Navbar(userData) {
+export default function Navbar({userData ,logout}) {
 
   const [sideToggle ,setSideToggle]=useState(false);
 
@@ -41,7 +41,7 @@ export default function Navbar(userData) {
           const balance = response.data.data;
           console.log(balance)
           console.log(userData)
-          console.log(userData.userData.userData.data.user.rolle)
+          console.log(userData.data.user.rolle)
           setUserBalance(balance)
         } catch (error) {
           console.error(error);
@@ -110,7 +110,7 @@ export default function Navbar(userData) {
                 </Link>
             </li>
             
-            {userData?.userData.userData.data?.user?.rolle === "marketer"?(
+            {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
               <Link  to="/inviteLink">
               <i class="fa-solid fa-link bx"></i>
@@ -123,10 +123,10 @@ export default function Navbar(userData) {
         <ul class="side-menu">
             
             <li>
-                <a href="#" class="logout">
+                <Link onClick={logout} class="logout" to='/'>
                 <i class="fa-solid fa-right-from-bracket bx"></i>
                     <span class="text">تسجيل الخروج</span>
-                </a>
+                </Link>
             </li>
         </ul>
     </section>

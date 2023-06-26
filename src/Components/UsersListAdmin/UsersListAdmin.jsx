@@ -183,7 +183,6 @@ export default function UsersListAdmin() {
             <th scope="col">cr </th>
             <th></th>
             <th></th>
-            <th></th>
             
           </tr>
         </thead>
@@ -220,17 +219,14 @@ export default function UsersListAdmin() {
                         className='btn btn-orange mt-2'
                         onClick={() =>  openModal2(item.email)}>
                         توثيق النشاط  
-                      </button>: null}
-                
-              </td>
-              <td>
-                <button
+                      </button>:<button
                         className='btn btn-danger mt-2'
                         onClick={() =>  openModal3(item.email)}>
                         الغاء التوثيق   
-                      </button>
+                      </button> }
                 
               </td>
+              
                 
               </tr>
             )

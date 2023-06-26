@@ -179,7 +179,7 @@ async function sendLoginDataToApi(){
     })}
     </div>
       <button className='btn btn-login'>
-        {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'تسجيل الدخول'}
+        تسجيل الدخول
       </button>
      </form>
      <div className='text-center sign-footer'>

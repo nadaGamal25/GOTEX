@@ -38,7 +38,13 @@ import ErrorBoundary from './Components/ErrorBoundary';
 import AnwanEdit from './Components/AnwanEdit/AnwanEdit';
 import AnwanShippments from './Components/AnwanShippments/AnwanShippments';
 import InviteLink from './Components/InviteLink/InviteLink';
+import InvitedSignUp from './Components/InvitedSignUp/InvitedSignUp';
+import InvitedWaiting from './Components/InvitedWaiting/InvitedWaiting';
+import { useNavigate } from 'react-router-dom'
+import NavAdmin from './Components/NavAdmin/NavAdmin';
+
 function App() {
+  
   useEffect(()=>{
     if(localStorage.getItem('userToken') !== null){
       saveUserData();
@@ -54,12 +60,23 @@ function App() {
     setuserData(decodedToken)
     console.log(userData)
   }
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      window.alert('الجلسة انتهت..قم بتسجيل الدخول مرة اخرى');
+      setuserData(null);
+      window.location.href = '/';
+    }, 60 * 60 * 1000); // 1 hour in milliseconds
 
+    return () => clearTimeout(timeout);
+  }, [userData]);
+  
   let routers =createBrowserRouter([
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
+    {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
+    {path:'nav',element:<ProtectedRoute><NavAdmin setuserData={setuserData} userData={userData}/></ProtectedRoute>},
     // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
     {path:'companiesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute></ErrorBoundary>},
@@ -70,6 +87,7 @@ function App() {
     {path:'anwanEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
       {path:'/companies',element:<ErrorBoundary><ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute></ErrorBoundary>},

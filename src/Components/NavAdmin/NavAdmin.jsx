@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
+import { useNavigate } from 'react-router-dom';
 
-export default function NavAdmin() {
+export default function NavAdmin(setuserData) {
+    let navigate= useNavigate();
+    function logout(){
+      localStorage.removeItem('userToken');
+      setuserData(null);
+      navigate('/')
+    }
     const [sideToggle ,setSideToggle]=useState(false);
 
   useEffect(() => {
@@ -59,6 +66,12 @@ export default function NavAdmin() {
                     <span class="text">المستخدمين</span>
                 </Link>
             </li>
+            <li>
+                <Link to="/InvitedWaiting">
+                <i class="fa-solid fa-clipboard-list bx"></i>
+                    <span class="text">قائمة انتظار المدعويين</span>
+                </Link>
+            </li>
             {/* <li>
                 <Link to="/addDepositAdmin">
                 <i class="fa-solid fa-dollar-sign bx"></i>
@@ -70,10 +83,10 @@ export default function NavAdmin() {
         <ul class="side-menu">
             
             <li>
-                <a href="#" class="logout">
+                <Link onClick={logout} class="logout" to='/'>
                 <i class="fa-solid fa-right-from-bracket bx"></i>
                     <span class="text">تسجيل الخروج</span>
-                </a>
+                </Link>
             </li>
         </ul>
     </section>

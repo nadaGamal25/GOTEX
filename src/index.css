@@ -32,8 +32,20 @@ body{
   background-color: #dc4606 !important;
   color: #fff !important;
 }
+.btn-dark{
+  background-color: var(--dark--color) !important;
+  color: #fff !important;
+}
+.btn-dark:hover{
+  background-color: #0c5276 !important;
+  color: #fff !important;
+}
 .btn-orange i{
   font-size: 14px;
+}
+.logout:hover{
+  color: red !important;
+  padding-right: 6px;
 }
 .logo{
   width: 80px;

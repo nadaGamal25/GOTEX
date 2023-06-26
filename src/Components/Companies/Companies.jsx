@@ -11,6 +11,7 @@ import armx from '../../assets/armx.jpg'
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import SessionTimeoutAlert from '../SessionTimeoutAlert/SessionTimeoutAlert'
 
 export default function Companies(userData) {
   useEffect(()=>{
@@ -33,7 +34,6 @@ export default function Companies(userData) {
   }
   return (
     <>
-    
     <div className='p-5' id='content'>
       <div className="container">
       {/* <div className="clients-table p-4 my-4">
