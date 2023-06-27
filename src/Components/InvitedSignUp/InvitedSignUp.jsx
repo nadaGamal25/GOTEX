@@ -47,18 +47,20 @@ export default function InvitedSignUp() {
         
         );
     
-        if (response.data.msg === 'ok') {
+        if (response.status === 200) {
           setisLoading(false);
           console.log(response.data);
           window.alert('تم التسجيل بنجاح');
           navigate('/verifyUser');
         } else {
           setisLoading(true);
-          setError(response.data.msg);
+          setError(response);
         }
       } catch (error) {
         setisLoading(true);
         setError('An error occurred while registering');
+        window.alert(error.response.data.msg)
+        console.log(error.response)
       }
     }
   

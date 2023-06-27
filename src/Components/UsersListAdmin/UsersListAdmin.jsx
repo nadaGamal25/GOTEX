@@ -209,7 +209,7 @@ export default function UsersListAdmin() {
                 <td>
                 <button
                         className='sdd-deposite btn btn-success mt-2'
-                        onClick={() => openModal(item._id)}
+                        onClick={() => openModal(item._id,item.name)}
                       >
                         إضافة رصيد
                       </button>
