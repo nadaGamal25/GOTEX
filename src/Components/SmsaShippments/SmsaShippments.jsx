@@ -81,7 +81,7 @@ export default function SmsaShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response.data?.msg?.message || "An error occurred.";
+      const errorMessage = error.response.data?.msg?.message||error.response.data?.msg || "An error occurred.";
       window.alert(errorMessage);
     }
   }
