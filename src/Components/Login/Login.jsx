@@ -178,6 +178,7 @@ async function sendLoginDataToApi(){
       
     })}
     </div>
+      <Link className='pt-2' to="/forgetPassword">هل نسيت كلمة المرور؟</Link> <br/>
       <button className='btn btn-login'>
         تسجيل الدخول
       </button>

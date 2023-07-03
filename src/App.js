@@ -42,6 +42,8 @@ import InvitedSignUp from './Components/InvitedSignUp/InvitedSignUp';
 import InvitedWaiting from './Components/InvitedWaiting/InvitedWaiting';
 import { useNavigate } from 'react-router-dom'
 import NavAdmin from './Components/NavAdmin/NavAdmin';
+import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
+import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
 
 function App() {
   
@@ -75,6 +77,8 @@ function App() {
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
     {path:'invitedSignUp',element:<InvitedSignUp/>},
+    {path:'forgetPassword',element:<ForgetPassword/>},
+    {path:'updatePassword/:x',element:<UpdatePassword/>},
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
     {path:'nav',element:<ProtectedRoute><NavAdmin setuserData={setuserData} userData={userData}/></ProtectedRoute>},
     // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
