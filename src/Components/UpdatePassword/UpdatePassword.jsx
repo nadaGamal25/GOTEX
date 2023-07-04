@@ -17,10 +17,10 @@ export default function UpdatePassword() {
     const [isLoading, setisLoading] =useState(false)
     
     let allparams= useParams()
-
+    
   async function sendDataToApi(){
     try {
-          const response = await axios.post('https://dashboard.go-tex.net/api/user/send-email-update-password', theUser,
+          const response = await axios.post('https://dashboard.go-tex.net/api/user/update-password', theUser,
           {
             params: {code: `${allparams.x}`},
           });
