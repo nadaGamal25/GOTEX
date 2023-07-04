@@ -17,28 +17,56 @@ export default function UpdatePassword() {
     const [isLoading, setisLoading] =useState(false)
     
     let allparams= useParams()
-    
-  async function sendDataToApi(){
-    try {
-          const response = await axios.post('https://dashboard.go-tex.net/api/user/update-password', theUser,
-          {
-            params: {code: `${allparams.x}`},
-          });
+
+    async function sendDataToApi() {
+        try {
+          const response = await axios.post(
+            'https://dashboard.go-tex.net/api/user/update-password',
+            {
+              password: theUser.password,
+              code: allparams.x,
+            }
+          );
+      
           if (response.status === 200) {
-            console.log(response.data)
-            setisLoading(false)
-            window.alert('تم تغيير كلمة المرور بنجاح')
+            console.log(response.data);
+            setisLoading(false);
+            window.alert('تم تغيير كلمة المرور بنجاح');
             navigate('/');
           } else {
-            setisLoading(false)
-            setError(response.data.msg)
-            console.log(response.data.msg)
+            setisLoading(false);
+            setError(response.data.msg);
+            console.log(response.data.msg);
           }
         } catch (error) {
           console.log(error);
           window.alert(error.response.data.msg);
         }
       }
+      
+      
+    
+//   async function sendDataToApi(){
+//     try {
+//           const response = await axios.post('https://dashboard.go-tex.net/api/user/update-password', theUser,
+//           {
+//             body: {code: `${allparams.x}`},
+//           });
+//           if (response.status === 200) {
+//             console.log(response.data)
+//             setisLoading(false)
+//             window.alert('تم تغيير كلمة المرور بنجاح')
+//             navigate('/');
+//           } else {
+//             setisLoading(false)
+//             setError(response.data.msg)
+//             console.log(response.data.msg)
+//           }
+//         } catch (error) {
+//           console.log(error);
+//           window.alert(error.response.data.msg);
+//         }
+//       }
   
           function submitForm(e) {
             e.preventDefault();
