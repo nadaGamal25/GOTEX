@@ -900,3 +900,14 @@ h3{
 .ll{
   overflow-x: scroll;
 }
+.toggle-button {
+  background-color: #fff;
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+
+.toggle-button.active {
+  background-color: #dadada;
+}
