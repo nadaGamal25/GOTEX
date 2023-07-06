@@ -95,7 +95,11 @@ export default function SmsaShippments(userData) {
       seterrorList(validation.error.details)
   
     }else{
-      sendOrderDataToApi();
+      if(userData.userData.data.user.iscrproofed === false){
+        window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+      }else{
+        sendOrderDataToApi();
+      }
     }
   
   }

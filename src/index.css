@@ -887,6 +887,7 @@ h3{
   border: solid 0.1px #adb6ba;
   position: absolute;
   width: 100%;
+  z-index: 9;
 }
 .ul-cities li:hover{
   background-color: #0a95ff;

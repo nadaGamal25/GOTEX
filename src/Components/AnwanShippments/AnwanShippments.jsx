@@ -19,7 +19,7 @@ export default function AnwanShippments(userData) {
     }
       useEffect(()=>{
           getCompaniesDetailsOrders()
-          getCities()
+          // getCities()
       },[])
       const [value ,setPhoneValue]=useState()
       const [phone2,setPhone2] =useState()
@@ -142,22 +142,22 @@ export default function AnwanShippments(userData) {
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
-      const [cities,setCities]=useState()
-      async function getCities() {
-        console.log(localStorage.getItem('userToken'))
-        try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-            },
-          });
-          setCities(response.data.data.data)
-          console.log(response.data.data.data)
-        } catch (error) {
-          console.error(error);
-        }
-      }
+      // const [cities,setCities]=useState()
+      // async function getCities() {
+      //   console.log(localStorage.getItem('userToken'))
+      //   try {
+      //     const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      //       },
+      //     });
+      //     setCities(response.data.data.data)
+      //     console.log(response.data.data.data)
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
+      // }
       const [search, setSearch]= useState('')
       const [search2, setSearch2]= useState('')
     
@@ -178,6 +178,215 @@ export default function AnwanShippments(userData) {
         setCitiesList2(false);
       };
     
+      const cities=['Buraydah','Al Badayea','Al Bukayriyah','Al Fuwaileq','Al Hilaliyah','Al Mithnab',
+        'Alnabhanya','Alrass','Ayn Fuhayd','Badaya','Bukeiriah','Midinhab','Muzneb','Onaiza','Oyoon Al Jawa',
+        'Riyadh Al Khabra','Unayzah','Uyun Al Jawa','Al Asyah','Al Batra','Uqlat Al Suqur',
+        'Al Amar in qasim','Al Dalemya','Al Khishaybi','AlDalemya','Dulay Rashid','Qusayba',
+        'Ar Rishawiyah','Al Wasayta','An Nuqrah','Hail','Qufar','Sadyan','Baqa Ash Sharqiyah','Baqaa',
+        'Ghazalah','Mawqaq','Moqaq','Munifat Al Qaid','Al Ajfar','Al hait','Ash Shamli','Ash Shananah',
+        'Shinanh','Simira','Al Jawf','Qurayat','Sakaka','Al Laqayit','Ar Radifah','At Tuwayr','Domat Al Jandal',
+        'Hadeethah','Qara','Tabrjal','Zallum','Abu Ajram','Al Adari','An Nabk Abu Qasr',
+        'Jouf','Arar','Hazm Al Jalamid','Rafha','Turaif',
+        'Abha','Ahad Rufaidah','Al Wadeen','Asir','Balahmar','Balasmar','Harajah',
+'Khamis Mushait','Sarat Abidah','Sarat Obeida','Tendaha','Wadeien','Wadi Bin Hasbal','Samakh',
+'Khaiber Al Janoub','Mohayel Aseer','Muhayil','Al Namas','Almajaridah',`Rejal Alma'A`,'Tanomah',
+'Tanuma','turaib','Al Birk',`Kara'a`,'Subheka','Tatleeth','Al Baha','Bisha','Biljurashi','Majarda',
+'Namas','Adham','Bareq','Bariq','Al Mada','Sabt El Alaya','Aqiq','Atawleh','Gilwa','Mandak','Nimra',
+'Almuzaylif','Al Qunfudhah','Al Salamah','Birk','Amaq','Muthaleif','Rania','Qunfudah','Al Jifah',
+'Bani Hamim','Al Majma','Al Khaniq','Haddadah','Hubuna','Lahumah','Al Husayniyah','Al Mishaliah',
+'Najran','Khbash','Dhahran Al Janoob','Badr Al Janoub','Bir Askar','Khabash','Al Harajah','Al Hijf',
+'Thar','Sharourah','Al Wadiah','Yadamah','Jazan','Sabkah','Al Husayni','Alarjeen','Sunbah',
+'Al Gamri','Al Rayyan','Al Ataya','Either','Alabadilah','Al-Batna','Al Haqu','Harub','El Edabi',
+'Al Henayah','Al khoba','Al Fatiha','Fayfa','Alaliya','Alshuqayri','Al-MNSALA','Samrat Al Jed',
+'Al kadami','Al Sahalil','Alshqayri','Ad Darb','Al Reeth','Al Araq','Al Kadarah','Al Aridhah',
+'Al Edabi','Al Idabi','Khasawyah','Abu Areish','Abu Arish','Ahad Al Masarihah','Ahad Masarha',
+'Al Jaradiyah','Al Madaya','Al-Matan','Algayed','Alsilaa','Bish','Darb','Gizan','Jazan Economic City',
+'Mahalah','Sabya','Samtah','Thabya','Addayer','Al Ardah','Al Harth','Al Mubarakah','Al Shuqaiq','Al Tuwal',
+'Damad','Karboos','Shoaiba','Al Shuqaiq Hofuf','Al Hassa','Al Hofuf','Hofuf','Mubaraz','Al Qarah' ,
+'Uyun',
+'Juatha',
+'Abqaiq',
+'Baqayq - Hofuf',
+'Baqiq',
+'Othmanyah',
+'Ain Dar',
+'Salwa',
+'Udhailiyah',
+'Harad',
+'Al Oyun Hofuf',
+'Qarah',
+'Al Khobar',
+'Dammam',
+'Dhahran',
+'Khobar',
+'Rahima',
+'Thuqba',
+'Al Jsh',
+'Al Qatif',
+'Anak',
+'Awamiah',
+'Nabiya',
+'Al Awjam',
+'Qatif',
+'Ras Tanura',
+'Safwa',
+'Seihat',
+'Tarout',
+'Tarut',
+'AlQaisumah',
+'Hafer Al Batin',
+'Nisab',
+'As Sufayri',
+'Qaisumah',
+'As Sadawi',
+'An Nazim',
+'Rafha',
+'King Khalid Military City',
+'Ath Thybiyah',
+'Rawdat Habbas',
+'Al Jubail',
+'Jubail',
+'Satorp tank farm',
+'Tanjeeb',
+'Ras Al Kheir',
+'As sarar' ,
+'Satorp',
+'Nayriyah',
+'Khafji',
+'Mulaija',
+'Qariya Al Olaya',
+'Safanyah',
+'Jeddah',
+'Taiba',
+'Asfan',
+'Bahara',
+'Bahrat Al Moujoud',
+'Dhahban',
+'Khulais',
+'King Abdullah Economic City',
+'Mastorah',
+'Mastura',
+'Thuwal',
+'Zahban',
+'Laith',
+'Rabigh',
+'An Nawwariyyah',
+`Ja'araneh`,
+'Jumum',
+'Makkah',
+'Mecca',
+'Nwariah',
+`Shraie'E`,
+'Shumeisi',
+'Al Jumum',
+'Al Huwaya',
+'Alhada',
+`Ash-Sharaʼi`,
+'Taif',
+`Hawea/Taif`,
+'Khurma',
+'Turba',
+'Al Ais',
+'Wadi farah',
+'Madinah',
+'Hinakeya',
+'Khaibar',
+'Umluj',
+'Oula',
+'Yanbu',
+'Bader',
+'Mahad Al Dahab',
+'Yanbu Al Baher',
+'Yanbu Al Sinaiyah',
+'Yanbu Nakhil',
+'Tabuk',
+'Al Bada',
+'Duba',
+'Halat Ammar',
+'Haqil',
+'Sharmaa',
+'Tayma',
+`Wajeh (Al Wajh)`,
+'Ad Diriyah',
+'Dhurma',
+'Huraymila',
+'Muzahmiyah',
+'Uyaynah',
+'Remah',
+'Salbookh',
+'Thadek',
+'Hawtat Bani Tamim',
+'Ad Dilam',
+'Al Kharj',
+'Al Hariq',
+'Al Jubaylah',
+'Ar Ruwaydah',
+'Quweiyah',
+'Malham',
+'Mrat',
+'Tebrak',
+'Qasab',
+'Ar Rayn',
+'Al Furuthi',
+'Jalajil',
+'Al Dahinah',
+'Al Jurayfah',
+'Al Muashibah',
+'As Suh',
+'Umm Tulayhah',
+'Al Ghurabah',
+'Shaqra',
+'Ushaiqer',
+'Hautat Sudair',
+'Al Hurayyiq',
+'Raudat Sudair',
+'Audat Sudair',
+'Ushairat Sudair',
+'Al Hasi',
+'Al Tuwaim',
+'Tumair',
+'Sudair Industry and Business City',
+'Mabayid',
+'Al Sheib',
+'Al Shahmah',
+'Al Ghat',
+'Al Wusayyiah',
+'Mulayh',
+'Al Zulfi',
+'Al Zulfi -North  Albutain',
+'Imarat Almistawi',
+'Mushrifa',
+'Mishash Awad',
+'Al Uqlah',
+'Al Artawiyah',
+'Al Qaiyah',
+'An Nughayq',
+'Masada Artawiyah',
+'Umm Al Jamajm',
+'Afif',
+'Sajir',
+'Bejadiyah',
+'Nifi',
+'Al Artawi',
+'Arja',
+'AL Qaiyah',
+'Alsalhiya',
+'Wabrah',
+'Hadri',
+'Al Qurayn',
+'Afqara',
+'Musaddah',
+'Al Ulu',
+'As sumayrah',
+'Ash Shuara',
+'Jefin',
+'Abu sidayrah',
+'Sulaiyl',
+'Khamaseen',
+'Khairan',
+'Wadi', 
+'Kumdah',
+        ]
     
   return (
 <div className='p-4' id='content'>
@@ -242,7 +451,7 @@ export default function AnwanShippments(userData) {
                   setSearch(searchValue);
                   getOrderData(e)
                   const matchingCities = cities.filter((item) => {
-                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
                   });
               
                   if (matchingCities.length === 0) {
@@ -256,7 +465,7 @@ export default function AnwanShippments(userData) {
                   {showCitiesList && (
                     <ul  className='ul-cities'>
                     {cities && cities.filter((item)=>{
-                    return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
+                    return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
                     }).map((item,index) =>{
                      return(
                       <li key={index} name='s_city' 
@@ -267,7 +476,7 @@ export default function AnwanShippments(userData) {
                         closeCitiesList();
                     }}
                       >
-                        {item.name}
+                        {item}
                      </li>
                      )
                     }
@@ -556,7 +765,7 @@ export default function AnwanShippments(userData) {
                   setSearch2(searchValue);
                   getOrderData(e)
                   const matchingCities = cities.filter((item) => {
-                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
                   });
               
                   if (matchingCities.length === 0) {
@@ -570,7 +779,7 @@ export default function AnwanShippments(userData) {
                   {showCitiesList2 && (
                     <ul  className='ul-cities'>
                     {cities && cities.filter((item)=>{
-                    return search2 === ''? item : item.name.toLowerCase().includes(search2.toLowerCase());
+                    return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
                     }).map((item,index) =>{
                      return(
                       <li key={index} name='c_city' 
@@ -581,7 +790,7 @@ export default function AnwanShippments(userData) {
                         closeCitiesList2();
                     }}
                       >
-                        {item.name}
+                        {item}
                      </li>
                      )
                     }
