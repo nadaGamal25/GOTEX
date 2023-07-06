@@ -397,7 +397,7 @@ export default function Shipments() {
             <th scope="col">اسم الشركة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col">طرقة الدفع</th>
-             {/* <th scope="col">Tracking_Number</th> */}
+             <th scope="col">التاريخ</th>
              <th scope="col"></th>
              {/* <th scope="col"></th> */}
            </tr>
@@ -410,7 +410,7 @@ export default function Shipments() {
                 <td>{item.company}</td>
                 <td>{item.ordernumber}</td>
                 <td>{item.paytype}</td>
-                {/* <td>{item.data.orderTrackingNumber}</td> */}
+                <td>{item.data.createDate.slice(0, 10)}</td>
                 <td>
                 <button
       
