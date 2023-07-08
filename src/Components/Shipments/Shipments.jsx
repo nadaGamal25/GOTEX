@@ -8,6 +8,7 @@ import sae from '../../assets/sae.jpg'
 export default function Shipments() {
   const [saeeAllOrders,setSaeeAllOrders]=useState([]);
   const [gltAllOrders,setGltAllOrders]=useState([]);
+  const [gotexAllOrders,setGotexAllOrders]=useState([]);
   const [aramexAllOrders,setAramexAllOrders]=useState([]);
   const [smsaAllOrders,setSmsaAllOrders]=useState([]);
   const [sticker, setSticker] = useState('');
@@ -18,9 +19,25 @@ export default function Shipments() {
     getGltUserOrders()
     getAramexUserOrders()
     getSmsaUserOrders()
+    getGotexUserOrders()
   },[])
 
-  
+  async function getGotexUserOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/anwan/get-all-orders',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      const gotexOrders = response.data.data;
+      // Process the orders as needed
+      console.log(gotexOrders)
+      setGotexAllOrders(gotexOrders)
+    } catch (error) {
+      console.error(error);
+    }
+  }
       async function getGltUserOrders() {
         try {
           const response = await axios.get('https://dashboard.go-tex.net/api/glt/get-all-orders',
@@ -71,7 +88,21 @@ export default function Shipments() {
       }
 
       
-  
+      async function getGotexSticker(orderId) {
+        try {
+          const response = await axios.get(`https://dashboard.go-tex.net/api/anwan/print-sticker/${orderId}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+               console.log(response.data.data)
+          const stickerUrl = `${response.data.data}`;
+          const newTab = window.open();
+          newTab.location.href = stickerUrl;
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
   async function getGltSticker(orderId) {
     try {
@@ -238,12 +269,61 @@ export default function Shipments() {
   
   return (
     <>
+    
 <div className='p-4' id='content'>
       <div className="clients-heading py-2 d-flex justify-content-between">
         <h3><i class="fa-solid fa-box-open bx"></i>
 الشحنات</h3>
         <Link to="/companies" className='btn'><i class="fa-solid fa-plus"></i>إنشاء  </Link>
       </div>
+      <div className="clients-table p-4 mt-4">
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col">اسم الشركة</th>
+             <th scope="col">رقم الشحنة</th>
+             <th scope="col">السعر </th>
+             <th scope="col">طريقة الدفع</th>
+             <th scope="col"> تتبع الشحنة</th>
+             <th scope="col"></th>
+           </tr>
+         </thead>
+       <tbody>
+           {gotexAllOrders.map((item,index) =>{
+            return(
+              <tr key={index}>
+                <td>{index+1}</td>
+                <td>gotex</td>
+                <td>{item.ordernumber}</td>
+                <td>{item.price}</td>
+                <td>{item.paytype}</td>
+                <td><a className='text-primary' href={item.data.tracking_url} target='_blank'>تتبع</a></td>
+
+                <td>
+                <button
+      
+      className="gotex-btn btn btn-success"
+      onClick={() => getGotexSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+                {/* <td>
+                  <button
+                        className="btn btn-info text-white"
+                        onClick={() => trackOrder(item._id)}
+                      >
+                        تتبع الشحنة
+                      </button>
+                </td> */}
+              </tr>
+            )
+          }
+          )}
+        </tbody>
+      </table>
+     </div> 
      <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>

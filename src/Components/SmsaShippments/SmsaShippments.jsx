@@ -51,6 +51,7 @@ export default function SmsaShippments(userData) {
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
+  const [shipments,setShipments]=useState([])
 
   async function sendOrderDataToApi() {
     console.log(localStorage.getItem('userToken'))
@@ -68,10 +69,11 @@ export default function SmsaShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert(`تم تسجيل الشحنة بنجاح`);
-        console.log(response.data);
-      
-        console.log("okkkkkkkkkkk")
-      }else if (response.status === 400) {
+        console.log(response.data.data);
+        const shipment = response.data.data;
+        setShipments(prevShipments => [...prevShipments, shipment]);
+        console.log(shipments)
+        }else if (response.status === 400) {
         setisLoading(false);
         const errorMessage = error.response.data?.msg?.message|| "An error occurred.";
         window.alert(errorMessage);
@@ -374,7 +376,21 @@ export default function SmsaShippments(userData) {
     const closeCitiesList2 = () => {
       setCitiesList2(false);
     };
-    
+    async function getSmsaSticker(orderId) {
+      try {
+        const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        });
+             console.log(response.data.data)
+             const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+             const newTab = window.open();
+             newTab.location.href = stickerUrl;
+      } catch (error) {
+        console.error(error);
+      }
+    }
   return (
 <div className='p-4' id='content'>
         <div className="shipmenForm">
@@ -844,6 +860,44 @@ export default function SmsaShippments(userData) {
             </div>
         </form>
         
+        </div>
+        <div className="clients-table p-4 mt-4">
+          <table className="table">
+            <thead>
+              <tr>
+               <th scope="col">#</th>
+               <th scope="col"> الشركة</th>
+               <th scope="col">رقم الشحنة</th>
+               <th scope="col">طريقة الدفع</th>
+               <th scope="col">التاريخ </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+  {Array.isArray(shipments) && shipments.map((item, index) => {
+    return (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <td>{item.company}</td>
+        <td>{item.ordernumber}</td>
+        <td>{item.paytype}</td>
+        <td>{item.data.createDate.slice(0, 10)}</td>
+        <td>
+                <button
+      
+      className="smsa-btn btn btn-success"
+      onClick={() => getSmsaSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+      </tr>
+    );
+  })}
+</tbody>
+
+
+         </table>
         </div>
         
     </div> 

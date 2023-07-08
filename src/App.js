@@ -65,6 +65,7 @@ function App() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       window.alert('الجلسة انتهت..قم بتسجيل الدخول مرة اخرى');
+      localStorage.removeItem('userToken');
       setuserData(null);
       window.location.href = '/';
     }, 60 * 60 * 1000); // 1 hour in milliseconds

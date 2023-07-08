@@ -66,7 +66,8 @@ export default function GltOrdersShipment(userData) {
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
-
+  const [stickerId,setStickerId]=useState('')
+  const [shipments,setShipments]=useState([])
   async function sendOrderDataToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
@@ -83,8 +84,12 @@ export default function GltOrdersShipment(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert(response.data.data.data.msg);
-        console.log(response.data);
-        console.log("okkkkkkkkkkk")
+        console.log(response.data.data);
+        const shipment = response.data.data;
+        setShipments(prevShipments => [...prevShipments, shipment]);
+        console.log(shipments)
+        setStickerId(response.data.data._id)
+        console.log(stickerId)
       }else if (response.status === 400) {
         setisLoading(false);
         const errorMessage = response.data.msg || "An error occurred.";
@@ -181,6 +186,21 @@ export default function GltOrdersShipment(userData) {
   const closeCitiesList2 = () => {
     setCitiesList2(false);
   };
+  async function getGltSticker(orderId) {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+           console.log(response.data.data)
+      const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 
   return (
@@ -448,29 +468,6 @@ export default function GltOrdersShipment(userData) {
                    
                    ):
                    <h4></h4>}
-
-{/* <>
-                    <div className='pb-3'>
-                <label htmlFor=""> قيمة الشحن (cod)</label>
-                <input type="number" className="form-control" name='cod' onChange={getOrderData}/>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='cod'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
-            <div className='pb-3'>
-                <label htmlFor=""> قيمة الشحنة</label>
-                <input type="number" className="form-control" name='shipmentValue' onChange={getOrderData}/>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='shipmentValue'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
-                    </> */}
                 <div className='pb-3'>
                 <label htmlFor=""> الوصف </label>
                 <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
@@ -602,29 +599,57 @@ export default function GltOrdersShipment(userData) {
             </div>
             
             
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
+            <button className="btn btn-orange ms-1"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
             </div>
             </div>
             </div>
         </form>
-        
+        {/* <div>
+        <button className="btn btn-success" onClick={() => getGltSticker(stickerId)}>عرض الاستيكر</button>
+        </div> */}        
         </div>
-        {/* <div className="clients-table p-4 mt-5">
-            <h6 className='text-center'>بيانات المستلم</h6>
-        <table className="table">
-        <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">الأسم</th>
-      <th scope="col">البريد الالكترونى</th>
-      <th scope="col">الهاتف </th>
-      <th scope="col">الموقع</th>
-      <th scope="col">الدفع عند الاستلام</th>
-      <th scope="col">الاجراءات</th>
-    </tr>
-  </thead>
-        </table>
-      </div> */}
+          <div className="clients-table p-4 mt-4">
+          <table className="table">
+            <thead>
+              <tr>
+               <th scope="col">#</th>
+               <th scope="col"> الشركة</th>
+               <th scope="col">رقم التتبع</th>
+               <th scope="col">طريقة الدفع</th>
+               <th scope="col">السعر </th>
+                <th scope="col">message</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+  {Array.isArray(shipments) && shipments.map((item, index) => {
+    return (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <td>{item.company}</td>
+        <td>{item.data.orderTrackingNumber}</td>
+        <td>{item.paytype}</td>
+        <td>{item.price}</td>
+        <td>{item.data.msg}</td>
+        <td>
+                <button
+      
+      className="glt-btn btn btn-success"
+      onClick={() => getGltSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+      </tr>
+    );
+  })}
+</tbody>
+
+
+         </table>
+        </div>
     </div>
       )
 }

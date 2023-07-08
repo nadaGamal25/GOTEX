@@ -47,7 +47,8 @@ export default function AnwanShippments(userData) {
     })
     const [error , setError]= useState('')
     const [isLoading, setisLoading] =useState(false)
-  
+    const [shipments,setShipments]=useState([])
+
     async function sendOrderDataToApi() {
       console.log(localStorage.getItem('userToken'))
       try {
@@ -63,10 +64,12 @@ export default function AnwanShippments(userData) {
     
         if (response.status === 200) {
           setisLoading(false);
-          window.alert(response.data.data.data.msg);
-          console.log(response.data);
-          console.log("okkkkkkkkkkk")
-        }else if (response.status === 400) {
+          window.alert("تم تسجيل الشحنة بنجاح");
+          console.log(response.data.data);
+          const shipment = response.data.data;
+          setShipments(prevShipments => [...prevShipments, shipment]);
+          console.log(shipments)
+          }else if (response.status === 400) {
           setisLoading(false);
           const errorMessage = response.data.msg || "An error occurred.";
           window.alert(`${errorMessage}`);
@@ -76,7 +79,7 @@ export default function AnwanShippments(userData) {
         // Handle error
         console.error(error);
         setisLoading(false);
-        const errorMessage = error.response.data.error.msg || "An error occurred.";
+        const errorMessage = error.response.data?.error?.msg || error.response.data?.msg ||   "An error occurred.";
         window.alert(`${errorMessage}`);
       }
     }
@@ -143,21 +146,21 @@ export default function AnwanShippments(userData) {
         return scheme.validate(orderData, {abortEarly:false});
       }
       // const [cities,setCities]=useState()
-      // async function getCities() {
-      //   console.log(localStorage.getItem('userToken'))
-      //   try {
-      //     const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-      //       },
-      //     });
-      //     setCities(response.data.data.data)
-      //     console.log(response.data.data.data)
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
-      // }
+      async function getCities() {
+        console.log(localStorage.getItem('userToken'))
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/anwan/cities',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          // setCities(response.data.data.data)
+          console.log(response.data.data)
+        } catch (error) {
+          console.error(error);
+        }
+      }
       const [search, setSearch]= useState('')
       const [search2, setSearch2]= useState('')
     
@@ -387,6 +390,22 @@ export default function AnwanShippments(userData) {
 'Wadi', 
 'Kumdah',
         ]
+
+        async function getGotexSticker(orderId) {
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/api/anwan/print-sticker/${orderId}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            });
+                 console.log(response.data.data)
+            const stickerUrl = `${response.data.data}`;
+            const newTab = window.open();
+            newTab.location.href = stickerUrl;
+          } catch (error) {
+            console.error(error);
+          }
+        }
     
   return (
 <div className='p-4' id='content'>
@@ -845,6 +864,46 @@ export default function AnwanShippments(userData) {
             </div>
         </form>
         
+        </div>
+        <div className="clients-table p-4 mt-4">
+          <table className="table">
+            <thead>
+              <tr>
+               <th scope="col">#</th>
+               <th scope="col"> الشركة</th>
+               <th scope="col">رقم الشحنة</th>
+               <th scope="col">طريقة الدفع</th>
+               <th scope="col">السعر </th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+  {Array.isArray(shipments) && shipments.map((item, index) => {
+    return (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <td>{item.company}</td>
+        <td>{item.ordernumber}</td>
+        <td>{item.paytype}</td>
+        <td>{item.price}</td>
+        <td>
+                <button
+      
+      className="glt-btn btn btn-success"
+      onClick={() => getGotexSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+      </tr>
+    );
+  })}
+</tbody>
+
+
+         </table>
         </div>
         
     </div>  )
