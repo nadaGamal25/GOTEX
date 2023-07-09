@@ -284,8 +284,9 @@ export default function Shipments() {
             <th scope="col">اسم الشركة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col">السعر </th>
-             <th scope="col">طريقة الدفع</th>
              <th scope="col"> تتبع الشحنة</th>
+             <th scope="col">طريقة الدفع</th>
+             <th scope="col"> التاريخ</th>
              <th scope="col"></th>
            </tr>
          </thead>
@@ -297,8 +298,9 @@ export default function Shipments() {
                 <td>gotex</td>
                 <td>{item.ordernumber}</td>
                 <td>{item.price}</td>
-                <td>{item.paytype}</td>
                 <td><a className='text-primary' href={item.data.tracking_url} target='_blank'>تتبع</a></td>
+                <td>{item.paytype}</td>
+                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
 
                 <td>
                 <button
@@ -333,6 +335,7 @@ export default function Shipments() {
             <th scope="col">message</th>
             <th scope="col">رقم التتبع</th>
             <th scope="col">طريقة الدفع</th>
+            <th scope="col">التاريخ</th>
             <th scope="col"></th>
             <th scope="col"></th>
           </tr>
@@ -346,6 +349,7 @@ export default function Shipments() {
                 <td>{item.data.message}</td>
                 <td>{item.data.waybill}</td>
                 <td>{item.paytype}</td>
+                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
                 <td>
                 <button
       
@@ -381,6 +385,7 @@ export default function Shipments() {
              <th scope="col">message</th>
              <th scope="col">رقم التتبع</th>
              <th scope="col">طريقة الدفع</th>
+             <th scope="col">التاريخ </th>
              <th scope="col"></th>
              <th scope="col"></th>
            </tr>
@@ -395,6 +400,7 @@ export default function Shipments() {
                 <td>{item.data.msg}</td>
                 <td>{item.data.orderTrackingNumber}</td>
                 <td>{item.paytype}</td>
+                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
 
                 <td>
                 <button
