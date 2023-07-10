@@ -42,6 +42,7 @@ export default function AramexShippments(userData) {
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
+  const [shipmentst,setShipments]=useState([])
 
   async function sendOrderDataToApi() {
     console.log(localStorage.getItem('userToken'))
@@ -59,23 +60,25 @@ export default function AramexShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert(`تم تسجيل الشحنة بنجاح`);
-        console.log(response.data);
+        console.log(response.data.data);
       //   console.log(response.data.data.Shipments[0].ShipmentLabel.LabelURL);
       //   const stickerUrl = `${response.data.data.Shipments[0].ShipmentLabel.LabelURL}`;
       // const newTab = window.open();
       // newTab.location.href = stickerUrl;
-        console.log("okkkkkkkkkkk")
-      }else if (response.status === 400) {
+      const shipment = response.data.data;
+      setShipments(prevShipments => [...prevShipments, shipment]);
+      console.log(shipment)
+        }else if (response.status === 400) {
         setisLoading(false);
         const errorMessage = response.data?.msg || "An error occurred.";
-        window.alert(`يوجد خطأ ما ..لم يتم تسجيل الشحنة`);
+        window.alert(errorMessage);
         console.log(response.data);
       }
     } catch (error) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.data.Shipments[0].Notifications[0]?.Message || "An error occurred.";
+      const errorMessage = error.response?.data?.data.Shipments[0].Notifications[0]?.Message || error.response?.data?.msg || "An error occurred.";
       window.alert(errorMessage);
     }
   }
@@ -197,6 +200,21 @@ export default function AramexShippments(userData) {
     setCitiesList2(false);
   };
 
+  async function getAramexSticker(orderId) {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/aramex/print-sticker/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+           console.log(response.data.data)
+      const stickerUrl = `${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
 <div className='p-4' id='content'>
@@ -385,7 +403,7 @@ export default function AramexShippments(userData) {
       
     })}
     { userData.userData.data.user.rolle === "marketer"?(
-              <div className='pb-3'>
+              <div className='py-3'>
               <label htmlFor=""> كود المسوق </label>
               <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
               {errorList.map((err,index)=>{
@@ -734,6 +752,44 @@ export default function AramexShippments(userData) {
   </thead>
         </table>
       </div> */}
+      <div className="clients-table p-4 mt-4">
+          <table className="table">
+            <thead>
+              <tr>
+               <th scope="col">#</th>
+               <th scope="col"> الشركة</th>
+               <th scope="col">id_الشحنة </th>
+               <th scope="col">عدد القطع </th>
+               {/* <th scope="col">السعر </th>
+                <th scope="col">message</th> */}
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+  {Array.isArray(shipmentst) && shipmentst.map((item, index) => {
+    return (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <td>aramex</td>
+        <td>{item.Shipments[0].ID}</td>
+        <td>{item.Shipments[0].ShipmentDetails.NumberOfPieces}</td>
+        <td>
+                <button
+      
+      className="glt-btn btn btn-success"
+      onClick={() =>  getAramexSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+      </tr>
+    );
+  })}
+</tbody>
+
+
+         </table>
+        </div>
     </div>
       )
 }

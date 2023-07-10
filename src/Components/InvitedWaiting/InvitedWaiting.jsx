@@ -121,6 +121,7 @@ export default function InvitedWaiting() {
       );
       const waitinglist = response.data.data;
       setWaitingList(waitinglist);
+      console.log(waitingList)
 
       const filteredList = waitinglist.filter((item) => {
         if (searchOption === 'clint') {

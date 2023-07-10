@@ -1,11 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import SaeeSticker from '../SaeeSticker/SaeeSticker';
 import { useNavigate } from 'react-router-dom';
-import sae from '../../assets/sae.jpg'
 
-export default function Shipments() {
+export default function Shipments(userData) {
   const [saeeAllOrders,setSaeeAllOrders]=useState([]);
   const [gltAllOrders,setGltAllOrders]=useState([]);
   const [gotexAllOrders,setGotexAllOrders]=useState([]);
@@ -266,7 +264,8 @@ export default function Shipments() {
       }
 
  
-  
+      const [search, setSearch]= useState('')
+
   return (
     <>
     
@@ -276,6 +275,16 @@ export default function Shipments() {
 الشحنات</h3>
         <Link to="/companies" className='btn'><i class="fa-solid fa-plus"></i>إنشاء  </Link>
       </div>
+      {/* { userData.userData.data.user.rolle === "marketer"?(
+            <div className="search-box p-4 mt-2 row g-1">
+            <div className="col-md-2">
+            <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+            </div>
+            <div className="col-md-10">
+            <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='كود المسوق' />
+            </div>
+          </div>
+          ): null} */}
       <div className="clients-table p-4 mt-4">
        <table className="table">
          <thead>
@@ -291,38 +300,41 @@ export default function Shipments() {
            </tr>
          </thead>
        <tbody>
-           {gotexAllOrders.map((item,index) =>{
+       {gotexAllOrders.filter((item)=>{
+          return search === ''? item : item.marktercode.includes(search);
+          }).map((item,index) =>{
             return(
               <tr key={index}>
-                <td>{index+1}</td>
-                <td>gotex</td>
-                <td>{item.ordernumber}</td>
-                <td>{item.price}</td>
-                <td><a className='text-primary' href={item.data.tracking_url} target='_blank'>تتبع</a></td>
-                <td>{item.paytype}</td>
-                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              <td>{index+1}</td>
+              <td>gotex</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.price}</td>
+              <td><a className='text-primary' href={item.data.tracking_url} target='_blank'>تتبع</a></td>
+              <td>{item.paytype}</td>
+              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
 
-                <td>
+              <td>
+              <button
+    
+    className="gotex-btn btn btn-success"
+    onClick={() => getGotexSticker(item._id)}
+  >
+    عرض الاستيكر
+  </button>
+              </td>
+              {/* <td>
                 <button
-      
-      className="gotex-btn btn btn-success"
-      onClick={() => getGotexSticker(item._id)}
-    >
-      عرض الاستيكر
-    </button>
-                </td>
-                {/* <td>
-                  <button
-                        className="btn btn-info text-white"
-                        onClick={() => trackOrder(item._id)}
-                      >
-                        تتبع الشحنة
-                      </button>
-                </td> */}
-              </tr>
+                      className="btn btn-info text-white"
+                      onClick={() => trackOrder(item._id)}
+                    >
+                      تتبع الشحنة
+                    </button>
+              </td> */}
+            </tr>
             )
           }
           )}
+           
         </tbody>
       </table>
      </div> 
@@ -341,33 +353,35 @@ export default function Shipments() {
           </tr>
         </thead>
         <tbody>
-          {saeeAllOrders.map((item,index) =>{
+        {saeeAllOrders.filter((item)=>{
+          return search === ''? item : item.marktercode.includes(search);
+          }).map((item,index) =>{
             return(
               <tr key={index}>
-                <td>{index+1}</td>
-                <td>ساعي</td>
-                <td>{item.data.message}</td>
-                <td>{item.data.waybill}</td>
-                <td>{item.paytype}</td>
-                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
-                <td>
-                <button
-      
-      className="btn btn-success"
-      onClick={() => getOrderSticker(item._id)}
-    >
-      عرض الاستيكر
-    </button>
-                </td>
-                <td>
-                  <a href='https://www.saee.sa/ar/track-your-shipment/' target='_blank'
-                        className="btn btn-info text-white"
-                        onClick={() => trackOrder(item._id)}
-                      >
-                        تتبع الشحنة
-                      </a>
-                </td>
-              </tr>
+              <td>{index+1}</td>
+              <td>ساعي</td>
+              <td>{item.data.message}</td>
+              <td>{item.data.waybill}</td>
+              <td>{item.paytype}</td>
+              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              <td>
+              <button
+    
+    className="btn btn-success"
+    onClick={() => getOrderSticker(item._id)}
+  >
+    عرض الاستيكر
+  </button>
+              </td>
+              <td>
+                <a href='https://www.saee.sa/ar/track-your-shipment/' target='_blank'
+                      className="btn btn-info text-white"
+                      onClick={() => trackOrder(item._id)}
+                    >
+                      تتبع الشحنة
+                    </a>
+              </td>
+            </tr>
             )
           }
           )}
@@ -391,7 +405,9 @@ export default function Shipments() {
            </tr>
          </thead>
        <tbody>
-           {gltAllOrders.map((item,index) =>{
+       {gltAllOrders.filter((item)=>{
+          return search === ''? item : item.marktercode.includes(search);
+          }).map((item,index) =>{
             return(
               <tr key={index}>
                 <td>{index+1}</td>
@@ -423,6 +439,7 @@ export default function Shipments() {
             )
           }
           )}
+           
         </tbody>
       </table>
      </div> 
@@ -434,44 +451,49 @@ export default function Shipments() {
             <th scope="col">#</th>
             <th scope="col">اسم الشركة</th>
              <th scope="col">رقم الشحنة</th>
+             <th scope="col"> السعر</th>
              <th scope="col">طريقة الدفع</th>
-             {/* <th scope="col">message</th> */}
+             <th scope="col">التاريخ</th>
              {/* <th scope="col">Tracking_Number</th> */}
              <th scope="col"></th>
              {/* <th scope="col"></th> */}
            </tr>
          </thead>
        <tbody>
-           {aramexAllOrders.map((item,index) =>{
+       {aramexAllOrders.filter((item)=>{
+          return search === ''? item : item.marktercode.includes(search);
+          }).map((item,index) =>{
             return(
               <tr key={index}>
-                <td>{index+1}</td>
-                <td>{item.company}</td>
-                <td>{item.ordernumber}</td>
-                <td>{item.paytype}</td>
-                {/* <td>{item.data.msg}</td> */}
-                {/* <td>{item.data.orderTrackingNumber}</td> */}
-                <td>
+              <td>{index+1}</td>
+              <td>{item.company}</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.price}</td>
+              <td>{item.paytype}</td>
+              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {/* <td>{item.data.orderTrackingNumber}</td> */}
+              <td>
+              <button
+    
+    className="aramex-btn btn btn-success"
+    onClick={() => getAramexSticker(item._id)}
+  >
+    عرض الاستيكر
+  </button>
+              </td>
+              {/* <td>
                 <button
-      
-      className="aramex-btn btn btn-success"
-      onClick={() => getAramexSticker(item._id)}
-    >
-      عرض الاستيكر
-    </button>
-                </td>
-                {/* <td>
-                  <button
-                        className="btn btn-info text-white"
-                        onClick={() => trackOrder(item._id)}
-                      >
-                        تتبع الشحنة
-                      </button>
-                </td> */}
-              </tr>
+                      className="btn btn-info text-white"
+                      onClick={() => trackOrder(item._id)}
+                    >
+                      تتبع الشحنة
+                    </button>
+              </td> */}
+            </tr>
             )
           }
           )}
+           
         </tbody>
       </table>
      </div> 
@@ -489,35 +511,38 @@ export default function Shipments() {
            </tr>
          </thead>
        <tbody>
-           {smsaAllOrders.map((item,index) =>{
+       {smsaAllOrders.filter((item)=>{
+          return search === ''? item : item.marktercode.includes(search);
+          }).map((item,index) =>{
             return(
               <tr key={index}>
-                <td>{index+1}</td>
-                <td>{item.company}</td>
-                <td>{item.ordernumber}</td>
-                <td>{item.paytype}</td>
-                <td>{item.data.createDate.slice(0, 10)}</td>
-                <td>
+              <td>{index+1}</td>
+              <td>{item.company}</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.paytype}</td>
+              <td>{item.data.createDate.slice(0, 10)}</td>
+              <td>
+              <button
+    
+    className="smsa-btn btn btn-success"
+    onClick={() => getSmsaSticker(item._id)}
+  >
+    عرض الاستيكر
+  </button>
+              </td>
+              {/* <td>
                 <button
-      
-      className="smsa-btn btn btn-success"
-      onClick={() => getSmsaSticker(item._id)}
-    >
-      عرض الاستيكر
-    </button>
-                </td>
-                {/* <td>
-                  <button
-                        className="btn btn-info text-white"
-                        onClick={() => trackOrder(item._id)}
-                      >
-                        تتبع الشحنة
-                      </button>
-                </td> */}
-              </tr>
+                      className="btn btn-info text-white"
+                      onClick={() => trackOrder(item._id)}
+                    >
+                      تتبع الشحنة
+                    </button>
+              </td> */}
+            </tr>
             )
           }
           )}
+           
         </tbody>
       </table>
      </div> 

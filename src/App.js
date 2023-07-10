@@ -100,7 +100,7 @@ function App() {
       // {path:'/clients',element:<ProtectedRoute userData={userData}><Clients/></ProtectedRoute>},
       // {path:'/addclient',element:<ProtectedRoute userData={userData}><AddClient/></ProtectedRoute>},
       {path:'/payment',element:<ErrorBoundary><ProtectedRoute userData={userData}><Payment/></ProtectedRoute></ErrorBoundary>},
-      {path:'/shipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><Shipments/></ProtectedRoute></ErrorBoundary>},
+      {path:'/shipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><Shipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/shipmentForms',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentForms userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/saeeShipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/gltShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
