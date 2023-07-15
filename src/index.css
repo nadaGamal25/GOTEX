@@ -911,3 +911,6 @@ h3{
 .toggle-button.active {
   background-color: #dadada;
 }
+.clients-table h5{
+  color: var(--dark--color);
+}

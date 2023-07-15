@@ -19,6 +19,20 @@ export default function Shipments(userData) {
     getSmsaUserOrders()
     getGotexUserOrders()
   },[])
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredShipments, setFilteredShipments] = useState([]);  
+  // useEffect(() => {
+  //   filterShipments();
+  // }, [saeeAllOrders, gltAllOrders, gotexAllOrders, aramexAllOrders, smsaAllOrders, searchQuery]);
+  
+  function filterShipments() {
+    const allShipments = [...saeeAllOrders, ...gltAllOrders, ...gotexAllOrders, ...aramexAllOrders, ...smsaAllOrders];
+    const filteredShipments = allShipments.filter((shipment) =>
+      shipment.item.marktercode.includes(searchQuery)
+    );
+    setFilteredShipments(filteredShipments);
+  }
+  
 
   async function getGotexUserOrders() {
     try {
@@ -165,22 +179,7 @@ export default function Shipments(userData) {
         } catch (error) {
           console.error(error);
         }
-      }
-
-  // async function getOrderSticker(orderId) {
-  //       try {
-  //         const response = await axios.get(`https://dashboard.go-tex.net/api/saee/print-sticker/${orderId}`, {
-  //           headers: {
-  //             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-  //           },
-  //         });
-  //         const sticker = response.data.data;
-  //         console.log(sticker)
-  //         setSticker(sticker);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     }
+      }  
 
   async function getOrderSticker(orderId) {
     try {
@@ -275,7 +274,8 @@ export default function Shipments(userData) {
 الشحنات</h3>
         <Link to="/companies" className='btn'><i class="fa-solid fa-plus"></i>إنشاء  </Link>
       </div>
-      {/* { userData.userData.data.user.rolle === "marketer"?(
+      
+      {userData.userData.data.user.rolle === "marketer"?(
             <div className="search-box p-4 mt-2 row g-1">
             <div className="col-md-2">
             <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
@@ -284,13 +284,15 @@ export default function Shipments(userData) {
             <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='كود المسوق' />
             </div>
           </div>
-          ): null} */}
+          ): null}
       <div className="clients-table p-4 mt-4">
+      { userData.userData.data.user.rolle === "marketer"?(
+        <h5>شركة gotex</h5>):null}
        <table className="table">
          <thead>
            <tr>
             <th scope="col">#</th>
-            <th scope="col">اسم الشركة</th>
+            <th scope="col"> الشركة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col">السعر </th>
              <th scope="col"> تتبع الشحنة</th>
@@ -300,9 +302,12 @@ export default function Shipments(userData) {
            </tr>
          </thead>
        <tbody>
-       {gotexAllOrders.filter((item)=>{
-          return search === ''? item : item.marktercode.includes(search);
-          }).map((item,index) =>{
+       {gotexAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return item.marktercode && item.marktercode.includes(search);
+  }).map((item,index) =>{
             return(
               <tr key={index}>
               <td>{index+1}</td>
@@ -334,16 +339,18 @@ export default function Shipments(userData) {
             )
           }
           )}
-           
+      
         </tbody>
       </table>
      </div> 
      <div className="clients-table p-4 my-4">
+     { userData.userData.data.user.rolle === "marketer"?(
+        <h5>شركة saee</h5>):null}
       <table className="table">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">اسم الشركة</th>
+            <th scope="col"> الشركة</th>
             <th scope="col">message</th>
             <th scope="col">رقم التتبع</th>
             <th scope="col">طريقة الدفع</th>
@@ -353,9 +360,12 @@ export default function Shipments(userData) {
           </tr>
         </thead>
         <tbody>
-        {saeeAllOrders.filter((item)=>{
-          return search === ''? item : item.marktercode.includes(search);
-          }).map((item,index) =>{
+        {saeeAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return item.marktercode && item.marktercode.includes(search);
+  }).map((item,index) =>{
             return(
               <tr key={index}>
               <td>{index+1}</td>
@@ -390,11 +400,13 @@ export default function Shipments(userData) {
      </div> 
 
      <div className="clients-table p-4 mt-4">
+     { userData.userData.data.user.rolle === "marketer"?(
+        <h5>شركة glt</h5>):null}
        <table className="table">
          <thead>
            <tr>
             <th scope="col">#</th>
-            <th scope="col">اسم الشركة</th>
+            <th scope="col"> الشركة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col">message</th>
              <th scope="col">رقم التتبع</th>
@@ -405,9 +417,12 @@ export default function Shipments(userData) {
            </tr>
          </thead>
        <tbody>
-       {gltAllOrders.filter((item)=>{
-          return search === ''? item : item.marktercode.includes(search);
-          }).map((item,index) =>{
+       {gltAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return item.marktercode && item.marktercode.includes(search);
+  }).map((item,index) =>{
             return(
               <tr key={index}>
                 <td>{index+1}</td>
@@ -427,14 +442,7 @@ export default function Shipments(userData) {
       عرض الاستيكر
     </button>
                 </td>
-                {/* <td>
-                  <button
-                        className="btn btn-info text-white"
-                        onClick={() => trackOrder(item._id)}
-                      >
-                        تتبع الشحنة
-                      </button>
-                </td> */}
+                
               </tr>
             )
           }
@@ -445,11 +453,13 @@ export default function Shipments(userData) {
      </div> 
 
      <div className="clients-table p-4 mt-4">
+     { userData.userData.data.user.rolle === "marketer"?(
+        <h5>شركة aramex</h5>):null}
        <table className="table">
          <thead>
            <tr>
             <th scope="col">#</th>
-            <th scope="col">اسم الشركة</th>
+            <th scope="col"> الشركة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col"> السعر</th>
              <th scope="col">طريقة الدفع</th>
@@ -460,9 +470,12 @@ export default function Shipments(userData) {
            </tr>
          </thead>
        <tbody>
-       {aramexAllOrders.filter((item)=>{
-          return search === ''? item : item.marktercode.includes(search);
-          }).map((item,index) =>{
+       {aramexAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return item.marktercode && item.marktercode.includes(search);
+  }).map((item,index) =>{
             return(
               <tr key={index}>
               <td>{index+1}</td>
@@ -498,11 +511,13 @@ export default function Shipments(userData) {
       </table>
      </div> 
      <div className="clients-table p-4 mt-4">
+     { userData.userData.data.user.rolle === "marketer"?(
+        <h5>شركة smsa</h5>):null}
        <table className="table">
          <thead>
            <tr>
             <th scope="col">#</th>
-            <th scope="col">اسم الشركة</th>
+            <th scope="col"> الشركة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
@@ -511,9 +526,12 @@ export default function Shipments(userData) {
            </tr>
          </thead>
        <tbody>
-       {smsaAllOrders.filter((item)=>{
-          return search === ''? item : item.marktercode.includes(search);
-          }).map((item,index) =>{
+       {smsaAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return item.marktercode && item.marktercode.includes(search);
+  }).map((item,index) =>{
             return(
               <tr key={index}>
               <td>{index+1}</td>
@@ -530,14 +548,7 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
-              {/* <td>
-                <button
-                      className="btn btn-info text-white"
-                      onClick={() => trackOrder(item._id)}
-                    >
-                      تتبع الشحنة
-                    </button>
-              </td> */}
+              
             </tr>
             )
           }
