@@ -44,6 +44,7 @@ import { useNavigate } from 'react-router-dom'
 import NavAdmin from './Components/NavAdmin/NavAdmin';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
 import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
+import ShipmentsAdmin from './Components/ShipmentsAdmin/ShipmentsAdmin';
 
 function App() {
   
@@ -93,6 +94,7 @@ function App() {
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},
+    {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentsAdmin/></ProtectedRoute></ErrorBoundary>},
       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
       {path:'/companies',element:<ErrorBoundary><ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute></ErrorBoundary>},

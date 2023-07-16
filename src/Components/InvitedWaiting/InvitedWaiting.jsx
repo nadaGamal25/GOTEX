@@ -122,6 +122,7 @@ export default function InvitedWaiting() {
       const waitinglist = response.data.data;
       setWaitingList(waitinglist);
       console.log(waitingList)
+      console.log(response.data)
 
       const filteredList = waitinglist.filter((item) => {
         if (searchOption === 'clint') {
@@ -159,7 +160,7 @@ export default function InvitedWaiting() {
       <div className="col-md-9">
           <input
           className='form-control'
-            type='text'
+            type='search'
             placeholder='Search'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

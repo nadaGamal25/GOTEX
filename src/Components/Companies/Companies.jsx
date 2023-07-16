@@ -158,7 +158,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">
-              <img src={glt} alt="company" />
+              <img src={jt} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               <i class="fa-solid fa-star"></i>
@@ -167,22 +167,9 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              {companiesDetails.map((item, index) => (
-                item === null?(<div></div>):
-                item.status === false && item.name === "glt" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
-                    <p className="soon-word">متوقفة مؤقتاً ...</p>
-                  </div>
-                ) : item.status === true && item.name === "glt" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
-                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
-                    <h4></h4>}
-                   {/* userData.userData.data.user.roll === "admin"?(<h4>SAR {item.marketerprice}</h4>):null} */}
-                    <Link to="/gltOrders" className="btn btn-choose">أختر</Link>
-                  </div>
-                ) : null
-                ))}
-              
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
+              </div>
             </div>
           </div>
           <div className="col-md-6">
@@ -276,23 +263,7 @@ export default function Companies(userData) {
               </div>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={jt} alt="company" />
-              </div>
-              <div className="stars text-center mt-3">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              </div>
-              <div className="d-flex pt-4 justify-content-center">
-                <p className="soon-word">قريباً ...</p>
-              </div>
-            </div>
-          </div>
+          
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">
@@ -325,6 +296,36 @@ export default function Companies(userData) {
               <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
               </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img src={glt} alt="company" />
+              </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
+                item.status === false && item.name === "glt" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "glt" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                    <h4></h4>}
+                   {/* userData.userData.data.user.roll === "admin"?(<h4>SAR {item.marketerprice}</h4>):null} */}
+                    <Link to="/gltOrders" className="btn btn-choose">أختر</Link>
+                  </div>
+                ) : null
+                ))}
+              
             </div>
           </div>
           

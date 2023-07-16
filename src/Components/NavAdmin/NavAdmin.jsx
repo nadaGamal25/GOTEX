@@ -53,6 +53,12 @@ export default function NavAdmin(setuserData) {
                     <span class="text">شركات الشحن</span>
                 </Link>
             </li>
+            <li>
+                <Link to="/shipmentsAdmin">
+                <i class="fa-solid fa-box-open bx"></i>
+                    <span class="text">الشحنات </span>
+                </Link>
+            </li>
             
              <li>
                 <Link to="/clientsAdmin">
