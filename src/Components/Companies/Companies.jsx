@@ -34,7 +34,7 @@ export default function Companies(userData) {
   }
   return (
     <>
-    <div className='p-5' id='content'>
+    <div className='paddingCompanies' id='content'>
       <div className="container">
       {/* <div className="clients-table p-4 my-4">
       <table className="table">
@@ -66,20 +66,7 @@ export default function Companies(userData) {
       </table>
      </div> */}
         <div className="row g-4">
-          {/* <div className="">
-          <div class="area" >
-            <ul class="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-            </ul> */}
+          
             <div className="col-md-12  position-relative">
             <div className="company-main company area position-relative">
             <ul class="circles">

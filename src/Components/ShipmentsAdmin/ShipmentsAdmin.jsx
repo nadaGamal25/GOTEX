@@ -77,6 +77,7 @@ export default function ShipmentsAdmin() {
             <th scope="col">العميل </th>
             <th scope="col">الهاتف </th>
             <th scope="col">الايميل </th>
+            <th scope="col">رقم التتبع </th>
             <th scope="col">طريقة الدفع </th>
             <th scope="col">التاريخ </th>
             
@@ -91,6 +92,11 @@ export default function ShipmentsAdmin() {
                 {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
                 {item.user && item.user.mobile?<td>{item.user.mobile}</td>:<td>_</td>}
                 {item.user && item.user.email?<td>{item.user.email}</td>:<td>_</td>}
+                {item.data.awb_no ? (<td>{item.data.awb_no}</td>
+) : item.data.waybill ? (<td>{item.data.waybill}</td>)
+: item.data.orderTrackingNumber ? (<td>{item.data.orderTrackingNumber}</td>)
+: item.data.sawb ? (<td>{item.data.sawb}</td>) : (<td>_</td>)}
+
                 {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
                 {item.createdate ? (<td>{item.createdate.slice(0, 15)}</td>
 ) : item.data && item.data.createDate ? (

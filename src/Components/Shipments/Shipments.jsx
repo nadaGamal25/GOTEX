@@ -294,7 +294,9 @@ export default function Shipments(userData) {
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
              <th scope="col">رقم الشحنة</th>
+             <th scope="col">id_الشحنة </th>
              <th scope="col">السعر </th>
+             <th scope="col">رقم التتبع </th>
              <th scope="col"> تتبع الشحنة</th>
              <th scope="col">طريقة الدفع</th>
              <th scope="col"> التاريخ</th>
@@ -313,7 +315,9 @@ export default function Shipments(userData) {
               <td>{index+1}</td>
               <td>gotex</td>
               <td>{item.ordernumber}</td>
+              <td>{item.data.order_id}</td>
               <td>{item.price}</td>
+              <td>{item.data.awb_no}</td>
               <td><a className='text-primary' href={item.data.tracking_url} target='_blank'>تتبع</a></td>
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
@@ -351,10 +355,12 @@ export default function Shipments(userData) {
           <tr>
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
-            <th scope="col">message</th>
+            <th scope="col">رقم الشحنة</th>
+            <th scope="col">السعر</th>
             <th scope="col">رقم التتبع</th>
             <th scope="col">طريقة الدفع</th>
             <th scope="col">التاريخ</th>
+            {/* <th scope="col">message</th> */}
             <th scope="col"></th>
             <th scope="col"></th>
           </tr>
@@ -370,10 +376,12 @@ export default function Shipments(userData) {
               <tr key={index}>
               <td>{index+1}</td>
               <td>ساعي</td>
-              <td>{item.data.message}</td>
+              <td>{item.ordernumber}</td>
+              {item.price?(<td>{item.price}</td>):(<td> _ </td>)}
               <td>{item.data.waybill}</td>
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {/* <td>{item.data.message}</td> */}
               <td>
               <button
     
@@ -408,7 +416,6 @@ export default function Shipments(userData) {
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
              <th scope="col">رقم الشحنة</th>
-             <th scope="col">message</th>
              <th scope="col">رقم التتبع</th>
              <th scope="col">طريقة الدفع</th>
              <th scope="col">التاريخ </th>
@@ -427,8 +434,7 @@ export default function Shipments(userData) {
               <tr key={index}>
                 <td>{index+1}</td>
                 <td>{item.company}</td>
-                <td>{item.data.orderNumber}</td>
-                <td>{item.data.msg}</td>
+                <td>{item.ordernumber}</td>
                 <td>{item.data.orderTrackingNumber}</td>
                 <td>{item.paytype}</td>
                 {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
@@ -460,6 +466,7 @@ export default function Shipments(userData) {
            <tr>
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
+            <th scope="col"> id_الشحنة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col"> السعر</th>
              <th scope="col">طريقة الدفع</th>
@@ -480,6 +487,7 @@ export default function Shipments(userData) {
               <tr key={index}>
               <td>{index+1}</td>
               <td>{item.company}</td>
+              <td>{item.data.Shipments[0].ID}</td>
               <td>{item.ordernumber}</td>
               <td>{item.price}</td>
               <td>{item.paytype}</td>
@@ -518,7 +526,8 @@ export default function Shipments(userData) {
            <tr>
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
-             <th scope="col">رقم الشحنة</th>
+            <th scope="col">رقم الشحنة</th>
+            <th scope="col">رقم التتبع</th>
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
              <th scope="col"></th>
@@ -537,6 +546,7 @@ export default function Shipments(userData) {
               <td>{index+1}</td>
               <td>{item.company}</td>
               <td>{item.ordernumber}</td>
+              <td>{item.data.sawb}</td>
               <td>{item.paytype}</td>
               <td>{item.data.createDate.slice(0, 10)}</td>
               <td>

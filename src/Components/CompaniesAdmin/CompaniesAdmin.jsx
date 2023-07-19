@@ -50,7 +50,7 @@ export default function CompaniesAdmin() {
   return (
 <>
 <NavAdmin/>
-    <div className='p-5' id='content'>
+    <div className='paddingCompanies' id='content'>
       <div className="container">
       <div className="clients-table p-4 my-4">
       <table className="table">

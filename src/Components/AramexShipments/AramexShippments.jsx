@@ -38,6 +38,7 @@ export default function AramexShippments(userData) {
     cod: false,
     shipmentValue:'',
     markterCode:'',
+    description:'',
 
   })
   const [error , setError]= useState('')
@@ -144,6 +145,7 @@ export default function AramexShippments(userData) {
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),      
           markterCode:Joi.string().allow(null, ''),
+          description: Joi.string().required(),
 
   
       });
@@ -462,6 +464,16 @@ export default function AramexShippments(userData) {
     })}               
             </div>
                 </div>
+                <div className='pb-3'>
+                <label htmlFor=""> الوصف </label>
+                <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='description'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
                 {userData.userData.data.user.rolle === "user"?(
               <>
               <div className="pb-3">

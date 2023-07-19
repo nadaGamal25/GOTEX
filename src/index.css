@@ -140,7 +140,13 @@ label{
   box-shadow: none !important;
 
 }
+.paddingCompanies{
+  padding: 35px;
+}
 @media only screen and (max-width: 768px){
+  .paddingCompanies{
+    padding: 35px 10px;
+  }
   .login-box,
   .register-box{
     width: 100%;
@@ -304,6 +310,12 @@ left: 0px;
   color: #f9f9f9;
 }
 @media only screen and (max-width: 768px){
+  /* #sidebar.hide{
+    width: 280px;
+  }
+  #sidebar{
+    width: 60px;
+  } */
   #content{
       width: calc(100% - 60px);
       right: 60px;
