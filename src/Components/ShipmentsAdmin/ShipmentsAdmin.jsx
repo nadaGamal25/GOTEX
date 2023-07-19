@@ -78,6 +78,7 @@ export default function ShipmentsAdmin() {
             <th scope="col">الهاتف </th>
             <th scope="col">الايميل </th>
             <th scope="col">رقم التتبع </th>
+            <th scope="col">كود المسوق  </th>
             <th scope="col">طريقة الدفع </th>
             <th scope="col">التاريخ </th>
             
@@ -96,7 +97,7 @@ export default function ShipmentsAdmin() {
 ) : item.data.waybill ? (<td>{item.data.waybill}</td>)
 : item.data.orderTrackingNumber ? (<td>{item.data.orderTrackingNumber}</td>)
 : item.data.sawb ? (<td>{item.data.sawb}</td>) : (<td>_</td>)}
-
+                {item.marktercode?<td>{item.marktercode}</td>:<td>_</td>}
                 {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
                 {item.createdate ? (<td>{item.createdate.slice(0, 15)}</td>
 ) : item.data && item.data.createDate ? (

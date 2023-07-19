@@ -298,6 +298,8 @@ export default function Shipments(userData) {
              <th scope="col">السعر </th>
              <th scope="col">رقم التتبع </th>
              <th scope="col"> تتبع الشحنة</th>
+             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+
              <th scope="col">طريقة الدفع</th>
              <th scope="col"> التاريخ</th>
              <th scope="col"></th>
@@ -319,6 +321,9 @@ export default function Shipments(userData) {
               <td>{item.price}</td>
               <td>{item.data.awb_no}</td>
               <td><a className='text-primary' href={item.data.tracking_url} target='_blank'>تتبع</a></td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
 
@@ -358,6 +363,8 @@ export default function Shipments(userData) {
             <th scope="col">رقم الشحنة</th>
             <th scope="col">السعر</th>
             <th scope="col">رقم التتبع</th>
+            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+
             <th scope="col">طريقة الدفع</th>
             <th scope="col">التاريخ</th>
             {/* <th scope="col">message</th> */}
@@ -379,6 +386,9 @@ export default function Shipments(userData) {
               <td>{item.ordernumber}</td>
               {item.price?(<td>{item.price}</td>):(<td> _ </td>)}
               <td>{item.data.waybill}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
               {/* <td>{item.data.message}</td> */}
@@ -417,6 +427,7 @@ export default function Shipments(userData) {
             <th scope="col"> الشركة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col">رقم التتبع</th>
+             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طريقة الدفع</th>
              <th scope="col">التاريخ </th>
              <th scope="col"></th>
@@ -436,6 +447,9 @@ export default function Shipments(userData) {
                 <td>{item.company}</td>
                 <td>{item.ordernumber}</td>
                 <td>{item.data.orderTrackingNumber}</td>
+                {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
                 <td>{item.paytype}</td>
                 {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
 
@@ -469,6 +483,7 @@ export default function Shipments(userData) {
             <th scope="col"> id_الشحنة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col"> السعر</th>
+             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طريقة الدفع</th>
              <th scope="col">التاريخ</th>
              {/* <th scope="col">Tracking_Number</th> */}
@@ -490,6 +505,9 @@ export default function Shipments(userData) {
               <td>{item.data.Shipments[0].ID}</td>
               <td>{item.ordernumber}</td>
               <td>{item.price}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
               {/* <td>{item.data.orderTrackingNumber}</td> */}
@@ -528,6 +546,7 @@ export default function Shipments(userData) {
             <th scope="col"> الشركة</th>
             <th scope="col">رقم الشحنة</th>
             <th scope="col">رقم التتبع</th>
+            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
              <th scope="col"></th>
@@ -547,6 +566,9 @@ export default function Shipments(userData) {
               <td>{item.company}</td>
               <td>{item.ordernumber}</td>
               <td>{item.data.sawb}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
               <td>{item.paytype}</td>
               <td>{item.data.createDate.slice(0, 10)}</td>
               <td>
