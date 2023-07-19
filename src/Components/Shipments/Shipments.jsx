@@ -480,9 +480,9 @@ export default function Shipments(userData) {
            <tr>
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
-            <th scope="col"> id_الشحنة</th>
              <th scope="col">رقم الشحنة</th>
              <th scope="col"> السعر</th>
+             <th scope="col"> رقم التتبع</th>
              {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طريقة الدفع</th>
              <th scope="col">التاريخ</th>
@@ -502,9 +502,9 @@ export default function Shipments(userData) {
               <tr key={index}>
               <td>{index+1}</td>
               <td>{item.company}</td>
-              <td>{item.data.Shipments[0].ID}</td>
               <td>{item.ordernumber}</td>
               <td>{item.price}</td>
+              <td>{item.data.Shipments[0].ID}</td>
               {userData.userData.data.user.rolle === "marketer" ? (
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}

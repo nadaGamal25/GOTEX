@@ -93,21 +93,31 @@ export default function ShipmentsAdmin() {
                 {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
                 {item.user && item.user.mobile?<td>{item.user.mobile}</td>:<td>_</td>}
                 {item.user && item.user.email?<td>{item.user.email}</td>:<td>_</td>}
-                {item.data.awb_no ? (<td>{item.data.awb_no}</td>
+                {/* {item.data.awb_no ? (<td>{item.data.awb_no}</td>
 ) : item.data.waybill ? (<td>{item.data.waybill}</td>)
 : item.data.orderTrackingNumber ? (<td>{item.data.orderTrackingNumber}</td>)
-: item.data.sawb ? (<td>{item.data.sawb}</td>) : (<td>_</td>)}
+: item.data.Shipments[0].ID ? (<td>{item.data.Shipments[0].ID}</td>)
+: item.data.sawb ? (<td>{item.data.sawb}</td>) : (<td>_</td>)} */}
+{item.data && item.data.awb_no ? (
+  <td>{item.data.awb_no}</td>
+) : item.data && item.data.waybill ? (
+  <td>{item.data.waybill}</td>
+) : item.data && item.data.orderTrackingNumber ? (
+  <td>{item.data.orderTrackingNumber}</td>
+) : item.data && item.data.Shipments && item.data.Shipments[0]?.ID ? (
+  <td>{item.data.Shipments[0].ID}</td>
+) : item.data && item.data.sawb ? (
+  <td>{item.data.sawb}</td>
+) : (
+  <td>_</td>
+)}
+
                 {item.marktercode?<td>{item.marktercode}</td>:<td>_</td>}
                 {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
                 {item.createdate ? (<td>{item.createdate.slice(0, 15)}</td>
 ) : item.data && item.data.createDate ? (
   <td>{item.data.createDate.slice(0, 10)}</td>) : (<td>_</td>)}
 
-{/*                 
-                <td>{item.data.waybill} {item.data.orderTrackingNumber}</td>
-                <td>{item.user.name}</td>
-                <td>{item.user.mobile}</td>
-                <td>{item.user.email}</td> */}
               </tr>
             )
           }

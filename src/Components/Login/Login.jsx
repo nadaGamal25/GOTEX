@@ -186,6 +186,9 @@ async function sendLoginDataToApi(){
      <div className='text-center sign-footer'>
       <p>هل انت جديد فى المنصة؟ <Link className='sign-link' to='/register'>قم بعمل حساب جديد..</Link> </p>
      </div>
+     <div className='text-center'>
+      <p className='mb-0'> للانضمام للعمل مع فريق جوتكس : <Link className='sign-link' to='/marketerSignUp'>قم بالتسجيل هنا  ..</Link> </p>
+     </div>
      </div>
      </div>
     </>
