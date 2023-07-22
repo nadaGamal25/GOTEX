@@ -32,6 +32,10 @@ body{
   background-color: #dc4606 !important;
   color: #fff !important;
 }
+.dark{
+  background-color: var(--dark--color) !important;
+  color: #fff !important;
+}
 .btn-dark{
   background-color: var(--dark--color) !important;
   color: #fff !important;
@@ -632,6 +636,10 @@ nav form .form-input button{
   background-color: #f9f9f9;
   border-radius: 15px;
   overflow-x: scroll;
+}
+.gray-table{
+  background-color: #f9f9f9;
+  border-radius: 15px;
 }
 .clients-table th{
   color: var(--dark--color);
