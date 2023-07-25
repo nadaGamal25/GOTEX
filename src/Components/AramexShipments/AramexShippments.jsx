@@ -786,13 +786,12 @@ export default function AramexShippments(userData) {
         <td>{item.Shipments[0].ID}</td>
         <td>{item.Shipments[0].ShipmentDetails.NumberOfPieces}</td>
         <td>
-                <button
+                <a href={item.Shipments[0].ShipmentLabel.LabelURL}
       
-      className="glt-btn btn btn-success"
-      onClick={() =>  getAramexSticker(item._id)}
+      className=" btn btn-success" target='_blank'
     >
       عرض الاستيكر
-    </button>
+    </a>
                 </td>
       </tr>
     );

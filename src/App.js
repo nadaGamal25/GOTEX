@@ -45,6 +45,7 @@ import NavAdmin from './Components/NavAdmin/NavAdmin';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
 import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
 import ShipmentsAdmin from './Components/ShipmentsAdmin/ShipmentsAdmin';
+import AddClientMarketer from './Components/AddClientMarketer/AddClientMarketer';
 
 function App() {
   
@@ -99,6 +100,7 @@ function App() {
       // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
       {path:'/companies',element:<ErrorBoundary><ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/inviteLink',element:<ErrorBoundary><InviteLink userData={userData}/></ErrorBoundary>},
+      {path:'/addClientMarketer',element:<ErrorBoundary><AddClientMarketer userData={userData}/></ErrorBoundary>},
       // {path:'/clients',element:<ProtectedRoute userData={userData}><Clients/></ProtectedRoute>},
       // {path:'/addclient',element:<ProtectedRoute userData={userData}><AddClient/></ProtectedRoute>},
       {path:'/payment',element:<ErrorBoundary><ProtectedRoute userData={userData}><Payment/></ProtectedRoute></ErrorBoundary>},

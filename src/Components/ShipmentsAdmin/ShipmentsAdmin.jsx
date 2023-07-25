@@ -93,7 +93,7 @@ export default function ShipmentsAdmin() {
     <>
     <NavAdmin/>
     <div className='p-5' id='content'>
-    <div className="gray-table p-4 my-4">
+    <div className="gray-table p-4 mb-4">
       <div className="row">
         <div className="col-md-4">
           <label htmlFor="">الشركة:</label>
