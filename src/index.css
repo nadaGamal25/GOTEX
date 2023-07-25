@@ -27,6 +27,7 @@ body{
 .btn-orange{
   background-color: var(--orange-color) !important;
   color: #fff !important;
+  border: none !important;
 }
 .btn-orange:hover{
   background-color: #dc4606 !important;
@@ -35,10 +36,12 @@ body{
 .dark{
   background-color: var(--dark--color) !important;
   color: #fff !important;
+  border: none !important;
 }
 .btn-dark{
   background-color: var(--dark--color) !important;
   color: #fff !important;
+  border: none !important;
 }
 .btn-dark:hover{
   background-color: #0c5276 !important;
@@ -56,6 +59,9 @@ body{
 }
 .cr-link{
   color: var(--orange-color);
+}
+.marginForm{
+  margin: 5px 40px;
 }
 /* start login & register */
 .login-container,
@@ -159,6 +165,9 @@ label{
   .email-box{
     width: 80% !important;
     padding: 20px !important;
+  }
+  .marginForm{
+    margin: 5px 0px;
   }
 }
 /* end login & register */

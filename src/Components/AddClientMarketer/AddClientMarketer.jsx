@@ -104,7 +104,7 @@ function getData(e) {
   return (
     <>
     <div className='p-4' id='content'>
-        <div className="shipmenForm">
+        <div className="shipmenForm marginForm">
         <form onSubmit={submitForm} className='my-3' action="">
         <label htmlFor="name">الاسم  :</label>
       <input onChange={getData} type="name" className='my-input my-2 form-control' name='name' />
