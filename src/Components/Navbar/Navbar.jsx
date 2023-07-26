@@ -126,6 +126,14 @@ export default function Navbar({userData ,logout}) {
               </Link>
           </li>
             ):null}
+            {userData?.data?.user?.rolle === "marketer"?(
+              <li className=''>
+              <Link  to="/displayClientsMarkter">
+              <i class="fa-solid fa-users bx"></i>
+                  <span class="text"> العملاء </span>
+              </Link>
+          </li>
+            ):null}
             
         </ul>
         <ul class="side-menu">

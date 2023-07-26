@@ -5,7 +5,6 @@ import NavAdmin from '../NavAdmin/NavAdmin'
 export default function UsersListAdmin() {
     useEffect(()=>{
         getUsersListsAdmin()
-        getGltUserOrders()
       },[])
       const [usersListAdmin,setUsersListsAdmin]=useState([])
       const [showModal, setShowModal] = useState(false);
@@ -17,21 +16,7 @@ export default function UsersListAdmin() {
       const [showModal3, setShowModal3] = useState(false);
       const [emailCR3, setEmailCR3] = useState('');
       const [emailCR33, setEmailCR33] = useState('');
-      async function getGltUserOrders() {
-        try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/glt/get-all-orders',
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-            },
-          });
-          const GltOrders = response.data.data;
-          // Process the orders as needed
-          console.log(GltOrders)
-        } catch (error) {
-          console.error(error);
-        }
-      }
+      
     
       async function getUsersListsAdmin() {
         try {
