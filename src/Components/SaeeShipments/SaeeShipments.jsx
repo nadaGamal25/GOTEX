@@ -87,11 +87,22 @@ function submitOrderUserForm(e){
 
 
 function getOrderData(e) {
-  let myOrderData = { ...orderData, p_name: itemName,
-    p_city: itemCity,
-    p_mobile: itemMobile,
-    p_streetaddress: itemAddress,
-    clintid: itemId};
+  let myOrderData;
+
+    if (userData.userData.data.user.rolle === "marketer") {
+      myOrderData = { ...orderData, p_name: itemName,
+        p_city: itemCity,
+        p_mobile: itemMobile,
+        p_streetaddress: itemAddress,
+        clintid: itemId};
+    } else {
+      myOrderData = { ...orderData };
+    }
+  // let myOrderData = { ...orderData, p_name: itemName,
+  //   p_city: itemCity,
+  //   p_mobile: itemMobile,
+  //   p_streetaddress: itemAddress,
+  //   clintid: itemId};
   if (e.target.type === "number") { // Check if the value is a number
     myOrderData[e.target.name] = Number(e.target.value);
   } else if (e.target.value === "true" || e.target.value === "false") {
@@ -242,80 +253,83 @@ function getOrderData(e) {
   
   return (
     <div className='p-4' id='content'>
-       <div className="search-box p-4 mt-2 mb-4 row g-1">
-        <div className="col-md-2">
-        <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> اختيار عميل</button>
-        </div>
-        <div className="col-md-10">
-        <input type="search" className="form-control ic" name='client' placeholder='الاسم'
-                onChange={(e)=>{ 
-                  const searchValue = e.target.value;
-                  setSearchClients(searchValue);
-                  // getOrderData(e)
-                  const matchingClients = clients.filter((item) => {
-                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
-                  });
-              
-                  if (matchingClients.length === 0) {
-                    closeClientsList();
-                  } else {
-                    openClientsList();
-                  }
-                  }}
-                  onClick={openClientsList}
-                  />
-                  {showClientsList && (
-                    <ul  className='ul-cities ul-clients'>
-                      <li onClick={(e)=>{ 
-                        const selectedCity = e.target.innerText;
-                        document.querySelector('input[name="client"]').value = selectedCity;
-                        closeClientsList();
-                    }}>غير ذلك</li>
-                    {clients && clients.filter((item)=>{
-                    return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
-                    }).map((item,index) =>{
-                     return(
-                      <>
-                      <li key={index} name='' 
-                      onClick={(e)=>{ 
-
-                        const selectedCity = e.target.innerText;
-
-                        setItemName(item.name);
-                        setItemMobile(item.mobile);
-                        setItemCity(item.city);
-                        setItemAddress(item.address);
-                        setItemId(item._id);
-                        setPhoneValue(item.mobile)
-                        // document.querySelector('input[name="p_name"]').value = selectedItem.name;
-                        // document.querySelector('input[name="p_mobile"]').value = value;
-                        // document.querySelector('input[name="p_city"]').value = selectedItem.city;
-                        // document.querySelector('input[name="p_streetaddress"]').value = selectedItem.address;
-
-                        document.querySelector('input[name="p_name"]').value = item.name;
-                        document.querySelector('input[name="p_mobile"]').value = value;
-                        document.querySelector('input[name="p_city"]').value = item.city;
-                        document.querySelector('input[name="p_streetaddress"]').value = item.address;
-    
-                        
-                        document.querySelector('input[name="client"]').value = selectedCity;
-                        // getOrderData(e)
-                        closeClientsList();
-                    }}
-                      >
-                        {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address}
-                     </li>
-                     </>
-                     )
-                    }
-                    )}
-                    </ul>
-                  )}
-                
-                
-        {/* <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' /> */}
-        </div>
-      </div>
+      { userData.userData.data.user.rolle === "marketer"?(
+           <div className="search-box p-4 mt-2 mb-4 row g-1">
+           <div className="col-md-2">
+           <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> اختيار عميل</button>
+           </div>
+           <div className="col-md-10">
+           <input type="search" className="form-control ic" name='client' placeholder='الاسم'
+                   onChange={(e)=>{ 
+                     const searchValue = e.target.value;
+                     setSearchClients(searchValue);
+                     // getOrderData(e)
+                     const matchingClients = clients.filter((item) => {
+                       return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                     });
+                 
+                     if (matchingClients.length === 0) {
+                       closeClientsList();
+                     } else {
+                       openClientsList();
+                     }
+                     }}
+                     onClick={openClientsList}
+                     />
+                     {showClientsList && (
+                       <ul  className='ul-cities ul-clients'>
+                         <li onClick={(e)=>{ 
+                           const selectedCity = e.target.innerText;
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           closeClientsList();
+                       }}>غير ذلك</li>
+                       {clients && clients.filter((item)=>{
+                       return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
+                       }).map((item,index) =>{
+                        return(
+                         <>
+                         <li key={index} name='' 
+                         onClick={(e)=>{ 
+   
+                           const selectedCity = e.target.innerText;
+   
+                           setItemName(item.name);
+                           setItemMobile(item.mobile);
+                           setItemCity(item.city);
+                           setItemAddress(item.address);
+                           setItemId(item._id);
+                           setPhoneValue(item.mobile)
+                           // document.querySelector('input[name="p_name"]').value = selectedItem.name;
+                           // document.querySelector('input[name="p_mobile"]').value = value;
+                           // document.querySelector('input[name="p_city"]').value = selectedItem.city;
+                           // document.querySelector('input[name="p_streetaddress"]').value = selectedItem.address;
+   
+                           document.querySelector('input[name="p_name"]').value = item.name;
+                           document.querySelector('input[name="p_mobile"]').value = value;
+                           document.querySelector('input[name="p_city"]').value = item.city;
+                           document.querySelector('input[name="p_streetaddress"]').value = item.address;
+       
+                           
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           // getOrderData(e)
+                           closeClientsList();
+                       }}
+                         >
+                           {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address}
+                        </li>
+                        </>
+                        )
+                       }
+                       )}
+                       </ul>
+                     )}
+                   
+                   
+           {/* <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' /> */}
+           </div>
+         </div>
+           ): null}
+       
         <div className="shipmenForm">
         { userData.userData.data.user.rolle === "marketer"?(
             <div className="prices-box text-center">
