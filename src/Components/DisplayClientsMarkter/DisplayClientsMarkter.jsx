@@ -23,6 +23,7 @@ export default function DisplayClientsMarkter() {
           });
           const List = response.data.data;
           console.log(List)
+          console.log(response.data.data[0].name)
           setClients(List)
         } catch (error) {
           console.error(error);
@@ -80,7 +81,7 @@ export default function DisplayClientsMarkter() {
             <th scope="col">الموقع </th>
             <th scope="col">العنوان </th>
             <th scope="col">الرصيد </th>
-            {/* <th scope="col">الشحنات </th> */}
+            <th scope="col">الشحنات </th>
             <th></th>
             <th></th>
             
@@ -98,8 +99,16 @@ export default function DisplayClientsMarkter() {
                 {item.city?<td>{item.city}</td>:<td>_</td>}
                 {item.address?<td>{item.address}</td>:<td>_</td>}
                 {item.wallet?<td>{item.wallet}</td>:<td>0</td>}
-                {/* {item.orders?<td>{item.orders[0]}</td>:<td>_</td>} */}
-                <td>
+                {item.orders ? (
+          <td>
+            {item.orders.map((order) => (
+              <span key={order.id}>{order.company}, </span>
+            ))}
+          </td>
+        ) : (
+          <td>_</td>
+        )}
+                        <td>
                 <button
                         className='sdd-deposite btn btn-success mt-2'
                         onClick={() => handleOpenModal(item._id)}

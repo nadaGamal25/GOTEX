@@ -7,11 +7,14 @@ import Joi from 'joi';
 import { Link } from 'react-router-dom';
 
 export default function SaeeShipments(userData) {
-//   useEffect(()=>{
-//     console.log(userData)
-//   },[])
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
+    
+  const [itemName, setItemName] = useState('');
+  const [itemMobile, setItemMobile] = useState('');
+  const [itemCity, setItemCity] = useState('');
+  const [itemAddress, setItemAddress] = useState('');
+  const [itemId, setItemId] = useState('');
 
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
@@ -27,11 +30,12 @@ export default function SaeeShipments(userData) {
     c_mobile:'',
     cod: false,
     markterCode:'',
+    clintid:'',
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
   const [shipments,setShipments]=useState([])
-
+ 
   async function sendOrderDataToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
@@ -66,35 +70,6 @@ export default function SaeeShipments(userData) {
     }
   }
   
-// async function sendOrderDataToApi(){
-//       console.log(localStorage.getItem('userToken'))
-//   let response= await axios.post(`https://dashboard.go-tex.net/api/saee/create-user-order`,orderData,
-//   {
-//     headers: {
-//       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-//     },
-//   });
-//   // if (response.status === 200) {
-//   //   setisLoading(false);
-//   //   window.alert("تم تسجيل الشحنة بنجاح");
-//   //   console.log(response.data);
-//   //   console.log("okkkkkkkkkkk")
-//   // }
-
-//   if(response.data.msg==="ok"){
-//     setisLoading(false);
-//     // setError(response.data.msg);
-//     // window.alert(response.data.msg)
-//     console.log("okkkkkkkkkkk")
-
-//     }else if (response.status === 400) {
-//       setisLoading(false);
-//       const errorMessage = response.data.msg || "An error occurred.";
-//       window.alert(`Error: ${errorMessage}`);
-//       console.log(response.data);
-//     }
-// }
-
 function submitOrderUserForm(e){
   e.preventDefault();
   setisLoading(true)
@@ -110,18 +85,22 @@ function submitOrderUserForm(e){
 
 }
 
+
 function getOrderData(e) {
-  let myOrderData = { ...orderData };
+  let myOrderData = { ...orderData, p_name: itemName,
+    p_city: itemCity,
+    p_mobile: itemMobile,
+    p_streetaddress: itemAddress,
+    clintid: itemId};
   if (e.target.type === "number") { // Check if the value is a number
     myOrderData[e.target.name] = Number(e.target.value);
   } else if (e.target.value === "true" || e.target.value === "false") {
     myOrderData[e.target.name] = e.target.value === "true";
   } else {
-    myOrderData[e.target.name] = e.target.value;
+    myOrderData[e.target.name] = e.target.value || e.target.innerText;
   }
-
-  setOrderData(myOrderData);
-  console.log(myOrderData);
+    setOrderData(myOrderData);
+    console.log(myOrderData);
   console.log(myOrderData.cod);
 }
 
@@ -132,6 +111,15 @@ function getOrderData(e) {
   //   console.log(myOrderData);
   // }
 
+  // function updateOrderData() {
+  //   setOrderData(() => ({
+  //     ...orderData,
+  //     p_name: itemName,
+  //     p_city: itemCity,
+  //     p_mobile: itemMobile,
+  //     p_streetaddress: itemAddress,
+  //   }));
+  // }
   function validateOrderUserForm(){
     let scheme= Joi.object({
         p_name:Joi.string().required(),
@@ -147,6 +135,7 @@ function getOrderData(e) {
         cod:Joi.required(),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -155,6 +144,7 @@ function getOrderData(e) {
   useEffect(()=>{
     getCities()
     getCompaniesDetailsOrders()
+    getClientsList()
   },[])
   const [cities,setCities]=useState()
   async function getCities() {
@@ -223,9 +213,109 @@ function getOrderData(e) {
       console.error(error);
     }
   }
+  const [searchClients, setSearchClients]= useState('')
 
+  const [showClientsList, setClientsList] = useState(false);
+  const openClientsList = () => {
+    setClientsList(true);
+  };
+
+  const closeClientsList = () => {
+    setClientsList(false);
+  };
+  const[clients,setClients]=useState([])
+  async function getClientsList() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/user/all-markter-clint',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      const List = response.data.data;
+      console.log(List)
+      setClients(List)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   return (
     <div className='p-4' id='content'>
+       <div className="search-box p-4 mt-2 mb-4 row g-1">
+        <div className="col-md-2">
+        <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> اختيار عميل</button>
+        </div>
+        <div className="col-md-10">
+        <input type="search" className="form-control ic" name='client' placeholder='الاسم'
+                onChange={(e)=>{ 
+                  const searchValue = e.target.value;
+                  setSearchClients(searchValue);
+                  // getOrderData(e)
+                  const matchingClients = clients.filter((item) => {
+                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                  });
+              
+                  if (matchingClients.length === 0) {
+                    closeClientsList();
+                  } else {
+                    openClientsList();
+                  }
+                  }}
+                  onClick={openClientsList}
+                  />
+                  {showClientsList && (
+                    <ul  className='ul-cities ul-clients'>
+                      <li onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        document.querySelector('input[name="client"]').value = selectedCity;
+                        closeClientsList();
+                    }}>غير ذلك</li>
+                    {clients && clients.filter((item)=>{
+                    return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <>
+                      <li key={index} name='' 
+                      onClick={(e)=>{ 
+
+                        const selectedCity = e.target.innerText;
+
+                        setItemName(item.name);
+                        setItemMobile(item.mobile);
+                        setItemCity(item.city);
+                        setItemAddress(item.address);
+                        setItemId(item._id);
+                        setPhoneValue(item.mobile)
+                        // document.querySelector('input[name="p_name"]').value = selectedItem.name;
+                        // document.querySelector('input[name="p_mobile"]').value = value;
+                        // document.querySelector('input[name="p_city"]').value = selectedItem.city;
+                        // document.querySelector('input[name="p_streetaddress"]').value = selectedItem.address;
+
+                        document.querySelector('input[name="p_name"]').value = item.name;
+                        document.querySelector('input[name="p_mobile"]').value = value;
+                        document.querySelector('input[name="p_city"]').value = item.city;
+                        document.querySelector('input[name="p_streetaddress"]').value = item.address;
+    
+                        
+                        document.querySelector('input[name="client"]').value = selectedCity;
+                        // getOrderData(e)
+                        closeClientsList();
+                    }}
+                      >
+                        {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address}
+                     </li>
+                     </>
+                     )
+                    }
+                    )}
+                    </ul>
+                  )}
+                
+                
+        {/* <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' /> */}
+        </div>
+      </div>
         <div className="shipmenForm">
         { userData.userData.data.user.rolle === "marketer"?(
             <div className="prices-box text-center">
@@ -243,7 +333,10 @@ function getOrderData(e) {
                 
                 <div className='pb-3'>
                 <label htmlFor=""> الاسم</label>
-                <input type="text" className="form-control" name='p_name' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='p_name'  onChange={(e) => {
+    setItemName(e.target.value);
+    getOrderData(e);
+  }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_name'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -257,6 +350,7 @@ function getOrderData(e) {
                 <PhoneInput name='p_mobile' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
     onChange={(value) => {
+      // setItemMobile(e.target.value);
       setPhoneValue(value);
       getOrderData({ target: { name: 'p_mobile', value } });
     }}/>
@@ -272,6 +366,7 @@ function getOrderData(e) {
                 <label htmlFor=""> الموقع</label>
                 <input type="text" className="form-control" name='p_city'
                 onChange={(e)=>{ 
+                  setItemCity(e.target.value);
                   const searchValue = e.target.value;
                   setSearch(searchValue);
                   getOrderData(e)
@@ -322,25 +417,12 @@ function getOrderData(e) {
       
     })}
             </div>
-            {/* <div className='pb-3'>
-                <label htmlFor=""> الموقع</label>
-                <select className="form-control" name='p_city' onChange={getOrderData}>
-                <option></option>
-                {cities && cities.map((item, index) => (
-                  <option key={index}>{item.name}</option>
-                  ))}
-                  </select>
-
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='p_city'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> العنوان </label>
-                <input type="text" className="form-control" name='p_streetaddress' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='p_streetaddress' onChange={(e) => {
+    setItemAddress(e.target.value);
+    getOrderData(e);
+  }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_streetaddress'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -359,27 +441,19 @@ function getOrderData(e) {
     
   })}
           </div>
-            ):null}
-            
-            {/* <div className="pb-3">
-            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
-                    <div className='pe-2'>
-                    <input  type="radio" value="true" name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
-                    <div className='pe-2'>
-                    <input type="radio" value="false"  name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
-                    </div>
-                    {errorList.map((err,index)=>{
-      if(err.context.label ==='cod'){
-        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
-      }
-      
-    })}
-            </div> */}
-           
-            
+            ):null}   
+            {/* { userData.userData.data.user.rolle === "marketer"?(
+              <div className='pb-3'>
+              <label htmlFor=""> id_العميل  </label>
+              <input type="text" className="form-control" name='clintid' onChange={getOrderData}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='clintid'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+            ):null}            */}
             </div>
             <div className="package-info brdr-grey p-3 my-3 ">
                 <h3>بيانات الشحنة</h3>
@@ -487,14 +561,10 @@ function getOrderData(e) {
     </div>
     </>
               )}
-              {/* {orderData.cod === false && (
-                <div></div>
-              )} */}
+              
                
               </>
-   
-                   
-                   ):
+                      ):
                    <h4></h4>}
                 
                 </div>
@@ -503,9 +573,7 @@ function getOrderData(e) {
             <div className="col-md-6">
             <div className="reciever-details brdr-grey p-3">
                 <h3>تفاصيل المستلم</h3>
-                {/* <div className=" mb-4 mt-2">
-        <input className='form-control' type="search" placeholder='بحث بالأسم' />
-        </div> */}
+                
         <div className='pb-3'>
                 <label htmlFor=""> الاسم</label>
                 <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
@@ -518,7 +586,6 @@ function getOrderData(e) {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> رقم الهاتف</label>
-                {/* <input type="text" className="form-control"/> */}
                 <PhoneInput name='c_mobile' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
     onChange={(phone2) => {
@@ -573,12 +640,7 @@ function getOrderData(e) {
                     )}
                     </ul>
                   )}
-                {/* <select className="form-control" name='c_city' onChange={getOrderData}>
-                  <option></option>
-                {cities && cities.map((item, index) => (
-                  <option key={index}>{item.name}</option>
-                  ))}                
-                </select> */}
+                
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_city'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -586,22 +648,7 @@ function getOrderData(e) {
       
     })}
             </div>
-            {/* <div className='pb-3'>
-                <label htmlFor=""> الموقع</label>
-                <select className="form-control" name='c_city' onChange={getOrderData}>
-                <option></option>
-                {cities && cities.map((item, index) => (
-                  <option key={index}>{item.name}</option>
-                  ))}
-                  </select>
-
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='c_city'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div> */}
+            
             <div className='pb-3'>
                 <label htmlFor=""> العنوان</label>
                 <input type="text" className="form-control" name='c_streetaddress' onChange={getOrderData}/>

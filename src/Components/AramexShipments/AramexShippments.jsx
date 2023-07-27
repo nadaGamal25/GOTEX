@@ -13,6 +13,13 @@ export default function AramexShippments(userData) {
     const [p_PhoneNumber,setp_PhoneNumber1Ext] =useState()
     const [c_PhoneNumber,setc_PhoneNumber1Ext] =useState()
 
+    const [itemName, setItemName] = useState('');
+  const [itemMobile, setItemMobile] = useState('');
+  const [itemCity, setItemCity] = useState('');
+  const [itemAddress, setItemAddress] = useState('');
+  const [itemId, setItemId] = useState('');
+  const [itemEmail, setItemEmail] = useState('');
+
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
     c_name: "",
@@ -39,6 +46,7 @@ export default function AramexShippments(userData) {
     shipmentValue:'',
     markterCode:'',
     description:'',
+    clintid:'',
 
   })
   const [error , setError]= useState('')
@@ -99,8 +107,13 @@ export default function AramexShippments(userData) {
   }
 
   function getOrderData(e) {
-    let myOrderData = { ...orderData };
-    if (e.target.type === "number") { // Check if the value is a number
+    let myOrderData = { ...orderData, p_name: itemName,
+      p_city: itemCity,
+      p_phone: itemMobile,
+      p_line1: itemAddress,
+      clintid: itemId,
+      p_email:itemEmail};
+      if (e.target.type === "number") { // Check if the value is a number
       myOrderData[e.target.name] = Number(e.target.value);
     } else if (e.target.value === "true" || e.target.value === "false") {
       myOrderData[e.target.name] = e.target.value === "true";
@@ -146,7 +159,7 @@ export default function AramexShippments(userData) {
           shipmentValue:Joi.number().allow(null, ''),      
           markterCode:Joi.string().allow(null, ''),
           description: Joi.string().required(),
-
+          clintid:Joi.string().allow(null, ''),
   
       });
       return scheme.validate(orderData, {abortEarly:false});
@@ -154,7 +167,35 @@ export default function AramexShippments(userData) {
     useEffect(()=>{
       getCities()
       getCompaniesDetailsOrders()
+      getClientsList()
+
   },[])
+  const [searchClients, setSearchClients]= useState('')
+
+  const [showClientsList, setClientsList] = useState(false);
+  const openClientsList = () => {
+    setClientsList(true);
+  };
+
+  const closeClientsList = () => {
+    setClientsList(false);
+  };
+  const[clients,setClients]=useState([])
+  async function getClientsList() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/user/all-markter-clint',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      const List = response.data.data;
+      console.log(List)
+      setClients(List)
+    } catch (error) {
+      console.error(error);
+    }
+  }
     const [cities,setCities]=useState()
     async function getCities() {
       console.log(localStorage.getItem('userToken'))
@@ -220,6 +261,83 @@ export default function AramexShippments(userData) {
 
   return (
 <div className='p-4' id='content'>
+<div className="search-box p-4 mt-2 mb-4 row g-1">
+        <div className="col-md-2">
+        <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> اختيار عميل</button>
+        </div>
+        <div className="col-md-10">
+        <input type="search" className="form-control ic" name='client' placeholder='الاسم'
+                onChange={(e)=>{ 
+                  const searchValue = e.target.value;
+                  setSearchClients(searchValue);
+                  // getOrderData(e)
+                  const matchingClients = clients.filter((item) => {
+                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                  });
+              
+                  if (matchingClients.length === 0) {
+                    closeClientsList();
+                  } else {
+                    openClientsList();
+                  }
+                  }}
+                  onClick={openClientsList}
+                  />
+                  {showClientsList && (
+                    <ul  className='ul-cities ul-clients'>
+                      <li onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        document.querySelector('input[name="client"]').value = selectedCity;
+                        closeClientsList();
+                    }}>غير ذلك</li>
+                    {clients && clients.filter((item)=>{
+                    return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <>
+                      <li key={index} name='' 
+                      onClick={(e)=>{ 
+
+                        const selectedCity = e.target.innerText;
+                        setItemName(item.name);
+                        setItemMobile(item.mobile);
+                        setItemCity(item.city);
+                        setItemAddress(item.address);
+                        setItemEmail(item.email);
+                        setItemId(item._id);
+                        setPhoneValue(item.mobile)
+                      
+                        // document.querySelector('input[name="p_name"]').value = selectedItem.name;
+                        // document.querySelector('input[name="p_phone"]').value = value;
+                        // document.querySelector('input[name="p_city"]').value = selectedItem.city;
+                        // document.querySelector('input[name="p_line1"]').value = selectedItem.address;
+                        // document.querySelector('input[name="p_email"]').value = selectedItem.email;                    
+                        
+                        
+                    document.querySelector('input[name="p_name"]').value = item.name;
+                    document.querySelector('input[name="p_phone"]').value = value;
+                    document.querySelector('input[name="p_city"]').value = item.city;
+                    document.querySelector('input[name="p_line1"]').value = item.address;
+                    document.querySelector('input[name="p_email"]').value = item.email;                    
+
+                        document.querySelector('input[name="client"]').value = selectedCity;
+                        // getOrderData(e)
+                        closeClientsList();
+                    }}
+                      >
+                        {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address}
+                     </li>
+                     </>
+                     )
+                    }
+                    )}
+                    </ul>
+                  )}
+                
+                
+        {/* <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' /> */}
+        </div>
+      </div>
         <div className="shipmenForm">
         { userData.userData.data.user.rolle === "marketer"?(
             <div className="prices-box text-center">
@@ -236,7 +354,10 @@ export default function AramexShippments(userData) {
                 <h3>تفاصيل المرسل</h3>
                 <div className='pb-3'>
                 <label htmlFor=""> اسم المرسل</label>
-                <input type="text" className="form-control" name='p_name' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='p_name' onChange={(e) => {
+    setItemName(e.target.value);
+    getOrderData(e);
+  }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_name'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -256,7 +377,10 @@ export default function AramexShippments(userData) {
             </div>
             <div className='pb-3'>
                 <label htmlFor=""> البريد الالكترونى</label>
-                <input type="text" className="form-control" name='p_email' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='p_email' onChange={(e) => {
+    setItemEmail(e.target.value);
+    getOrderData(e);
+  }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_email'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -319,6 +443,7 @@ export default function AramexShippments(userData) {
                 <label htmlFor=""> الموقع</label>
                 <input type="text" className="form-control" name='p_city'
                 onChange={(e)=>{ 
+                  setItemCity(e.target.value);
                   const searchValue = e.target.value;
                   setSearch(searchValue);
                   getOrderData(e)
@@ -387,7 +512,10 @@ export default function AramexShippments(userData) {
             </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> العنوان</label>
-                <input type="text" className="form-control" name='p_line1' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='p_line1' onChange={(e) => {
+    setItemAddress(e.target.value);
+    getOrderData(e);
+  }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_line1'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
