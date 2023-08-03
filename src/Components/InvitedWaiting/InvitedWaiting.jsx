@@ -81,13 +81,28 @@ export default function InvitedWaiting() {
   const [searchOption, setSearchOption] = useState('clint');
   const [waitingList, setWaitingList] = useState([]);
   const [filteredWaitingList, setFilteredWaitingList] = useState([]);
-  const[show,setShow]=useState(false)
-  const openShow = () => {
-             setShow(true);
-          };
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [openItems, setOpenItems] = useState([]);
+  const openShow = (item) => {
+    setSelectedItem(item);
+    setOpenItems((prevOpenItems) => [...prevOpenItems, item._id]);
+  };
+  
   const closeShow = () => {
-             setShow(false);
-          };
+    setSelectedItem(null);
+    setOpenItems([]);
+  };
+  
+
+  // const[show,setShow]=useState(false)
+  // const openShow = (item) => {
+  //   setSelectedItem(item);
+  //   setShow(true);
+  // };
+  
+  // const closeShow = () => {
+  //            setShow(false);
+  //         };
 
   useEffect(() => {
     getWaitingListsAdmin();
@@ -170,12 +185,14 @@ export default function InvitedWaiting() {
       </div>
         
         {filteredWaitingList.map((item, index) => {
+            const isItemOpen = openItems.includes(item._id);
+
           return (
             <div className="row my-3">
       <div className="d-flex bg-light p-3 ll">
         <table className="table table-borderless">
         <thead>
-          <tr>
+          <tr key={item._id}>
             <th scope="col">{index +1}</th>
             <th scope="col">المسوق  </th>
             <th scope="col"> ايميل المسوق </th>
@@ -192,7 +209,13 @@ export default function InvitedWaiting() {
           <td>{item.clint.name}</td>
           <td>{item.clint.email}</td>
           <td>
-          <button onClick={openShow} className="btn btn-dark">قبول الدعوة</button>
+          {/* <button onClick={openShow} className="btn btn-dark">قبول الدعوة</button> */}
+          {/* <button onClick={() => openShow(item)} className="btn btn-dark">
+                  قبول الدعوة
+                </button> */}
+                <button onClick={() => (isItemOpen ? closeShow() : openShow(item))} className="btn btn-dark">
+                  {isItemOpen ? 'اغلاق' : 'قبول الدعوة'}
+                </button>
           </td>
           </tr>
         </tbody>
@@ -200,7 +223,7 @@ export default function InvitedWaiting() {
         
        
       </div>
-      {show && ( 
+      {isItemOpen  && (
         <div className="bg-light my-3 p-3 ll">
         <h4 className='text-center'>قبول الدعوة</h4>
         <table className="table">
@@ -214,36 +237,40 @@ export default function InvitedWaiting() {
           <tbody>
             <tr>
             <td>gotex</td>
-            <td>{item.companies[0].onlinePayment}</td>
-            <td>{item.companies[0].cod}</td>
+            <td>{selectedItem.companies[0].onlinePayment}</td>
+            <td>{selectedItem.companies[0].cod}</td>
             </tr>
             <tr>
-            <td>{item.companies[1].name}</td>
-            <td>{item.companies[1].onlinePayment}</td>
-            <td>{item.companies[1].cod}</td>
+            <td>{selectedItem.companies[1].name}</td>
+            <td>{selectedItem.companies[1].onlinePayment}</td>
+            <td>{selectedItem.companies[1].cod}</td>
             </tr>
             <tr>
-            <td>{item.companies[2].name}</td>
-            <td>{item.companies[2].onlinePayment}</td>
-            <td>{item.companies[2].cod}</td>
+            <td>{selectedItem.companies[2].name}</td>
+            <td>{selectedItem.companies[2].onlinePayment}</td>
+            <td>{selectedItem.companies[2].cod}</td>
             </tr>
             <tr>
-            <td>{item.companies[3].name}</td>
-            <td>{item.companies[3].onlinePayment}</td>
-            <td>{item.companies[3].cod}</td>
+            <td>{selectedItem.companies[3].name}</td>
+            <td>{selectedItem.companies[3].onlinePayment}</td>
+            <td>{selectedItem.companies[3].cod}</td>
             </tr>
             <tr>
-            <td>{item.companies[4].name}</td>
-            <td>{item.companies[4].onlinePayment}</td>
-            <td>{item.companies[4].cod}</td>
+            <td>{selectedItem.companies[4].name}</td>
+            <td>{selectedItem.companies[4].onlinePayment}</td>
+            <td>{selectedItem.companies[4].cod}</td>
             </tr>
 
           </tbody>
         </table>
-        <button className="btn btn-dark " onClick={() => accept(item._id)}>
+        {/* <button className="btn btn-dark " onClick={() => accept(selectedItem._id)}>
           قبول
         </button>
-        <button onClick={closeShow} className="btn btn-secondary mx-3"> اغلاق</button>
+        <button onClick={closeShow} className="btn btn-secondary mx-3"> اغلاق</button> */}
+        <button className="btn btn-dark" onClick={() => accept(item._id)}>
+            قبول
+          </button>
+          <button onClick={closeShow} className="btn btn-secondary mx-3">اغلاق</button>
       </div>
       )}
       </div>

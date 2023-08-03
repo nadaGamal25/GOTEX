@@ -40,9 +40,10 @@ export default function DisplayClientsMarkter() {
           alert('يرجى ملء جميع الحقول المطلوبة');
           return;
         }
-      
+        const depositAmountNumber = Number(depositAmount);
+
         const formData = new FormData();
-        formData.append('deposit', depositAmount);
+        formData.append('deposit', depositAmountNumber);
         formData.append('recipt', receiptFile);
         formData.append('clintid', selectedClientId);
       
@@ -146,7 +147,7 @@ export default function DisplayClientsMarkter() {
                   <input
                     type='number' className='form-control'
                     value={depositAmount}
-                    onChange={(e) => setDepositAmount(e.target.value)}
+                    onChange={(e) => setDepositAmount(Number(e.target.value))}
                   />
                   <label>الإيصال:</label> <br/>
                   <input
