@@ -47,6 +47,8 @@ import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
 import ShipmentsAdmin from './Components/ShipmentsAdmin/ShipmentsAdmin';
 import AddClientMarketer from './Components/AddClientMarketer/AddClientMarketer';
 import DisplayClientsMarkter from './Components/DisplayClientsMarkter/DisplayClientsMarkter';
+import SplShippments from './Components/SplShippments/SplShippments';
+import SplSticker from './Components/SplSticker/SplSticker';
 
 function App() {
   
@@ -80,6 +82,7 @@ function App() {
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
+    {path:'splSticker',element:<SplSticker/>},
     {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'forgetPassword',element:<ForgetPassword/>},
     {path:'updatePassword/:x',element:<UpdatePassword/>},
@@ -113,6 +116,7 @@ function App() {
       {path:'/aramexShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/smsaShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/anwanShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/splShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/gltOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltOrdersShipment userData={userData}/></ProtectedRoute></ErrorBoundary>}
     ]},
     {path:'*', element:<PageNotFound/>}

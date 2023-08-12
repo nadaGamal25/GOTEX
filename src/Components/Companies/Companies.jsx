@@ -215,6 +215,25 @@ export default function Companies(userData) {
                 ))}
             </div>
           </div>
+          <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img src={spl} alt="company" />
+              </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
+                {/* <p className="soon-word">قريباً ...</p> */}
+                <h4></h4>
+                <Link to="/splShipment" className="btn btn-choose">أختر</Link>
+              </div>
+            </div>
+          </div>
           
           <div className="col-md-6">
             <div className="company">
@@ -268,23 +287,7 @@ export default function Companies(userData) {
               </div>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={spl} alt="company" />
-              </div>
-              <div className="stars text-center mt-3">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              </div>
-              <div className="d-flex pt-4 justify-content-center">
-                <p className="soon-word">قريباً ...</p>
-              </div>
-            </div>
-          </div>
+          
           <div className="col-md-6">
             <div className="company">
               <div className="text-center">
