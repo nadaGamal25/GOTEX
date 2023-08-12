@@ -10,14 +10,19 @@ import SplSticker from '../SplSticker/SplSticker';
 export default function SplShippments(userData) {
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
-    
+    const [errorList, seterrorList]= useState([]); 
+
   const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [thePieces, setPieces] = useState([]);
 
-    const [errorList, seterrorList]= useState([]); 
+  const [pieceData, setPieceData] = useState({
+      PieceWeight: '',
+      PieceDescription: ''
+  });
   const [orderData,setOrderData] =useState({
     reciverName: "",
     reciverMobile: "",
@@ -33,7 +38,9 @@ export default function SplShippments(userData) {
     deliveryDistrictID: "",
     deliveryAddress1: "",
     deliveryAddress2: "",
-    Pieces:[{ 
+    // Pieces:thePieces,
+    Pieces:
+    [{ 
         PieceWeight: "",
         PieceDescription: ""
     },
@@ -242,7 +249,27 @@ function getOrderData(e) {
         Pieces: piecesCopy
     });
 };
+
+// const handleInputChange = (event) => {
+//     const { name, value } = event.target;
+//     setPieceData({
+//         ...pieceData,
+//         [name]: value
+//     });
+// };
+
+// const handleAddPiece = () => {
+//     const newPiece = { PieceWeight: '', PieceDescription: '' };
+//     setPieces([...thePieces, newPiece]);
+// };
+
   const [showsticker,setshowsticker]=useState(false)
+  
+  const handleShowStickerClick = (item) => {
+    const stickerData = encodeURIComponent(JSON.stringify(item));
+    window.open(`/splStickerPreview?stickerData=${stickerData}`, '_blank');
+  };
+  
   return (
     <div className='p-4' id='content'>
     { userData.userData.data.user.rolle === "marketer"?(
@@ -508,8 +535,60 @@ function getOrderData(e) {
       
     })}
             </div>
-            {orderData.Pieces.map((piece, index) => (
-                <div className="col-md-9" key={index}>
+            {/* {thePieces.map((piece, index) => (
+                    <div className="col-md-6" key={index}>
+                        <div className="pb-3">
+                            <label htmlFor=""> عدد القطع</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                name={`PieceWeight_${index}`}
+                                value={piece.PieceWeight}
+                                onChange={(event) => {
+                                    const newValue = event.target.value;
+                                    setPieces(prevPieces => {
+                                        const updatedPieces = [...prevPieces];
+                                        updatedPieces[index] = {
+                                            ...updatedPieces[index],
+                                            PieceWeight: newValue
+                                        };
+                                        return updatedPieces;
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className="pb-3">
+                            <label htmlFor=""> وصف القطع </label>
+                            <textarea
+                                className="form-control"
+                                name={`PieceDescription_${index}`}
+                                value={piece.PieceDescription}
+                                onChange={(event) => {
+                                    const newValue = event.target.value;
+                                    setPieces(prevPieces => {
+                                        const updatedPieces = [...prevPieces];
+                                        updatedPieces[index] = {
+                                            ...updatedPieces[index],
+                                            PieceDescription: newValue
+                                        };
+                                        return updatedPieces;
+                                    });
+                                }}
+                                cols="50"
+                                rows="2"
+                            ></textarea>
+                        </div>
+                    </div>
+                ))}
+                <div className="col-md-6 d-flex align-items-center">
+                    <button type="button" className="btn btn-primary" onClick={handleAddPiece}>
+                        أخرى
+                    </button>
+                </div> */}
+
+         {orderData.Pieces.map((piece, index) => (
+                <>
+                <div className="col-md-6" key={index}>
                     <div className="pb-3">
                         <label htmlFor=""> عدد القطع</label>
                         <input
@@ -519,8 +598,11 @@ function getOrderData(e) {
                             value={piece.PieceWeight}
                             onChange={(event) => handleInputChange(event, index)}
                         />
-                        {/* ... (error handling for PieceWeight) */}
                     </div>
+                    </div>
+                    {/* <div className="col-md-6 d-flex align-items-center">
+                        <buttun className="btn btn-primary">أخرى</buttun>
+                    </div> */}
                     <div className="pb-3">
                         <label htmlFor=""> وصف القطع </label>
                         <textarea
@@ -531,11 +613,10 @@ function getOrderData(e) {
                             cols="50"
                             rows="2"
                         ></textarea>
-                        {/* ... (error handling for PieceDescription) */}
+                        
                     </div>
-                </div>
+                    </>
             ))}
-              
               {/* <div className="col-md-6"> */}
               {/* <div className='pb-3'>
               <label htmlFor=""> عدد القطع</label>
@@ -557,7 +638,7 @@ function getOrderData(e) {
       }
       
     })}
-            </div> */}
+            </div> 
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
@@ -763,7 +844,7 @@ function getOrderData(e) {
             </div>
           {/* <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6> */}
           
-          <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
+          <button type="submit" className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
           </div>
           </div>
           </div>
@@ -795,14 +876,21 @@ function getOrderData(e) {
       <td>{item.price}</td> */}
       <td>{item.data.Message}</td>
       <td>
-              <button
+      <button
+  onClick={() => handleShowStickerClick(item)}
+  className="btn btn-success"
+>
+  عرض الاستيكر
+</button>
+
+              {/* <button
               onClick={()=> setshowsticker(true)}
     
     className="btn btn-success"
     to="/splSticker"
   >
     عرض الاستيكر
-  </button>
+  </button> */}
               </td>
     </tr>
   );
@@ -812,7 +900,7 @@ function getOrderData(e) {
 
        </table>
       </div>
-      {showsticker && Array.isArray(shipments) && shipments.map((item, index) =>
-    <SplSticker key={index} item={item}/>)}
+      {/* {showsticker&& Array.isArray(shipments) && shipments.map((item, index) =>
+    <SplSticker key={index} item={item}/>)} */}
   </div>  )
 }

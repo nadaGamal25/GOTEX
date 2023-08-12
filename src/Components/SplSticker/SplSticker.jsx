@@ -1,9 +1,10 @@
 import React from 'react'
-import logo from '../../assets/logo.png';
+import spl from '../../assets/spl.jpg'
 
 export default function SplSticker({item}) {
+    console.log(item)
   return (
-    <div>
+    <div className='ms-4'>
     <style>
       {`
         * {
@@ -19,12 +20,12 @@ export default function SplSticker({item}) {
         <table cellPadding="0" cellSpacing="0" style={{ border: '1px solid black', borderCollapse: 'collapse', width: '360px', height: '550px', margin: '0px 0 0px 0px', padding: '0' }}>
           <tr>
             <td style={{ border: '1px solid black', textAlign: 'center' }}>
-              <img src={logo} width="80px" alt="logo" />
+              <img src={spl} width="80px" alt="logo" />
             </td>
             <td colSpan="3" style={{ border: '1px solid black' }}>
-              <p style={{ paddingRight: '10px', textAlign: 'right', paddingTop: '5px' }}>
+              {/* <p style={{ paddingRight: '10px', textAlign: 'right', paddingTop: '5px' }}>
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAhAQMAAADj3NsVAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAACRJREFUKJFjuCR4uyT25URhzVaevdesS5JzShsYRsVGxQZQDABosyRsJPGMbQAAAABJRU5ErkJggg==" alt="barcode" style={{ width: '6cm', height: '1cm', padding: '1px' }} />
-              </p>
+              </p> */}
               <p style={{ paddingLeft: '3px', textAlign: 'center' }}>{item.data.Items[0].Barcode}</p>
             </td>
           </tr>
@@ -113,15 +114,15 @@ export default function SplSticker({item}) {
           <tr>
             <td colSpan="3" style={{ border: '1px solid black' }}>
               <div>
-                <p style={{ padding: '10px 0 0', textAlign: 'center' }}>
+                {/* <p style={{ padding: '10px 0 0', textAlign: 'center' }}>
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAAAhAQMAAACMbYc4AAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADBJREFUKJFjuCS7e1nM6b3WtltteoKSbONenjVRvvJlk5y3VfIahlHJUclRyUErCQBzBsPh8JDsagAAAABJRU5ErkJggg==" alt="barcode" style={{ width: '6cm', height: '1cm', padding: '1px' }} />
-                </p>
+                </p> */}
                 <p style={{ textAlign: 'center' }}>{item.data.Items[0].ReferenceId}</p>
               </div>
             </td>
-            <td style={{ border: '1px solid black', textAlign: 'center' }}>
+            {/* <td style={{ border: '1px solid black', textAlign: 'center' }}>
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAA/AQMAAABtkYKcAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAMpJREFUKJGF0s0NwyAMBWB3gWaDsAhS1kovySbtKmEBWCG3XJG4tFLEq7HbpvmpanH4JIRsHhAwx6pBpkOkUBDJpsHSeUGCTcHCF1D1G7QF8AfcIvevXgoeA1jNswdXrEhLAcdbiJ3ArfEALwZdpmsrZ96oe9zQJM+YzSGkF7UU2wW427qfyjwKv0IWcOXTqBMqyr0cslzQDM0GCE3uJPBgucUHJagwcy+GcaPZYlbUxJmvwPFSJw+3A28ZeWUM1vgFkjxu+iX6bzwBIvo4+1Iuqt4AAAAASUVORK5CYII=" alt="qrcode" />
-            </td>
+            </td> */}
           </tr>
           <tr>
             <td colSpan="4" style={{ border: '1px solid black' }}>

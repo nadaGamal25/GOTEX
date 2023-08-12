@@ -49,6 +49,7 @@ import AddClientMarketer from './Components/AddClientMarketer/AddClientMarketer'
 import DisplayClientsMarkter from './Components/DisplayClientsMarkter/DisplayClientsMarkter';
 import SplShippments from './Components/SplShippments/SplShippments';
 import SplSticker from './Components/SplSticker/SplSticker';
+import SplStickerPreview from './Components/SplStickerPreview/SplStickerPreview';
 
 function App() {
   
@@ -83,6 +84,7 @@ function App() {
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
     {path:'splSticker',element:<SplSticker/>},
+    {path:'splStickerPreview',element:<SplStickerPreview/>},
     {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'forgetPassword',element:<ForgetPassword/>},
     {path:'updatePassword/:x',element:<UpdatePassword/>},
