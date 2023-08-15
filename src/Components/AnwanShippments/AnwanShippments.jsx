@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
@@ -17,6 +17,7 @@ export default function AnwanShippments(userData) {
         console.error(error);
       }
     }
+
       useEffect(()=>{
           getCompaniesDetailsOrders()
           getClientsList()
@@ -462,6 +463,48 @@ export default function AnwanShippments(userData) {
             console.error(error);
           }
         }
+
+        const citiesListRef = useRef(null);
+
+        useEffect(() => {
+          const handleOutsideClick = (e) => {
+            if (
+              citiesListRef.current &&
+              !citiesListRef.current.contains(e.target) &&
+              e.target.getAttribute('name') !== 's_city'
+            ) {
+              closeCitiesList();
+            }
+          };
+      
+          if (showCitiesList) {
+            window.addEventListener('click', handleOutsideClick);
+          }
+      
+          return () => {
+            window.removeEventListener('click', handleOutsideClick);
+          };
+        }, [showCitiesList]);
+
+        const citiesListRef2 = useRef(null);
+        useEffect(() => {
+          const handleOutsideClick = (e) => {
+            if (
+              citiesListRef2.current &&
+              !citiesListRef2.current.contains(e.target) &&
+              e.target.getAttribute('name') !== 'c_city'
+            ) {
+              closeCitiesList2();
+            }
+          };
+      
+          if (showCitiesList2) {
+            window.addEventListener('click', handleOutsideClick);
+          }     
+          return () => {
+            window.removeEventListener('click', handleOutsideClick);
+          };
+        }, [showCitiesList2]);
     
   return (
 <div className='p-4' id='content'>
@@ -593,6 +636,7 @@ export default function AnwanShippments(userData) {
                 <PhoneInput name='s_phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
     onChange={(value) => {
+      setItemMobile(value);
       setPhoneValue(value);
       getOrderData({ target: { name: 's_phone', value } });
     }}/>
@@ -626,7 +670,7 @@ export default function AnwanShippments(userData) {
                   onClick={openCitiesList}
                   />
                   {showCitiesList && (
-                    <ul  className='ul-cities'>
+                    <ul  className='ul-cities' ref={citiesListRef}>  
                     {cities && cities.filter((item)=>{
                     return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
                     }).map((item,index) =>{
@@ -634,6 +678,7 @@ export default function AnwanShippments(userData) {
                       <li key={index} name='s_city' 
                       onClick={(e)=>{ 
                         const selectedCity = e.target.innerText;
+                        setItemCity(selectedCity)
                         getOrderData({ target: { name: 's_city', value: selectedCity } });
                         document.querySelector('input[name="s_city"]').value = selectedCity;
                         closeCitiesList();
@@ -943,7 +988,7 @@ export default function AnwanShippments(userData) {
                   onClick={openCitiesList2}
                   />
                   {showCitiesList2 && (
-                    <ul  className='ul-cities'>
+                    <ul  className='ul-cities' ref={citiesListRef2}>
                     {cities && cities.filter((item)=>{
                     return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
                     }).map((item,index) =>{

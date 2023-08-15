@@ -50,6 +50,7 @@ import DisplayClientsMarkter from './Components/DisplayClientsMarkter/DisplayCli
 import SplShippments from './Components/SplShippments/SplShippments';
 import SplSticker from './Components/SplSticker/SplSticker';
 import SplStickerPreview from './Components/SplStickerPreview/SplStickerPreview';
+import SplEdit from './Components/SplEdit/SplEdit';
 
 function App() {
   
@@ -98,6 +99,7 @@ function App() {
     {path:'aramexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'smsaEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'anwanEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'splEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},

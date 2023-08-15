@@ -63,6 +63,19 @@ body{
 .marginForm{
   margin: 5px 40px;
 }
+.btn-addPiece{
+  background-color: #0c5276 !important;
+  color: #fff !important;
+  padding: 1px 3px;
+  border: none !important;
+  border-radius: 3px;
+  margin-right: 2px;
+}
+.btn-addPiece:hover{
+  background-color: #08374e !important;
+  color: #fff !important;
+ 
+}
 /* Modal styles 
 .modal-overlay {
   position: fixed;

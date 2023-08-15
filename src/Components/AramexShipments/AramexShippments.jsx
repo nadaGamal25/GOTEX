@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
@@ -271,6 +271,50 @@ export default function AramexShippments(userData) {
     }
   }
 
+  
+  const citiesListRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        citiesListRef.current &&
+        !citiesListRef.current.contains(e.target) &&
+        e.target.getAttribute('name') !== 'p_city'
+      ) {
+        closeCitiesList();
+      }
+    };
+
+    if (showCitiesList) {
+      window.addEventListener('click', handleOutsideClick);
+    }
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [showCitiesList]);
+
+  const citiesListRef2 = useRef(null);
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        citiesListRef2.current &&
+        !citiesListRef2.current.contains(e.target) &&
+        e.target.getAttribute('name') !== 'c_city'
+      ) {
+        closeCitiesList2();
+      }
+    };
+
+    if (showCitiesList2) {
+      window.addEventListener('click', handleOutsideClick);
+    }     
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [showCitiesList2]);
+
+
   return (
 <div className='p-4' id='content'>
 { userData.userData.data.user.rolle === "marketer"?(
@@ -409,6 +453,7 @@ export default function AramexShippments(userData) {
                 <PhoneInput name='p_phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
     onChange={(value) => {
+      setItemMobile(value);
       setPhoneValue(value);
       getOrderData({ target: { name: 'p_phone', value } });
     }}/>
@@ -426,6 +471,7 @@ export default function AramexShippments(userData) {
                 <PhoneInput name='p_CellPhone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={pcellPhone}
     onChange={(pcellPhone) => {
+
       setPcellPhone(pcellPhone);
       getOrderData({ target: { name: 'p_CellPhone', value: pcellPhone } });
     }}/>
@@ -475,7 +521,7 @@ export default function AramexShippments(userData) {
                   onClick={openCitiesList}
                   />
                   {showCitiesList && (
-                    <ul  className='ul-cities'>
+                    <ul  className='ul-cities' ref={citiesListRef}>
                     {cities && cities.filter((item)=>{
                     return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
                     }).map((item,index) =>{
@@ -483,6 +529,7 @@ export default function AramexShippments(userData) {
                       <li key={index} name='p_city' 
                       onClick={(e)=>{ 
                         const selectedCity = e.target.innerText;
+                        setItemCity(selectedCity)
                         getOrderData({ target: { name: 'p_city', value: selectedCity } });
                         document.querySelector('input[name="p_city"]').value = selectedCity;
                         closeCitiesList();
@@ -814,7 +861,7 @@ export default function AramexShippments(userData) {
                   onClick={openCitiesList2}
                   />
                   {showCitiesList2 && (
-                    <ul  className='ul-cities'>
+                    <ul  className='ul-cities' ref={citiesListRef2}>
                     {cities && cities.filter((item)=>{
                     return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
                     }).map((item,index) =>{

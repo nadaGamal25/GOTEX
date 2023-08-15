@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+
+import React, { useEffect, useState } from 'react'
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
@@ -7,7 +8,7 @@ import Joi from 'joi';
 import { Link } from 'react-router-dom';
 import SplSticker from '../SplSticker/SplSticker';
 
-export default function SplShippments(userData) {
+export default function SplForm(userData) {
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
     const [errorList, seterrorList]= useState([]); 
@@ -17,15 +18,39 @@ export default function SplShippments(userData) {
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+//   const [thePieces, setPieces] = useState([]);
 
-  const [pieces, setPieces] = useState([
-    {
-      PieceWeight: '',
-      PieceDescription: '',
-    },
-  ]);
+//   const [pieceData, setPieceData] = useState({
+//       PieceWeight: '',
+//       PieceDescription: ''
+//   });
+const [pieces, setPieces] = useState([]);
+  const [pieceWeight, setPieceWeight] = useState('');
+  const [pieceDescription, setPieceDescription] = useState('');
 
+//   const handleAddPiece = () => {
+//     const newPiece = {
+//       PieceWeight: pieceWeight,
+//       PieceDescription: pieceDescription,
+//     };
+//     console.log(pieces)
+//     setPieces([...pieces, newPiece]);
+//     setPieceWeight('');
+//     setPieceDescription('');
+//   };
 
+// Inside the handleAddPiece function
+const handleAddPiece = () => {
+    const newPiece = {
+      PieceWeight: pieceWeight,
+      PieceDescription: pieceDescription,
+    };
+  
+    setPieces([...pieces, newPiece]);
+    setPieceWeight('');
+    setPieceDescription('');
+  };
+  
   const [orderData,setOrderData] =useState({
     reciverName: "",
     reciverMobile: "",
@@ -41,68 +66,156 @@ export default function SplShippments(userData) {
     deliveryDistrictID: "",
     deliveryAddress1: "",
     deliveryAddress2: "",
-    Pieces: pieces, 
-    markterCode:"", 
-    clintid:'',
-    shipmentValue:"",
+    Pieces: pieces,    // Pieces:
+    // [{ 
+    //     PieceWeight: "",
+    //     PieceDescription: ""
+    // },
+    // {
+    //     PieceWeight: "",
+    //     PieceDescription: ""
+    // }
+// ]
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
   const [shipments,setShipments]=useState([])
-
-  async function sendOrderDataToApi() {
-    console.log(localStorage.getItem('userToken'))
-
+ 
+  async function sendOrderDataToApi(updatedOrderData) {
+    console.log(localStorage.getItem('userToken'));
     try {
-      const response = await axios.post(
-        "https://dashboard.go-tex.net/api/spl/crete-new-order",
-        {
-            ...orderData,
-            Pieces: pieces
-          },
-        {
+        const url = "https://dashboard.go-tex.net/api/spl/crete-new-order"; // Your API endpoint
+    
+        const payload = {
+          ...orderData,
+          Pieces: pieces,
+        };
+    
+        const response = await axios.post(url, payload, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            'Content-Type': 'application/json',
           },
-        }
-      );
+        });
   
       if (response.status === 200) {
-        setisLoading(false);
-        window.alert("تم تسجيل الشحنة بنجاح");
+        console.log("Request successful!");
         console.log(response.data);
+  
         const shipment = response.data;
         setShipments(prevShipments => [...prevShipments, shipment]);
-        console.log(shipments)      
-    }else if (response.status === 400) {
-        setisLoading(false);
+      } else if (response.status === 400) {
+        console.log("Request failed.");
         const errorMessage = response.data?.msg || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }
     } catch (error) {
-      // Handle error
-      console.error(error);
-      setisLoading(false);
+      console.error('Error making request:', error);
       const errorMessage = error.response?.data?.msg || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
   
-function submitOrderUserForm(e){
-  e.preventDefault();
-  setisLoading(true)
-  let validation = validateOrderUserForm();
-  console.log(validation);
-  if(validation.error){
-    setisLoading(false)
-    seterrorList(validation.error.details)
 
-  }else{
-    sendOrderDataToApi();
+
+//   async function sendOrderDataToApi() {
+//     console.log(localStorage.getItem('userToken'))
+//    try {
+//     const url = "https://dashboard.go-tex.net/api/spl/crete-new-order"; // Your API endpoint
+
+//     // Update the orderData with the pieces array
+//     const updatedOrderData = { ...orderData, Pieces: pieces };
+
+//     const response = await axios.post(url, updatedOrderData, {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+//         'Content-Type': 'application/json',
+//       },
+//     });
+
+//     if (response.status === 200) {
+//       console.log("Request successful!");
+//       console.log(response.data);
+
+//       // Handle the response data as needed
+//       const shipment = response.data;
+//       setShipments(prevShipments => [...prevShipments, shipment]);
+//     } else if (response.status === 400) {
+//       console.log("Request failed.");
+//       const errorMessage = response.data?.msg || "An error occurred.";
+//       window.alert(`${errorMessage}`);
+//       console.log(response.data);
+//     }
+//   } catch (error) {
+//     console.error('Error making request:', error);
+//     const errorMessage = error.response?.data?.msg || "An error occurred.";
+//     window.alert(`${errorMessage}`);
+//   }
+//     // try {
+//     //   const response = await axios.post(
+//     //     "https://dashboard.go-tex.net/api/spl/crete-new-order",
+//     //     orderData,
+//     //     {
+//     //       headers: {
+//     //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+//     //       },
+//     //     }
+//     //   );
+  
+//     //   if (response.status === 200) {
+//     //     setisLoading(false);
+//     //     window.alert("تم تسجيل الشحنة بنجاح");
+//     //     console.log(response.data);
+//     //     const shipment = response.data;
+//     //     setShipments(prevShipments => [...prevShipments, shipment]);
+//     //     console.log(shipments)      
+//     // }else if (response.status === 400) {
+//     //     setisLoading(false);
+//     //     const errorMessage = response.data?.msg || "An error occurred.";
+//     //     window.alert(`${errorMessage}`);
+//     //     console.log(response.data);
+//     //   }
+//     // } catch (error) {
+//     //   // Handle error
+//     //   console.error(error);
+//     //   setisLoading(false);
+//     //   const errorMessage = error.response?.data?.msg || "An error occurred.";
+//     //   window.alert(`${errorMessage}`);
+//     // }
+//   }
+  
+// function submitOrderUserForm(e){
+//   e.preventDefault();
+//   setisLoading(true)
+//   let validation = validateOrderUserForm();
+//   console.log(validation);
+//   if(validation.error){
+//     setisLoading(false)
+//     seterrorList(validation.error.details)
+
+//   }else{
+//     sendOrderDataToApi();
+//   }
+
+// }
+
+// Inside the submitOrderUserForm function
+function submitOrderUserForm(e) {
+    e.preventDefault();
+    setisLoading(true);
+    let validation = validateOrderUserForm();
+    console.log(validation);
+    if (validation.error) {
+      setisLoading(false);
+      seterrorList(validation.error.details);
+    } else {
+      sendOrderDataToApi();
+    }
   }
-
-}
+  
+  
+  
 
 function getOrderData(e) {
   let myOrderData;
@@ -128,7 +241,8 @@ function getOrderData(e) {
     console.log(myOrderData);
   console.log(myOrderData.cod);
 }
-function validateOrderUserForm(){
+
+  function validateOrderUserForm(){
     const pieceSchema = Joi.object({
         PieceWeight: Joi.number().required(),
         PieceDescription: Joi.string().required(),
@@ -149,30 +263,15 @@ function validateOrderUserForm(){
         reciverMobile:Joi.string().required(),
         cod:Joi.required(),
         Pieces: Joi.array().items(pieceSchema),
-        shipmentValue:Joi.number().allow(null, ''),
-        markterCode:Joi.string().allow(null, ''),
+        // PieceWeight:Joi.number().required(),
+        // PieceDescription:Joi.string().required(),
+        // shipmentValue:Joi.number().allow(null, ''),
+        // markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
   }
-  
-  function addPiece() {
-    setPieces(prevPieces => [
-      ...prevPieces,
-      {
-        PieceWeight: '',
-        PieceDescription: ''
-      }
-    ]);
-  }
-
-  function updatePiece(index, field, value) {
-    const updatedPieces = [...pieces];
-    updatedPieces[index][field] = value;
-    setPieces(updatedPieces);
-  }
-
   
   useEffect(()=>{
     getCities()
@@ -195,7 +294,17 @@ function validateOrderUserForm(){
       console.error(error);
     }
   }
-
+//   const [companiesDetails,setCompaniesDetails]=useState([])
+//   async function getCompaniesDetailsOrders() {
+//     try {
+//       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+//       const companiesPrices = response.data.data;
+//       console.log(companiesPrices)
+//       setCompaniesDetails(companiesPrices)
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
   const [search, setSearch]= useState('')
   const [search2, setSearch2]= useState('')
 
@@ -242,6 +351,29 @@ function validateOrderUserForm(){
       console.error(error);
     }
   }
+//   const handleInputChange = (event, index) => {
+//     const { name, value } = event.target;
+//     const piecesCopy = [...orderData.Pieces];
+//     piecesCopy[index][name] = value;
+
+//     setOrderData({
+//         ...orderData,
+//         Pieces: piecesCopy
+//     });
+// };
+
+// const handleInputChange = (event) => {
+//     const { name, value } = event.target;
+//     setPieceData({
+//         ...pieceData,
+//         [name]: value
+//     });
+// };
+
+// const handleAddPiece = () => {
+//     const newPiece = { PieceWeight: '', PieceDescription: '' };
+//     setPieces([...thePieces, newPiece]);
+// };
 
   const [showsticker,setshowsticker]=useState(false)
   
@@ -250,61 +382,6 @@ function validateOrderUserForm(){
     window.open(`/splStickerPreview?stickerData=${stickerData}`, '_blank');
   };
   
-  //   const [companiesDetails,setCompaniesDetails]=useState([])
-//   async function getCompaniesDetailsOrders() {
-//     try {
-//       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
-//       const companiesPrices = response.data.data;
-//       console.log(companiesPrices)
-//       setCompaniesDetails(companiesPrices)
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-
-
-const citiesListRef = useRef(null);
-
-useEffect(() => {
-  const handleOutsideClick = (e) => {
-    if (
-      citiesListRef.current &&
-      !citiesListRef.current.contains(e.target) &&
-      e.target.getAttribute('name') !== 'pickUpDistrictID'
-    ) {
-      closeCitiesList();
-    }
-  };
-
-  if (showCitiesList) {
-    window.addEventListener('click', handleOutsideClick);
-  }
-
-  return () => {
-    window.removeEventListener('click', handleOutsideClick);
-  };
-}, [showCitiesList]);
-
-const citiesListRef2 = useRef(null);
-useEffect(() => {
-  const handleOutsideClick = (e) => {
-    if (
-      citiesListRef2.current &&
-      !citiesListRef2.current.contains(e.target) &&
-      e.target.getAttribute('name') !== 'deliveryDistrictID'
-    ) {
-      closeCitiesList2();
-    }
-  };
-
-  if (showCitiesList2) {
-    window.addEventListener('click', handleOutsideClick);
-  }     
-  return () => {
-    window.removeEventListener('click', handleOutsideClick);
-  };
-}, [showCitiesList2]);
-
   return (
     <div className='p-4' id='content'>
     { userData.userData.data.user.rolle === "marketer"?(
@@ -418,7 +495,7 @@ useEffect(() => {
               <PhoneInput name='SenderMobileNumber' 
   labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
   onChange={(value) => {
-    setItemMobile(value);
+    // setItemMobile(e.target.value);
     setPhoneValue(value);
     getOrderData({ target: { name: 'SenderMobileNumber', value } });
   }}/>
@@ -432,8 +509,8 @@ useEffect(() => {
           </div>
           <div className='pb-3 ul-box'>
               <label htmlFor=""> الموقع</label>
-              {/* <input type="text" className="form-control" name='pickUpDistrictID' onChange={getOrderData}/> */}
-              <input type="text" className="form-control" name='pickUpDistrictID'
+              <input type="text" className="form-control" name='pickUpDistrictID' onChange={getOrderData}/>
+              {/* <input type="text" className="form-control" name='pickUpDistrictID'
               onChange={(e)=>{ 
                 setItemCity(e.target.value);
                 const searchValue = e.target.value;
@@ -452,7 +529,7 @@ useEffect(() => {
                 onClick={openCitiesList}
                 />
                 {showCitiesList && (
-                  <ul  className='ul-cities'ref={citiesListRef}>
+                  <ul  className='ul-cities'>
                   {cities && cities.filter((item)=>{
                   return search === ''? item : item.Name.toLowerCase().includes(search.toLowerCase());
                   }).map((item,index) =>{
@@ -460,7 +537,6 @@ useEffect(() => {
                     <li key={index} name='pickUpDistrictID' 
                     onClick={(e)=>{ 
                       const selectedCity = e.target.innerText;
-                      setItemCity(selectedCity)
                       getOrderData({ target: { name: 'pickUpDistrictID', value: selectedCity } });
                       document.querySelector('input[name="pickUpDistrictID"]').value = selectedCity;
                       closeCitiesList();
@@ -473,7 +549,7 @@ useEffect(() => {
                   )}
                   </ul>
                 )}
-               
+                */}
              
               {errorList.map((err,index)=>{
     if(err.context.label ==='pickUpDistrictID'){
@@ -505,7 +581,7 @@ useEffect(() => {
       
     })}
             </div>
-          { userData.userData.data.user.rolle === "marketer"?(
+          {/* { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
             <label htmlFor=""> كود المسوق </label>
             <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
@@ -516,7 +592,7 @@ useEffect(() => {
   
 })}
         </div>
-          ):null}   
+          ):null}    */}
           {/* { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
             <label htmlFor=""> id_العميل  </label>
@@ -567,7 +643,154 @@ useEffect(() => {
       
     })}
             </div>
-            {userData.userData.data.user.rolle === "user"?(
+            <div>
+                <label htmlFor="">عدد القطع</label>
+<input
+  type="number"
+  placeholder="Piece Weight"
+  name="PieceWeight" // Set the name attribute to match the property in orderData.Pieces
+  value={pieceWeight} // Use the pieceWeight state
+  onChange={(e) => {
+    const weightValue= e.target.value
+    setPieceWeight(weightValue);
+    getOrderData(e)
+    // getOrderData({ target: { name: 'PieceWeight', value: weightValue } });
+  }}
+/>
+<label>وصف القطع</label>
+<input
+  type="text"
+  placeholder="Piece Description"
+  name="PieceDescription" // Set the name attribute to match the property in orderData.Pieces
+  value={pieceDescription} // Use the pieceDescription state
+  onChange={(e) => {
+    setPieceDescription(e.target.value);
+    getOrderData(e); // Call getOrderData to update orderData.Pieces
+  }}
+/>
+        <button type='button' onClick={handleAddPiece}>Add Piece</button>
+      </div>
+            {/* {thePieces.map((piece, index) => (
+                    <div className="col-md-6" key={index}>
+                        <div className="pb-3">
+                            <label htmlFor=""> عدد القطع</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                name={`PieceWeight_${index}`}
+                                value={piece.PieceWeight}
+                                onChange={(event) => {
+                                    const newValue = event.target.value;
+                                    setPieces(prevPieces => {
+                                        const updatedPieces = [...prevPieces];
+                                        updatedPieces[index] = {
+                                            ...updatedPieces[index],
+                                            PieceWeight: newValue
+                                        };
+                                        return updatedPieces;
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className="pb-3">
+                            <label htmlFor=""> وصف القطع </label>
+                            <textarea
+                                className="form-control"
+                                name={`PieceDescription_${index}`}
+                                value={piece.PieceDescription}
+                                onChange={(event) => {
+                                    const newValue = event.target.value;
+                                    setPieces(prevPieces => {
+                                        const updatedPieces = [...prevPieces];
+                                        updatedPieces[index] = {
+                                            ...updatedPieces[index],
+                                            PieceDescription: newValue
+                                        };
+                                        return updatedPieces;
+                                    });
+                                }}
+                                cols="50"
+                                rows="2"
+                            ></textarea>
+                        </div>
+                    </div>
+                ))}
+                <div className="col-md-6 d-flex align-items-center">
+                    <button type="button" className="btn btn-primary" onClick={handleAddPiece}>
+                        أخرى
+                    </button>
+                </div> */}
+
+         {/* {orderData.Pieces.map((piece, index) => (
+                <>
+                <div className="col-md-6" key={index}>
+                    <div className="pb-3">
+                        <label htmlFor=""> عدد القطع</label>
+                        <input
+                            type="number"
+                            className="form-control"
+                            name="PieceWeight"
+                            value={piece.PieceWeight}
+                            onChange={(event) => handleInputChange(event, index)}
+                        />
+                    </div>
+                    </div>
+                    
+                    <div className="pb-3">
+                        <label htmlFor=""> وصف القطع </label>
+                        <textarea
+                            className="form-control"
+                            name="PieceDescription"
+                            value={piece.PieceDescription}
+                            onChange={(event) => handleInputChange(event, index)}
+                            cols="50"
+                            rows="2"
+                        ></textarea>
+                        
+                    </div>
+                    </>
+            ))} */}
+
+              {/* <div className="col-md-6"> */}
+              {/* <div className='pb-3'>
+              <label htmlFor=""> عدد القطع</label>
+              <input type="number" className="form-control" name='PieceWeight' onChange={getOrderData}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='PieceWeight'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              </div>
+              <div className='pb-3'>
+                <label htmlFor=""> وصف القطع </label>
+                <textarea className="form-control" name='PieceDescription' onChange={getOrderData} cols="30" rows="4"></textarea>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='PieceDescription'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div> 
+            <div className="pb-3">
+            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+                    <div className='pe-2'>
+                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                    </div>
+                    <div className='pe-2'>
+                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                    </div>
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='cod'){
+        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+      }
+      
+    })}
+            </div>
+              {/* {userData.userData.data.user.rolle === "user"?(
             <>
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
@@ -649,49 +872,7 @@ useEffect(() => {
              
             </>
                     ):
-                 <h4></h4>}
-                 
-      {pieces.map((piece, index) => (
-      <div className='my-1' key={index}>
-        <input
-          type="number"
-          name="PieceWeight"
-          placeholder="عدد القطع"
-          value={piece.PieceWeight}
-          onChange={e => updatePiece(index, 'PieceWeight', e.target.value)}
-        /> <br/>
-        <input
-          type="text"
-          name="PieceDescription"
-          placeholder="وصف القطع"
-          value={piece.PieceDescription}
-          onChange={e => updatePiece(index, 'PieceDescription', e.target.value)}
-        />
-         <button className=' btn-addPiece' type="button" onClick={addPiece}>
-        اضافة اخرى
-      </button>
-      </div>
-      
-    ))}
-           
-            {/* <div className="pb-3">
-            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
-                    <div className='pe-2'>
-                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
-                    <div className='pe-2'>
-                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
-                    </div>
-                    {errorList.map((err,index)=>{
-      if(err.context.label ==='cod'){
-        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
-      }
-      
-    })}
-            </div> */}
-              
+                 <h4></h4>} */}
               
               </div>
           </div>
@@ -728,9 +909,9 @@ useEffect(() => {
           </div>
           <div className='pb-3 ul-box'>
               <label htmlFor=""> الموقع</label>
-              {/* <input type="text" className="form-control" name='deliveryDistrictID' onChange={getOrderData}/> */}
+              <input type="text" className="form-control" name='deliveryDistrictID' onChange={getOrderData}/>
 
-              <input type="text" className="form-control" name='deliveryDistrictID'
+              {/* <input type="text" className="form-control" name='deliveryDistrictID'
               onChange={(e)=>{ 
                 const searchValue = e.target.value;
                 setSearch2(searchValue);
@@ -748,7 +929,7 @@ useEffect(() => {
                 onClick={openCitiesList2}
                 />
                 {showCitiesList2 && (
-                  <ul  className='ul-cities' ref={citiesListRef2}>
+                  <ul  className='ul-cities'>
                   {cities && cities.filter((item)=>{
                   return search2 === ''? item : item.Name.toLowerCase().includes(search2.toLowerCase());
                   }).map((item,index) =>{
@@ -768,7 +949,7 @@ useEffect(() => {
                   )}
                   </ul>
                 )}
-              
+               */}
               {errorList.map((err,index)=>{
     if(err.context.label ==='deliveryDistrictID'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -815,7 +996,6 @@ useEffect(() => {
              {/* <th scope="col">رقم التتبع</th>
              <th scope="col">طريقة الدفع</th>
              <th scope="col">السعر </th> */}
-            <th scope="col">id_الشحنة</th>
               <th scope="col">message</th>
               <th scope="col"></th>
               
@@ -830,7 +1010,6 @@ useEffect(() => {
       {/* <td>{item.data.waybill}</td>
       <td>{item.paytype}</td>
       <td>{item.price}</td> */}
-      <td>{item.data.Items[0].Barcode}</td>
       <td>{item.data.Message}</td>
       <td>
       <button
@@ -861,3 +1040,54 @@ useEffect(() => {
     <SplSticker key={index} item={item}/>)} */}
   </div>  )
 }
+
+
+// {
+//   "name": "proj",
+//   "version": "0.1.0",
+//   "private": true,
+//   "dependencies": {
+//     "@fortawesome/fontawesome-free": "^6.4.0",
+//     "@testing-library/jest-dom": "^5.16.5",
+//     "@testing-library/react": "^13.4.0",
+//     "@testing-library/user-event": "^13.5.0",
+//     "axios": "^1.3.4",
+//     "bootstrap": "^5.2.3",
+//     "joi": "^17.9.1",
+//     "jwt-decode": "^3.1.2",
+//     "react": "^18.2.0",
+//     "react-barcode": "^1.4.6",
+//     "react-dom": "^18.2.0",
+//     "react-phone-number-input": "^3.2.19",
+//     "react-router-dom": "^6.9.0",
+//     "react-scripts": "^2.1.3",
+//     "web-vitals": "^2.1.4"
+//   },
+//   "scripts": {
+//     "start": "react-scripts start",
+//     "build": "react-scripts build",
+//     "test": "react-scripts test",
+//     "eject": "react-scripts eject"
+//   },
+//   "eslintConfig": {
+//     "extends": [
+//       "react-app",
+//       "react-app/jest"
+//     ]
+//   },
+//   "browserslist": {
+//     "production": [
+//       ">0.2%",
+//       "not dead",
+//       "not op_mini all"
+//     ],
+//     "development": [
+//       "last 1 chrome version",
+//       "last 1 firefox version",
+//       "last 1 safari version"
+//     ]
+//   },
+//   "devDependencies": {
+//     "http-proxy-middleware": "^2.0.6"
+//   }
+// }
