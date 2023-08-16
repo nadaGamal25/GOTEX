@@ -71,12 +71,13 @@ export default function SplShippments(userData) {
         setisLoading(false);
         window.alert("تم تسجيل الشحنة بنجاح");
         console.log(response.data);
+        console.log(response);
         const shipment = response.data;
         setShipments(prevShipments => [...prevShipments, shipment]);
         console.log(shipments)      
     }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data?.msg || "An error occurred.";
+        const errorMessage = response.data?.data?.Message || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }
@@ -84,7 +85,7 @@ export default function SplShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg || "An error occurred.";
+      const errorMessage = error.response?.data?.data?.Message || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
@@ -138,14 +139,14 @@ function validateOrderUserForm(){
         pickUpDistrictID:Joi.string().required(),
         SenderMobileNumber:Joi.string().required(),
         pickUpAddress1:Joi.string().required(),
-        pickUpAddress2:Joi.string().allow(null, ''),
+        pickUpAddress2:Joi.string().required(),
         Weight:Joi.number().required(),
         ContentPrice:Joi.number().required(),
         ContentDescription:Joi.string().required(),
         reciverName:Joi.string().required(),
         deliveryDistrictID:Joi.string().required(),
         deliveryAddress1:Joi.string().required(),
-        deliveryAddress2:Joi.string().allow(null, ''),
+        deliveryAddress2:Joi.string().required(),
         reciverMobile:Joi.string().required(),
         cod:Joi.required(),
         Pieces: Joi.array().items(pieceSchema),

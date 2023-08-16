@@ -76,6 +76,31 @@ body{
   color: #fff !important;
  
 }
+#barcode{
+  width: 6cm ;
+  height: 1cm ;
+}
+.barcode1 svg {
+  width: 354px;
+  height: 100px !important;
+}
+.barcode2 svg {
+  width: 184px;
+  height: 100px !important;
+}
+.zoom-in {
+  /* transform-origin: top left; */
+  overflow-x: scroll;
+}
+.scroll-container {
+  overflow-x: scroll;
+  white-space: nowrap; /* Prevents content from wrapping to new lines */
+  /* Other styling properties as needed */
+}
+
+.x{
+  overflow-x: scroll;
+}
 /* Modal styles 
 .modal-overlay {
   position: fixed;

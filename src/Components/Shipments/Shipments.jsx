@@ -9,6 +9,7 @@ export default function Shipments(userData) {
   const [gotexAllOrders,setGotexAllOrders]=useState([]);
   const [aramexAllOrders,setAramexAllOrders]=useState([]);
   const [smsaAllOrders,setSmsaAllOrders]=useState([]);
+  const [splAllOrders,setSplAllOrders]=useState([]);
   const [sticker, setSticker] = useState('');
   const [gltSticker, setGltSticker] = useState('');
 
@@ -18,6 +19,7 @@ export default function Shipments(userData) {
     getAramexUserOrders()
     getSmsaUserOrders()
     getGotexUserOrders()
+    getSplUserOrders()
   },[])
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredShipments, setFilteredShipments] = useState([]);  
@@ -32,7 +34,22 @@ export default function Shipments(userData) {
     );
     setFilteredShipments(filteredShipments);
   }
-  
+  async function getSplUserOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/spl/get-all-orders',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      const splOrders = response.data.data;
+      // Process the orders as needed
+      console.log(splOrders)
+      setSplAllOrders(splOrders)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function getGotexUserOrders() {
     try {
@@ -264,6 +281,11 @@ export default function Shipments(userData) {
 
  
       const [search, setSearch]= useState('')
+
+      const handleShowStickerClick = (item) => {
+        const stickerData = encodeURIComponent(JSON.stringify(item));
+        window.open(`/splStickerPreview?stickerData=${stickerData}`, '_blank');
+      };
 
   return (
     <>
@@ -577,6 +599,62 @@ export default function Shipments(userData) {
     className="smsa-btn btn btn-success"
     onClick={() => getSmsaSticker(item._id)}
   >
+    عرض الاستيكر
+  </button>
+              </td>
+              
+            </tr>
+            )
+          }
+          )}
+           
+        </tbody>
+      </table>
+     </div> 
+    
+     <div className="clients-table p-4 mt-4">
+     { userData.userData.data.user.rolle === "marketer"?(
+        <h5>شركة spl</h5>):null}
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col"> الشركة</th>
+            <th scope="col">رقم الشحنة</th>
+            <th scope="col">السعر </th>
+            <th scope="col">رقم التتبع</th>
+            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+             <th scope="col">طرقة الدفع</th>
+             <th scope="col">التاريخ</th>
+             <th scope="col"></th>
+             {/* <th scope="col"></th> */}
+           </tr>
+         </thead>
+       <tbody>
+       {splAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return item.marktercode && item.marktercode.includes(search);
+  }).map((item,index) =>{
+            return(
+              <tr key={index}>
+              <td>{index+1}</td>
+              <td>{item.company}</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.price}</td>
+              <td>{item.data?.Items[0]?.Barcode}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
+              <td>{item.paytype}</td>
+              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              <td>
+              <button
+    
+    className="spl-btn btn btn-success"
+    onClick={() => handleShowStickerClick(item)}
+    >
     عرض الاستيكر
   </button>
               </td>

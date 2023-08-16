@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import spl from '../../assets/spl.jpg'
+import Barcode from 'react-barcode';
+
 export default function SplSticker({item}) {
     console.log(item)
     const itemPieces = item.data.Items[0].ItemPiecesResponse;
+    const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsZoomed(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
+    <div >
+
     <div className='ms-4'>
     <style>
       {`
@@ -11,22 +29,20 @@ export default function SplSticker({item}) {
           padding: 0;
           margin: 0;
         }
-        div {
-          page-break-after: always;
-        }
+       
       `}
     </style>
-      <div style={{ backgroundColor: '#fefefe', border: '0px solid #888',direction:'ltr', margin: '15px 0', overflow: 'hidden' }}>
+      <div className={isZoomed ? 'zoom-in' : ''} style={{ backgroundColor: '#fefefe', border: '0px solid #888',direction:'ltr', margin: '15px 0'}}>
         <table cellPadding="0" cellSpacing="0" style={{ border: '1px solid black', borderCollapse: 'collapse', width: '360px', height: '550px', margin: '0px 0 0px 0px', padding: '0' }}>
           <tr>
             <td style={{ border: '1px solid black', textAlign: 'center' }}>
               <img src={spl} width="80px" alt="logo" />
             </td>
             <td colSpan="3" style={{ border: '1px solid black' }}>
-              {/* <p style={{ paddingRight: '10px', textAlign: 'right', paddingTop: '5px' }}>
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAhAQMAAADj3NsVAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAACRJREFUKJFjuCR4uyT25URhzVaevdesS5JzShsYRsVGxQZQDABosyRsJPGMbQAAAABJRU5ErkJggg==" alt="barcode" style={{ width: '6cm', height: '1cm', padding: '1px' }} />
-              </p> */}
-              <p style={{ paddingLeft: '3px', textAlign: 'center' }}>{item.data.Items[0].Barcode}</p>
+              <p className='barcode1' style={{textAlign: 'right', marginBottom:0}}>
+              <Barcode value={item.data.Items[0].Barcode}/>
+              </p>
+              {/* <p style={{ paddingLeft: '3px', textAlign: 'center' }}>{item.data.Items[0].Barcode}</p> */}
             </td>
           </tr>
           <tr>
@@ -36,7 +52,12 @@ export default function SplSticker({item}) {
             </td>
             <td colSpan="2" style={{ border: '1px solid black' }}>
               <p style={{ marginLeft: '5px', fontSize: '16px' }}>
-                ..<sup style={{ fontSize: '11px', marginLeft: '2px' }}></sup><br />
+                {item.marktercode?(<><span>marktercode: </span><b>{item.marktercode}</b></>):''}
+                <br />
+                {item.paytype?(<><span></span><b>{item.paytype}</b></>):''}
+                <br/>
+                {item.price?(<><span>price: </span><b>{item.price} SAR</b></>):''}
+
                 {/* <b>0 SAR</b> */}
               </p>
             </td>
@@ -56,7 +77,8 @@ export default function SplSticker({item}) {
           <tr>
             <td colSpan="4" bgcolor="#333333" style={{ border: '1px solid black' }}>
               <p style={{ color: '#FFF' }}>
-                Services:
+                {/* Services: */}
+                {item.createdate?(<><span>Date: </span>{item.createdate.slice(0,15)}</>):''}
               </p>
             </td>
           </tr>
@@ -69,7 +91,7 @@ export default function SplSticker({item}) {
                 </p>
               </td>
               <td style={{ padding: '0 5px 0 5px', border: '1px solid black' }}>PieceDescription: <br /><b>{piece.PieceDescription}</b></td>
-              <td style={{ padding: '0 5px 0 5px', border: '1px solid black' }}>PieceBarcode: <br /><b>{piece.PieceBarcode}</b></td>
+              <td className='barcode2' style={{ padding: '0 5px 0 5px', border: '1px solid black' }}><Barcode value={piece.PieceBarcode} /> </td>
             </tr>
           ))}
           {/* <tr>
@@ -149,8 +171,8 @@ export default function SplSticker({item}) {
         </table>
       </div>
 
-      {itemPieces.map((piece, index) => (
-            <div key={index} className='mt-5' style={{ backgroundColor: '#fefefe', border: '0px solid #888',direction:'ltr', margin: '15px 0', overflow: 'hidden' }}>
+      {itemPieces.length > 1 && itemPieces.map((piece, index) => (
+            <div className={isZoomed ? 'zoom-in mt-5' : 'mt-5'} key={index} style={{ backgroundColor: '#fefefe', border: '0px solid #888',direction:'ltr', margin: '15px 0', overflow: 'hidden' }}>
             <table cellPadding="0" cellSpacing="0" style={{ border: '1px solid black', borderCollapse: 'collapse', width: '360px', height: '550px', margin: '0px 0 0px 0px', padding: '0' }}>
               <tr>
                 <td style={{ border: '1px solid black', textAlign: 'center' }}>
@@ -160,8 +182,10 @@ export default function SplSticker({item}) {
                   {/* <p style={{ paddingRight: '10px', textAlign: 'right', paddingTop: '5px' }}>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAhAQMAAADj3NsVAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAACRJREFUKJFjuCR4uyT25URhzVaevdesS5JzShsYRsVGxQZQDABosyRsJPGMbQAAAABJRU5ErkJggg==" alt="barcode" style={{ width: '6cm', height: '1cm', padding: '1px' }} />
                   </p> */}
-                  <p style={{ paddingLeft: '3px', textAlign: 'center' }}>{item.data.Items[0].Barcode}</p>
-                </td>
+              <p className='barcode1' style={{textAlign: 'right', marginBottom:0}}>
+              <Barcode value={item.data.Items[0].Barcode}/>
+              </p>                
+              </td>
               </tr>
               <tr>
                 <td rowSpan="2" style={{ border: '1px solid black' }}>
@@ -169,10 +193,15 @@ export default function SplSticker({item}) {
                   <h4 style={{ fontSize: '10px', fontWeight: 'bold', marginLeft: '5px' }}>{item.reciver.city}</h4>
                 </td>
                 <td colSpan="2" style={{ border: '1px solid black' }}>
-                  <p style={{ marginLeft: '5px', fontSize: '16px' }}>
-                    ..<sup style={{ fontSize: '11px', marginLeft: '2px' }}></sup><br />
-                    {/* <b>0 SAR</b> */}
-                  </p>
+                <p style={{ marginLeft: '5px', fontSize: '16px' }}>
+                {item.marktercode?(<><span>marktercode: </span><b>{item.marktercode}</b></>):''}
+                <br />
+                {item.paytype?(<><span></span><b>{item.paytype}</b></>):''}
+                <br/>
+                {/* {item.price?(<><span>price: </span><b>{item.price} SAR</b></>):''} */}
+
+                {/* <b>0 SAR</b> */}
+              </p>
                 </td>
                 <td colSpan="1" rowSpan="1" style={{ border: '1px solid black' }}>
                   <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '5px' }}><b>Zone </b></h1>
@@ -190,7 +219,8 @@ export default function SplSticker({item}) {
               <tr>
                 <td colSpan="4" bgcolor="#333333" style={{ border: '1px solid black' }}>
                   <p style={{ color: '#FFF' }}>
-                    Services:
+                    {/* Services: */}
+                    {item.createdate?(<><span>Date: </span>{item.createdate.slice(0,15)}</>):''}
                   </p>
                 </td>
               </tr>
@@ -203,7 +233,7 @@ export default function SplSticker({item}) {
                   </p>
                 </td>
                 <td style={{ padding: '0 5px 0 5px', border: '1px solid black' }}>PieceDescription: <br /><b>{piece.PieceDescription}</b></td>
-                <td style={{ padding: '0 5px 0 5px', border: '1px solid black' }}>PieceBarcode: <br /><b>{piece.PieceBarcode}</b></td>
+                <td className='barcode2' style={{ padding: '0 5px 0 5px', border: '1px solid black' }}><Barcode value={piece.PieceBarcode} /> </td>
                 
               </tr>
               {/* <td style={{ border: '1px solid black', paddingLeft: '5px' }}>
@@ -213,7 +243,9 @@ export default function SplSticker({item}) {
                 <td colSpan="4" style={{ border: '1px solid black' }}>
                   <p style={{ margin: '5px 0 0 10px' }}>
                     {item.sender.name}<br />
-                  <b>  {item.sender.city}</b> , {item.sender.AddressLine1}
+                  <b>  {item.sender.city}</b> , {item.sender.AddressLine1} <br/>
+                  (عنوان اخر) :
+                  {item.sender.AddressLine2}
                   </p>
                   <hr style={{ margin: '2px 10px' }} />
                   <p style={{ margin: '0 0 5px 10px' }}>{item.sender.mobile}</p>
@@ -226,7 +258,11 @@ export default function SplSticker({item}) {
                       <td colSpan="2"><p style={{ marginLeft: '10px' }}> {item.reciver.name}</p></td>
                     </tr>
                     <tr>
-                      <td colSpan="2"><p style={{ marginLeft: '10px' }}><b>{item.reciver.city}</b> , {item.reciver.AddressLine1}</p></td>
+                      <td colSpan="2"><p style={{ marginLeft: '10px' }}><b>{item.reciver.city}</b> , {item.reciver.AddressLine1}<br/>
+                      (عنوان اخر) :
+                      {item.reciver.AddressLine2}
+
+                       </p></td>
                     </tr>
                     {/* <tr>
                       <td colSpan="2"><p style={{ marginLeft: '10px' }}></p></td>
@@ -270,6 +306,8 @@ export default function SplSticker({item}) {
             </table>
           </div>
           ))}
+  </div>
+
   </div>
   )
 }
