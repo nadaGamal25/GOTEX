@@ -70,6 +70,9 @@ export default function Navbar({userData ,logout}) {
           });
         };
       }, []);
+      function waitingAlert(){
+        window.alert('سوف يكون متاح قريباً ')
+      }
   return (
     <>
     {/* <!-- start side navbar --> */}
@@ -134,6 +137,19 @@ export default function Navbar({userData ,logout}) {
               </Link>
           </li>
             ):null}
+
+<li>
+                <Link onClick={waitingAlert}>
+                <i class="fa-solid fa-keyboard bx"></i>
+                      <span class="text">مستلزمات الشحن(قريباً)</span>
+                </Link>
+            </li>
+            <li>
+                <Link onClick={waitingAlert}>
+                <i class="fa-solid fa-users-line bx"></i>
+                    <span class="text">طلب مندوب</span>
+                </Link>
+            </li>
             
         </ul>
         <ul class="side-menu">

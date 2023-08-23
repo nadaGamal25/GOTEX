@@ -31,7 +31,7 @@ export default function SplShippments(userData) {
     reciverMobile: "",
     SenderName: "",
     SenderMobileNumber: "",
-    cod: "",
+    cod: false,
     ContentPrice: "",
     ContentDescription: "",
     Weight: "",
@@ -657,14 +657,14 @@ useEffect(() => {
         <input
           type="number"
           name="PieceWeight"
-          placeholder="عدد القطع"
+          placeholder="وزن القطعة "
           value={piece.PieceWeight}
           onChange={e => updatePiece(index, 'PieceWeight', e.target.value)}
         /> <br/>
         <input
           type="text"
           name="PieceDescription"
-          placeholder="وصف القطع"
+          placeholder="وصف القطعة"
           value={piece.PieceDescription}
           onChange={e => updatePiece(index, 'PieceDescription', e.target.value)}
         />

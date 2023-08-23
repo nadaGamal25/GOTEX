@@ -75,17 +75,25 @@ export default function SplSticker({item}) {
             </td>
           </tr> */}
           <tr>
-            <td colSpan="4" bgcolor="#333333" style={{ border: '1px solid black' }}>
-              <p style={{ color: '#FFF' }}>
+            <td colSpan="4"  style={{ border: '1px solid black' }}>
+              <p className='ms-1' style={{ color: '#000'  }}>
                 {/* Services: */}
                 {item.createdate?(<><span>Date: </span>{item.createdate.slice(0,15)}</>):''}
               </p>
             </td>
           </tr>
+          <tr style={{borderBottom:'solid 1px black'}}>
+          <td style={{ color: '#FFF' }} bgcolor="#333333" colSpan="5">
+            <p style={{ textAlign: 'center' }}>
+            Number of Pieces: <b>{itemPieces.length}</b>
+            </p>
+            </td>
+            </tr>
+
           {itemPieces.map((piece, index) => (
             <tr key={index}>
               <td style={{ border: '1px solid black' }}>
-                <p style={{ verticalAlign: 'middle', float: 'left', marginTop: '8px' }}>Pieces: </p>
+                <p style={{ verticalAlign: 'middle', float: 'left', marginTop: '8px' }}>PieceWieght: </p>
                 <p style={{ verticalAlign: 'middle', float: 'right', fontSize: '28px', marginRight: '4px' }}>
                   {piece.PieceWeight}
                 </p>
@@ -170,7 +178,8 @@ export default function SplSticker({item}) {
           </tr> */}
         </table>
       </div>
-
+    
+{/* 
       {itemPieces.length > 1 && itemPieces.map((piece, index) => (
             <div className={isZoomed ? 'zoom-in mt-5' : 'mt-5'} key={index} style={{ backgroundColor: '#fefefe', border: '0px solid #888',direction:'ltr', margin: '15px 0', overflow: 'hidden' }}>
             <table cellPadding="0" cellSpacing="0" style={{ border: '1px solid black', borderCollapse: 'collapse', width: '360px', height: '550px', margin: '0px 0 0px 0px', padding: '0' }}>
@@ -181,7 +190,7 @@ export default function SplSticker({item}) {
                 <td colSpan="3" style={{ border: '1px solid black' }}>
                   {/* <p style={{ paddingRight: '10px', textAlign: 'right', paddingTop: '5px' }}>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJEAAAAhAQMAAADj3NsVAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAACRJREFUKJFjuCR4uyT25URhzVaevdesS5JzShsYRsVGxQZQDABosyRsJPGMbQAAAABJRU5ErkJggg==" alt="barcode" style={{ width: '6cm', height: '1cm', padding: '1px' }} />
-                  </p> */}
+                  </p> *
               <p className='barcode1' style={{textAlign: 'right', marginBottom:0}}>
               <Barcode value={item.data.Items[0].Barcode}/>
               </p>                
@@ -200,7 +209,7 @@ export default function SplSticker({item}) {
                 <br/>
                 {/* {item.price?(<><span>price: </span><b>{item.price} SAR</b></>):''} */}
 
-                {/* <b>0 SAR</b> */}
+                {/* <b>0 SAR</b> *
               </p>
                 </td>
                 <td colSpan="1" rowSpan="1" style={{ border: '1px solid black' }}>
@@ -215,11 +224,10 @@ export default function SplSticker({item}) {
                 <td style={{ border: '1px solid black', paddingLeft: '5px' }} colSpan="2">
                   <p>Contact Us: </p>
                 </td>
-              </tr> */}
+              </tr> *
               <tr>
                 <td colSpan="4" bgcolor="#333333" style={{ border: '1px solid black' }}>
                   <p style={{ color: '#FFF' }}>
-                    {/* Services: */}
                     {item.createdate?(<><span>Date: </span>{item.createdate.slice(0,15)}</>):''}
                   </p>
                 </td>
@@ -238,7 +246,7 @@ export default function SplSticker({item}) {
               </tr>
               {/* <td style={{ border: '1px solid black', paddingLeft: '5px' }}>
                   Type<br /><b>..</b>
-                </td> */}
+                </td> *
               <tr>
                 <td colSpan="4" style={{ border: '1px solid black' }}>
                   <p style={{ margin: '5px 0 0 10px' }}>
@@ -271,14 +279,14 @@ export default function SplSticker({item}) {
                       <td colSpan="4">
                         <p style={{ marginLeft: '10px' }}>{item.reciver.city}</p>
                       </td>
-                    </tr> */}
+                    </tr> *
                     <tr>
                       <td width="30%"><p style={{ margin: '0px 0 0px 10px' }}>{item.reciver.mobile}</p></td>
                       {/* <td width="30%" valign="top"></td> */}
-                    </tr>
+                    {/* </tr>
                     <tr style={{ borderTop: '1px solid black' }}>
                       <td width="40%"><p style={{ margin: '0px 0 5px 5px' }}>ReferenceId:</p><strong style={{ marginLeft: '5px' }}>{item.data.Items[0].ReferenceId}</strong></td>
-                      {/* <td width="40%" valign="top">Consignee Ref:</td> */}
+                      {/* <td width="40%" valign="top">Consignee Ref:</td> * *
                     </tr>
                   </table>
                 </td>
@@ -288,13 +296,13 @@ export default function SplSticker({item}) {
                   <div>
                     {/* <p style={{ padding: '10px 0 0', textAlign: 'center' }}>
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAAAhAQMAAACMbYc4AAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADBJREFUKJFjuCS7e1nM6b3WtltteoKSbONenjVRvvJlk5y3VfIahlHJUclRyUErCQBzBsPh8JDsagAAAABJRU5ErkJggg==" alt="barcode" style={{ width: '6cm', height: '1cm', padding: '1px' }} />
-                    </p> */}
+                    </p> *
                     <p style={{ textAlign: 'center' }}>{item.data.Items[0].ReferenceId}</p>
                   </div>
                 </td>
                 {/* <td style={{ border: '1px solid black', textAlign: 'center' }}>
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAA/AQMAAABtkYKcAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAMpJREFUKJGF0s0NwyAMBWB3gWaDsAhS1kovySbtKmEBWCG3XJG4tFLEq7HbpvmpanH4JIRsHhAwx6pBpkOkUBDJpsHSeUGCTcHCF1D1G7QF8AfcIvevXgoeA1jNswdXrEhLAcdbiJ3ArfEALwZdpmsrZ96oe9zQJM+YzSGkF7UU2wW427qfyjwKv0IWcOXTqBMqyr0cslzQDM0GCE3uJPBgucUHJagwcy+GcaPZYlbUxJmvwPFSJw+3A28ZeWUM1vgFkjxu+iX6bzwBIvo4+1Iuqt4AAAAASUVORK5CYII=" alt="qrcode" />
-                </td> */}
+                </td> *
               </tr>
               {/* <tr>
                 <td colSpan="4" style={{ border: '1px solid black' }}>
@@ -302,10 +310,11 @@ export default function SplSticker({item}) {
                     Description:
                   </p>
                 </td>
-              </tr> */}
+              </tr> *
             </table>
           </div>
           ))}
+          */}
   </div>
 
   </div>
