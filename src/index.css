@@ -11,6 +11,13 @@
   --bg-color:#f2f2f2;
   --dark--color:#08354c;
 }
+.checkbox{
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: solid 0.5px #545454;
+  margin-bottom: 4px;
+}
 a , button ,i{
   cursor: pointer;
   transition: all 0.3s;

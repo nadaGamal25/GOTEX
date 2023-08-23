@@ -877,6 +877,11 @@ export default function SmsaShippments(userData) {
                    
                    ):
                    <h4></h4>}
+
+<div className='d-flex align-items-center pb-3'>
+                <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
+                <label className='label-cod' htmlFor="">طلب المندوب</label>
+                </div>
                 <div className="">
                 <div className='pb-3'>
                 <label htmlFor=""> الوصف </label>

@@ -752,8 +752,15 @@ export default function AramexShippments(userData) {
                    ):
                    <h4></h4>}
                 
+                <div className='d-flex align-items-center pb-3'>
+                <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
+                <label className='label-cod' htmlFor="">طلب المندوب</label>
                 </div>
+                
+                </div>
+                
             </div>
+            
             </div>
             <div className="col-md-6">
             <div className="reciever-details brdr-grey p-3">

@@ -912,6 +912,13 @@ export default function AnwanShippments(userData) {
     })}
             </div>
                     </> */}
+                
+                </div>
+                <div className='d-flex align-items-center pb-3'>
+                <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
+                <label className='label-cod' htmlFor="">طلب المندوب</label>
+                </div>
+
                 <div className='pb-3'>
                 <label htmlFor=""> الوصف </label>
                 <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
@@ -922,8 +929,6 @@ export default function AnwanShippments(userData) {
       
     })}
             </div>
-                </div>
-                
                 </div>
             </div>
             </div>

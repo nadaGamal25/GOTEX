@@ -651,6 +651,11 @@ useEffect(() => {
             </>
                     ):
                  <h4></h4>}
+
+<div className='d-flex align-items-center pb-3'>
+                <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
+                <label className='label-cod' htmlFor="">طلب المندوب</label>
+                </div>
                  
       {pieces.map((piece, index) => (
       <div className='my-1' key={index}>

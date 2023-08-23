@@ -628,6 +628,11 @@ function getOrderData(e) {
               </>
                       ):
                    <h4></h4>}
+
+<div className='d-flex align-items-center pb-3'>
+                <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
+                <label className='label-cod' htmlFor="">طلب المندوب</label>
+                </div>
                 
                 </div>
             </div>

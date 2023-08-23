@@ -144,12 +144,12 @@ export default function Navbar({userData ,logout}) {
                       <span class="text">مستلزمات الشحن(قريباً)</span>
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link onClick={waitingAlert}>
                 <i class="fa-solid fa-users-line bx"></i>
                     <span class="text">طلب مندوب</span>
                 </Link>
-            </li>
+            </li> */}
             
         </ul>
         <ul class="side-menu">
