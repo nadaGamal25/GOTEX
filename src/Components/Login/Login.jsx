@@ -73,11 +73,11 @@ async function sendLoginDataToApi(){
         const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
         if (data.msg === 'ok') {
           console.log(data.token)
+          navigate('/companies');
           setisLoading(false)
           localStorage.setItem('userToken', data.token);
           saveUserData();
           // setLoginTime(new Date().getTime()); 
-          navigate('/companies');
         } else {
           setisLoading(false)
           setError(data.msg)

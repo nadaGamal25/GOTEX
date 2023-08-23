@@ -51,6 +51,7 @@ import SplShippments from './Components/SplShippments/SplShippments';
 import SplSticker from './Components/SplSticker/SplSticker';
 import SplStickerPreview from './Components/SplStickerPreview/SplStickerPreview';
 import SplEdit from './Components/SplEdit/SplEdit';
+import DaftraStaff from './Components/DaftraStaff/DaftraStaff';
 
 function App() {
   
@@ -94,6 +95,7 @@ function App() {
     // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
     {path:'companiesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'daftraStaff',element:<ErrorBoundary><ProtectedRoute userData={userData}><DaftraStaff/></ProtectedRoute></ErrorBoundary>},
     {path:'saeeEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'gltEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'aramexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute></ErrorBoundary>},

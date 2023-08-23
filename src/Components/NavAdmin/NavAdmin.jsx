@@ -78,6 +78,12 @@ export default function NavAdmin(setuserData) {
                     <span class="text">قائمة انتظار المدعويين</span>
                 </Link>
             </li>
+            <li>
+                <Link to="/daftraStaff">
+                <i class="bx fa-solid fa-clipboard-user"></i>
+                    <span class="text">الموظفين  </span>
+                </Link>
+            </li>
             {/* <li>
                 <Link to="/addDepositAdmin">
                 <i class="fa-solid fa-dollar-sign bx"></i>
