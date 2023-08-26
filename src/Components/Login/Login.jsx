@@ -68,12 +68,14 @@ export default function Login({saveUserData}) {
   //     clearTimeout(countdown);
   //   };
   // }, [sessionExpired, navigate]);
+
+  
 async function sendLoginDataToApi(){
   try {
         const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
         if (data.msg === 'ok') {
+          await navigate('/companies');
           console.log(data.token)
-          navigate('/companies');
           setisLoading(false)
           localStorage.setItem('userToken', data.token);
           saveUserData();
@@ -93,12 +95,12 @@ async function sendLoginDataToApi(){
       try {
             const {data} = await axios.post('https://dashboard.go-tex.net/api/admin/login', theUser);
             if (data.msg === 'ok') {
+              navigate('/companiesAdmin');
               console.log(data.token)
               setisLoading(false)
               localStorage.setItem('userToken', data.token);
               saveUserData();
               // setLoginTime(new Date().getTime());               
-              navigate('/companiesAdmin');
             } else {
               setisLoading(false)
 

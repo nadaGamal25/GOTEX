@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import NavAdmin from '../NavAdmin/NavAdmin'
 
-export default function ClientsAdmin() {
+export default function MarketerClients() {
     useEffect(()=>{
-        getClientsAdmin()
+        getClientsList()
       },[])
-      const [clientsAdmin,setClientsAdmin]=useState([])
-    
-      async function getClientsAdmin() {
+
+      const[clients,setClients]=useState([])
+
+
+      async function getClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/daftra/clients-get-all',
+          const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
           });
-          const clients = response.data.data.data;
-          console.log(clients)
-          setClientsAdmin(clients)
+          const List = response.data.data
+          console.log(List)
+          setClients(List)
         } catch (error) {
           console.error(error);
         }
       }
+     
+      
   return (
     <>
-    <NavAdmin/>
     <div className='p-5' id='content'>
     <div className="clients-table p-4 my-4">
       <table className="table">
@@ -45,7 +47,7 @@ export default function ClientsAdmin() {
           </tr>
         </thead>
         <tbody>
-          {clientsAdmin && clientsAdmin.map((item,index) =>{
+          {clients && clients.map((item,index) =>{
             return(
               <tr key={index}>
                 <td>{index+1}</td>

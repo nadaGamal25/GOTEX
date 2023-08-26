@@ -16,6 +16,9 @@ export default function UsersListAdmin() {
       const [showModal3, setShowModal3] = useState(false);
       const [emailCR3, setEmailCR3] = useState('');
       const [emailCR33, setEmailCR33] = useState('');
+      const [daftraid, setDaftraid] = useState('');
+const [marketerid, setMarketerid] = useState('');
+
       
     
       async function getUsersListsAdmin() {
@@ -109,6 +112,29 @@ export default function UsersListAdmin() {
           console.error(error);
         }
       }
+      async function connectMarketerWithDaftra() {
+        try {
+          const response = await axios.post(
+            'https://dashboard.go-tex.net/api/daftra/connect-markter-with-daftra',
+            {
+              daftraid: daftraid,
+              marketerid: marketerid,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            }
+          );
+          window.alert('تم ربط المسوق بدفترة بنجاح')
+          console.log(response.data);
+      
+          closeModal4();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      
 
       const openModal2 = (email2) => {
         setShowModal2(true);
@@ -155,6 +181,26 @@ export default function UsersListAdmin() {
       };
 
       const [search, setSearch]= useState('')
+
+      const handleDaftraidChange = (event) => {
+        setDaftraid(event.target.value);
+      };
+      
+      const handleMarketeridChange = (event) => {
+        setMarketerid(event.target.value);
+      };
+      const [showModal4, setShowModal4] = useState(false);
+
+const openModal4 = () => {
+  setShowModal4(true);
+};
+
+const closeModal4 = () => {
+  setShowModal4(false);
+  setDaftraid('');
+  setMarketerid('');
+};
+
       
   
   return (
@@ -174,13 +220,14 @@ export default function UsersListAdmin() {
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">اسم المستخدم </th>
+            <th scope="col"> المستخدم</th>
             {/* <th scope="col">id_المسخدم</th> */}
             <th scope="col"> المحفظة </th>
             <th scope="col">الهاتف </th>
             <th scope="col">الإيميل </th>
             <th scope="col">العنوان </th>
             <th scope="col">cr </th>
+            <th></th>
             <th></th>
             <th></th>
             
@@ -226,7 +273,16 @@ export default function UsersListAdmin() {
                       </button> }
                 
               </td>
-              
+              {item.rolle=== "marketer"?(<td>
+                <button className="btn btn-dark mt-2"
+                onClick={() => {
+                  setDaftraid(''); // Reset the input values
+                  setMarketerid(item._id); // Set marketerid based on item._id
+                  setShowModal4(true); // Open the new modal
+                }}>
+                  الربط بدفترة
+                </button>
+              </td>):<td></td>}
                 
               </tr>
             )
@@ -382,6 +438,60 @@ export default function UsersListAdmin() {
           </div>
         </div>
       )}
+
+{showModal4 && (
+  <div className="modal" style={{ display: 'block' }}>
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">ربط المسوّق بدفترة</h5>
+          <button type="button" className="close" onClick={closeModal4}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <div className="form-group">
+            <label htmlFor="daftraid">id_الدفترة:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="daftraid"
+              value={daftraid}
+              onChange={handleDaftraidChange}
+            />
+          </div>
+          {/* <div className="form-group">
+            <label htmlFor="marketerid">معرّف المسوّق:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="marketerid"
+              value={marketerid}
+              readOnly
+            />
+          </div> */}
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={connectMarketerWithDaftra}
+          >
+            ربط
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={closeModal4}
+          >
+            إلغاء
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   )
 }

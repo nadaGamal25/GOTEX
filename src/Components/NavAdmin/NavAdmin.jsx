@@ -60,12 +60,6 @@ export default function NavAdmin(setuserData) {
                 </Link>
             </li>
             
-             <li>
-                <Link to="/clientsAdmin">
-                <i class="fa-solid fa-users bx"></i>
-                <span class="text">العملاء</span>
-                </Link>
-            </li>
             <li>
                 <Link to="/userListAdmin">
                     <i class="fa-solid fa-users bx"></i>
@@ -82,6 +76,12 @@ export default function NavAdmin(setuserData) {
                 <Link to="/daftraStaff">
                 <i class="bx fa-solid fa-clipboard-user"></i>
                     <span class="text">الموظفين  </span>
+                </Link>
+            </li>
+            <li>
+                <Link to="/clientsAdmin">
+                <i class="fa-solid fa-users bx"></i>
+                <span class="text">العملاء</span>
                 </Link>
             </li>
             {/* <li>

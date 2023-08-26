@@ -52,6 +52,8 @@ import SplSticker from './Components/SplSticker/SplSticker';
 import SplStickerPreview from './Components/SplStickerPreview/SplStickerPreview';
 import SplEdit from './Components/SplEdit/SplEdit';
 import DaftraStaff from './Components/DaftraStaff/DaftraStaff';
+import MArketerAddClient from './Components/MArketerAddClient/MArketerAddClient';
+import MarketerClients from './Components/MarketerClients/MarketerClients';
 
 function App() {
   
@@ -112,6 +114,8 @@ function App() {
       {path:'/inviteLink',element:<ErrorBoundary><InviteLink userData={userData}/></ErrorBoundary>},
       {path:'/addClientMarketer',element:<ErrorBoundary><AddClientMarketer userData={userData}/></ErrorBoundary>},
       {path:'/displayClientsMarkter',element:<ErrorBoundary><DisplayClientsMarkter userData={userData}/></ErrorBoundary>},
+      {path:'/MArketerAddClient',element:<ErrorBoundary><MArketerAddClient userData={userData}/></ErrorBoundary>},
+      {path:'/MarketerClients',element:<ErrorBoundary><MarketerClients userData={userData}/></ErrorBoundary>},
       // {path:'/clients',element:<ProtectedRoute userData={userData}><Clients/></ProtectedRoute>},
       // {path:'/addclient',element:<ProtectedRoute userData={userData}><AddClient/></ProtectedRoute>},
       {path:'/payment',element:<ErrorBoundary><ProtectedRoute userData={userData}><Payment/></ProtectedRoute></ErrorBoundary>},

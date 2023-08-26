@@ -144,6 +144,22 @@ export default function Navbar({userData ,logout}) {
                       <span class="text">مستلزمات الشحن(قريباً)</span>
                 </Link>
             </li>
+            {userData?.data?.user?.rolle === "marketer"?(
+              <li className=''>
+              <Link  to="/MArketerAddClient">
+              <i class="fa-solid fa-user-plus bx"></i>
+                  <span class="text">إضافة عميل(دفترة) </span>
+              </Link>
+          </li>
+            ):null}
+             {userData?.data?.user?.rolle === "marketer"?(
+              <li className=''>
+              <Link  to="/MarketerClients">
+              <i class="fa-solid fa-users bx"></i>
+                  <span class="text"> العملاء (دفترة)</span>
+              </Link>
+          </li>
+            ):null}
             {/* <li>
                 <Link onClick={waitingAlert}>
                 <i class="fa-solid fa-users-line bx"></i>
