@@ -52,7 +52,8 @@ export default function MarketerClients() {
               <tr key={index}>
                 <td>{index+1}</td>
                 {item.Client?<td>{item.Client.first_name} {item.Client.last_name}</td>:<td>_</td>}
-                {item.Client.phone1?<td>{item.Client.phone1}</td>:<td>_</td>}
+                {item.Client.phone1?<td>{item.Client.phone1} ,<br/>
+                {item.Client.phone2} </td>:<td>_</td>}
                 {item.Client.email?<td>{item.Client.email}</td>:<td>_</td>}
                 {item.Client.city?<td>{item.Client.city}</td>:<td>_</td>}
                 {item.Client.address1?<td>{item.Client.address1}</td>:<td>_</td>}
