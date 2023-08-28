@@ -54,6 +54,16 @@ body{
   background-color: #0c5276 !important;
   color: #fff !important;
 }
+.btn-blue{
+  background-color: #ec713c !important;
+  color: #fff !important;
+  border: none !important;
+  cursor:pointer !important;
+}
+.btn-blue:hover{
+  background-color: #e1612b !important;
+  color: #fff !important;
+}
 .btn-orange i{
   font-size: 14px;
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import NavAdmin from '../NavAdmin/NavAdmin'
+import * as XLSX from 'xlsx'
 
 export default function ShipmentsAdmin() {
  
@@ -55,40 +56,64 @@ export default function ShipmentsAdmin() {
         dateInRange(item.createdate, startDate, endDate)) ||
     (item.data?.createDate &&
       dateInRange(item.data.createDate, startDate, endDate))) &&
-      // (searchCreatedate === '' || item.createdate?.slice(0, 15).includes(searchCreatedate) || item.data?.createDate?.slice(0, 10).includes(searchCreatedate)) &&
       (searchTracking === '' || (item.data?.awb_no?.includes(searchTracking)|| item.data?.sawb?.includes(searchTracking) || item.data?.waybill?.includes(searchTracking) || item.data?.orderTrackingNumber?.includes(searchTracking) || item.data?.Shipments?.some((shipment) => shipment.ID?.includes(searchTracking))))
     
     );
 
   });
+  function exportToExcel() {
+    const header = [
+      '#',
+      'الشركة',
+      'العميل',
+      'الهاتف',
+      'الايميل',
+      'السعر',
+      'رقم التتبع',
+      'كود المسوق',
+      'طريقة الدفع',
+      'التاريخ',
+    ];
   
-  // const filteredShipments = shipmentsAdmin.filter((item) => {
-  //   return (
-  //     item.company?.includes(searchCompany) &&
-  //     (item.user?.name?.includes(searchName )) &&
-  //     item.user?.email?.includes(searchEmail) &&
-  //     (item.price?.toString().includes(searchPrice)) &&
-  //     item.marktercode?.includes(searchMarktercode) &&
-  //     item.paytype?.includes(searchPaytype) &&
-  //     (item.createdate?.slice(0, 15).includes(searchCreatedate) || item.data?.createDate?.slice(0, 10).includes(searchCreatedate))
-  //   );
-  // });
-  // async function getShipmentsAdmin() {
-  //   try {
-  //     const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all-orders',
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-  //       },
-  //     });
-  //     const shipments = response.data.data;
-  //     console.log(shipments)
-  //     setShipmentsAdmin(shipments)
-      
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+    const shipmentsData = filteredShipments.map((item, index) => [
+      index + 1,
+      item.company || '_',
+      item.user && item.user.name ? item.user.name : '_',
+      item.user && item.user.mobile ? item.user.mobile : '_',
+      item.user && item.user.email ? item.user.email : '_',
+      item.price || '_',
+      item.data && (
+        item.data.awb_no ||
+        item.data.waybill ||
+        item.data.orderTrackingNumber ||
+        (item.data.Shipments && item.data.Shipments.length > 0 && item.data.Shipments[0]?.ID) ||
+        item.data.sawb
+      ) ?
+      (item.data.awb_no ||
+       item.data.waybill ||
+       item.data.orderTrackingNumber ||
+       (item.data.Shipments && item.data.Shipments.length > 0 && item.data.Shipments[0]?.ID) ||
+       item.data.sawb) : '_',
+       item.marktercode || '_',
+      item.paytype || '_',
+      item.createdate ? item.createdate.slice(0, 15) : (item.data && item.data.createDate ? item.data.createDate.slice(0, 10) : '_'),
+    ]);
+  
+    const ws = XLSX.utils.aoa_to_sheet([header, ...shipmentsData]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Shipments');
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  
+    const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'shipments.xlsx';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  
+  
   return (
     <>
     <NavAdmin/>
@@ -144,7 +169,6 @@ export default function ShipmentsAdmin() {
   />
 </label>
 
-          {/* <input className='form-control' type="search" value={searchCompany} onChange={(e) => setSearchCompany(e.target.value)} /> */}
         </div>
         <div className="text-center mt-3">
           <button className="btn dark"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
@@ -153,49 +177,38 @@ export default function ShipmentsAdmin() {
     </div>
    
     <div className="clients-table p-4 my-4">
+    <button className="btn btn-blue" onClick={exportToExcel}>تحميل كملف اكسيل</button>
+
           <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">
                   الشركة
-                  {/* <input type="search" value={searchCompany} onChange={(e) => setSearchCompany(e.target.value)} /> */}
                 </th>
                 <th scope="col">
                   العميل
-                  {/* <input type="search" value={searchName} onChange={(e) => setSearchName(e.target.value)} /> */}
                 </th>
                 <th scope="col">
                   الهاتف
                 </th>
                 <th scope="col">
                   الايميل
-                  {/* <br/><input type="search" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} /> */}
 
                 </th>
                 <th scope="col">
                   السعر
-                  {/* <input type="search" value={searchPrice} onChange={(e) => setSearchPrice(e.target.value)} /> */}
-
                 </th>
                 <th scope="col">
                   رقم التتبع
-                  {/* <input type="search" value={searchTracking} onChange={(e) => setSearchTracking(e.target.value)} /> */}
-
                 </th>
                 <th scope="col">
                   كود المسوق
-                  {/* <input type="search" value={searchMarktercode} onChange={(e) => setSearchMarktercode(e.target.value)} /> */}
-
                 </th>
                 <th scope="col">
                   طريقة الدفع
-                  {/* <input type="search" value={searchPaytype} onChange={(e) => setSearchPaytype(e.target.value)} /> */}
-
                 </th>
-                <th scope="col">التاريخ
-                {/* <input type="search" value={searchCreatedate} onChange={(e) => setSearchCreatedate(e.target.value)} /> */}
-</th>
+                <th scope="col">التاريخ</th>
               </tr>
             </thead>
             <tbody>
