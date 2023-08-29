@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import NavAdmin from '../NavAdmin/NavAdmin'
 import * as XLSX from 'xlsx'
 
 export default function ShipmentsAdmin() {
@@ -116,7 +115,6 @@ export default function ShipmentsAdmin() {
   
   return (
     <>
-    <NavAdmin/>
     <div className='p-5' id='content'>
     <div className="gray-table p-4 mb-4">
       <div className="row">

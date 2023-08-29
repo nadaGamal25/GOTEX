@@ -1,80 +1,5 @@
-// import axios from 'axios';
-// import React, { useEffect, useState } from 'react'
-// import NavAdmin from '../NavAdmin/NavAdmin';
-
-// export default function InvitedWaiting() {
-//     useEffect(()=>{
-//         getWaitingListsAdmin()
-//       },[])
-//       const[show,setShow]=useState(false)
-//     const [waitingList2,setWaitingList]=useState('')
-//     // async function getWaitingListsAdmin() {
-//     //     try {
-//     //       const response = await axios.get('https://dashboard.go-tex.net/api/invatation/get-invitations-wait',
-//     //       {
-//     //         headers: {
-//     //           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-//     //         },
-//     //       });
-//     //       const waitinglist = response.data.data;
-//     //       console.log(waitinglist)
-//     //       setWaitingList(waitinglist)
-//     //     } catch (error) {
-//     //       console.error(error.response);
-//     //     }
-//     //   }
-//     async function getWaitingListsAdmin() {
-//       try {
-//         const response = await axios.get('https://dashboard.go-tex.net/api/invatation/get-invitations-wait', {
-//           headers: {
-//             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-//           },
-//         });
-    
-//         const waitinglist = response.data.data;
-//         setWaitingList(waitinglist);
-    
-//         const filteredList = waitinglist.filter((item) => {
-//           if (searchOption === 'clint') {
-//             return item.clint.email.includes(searchTerm);
-//           } else if (searchOption === 'markter') {
-//             return item.markter.email.includes(searchTerm);
-//           }
-//           return true; 
-//         });
-    
-//         setFilteredWaitingList(filteredList);
-//       } catch (error) {
-//         console.error(error.response);
-//       }
-//     }
-    
-//       async function accept(orderId) {
-//         try {
-//           const response = await axios.get(`https://dashboard.go-tex.net/api/invatation/accept-invitation/${orderId}`,
-//           {
-//             headers: {
-//               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-//             },
-//           });
-//           if (response.status === 200) {
-//           console.log(response)
-//           window.alert('تم قبول الدعوة')
-//           }
-//         } catch (error) {
-//           console.error(error.response);
-//         }
-//       }
-//       const openShow = () => {
-//         setShow(true);
-//       };
-//       const closeShow = () => {
-//         setShow(false);
-//       };
-//       const [searchOption, setSearchOption] = useState('clint'); 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import NavAdmin from '../NavAdmin/NavAdmin';
 
 export default function InvitedWaiting() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -155,7 +80,6 @@ export default function InvitedWaiting() {
 
   return (
     <>
-    <NavAdmin/>
     <div className='p-5' id='content'>
       <div className=" p-4 mt-2 row g-1">
       <div className="col-md-3">

@@ -2,7 +2,6 @@ import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import NavAdmin from '../NavAdmin/NavAdmin';
 
 export default function DaftraStaff() {
 
@@ -28,7 +27,6 @@ export default function DaftraStaff() {
       },[])
   return (
     <>
-     <NavAdmin/>
     <div className='p-5' id='content'>
     <div className="clients-table p-4 my-4">
       <table className="table">

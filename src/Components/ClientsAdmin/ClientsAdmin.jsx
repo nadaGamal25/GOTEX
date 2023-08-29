@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import NavAdmin from '../NavAdmin/NavAdmin'
 
 export default function ClientsAdmin() {
     useEffect(()=>{
@@ -16,7 +15,7 @@ export default function ClientsAdmin() {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
           });
-          const clients = response.data.data.data;
+          const clients = response.data.data;
           console.log(clients)
           setClientsAdmin(clients)
         } catch (error) {
@@ -25,7 +24,6 @@ export default function ClientsAdmin() {
       }
   return (
     <>
-    <NavAdmin/>
     <div className='p-5' id='content'>
     <div className="clients-table p-4 my-4">
       <table className="table">

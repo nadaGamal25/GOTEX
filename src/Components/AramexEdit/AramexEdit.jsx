@@ -1,5 +1,4 @@
 import React from 'react'
-import NavAdmin from '../NavAdmin/NavAdmin'
 import axios from 'axios'
 import Joi from 'joi'
 import { useState } from 'react';
@@ -79,7 +78,6 @@ export default function AramexEdit() {
     }
   return (
 <>
-    <NavAdmin/>
     <div className='p-4 admin' id='content'>
             <div className="row py-3">
               <div className="col-md-6">

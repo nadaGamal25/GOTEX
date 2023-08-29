@@ -54,6 +54,10 @@ import SplEdit from './Components/SplEdit/SplEdit';
 import DaftraStaff from './Components/DaftraStaff/DaftraStaff';
 import MArketerAddClient from './Components/MArketerAddClient/MArketerAddClient';
 import MarketerClients from './Components/MarketerClients/MarketerClients';
+import LayoutAdmin from './Components/LayoutAdmin/LayoutAdmin';
+import axios from 'axios';
+import InvocesAdmin from './Components/InvocesAdmin/InvocesAdmin';
+import InvocesMarkter from './Components/InvocesMarkter/InvocesMarkter';
 
 function App() {
   
@@ -65,7 +69,7 @@ function App() {
 
   const [userData, setuserData] = useState(null)
 
-  function saveUserData(){
+  async function saveUserData(){
     let encodedToken =localStorage.getItem('userToken')
     let decodedToken = jwtDecode(encodedToken);
     console.log(decodedToken);
@@ -83,6 +87,30 @@ function App() {
     return () => clearTimeout(timeout);
   }, [userData]);
   
+  useEffect(()=>{
+    getUserBalance()
+    console.log(userData)
+  },[])
+
+      const [userBalance,setUserBalance]=useState('')
+      async function getUserBalance() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/user/get-user-balance',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const balance = response.data.data;
+          console.log(balance)
+          console.log(userData)
+          // console.log(userData.data.user.rolle)
+          setUserBalance(balance)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
   let routers =createBrowserRouter([
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
@@ -95,20 +123,7 @@ function App() {
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
     {path:'nav',element:<ProtectedRoute><NavAdmin setuserData={setuserData} userData={userData}/></ProtectedRoute>},
     // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
-    {path:'companiesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute></ErrorBoundary>},
-    {path:'clientsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute></ErrorBoundary>},
-    {path:'daftraStaff',element:<ErrorBoundary><ProtectedRoute userData={userData}><DaftraStaff/></ProtectedRoute></ErrorBoundary>},
-    {path:'saeeEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute></ErrorBoundary>},
-    {path:'gltEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute></ErrorBoundary>},
-    {path:'aramexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute></ErrorBoundary>},
-    {path:'smsaEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute></ErrorBoundary>},
-    {path:'anwanEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanEdit/></ProtectedRoute></ErrorBoundary>},
-    {path:'splEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplEdit/></ProtectedRoute></ErrorBoundary>},
-    {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
-    {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
-    {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},
-    {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentsAdmin/></ProtectedRoute></ErrorBoundary>},
-      {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
+       {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
       {path:'/companies',element:<ErrorBoundary><ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/inviteLink',element:<ErrorBoundary><InviteLink userData={userData}/></ErrorBoundary>},
@@ -127,7 +142,25 @@ function App() {
       {path:'/smsaShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/anwanShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/splShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
-      {path:'/gltOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltOrdersShipment userData={userData}/></ProtectedRoute></ErrorBoundary>}
+      {path:'/gltOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltOrdersShipment userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/invocesMarkter',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesMarkter userData={userData}/></ProtectedRoute></ErrorBoundary>},
+    ]},
+    {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
+      {path:'companiesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'clientsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'daftraStaff',element:<ErrorBoundary><ProtectedRoute userData={userData}><DaftraStaff/></ProtectedRoute></ErrorBoundary>},
+    {path:'saeeEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'gltEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'aramexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'smsaEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'anwanEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'splEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},
+    {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentsAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'invocesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesAdmin/></ProtectedRoute></ErrorBoundary>},
+   
     ]},
     {path:'*', element:<PageNotFound/>}
   ])

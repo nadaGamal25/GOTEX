@@ -74,6 +74,9 @@ body{
 .logo{
   width: 80px;
 }
+.p-footer{
+  color: var(--dark--color);
+}
 .cr-link{
   color: var(--orange-color);
 }
@@ -397,7 +400,7 @@ label{
 }
 .side-menu{
   width: 100%;
-  margin-top: 48px;
+  margin-top: 15px;
 }
 .side-menu li{
   height: 48px;

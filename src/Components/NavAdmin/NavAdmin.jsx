@@ -3,13 +3,9 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom';
 
-export default function NavAdmin(setuserData) {
+export default function NavAdmin({userData ,logout}) {
     let navigate= useNavigate();
-    function logout(){
-      localStorage.removeItem('userToken');
-      setuserData(null);
-      navigate('/')
-    }
+    
     const [sideToggle ,setSideToggle]=useState(false);
 
   useEffect(() => {
@@ -21,12 +17,33 @@ export default function NavAdmin(setuserData) {
       }
     };
 
-    // Add event listener for window resize
     window.addEventListener('resize', handleResize);
-
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      const allSideMenu = document.querySelectorAll('.side-menu.top li a');
+      const li = e.currentTarget.parentElement;
+
+      allSideMenu.forEach((i) => {
+        i.parentElement.classList.remove('active');
+      });
+      
+      li.classList.add('active');
+    };
+
+    const allSideMenu = document.querySelectorAll('.side-menu.top li a');
+    allSideMenu.forEach((item) => {
+      item.addEventListener('click', handleClick);
+    });
+
+    return () => {
+      allSideMenu.forEach((item) => {
+        item.removeEventListener('click', handleClick);
+      });
     };
   }, []);
 
@@ -41,13 +58,13 @@ export default function NavAdmin(setuserData) {
         <p className='iclose'><i class="fa-solid fa-xmark"></i></p>
         </div> */}
         <ul class="side-menu top">
-            <li>
+            {/* <li>
                 <a>
                     <i class="bx fa-solid fa-table-columns"></i>
                     <span class="text">لوحة تحكم الادمن </span>
                 </a>
-            </li>
-            <li>
+            </li> */}
+            <li className='active'>
                 <Link to="/companiesAdmin">
                     <i class="fa-solid fa-truck-fast bx"></i>
                     <span class="text">شركات الشحن</span>
@@ -84,6 +101,12 @@ export default function NavAdmin(setuserData) {
                 <span class="text">العملاء</span>
                 </Link>
             </li>
+            <li>
+                <Link to="/invocesAdmin">
+                <i class="fa-solid fa-receipt bx"></i>
+                <span class="text">الفواتير</span>
+                </Link>
+            </li>
             {/* <li>
                 <Link to="/addDepositAdmin">
                 <i class="fa-solid fa-dollar-sign bx"></i>
@@ -94,7 +117,7 @@ export default function NavAdmin(setuserData) {
         </ul>
         <ul class="side-menu">
             
-            <li>
+        <li>
                 <Link onClick={logout} class="logout" to='/'>
                 <i class="fa-solid fa-right-from-bracket bx"></i>
                     <span class="text">تسجيل الخروج</span>

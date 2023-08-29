@@ -41,7 +41,7 @@ export default function Navbar({userData ,logout}) {
           const balance = response.data.data;
           console.log(balance)
           console.log(userData)
-          console.log(userData.data.user.rolle)
+          // console.log(userData.data.user.rolle)
           setUserBalance(balance)
         } catch (error) {
           console.error(error);
@@ -97,7 +97,9 @@ export default function Navbar({userData ,logout}) {
             <li>
                 <Link to="/payment">
                 <i class="fa-solid fa-sack-dollar bx"></i>
-                <span class="text">المحفظة({userBalance} ر.س)</span>
+                <span class="text">المحفظة
+                ({userBalance} ر.س)
+                </span>
                 </Link>
             </li>
             {/* <li>
@@ -160,6 +162,12 @@ export default function Navbar({userData ,logout}) {
               </Link>
           </li>
             ):null}
+            <li>
+                <Link to="/invocesMarkter">
+                <i class="fa-solid fa-receipt bx"></i>
+                <span class="text">الفواتير</span>
+                </Link>
+            </li>
             {/* <li>
                 <Link onClick={waitingAlert}>
                 <i class="fa-solid fa-users-line bx"></i>

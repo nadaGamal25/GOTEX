@@ -73,7 +73,7 @@ export default function ForgetPassword() {
       
     })}
             <hr />
-            <Link to="/" className="btn btn-secondary">إغلاق</Link>
+            <Link to="/" className="btn btn-secondary">إلغاء</Link>
             <button className="btn btn-primary">إدخال</button> 
             </form>
         </div>

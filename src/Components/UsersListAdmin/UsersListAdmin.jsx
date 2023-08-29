@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import NavAdmin from '../NavAdmin/NavAdmin'
 
 export default function UsersListAdmin() {
     useEffect(()=>{
@@ -205,7 +204,6 @@ const closeModal4 = () => {
   
   return (
     <>
-    <NavAdmin/>
     <div className='p-5' id='content'>
     <div className="search-box p-4 mt-2 row g-1">
         <div className="col-md-2">

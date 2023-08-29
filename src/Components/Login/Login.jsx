@@ -68,28 +68,56 @@ export default function Login({saveUserData}) {
   //     clearTimeout(countdown);
   //   };
   // }, [sessionExpired, navigate]);
-
   
-async function sendLoginDataToApi(){
-  try {
-        const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
-        if (data.msg === 'ok') {
-          await navigate('/companies');
-          console.log(data.token)
-          setisLoading(false)
-          localStorage.setItem('userToken', data.token);
-          saveUserData();
-          // setLoginTime(new Date().getTime()); 
-        } else {
-          setisLoading(false)
-          setError(data.msg)
-          console.log(data.msg)
-        }
-      } catch (error) {
-        console.log(error);
-        window.alert('كلمة المرور او البريد الالكترونى قد يكون خطأ');
+  function navigationCompany(){
+  navigate('/companies');
+
+  }
+  async function sendLoginDataToApi(){
+    try {
+      const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
+      if (data.msg === 'ok') {
+        localStorage.setItem('userToken', data.token);
+        // navigationCompany('', () => {
+        //   console.log(data.token);
+        //   setisLoading(false);
+        //   saveUserData();
+        // });
+        navigate('/companies');
+        console.log(data.token);
+        setisLoading(false);
+         saveUserData();
+      } else {
+        setisLoading(false);
+        setError(data.msg);
+        console.log(data.msg);
       }
+    } catch (error) {
+      console.log(error);
+      window.alert('كلمة المرور او البريد الالكترونى قد يكون خطأ');
     }
+  }
+  
+// async function sendLoginDataToApi(){
+//   try {
+//         const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
+//         if (data.msg === 'ok') {
+//           await navigate('/companies');
+//           console.log(data.token)
+//           setisLoading(false)
+//           localStorage.setItem('userToken', data.token);
+//           saveUserData();
+//         } else {
+//           setisLoading(false)
+//           setError(data.msg)
+//           console.log(data.msg)
+//         }
+//       } catch (error) {
+//         console.log(error);
+//         window.alert('كلمة المرور او البريد الالكترونى قد يكون خطأ');
+//       }
+//     }
+
 
     async function sendLoginAdminToApi(){
       try {
@@ -100,7 +128,6 @@ async function sendLoginDataToApi(){
               setisLoading(false)
               localStorage.setItem('userToken', data.token);
               saveUserData();
-              // setLoginTime(new Date().getTime());               
             } else {
               setisLoading(false)
 
@@ -156,7 +183,7 @@ async function sendLoginDataToApi(){
     </div>
     {error.length >0 ?<div className='alert alert-danger my-2'>{error}</div>:''}
     <form onSubmit={submitLoginForm} className='my-3' action="">
-      <label htmlFor="email">البريد الالكترونى :</label>
+      <label htmlFor="email">البريد الإلكترونى :</label>
       <input onChange={getUserData} type="email" className='my-input my-2 form-control' name='email' id='email' />
       {/* {errorList.filter((err)=> err.context.label == 'email')[0]?
       <div className="alert alert-danger my-2">{errorList.filter((err)=> err.context.label =='email')[0]?.message}</div>:''
@@ -186,10 +213,10 @@ async function sendLoginDataToApi(){
       </button>
      </form>
      <div className='text-center sign-footer'>
-      <p>هل انت جديد فى المنصة؟ <Link className='sign-link' to='/register'>قم بعمل حساب جديد..</Link> </p>
+      <p className='p-footer'>هل أنت جديد فى المنصة؟ <Link className='sign-link' to='/register'>قم بعمل حساب جديد..</Link> </p>
      </div>
      <div className='text-center'>
-      <p className='mb-0'> للانضمام للعمل مع فريق جوتكس : <Link className='sign-link' to='/marketerSignUp'>قم بالتسجيل هنا  ..</Link> </p>
+      <p className='mb-0 p-footer'> للإنضمام للعمل مع فريق جوتكس : <Link className='sign-link' to='/marketerSignUp'>قم بالتسجيل هنا  ..</Link> </p>
      </div>
      </div>
      </div>
