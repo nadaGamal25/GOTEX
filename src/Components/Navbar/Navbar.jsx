@@ -162,12 +162,24 @@ export default function Navbar({userData ,logout}) {
               </Link>
           </li>
             ):null}
+            
+             {userData?.data?.user?.rolle === "marketer"?(
+            <li>
+                <Link to="/marketerEditClient">
+                <i class="fa-solid fa-user-pen bx"></i>
+                      <span class="text">تعديل بيانات العميل</span>
+                </Link>
+            </li>
+            ):null}
+            {userData?.data?.user?.rolle === "marketer"?(
             <li>
                 <Link to="/invocesMarkter">
                 <i class="fa-solid fa-receipt bx"></i>
                 <span class="text">الفواتير</span>
                 </Link>
             </li>
+            ):null}
+
             {/* <li>
                 <Link onClick={waitingAlert}>
                 <i class="fa-solid fa-users-line bx"></i>

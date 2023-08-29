@@ -58,6 +58,8 @@ import LayoutAdmin from './Components/LayoutAdmin/LayoutAdmin';
 import axios from 'axios';
 import InvocesAdmin from './Components/InvocesAdmin/InvocesAdmin';
 import InvocesMarkter from './Components/InvocesMarkter/InvocesMarkter';
+import ClientsCreditAdmin from './Components/ClientsCreditAdmin/ClientsCreditAdmin';
+import MarketerEditClient from './Components/MarketerEditClient/MarketerEditClient';
 
 function App() {
   
@@ -87,29 +89,7 @@ function App() {
     return () => clearTimeout(timeout);
   }, [userData]);
   
-  useEffect(()=>{
-    getUserBalance()
-    console.log(userData)
-  },[])
-
-      const [userBalance,setUserBalance]=useState('')
-      async function getUserBalance() {
-        try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/user/get-user-balance',
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-            },
-          });
-          const balance = response.data.data;
-          console.log(balance)
-          console.log(userData)
-          // console.log(userData.data.user.rolle)
-          setUserBalance(balance)
-        } catch (error) {
-          console.error(error);
-        }
-      }
+ 
 
   let routers =createBrowserRouter([
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
@@ -144,6 +124,7 @@ function App() {
       {path:'/splShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/gltOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltOrdersShipment userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/invocesMarkter',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesMarkter userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/marketerEditClient',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketerEditClient userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
       {path:'companiesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute></ErrorBoundary>},
@@ -160,6 +141,7 @@ function App() {
     {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},
     {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentsAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'invocesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'clientsCreditAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsCreditAdmin/></ProtectedRoute></ErrorBoundary>},
    
     ]},
     {path:'*', element:<PageNotFound/>}

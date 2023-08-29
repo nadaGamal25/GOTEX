@@ -24,6 +24,49 @@ export default function MarketerClients() {
           console.error(error);
         }
       }
+
+      const [showModal, setShowModal] = useState(false);
+      const [depositAmount, setDepositAmount] = useState('');
+      const [selectedUserId, setSelectedUserId] = useState(null);
+      async function addDepositToUser() {
+        try {
+          const response = await axios.post(
+            'https://dashboard.go-tex.net/api/daftra/markter-add-credit-for-client',
+            {
+              client_id: selectedUserId,
+              credit_limit: depositAmount,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            }
+
+          );
+          // Handle the response as per your requirement
+          console.log(response.data);
+          window.alert(response.data.msg)
+          // if (response.data.msg === 'ok') {
+            closeModal();
+            // getUsersListsAdmin();
+          // }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      const openModal = (userId) => {
+        setSelectedUserId(userId);
+        setShowModal(true);
+      };
+    
+      const closeModal = () => {
+        setSelectedUserId(null);
+        setShowModal(false);
+        setDepositAmount('');
+      };
+      const handleDepositChange = (event) => {
+        setDepositAmount(Number(event.target.value));
+      };
      
       
   return (
@@ -40,9 +83,10 @@ export default function MarketerClients() {
             <th scope="col">المدينة </th>
             <th scope="col">العنوان </th>
             <th scope="col">عنوان اضافى </th>
-            <th scope="col">رقم العميل </th>
+            <th scope="col"> credit  </th>
             <th scope="col">id_العميل </th>
             <th scope="col">id_الموظف </th>
+            <th></th>
             
           </tr>
         </thead>
@@ -58,9 +102,17 @@ export default function MarketerClients() {
                 {item.Client.city?<td>{item.Client.city}</td>:<td>_</td>}
                 {item.Client.address1?<td>{item.Client.address1}</td>:<td>_</td>}
                 {item.Client.address2?<td>{item.Client.address2}</td>:<td>_</td>}
-                {item.Client.client_number?<td>{item.Client.client_number}</td>:<td>_</td>}
+                {item.Client.credit_limit?<td>{item.Client.credit_limit}</td>:<td>_</td>}
                 {item.Client.id?<td>{item.Client.id}</td>:<td>_</td>}
                 {item.Client.staff_id?<td>{item.Client.staff_id}</td>:<td>_</td>}
+                <td>
+                <button
+                        className='sdd-deposite btn btn-success mt-2'
+                        onClick={() => openModal(item.Client.id)}
+                      >
+                        إضافة credit 
+                      </button>
+              </td>
                 
               </tr>
             )
@@ -70,6 +122,54 @@ export default function MarketerClients() {
       </table>
      </div>
          </div>
+
+    {showModal && (
+        <div className='modal' style={{ display: 'block' }}>
+          <div className='modal-dialog'>
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <h5 className='modal-title'>إضافة حد ائتمانى</h5>
+                <button
+                  type='button'
+                  className='close'
+                  onClick={closeModal}
+                >
+                  <span aria-hidden='true'>&times;</span>
+                </button>
+              </div>
+              <div className='modal-body'>
+                <div className='form-group'>
+                  <label htmlFor='deposit'>السعة :</label>
+                  <input
+                    type='number'
+                    className='form-control'
+                    id='deposit'
+                    value={depositAmount}
+                    onChange={handleDepositChange}
+                   
+                  />
+                </div>
+              </div>
+              <div className='modal-footer'>
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  onClick={addDepositToUser}
+                >
+                  إضافة
+                </button>
+                <button
+                  type='button'
+                  className='btn btn-secondary'
+                  onClick={closeModal}
+                >
+                  إلغاء
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}     
     </>
   )
 }

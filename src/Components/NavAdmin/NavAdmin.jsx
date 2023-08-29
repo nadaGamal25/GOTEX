@@ -107,6 +107,12 @@ export default function NavAdmin({userData ,logout}) {
                 <span class="text">الفواتير</span>
                 </Link>
             </li>
+            <li>
+                <Link to="/clientsCreditAdmin">
+                <i class="fa-regular fa-credit-card bx"></i>
+                <span class="text">الحد الائتمانى(credit)</span>
+                </Link>
+            </li>
             {/* <li>
                 <Link to="/addDepositAdmin">
                 <i class="fa-solid fa-dollar-sign bx"></i>
