@@ -77,13 +77,13 @@ export default function Login({saveUserData}) {
     try {
       const {data} = await axios.post('https://dashboard.go-tex.net/api/user/login', theUser);
       if (data.msg === 'ok') {
+        navigate('/companies');
         localStorage.setItem('userToken', data.token);
         // navigationCompany('', () => {
         //   console.log(data.token);
         //   setisLoading(false);
         //   saveUserData();
         // });
-        navigate('/companies');
         console.log(data.token);
         setisLoading(false);
          saveUserData();
