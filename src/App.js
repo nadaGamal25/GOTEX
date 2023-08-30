@@ -105,7 +105,7 @@ function App() {
     // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
        {path:'/',element:<Layout setuserData={setuserData} userData={userData}/> ,children:[
       // {path:'home',element:<ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
-      {path:'/companies',element:<ErrorBoundary><ProtectedRoute userData={userData}><Companies userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/companies',element:<ErrorBoundary><Companies userData={userData}/></ErrorBoundary>},
       {path:'/inviteLink',element:<ErrorBoundary><InviteLink userData={userData}/></ErrorBoundary>},
       {path:'/addClientMarketer',element:<ErrorBoundary><AddClientMarketer userData={userData}/></ErrorBoundary>},
       {path:'/displayClientsMarkter',element:<ErrorBoundary><DisplayClientsMarkter userData={userData}/></ErrorBoundary>},
@@ -127,7 +127,7 @@ function App() {
       {path:'/marketerEditClient',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketerEditClient userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
-      {path:'companiesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CompaniesAdmin/></ProtectedRoute></ErrorBoundary>},
+      {path:'companiesAdmin',element:<ErrorBoundary><CompaniesAdmin userData={userData}/></ErrorBoundary>},
     {path:'clientsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'daftraStaff',element:<ErrorBoundary><ProtectedRoute userData={userData}><DaftraStaff/></ProtectedRoute></ErrorBoundary>},
     {path:'saeeEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeEdit/></ProtectedRoute></ErrorBoundary>},

@@ -17,7 +17,7 @@ export default function Companies(userData) {
   useEffect(()=>{
     getCompaniesDetailsOrders()
     console.log(userData)
-    console.log(userData.userData.data.user.rolle)
+    // console.log(userData.data.user.rolle)
   },[])
   const [companiesDetails,setCompaniesDetails]=useState([])
   const num =0;

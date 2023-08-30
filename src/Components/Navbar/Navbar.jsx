@@ -187,8 +187,8 @@ export default function Navbar({userData ,logout}) {
                 </Link>
             </li> */}
             
-        </ul>
-        <ul class="side-menu">
+        {/* </ul> */}
+        {/* <ul class="side-menu"> */}
             
             <li>
                 <Link onClick={logout} class="logout" to='/'>
