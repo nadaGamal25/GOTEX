@@ -46,7 +46,8 @@ export default function AramexShippments(userData) {
     shipmentValue:'',
     markterCode:'',
     description:'',
-    clintid:'',
+    // clintid:'',
+    daftraid:'',
 
   })
   const [error , setError]= useState('')
@@ -114,7 +115,8 @@ export default function AramexShippments(userData) {
         p_city: itemCity,
         p_phone: itemMobile,
         p_line1: itemAddress,
-        clintid: itemId,
+        // clintid: itemId,
+        daftraid:itemId,
         p_email:itemEmail};
     } else {
       myOrderData = { ...orderData };
@@ -171,7 +173,8 @@ export default function AramexShippments(userData) {
           shipmentValue:Joi.number().allow(null, ''),      
           markterCode:Joi.string().allow(null, ''),
           description: Joi.string().required(),
-          clintid:Joi.string().allow(null, ''),
+          // clintid:Joi.string().allow(null, ''),
+          daftraid:Joi.string().allow(null, ''),
   
       });
       return scheme.validate(orderData, {abortEarly:false});
@@ -314,6 +317,27 @@ export default function AramexShippments(userData) {
     };
   }, [showCitiesList2]);
 
+  const clientsListRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        clientsListRef.current &&
+        !clientsListRef.current.contains(e.target) &&
+        e.target.getAttribute('name') !== 'client'
+      ) {
+        closeClientsList();
+      }
+    };
+
+    if (showClientsList) {
+      window.addEventListener('click', handleOutsideClick);
+    }
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [showClientsList]);
 
   return (
 <div className='p-4' id='content'>
@@ -341,12 +365,8 @@ export default function AramexShippments(userData) {
                      onClick={openClientsList}
                      />
                      {showClientsList && (
-                       <ul  className='ul-cities ul-clients'>
-                         <li onClick={(e)=>{ 
-                           const selectedCity = e.target.innerText;
-                           document.querySelector('input[name="client"]').value = selectedCity;
-                           closeClientsList();
-                       }}>غير ذلك</li>
+                       <ul  className='ul-cities ul-clients' ref={clientsListRef}>
+                         
                        {clients && clients.filter((item)=>{
                        return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
@@ -388,6 +408,11 @@ export default function AramexShippments(userData) {
                         )
                        }
                        )}
+                       <li onClick={(e)=>{ 
+                           const selectedCity = e.target.innerText;
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           closeClientsList();
+                       }}>غير ذلك</li>
                        </ul>
                      )}
                    
@@ -412,7 +437,7 @@ export default function AramexShippments(userData) {
             <div className="shipper-details brdr-grey p-4">
                 <h3>تفاصيل المرسل</h3>
                 <div className='pb-3'>
-                <label htmlFor=""> اسم المرسل</label>
+                <label htmlFor=""> اسم المرسل<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_name' onChange={(e) => {
     setItemName(e.target.value);
     getOrderData(e);
@@ -425,7 +450,7 @@ export default function AramexShippments(userData) {
     })}
             </div>
                 <div className='pb-3'>
-                <label htmlFor=""> اسم الشركة/المتجر</label>
+                <label htmlFor=""> اسم الشركة/المتجر<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_company' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_company'){
@@ -435,7 +460,7 @@ export default function AramexShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
+                <label htmlFor=""> البريد الالكترونى<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_email' onChange={(e) => {
     setItemEmail(e.target.value);
     getOrderData(e);
@@ -448,7 +473,9 @@ export default function AramexShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor="">رقم الهاتف</label>
+                <label htmlFor="">
+                  رقم الهاتف
+                  <span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='p_phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
@@ -466,7 +493,7 @@ export default function AramexShippments(userData) {
       
             </div>
             <div className='pb-3'>
-                <label htmlFor="">الهاتف الخلوى</label>
+                <label htmlFor="">الهاتف الخلوى <span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control"/> */}
                 <PhoneInput name='p_CellPhone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={pcellPhone}
@@ -501,7 +528,7 @@ export default function AramexShippments(userData) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_city'
                 onChange={(e)=>{ 
                   setItemCity(e.target.value);
@@ -573,7 +600,7 @@ export default function AramexShippments(userData) {
     })}
             </div> */}
             <div className='pb-3'>
-                <label htmlFor=""> العنوان</label>
+                <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_line1' onChange={(e) => {
     setItemAddress(e.target.value);
     getOrderData(e);
@@ -586,7 +613,7 @@ export default function AramexShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> الرمز البريدى</label>
+                <label htmlFor=""> الرمز البريدى<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_postCode' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_postCode'){
@@ -596,7 +623,7 @@ export default function AramexShippments(userData) {
     })}
     { userData.userData.data.user.rolle === "marketer"?(
               <div className='py-3'>
-              <label htmlFor=""> كود المسوق </label>
+              <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='markterCode'){
@@ -632,7 +659,7 @@ export default function AramexShippments(userData) {
                 <div className="row">
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> الوزن</label>
+                <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
                 <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
@@ -644,7 +671,7 @@ export default function AramexShippments(userData) {
                 </div>
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> عدد القطع</label>
+                <label htmlFor=""> عدد القطع<span className="star-requered">*</span></label>
                 <input type="number" className="form-control" name='pieces' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='pieces'){
@@ -655,7 +682,7 @@ export default function AramexShippments(userData) {
             </div>
                 </div>
                 <div className='pb-3'>
-                <label htmlFor=""> الوصف </label>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
                 <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='description'){
@@ -667,7 +694,7 @@ export default function AramexShippments(userData) {
                 {userData.userData.data.user.rolle === "user"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -703,7 +730,7 @@ export default function AramexShippments(userData) {
             ):userData.userData.data.user.rolle === "marketer"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -769,7 +796,7 @@ export default function AramexShippments(userData) {
         <input className='form-control' type="search" placeholder='بحث بالأسم' />
         </div> */}
         <div className='pb-3'>
-                <label htmlFor=""> اسم المستلم</label>
+                <label htmlFor=""> اسم المستلم<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_name'){
@@ -779,7 +806,7 @@ export default function AramexShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> اسم الشركة</label>
+                <label htmlFor=""> اسم الشركة<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_company' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_company'){
@@ -790,7 +817,7 @@ export default function AramexShippments(userData) {
        
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> البريد الالكترونى</label>
+                <label htmlFor=""> البريد الالكترونى<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_email' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_email'){
@@ -800,7 +827,7 @@ export default function AramexShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> رقم الهاتف</label>
+                <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control"/> */}
                 <PhoneInput name='c_phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
@@ -817,7 +844,7 @@ export default function AramexShippments(userData) {
       
             </div>
             <div className='pb-3'>
-                <label htmlFor="">الهاتف الخلوى</label>
+                <label htmlFor="">الهاتف الخلوى<span className="star-requered">*</span></label>
                 <PhoneInput name='c_CellPhone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={CcellPhone}
     onChange={(CcellPhone) => {
@@ -849,7 +876,7 @@ export default function AramexShippments(userData) {
       
             </div> */}
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_city'
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
@@ -918,7 +945,7 @@ export default function AramexShippments(userData) {
             </div> */}
             
             <div className='pb-3'>
-                <label htmlFor=""> العنوان</label>
+                <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_line1' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_line1'){

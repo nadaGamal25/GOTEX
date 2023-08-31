@@ -51,7 +51,8 @@ export default function AnwanShippments(userData) {
       cod: false,
       shipmentValue:'',
       markterCode:'',
-      clintid:'',
+      // clintid:'',
+      daftraid:'',
   
     })
     const [error , setError]= useState('')
@@ -118,7 +119,8 @@ export default function AnwanShippments(userData) {
       s_city: itemCity,
       s_phone: itemMobile,
       s_address: itemAddress,
-      clintid: itemId,
+      // clintid: itemId,
+      daftraid: itemId,
       s_email: itemEmail,
     };
   } else {
@@ -171,7 +173,8 @@ export default function AnwanShippments(userData) {
             cod:Joi.required(),
             shipmentValue:Joi.number().allow(null, ''),  
             markterCode:Joi.string().allow(null, ''),
-            clintid:Joi.string().allow(null, ''),
+            // clintid:Joi.string().allow(null, ''),
+            daftraid:Joi.string().allow(null, ''),
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
@@ -224,7 +227,7 @@ export default function AnwanShippments(userData) {
       const[clients,setClients]=useState([])
       async function getClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/user/all-markter-clint',
+          const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -505,6 +508,28 @@ export default function AnwanShippments(userData) {
             window.removeEventListener('click', handleOutsideClick);
           };
         }, [showCitiesList2]);
+
+        const clientsListRef = useRef(null);
+
+        useEffect(() => {
+          const handleOutsideClick = (e) => {
+            if (
+              clientsListRef.current &&
+              !clientsListRef.current.contains(e.target) &&
+              e.target.getAttribute('name') !== 'client'
+            ) {
+              closeClientsList();
+            }
+          };
+      
+          if (showClientsList) {
+            window.addEventListener('click', handleOutsideClick);
+          }
+      
+          return () => {
+            window.removeEventListener('click', handleOutsideClick);
+          };
+        }, [showClientsList]);
     
   return (
 <div className='p-4' id='content'>
@@ -520,7 +545,7 @@ export default function AnwanShippments(userData) {
                      setSearchClients(searchValue);
                      // getOrderData(e)
                      const matchingClients = clients.filter((item) => {
-                       return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                       return searchValue === '' ? item : item.Client.first_name.toLowerCase().includes(searchValue.toLowerCase());
                      });
                  
                      if (matchingClients.length === 0) {
@@ -532,14 +557,10 @@ export default function AnwanShippments(userData) {
                      onClick={openClientsList}
                      />
                      {showClientsList && (
-                       <ul  className='ul-cities ul-clients'>
-                         <li onClick={(e)=>{ 
-                           const selectedCity = e.target.innerText;
-                           document.querySelector('input[name="client"]').value = selectedCity;
-                           closeClientsList();
-                       }}>غير ذلك</li>
+                       <ul  className='ul-cities ul-clients' ref={clientsListRef}>
+                         
                        {clients && clients.filter((item)=>{
-                       return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
+                       return searchClients === ''? item : item.Client.first_name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
                         return(
                          <>
@@ -547,38 +568,52 @@ export default function AnwanShippments(userData) {
                          onClick={(e)=>{ 
    
                            const selectedCity = e.target.innerText;
-                           setItemName(item.name);
-                       setItemMobile(item.mobile);
-                       setItemCity(item.city);
-                       setItemAddress(item.address);
-                       setItemEmail(item.email);
-                       setItemId(item._id);
-                       setPhoneValue(item.mobile)
+                      //      setItemName(item.name);
+                      //  setItemMobile(item.mobile);
+                      //  setItemCity(item.city);
+                      //  setItemAddress(item.address);
+                      //  setItemEmail(item.email);
+                      //  setItemId(item._id);
+                      //  setPhoneValue(item.mobile)
+                      // setItemName(item.Client.first_name && item.Client.last_name);
+                      setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
+                       setItemMobile(item.Client.phone1);
+                       setItemCity(item.Client.city);
+                       setItemAddress(item.Client.address1);
+                       setItemEmail(item.Client.email);
+                       setItemId(item.Client.staff_id);
+                       setPhoneValue(item.Client.phone1)
                          
-                           // document.querySelector('input[name="s_name"]').value = selectedItem.name;
-                           // document.querySelector('input[name="s_phone"]').value = value;
-                           // document.querySelector('input[name="s_city"]').value = selectedItem.city;
-                           // document.querySelector('input[name="s_address"]').value = selectedItem.address;
-                           // document.querySelector('input[name="s_email"]').value = selectedItem.email;                    
-                           
-                                
-                       document.querySelector('input[name="s_name"]').value = item.name;
-                       document.querySelector('input[name="s_phone"]').value = value;
-                       document.querySelector('input[name="s_city"]').value = item.city;
-                       document.querySelector('input[name="s_address"]').value = item.address;
-                       document.querySelector('input[name="s_email"]').value = item.email;                    
+                      //  document.querySelector('input[name="s_name"]').value = item.name;
+                      //  document.querySelector('input[name="s_phone"]').value = value;
+                      //  document.querySelector('input[name="s_city"]').value = item.city;
+                      //  document.querySelector('input[name="s_address"]').value = item.address;
+                      //  document.querySelector('input[name="s_email"]').value = item.email; 
+                      // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name;
+                      document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+
+                      document.querySelector('input[name="s_phone"]').value = value;
+                       document.querySelector('input[name="s_city"]').value = item.Client.city;
+                       document.querySelector('input[name="s_address"]').value = item.Client.address1;
+                       document.querySelector('input[name="s_email"]').value = item.Client.email;                    
    
                            document.querySelector('input[name="client"]').value = selectedCity;
                            // getOrderData(e)
                            closeClientsList();
                        }}
                          >
-                           {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address}
+                           {/* {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address} */}
+                           {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1}
                         </li>
                         </>
                         )
                        }
                        )}
+                       <li onClick={(e)=>{ 
+                           const selectedCity = e.target.innerText;
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           closeClientsList();
+                       }}>غير ذلك</li>
                        </ul>
                      )}
                    
@@ -601,11 +636,11 @@ export default function AnwanShippments(userData) {
         <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
             <div className="col-md-6">
-            <div className="shipper-details brdr-grey p-4">
+            <div className="shipper-details brdr-grey p-3">
                 <h3>تفاصيل المرسل</h3>
                 {/* <p>{cities[0].name}</p> */}
                 <div className='pb-3'>
-                <label htmlFor=""> الاسم</label>
+                <label htmlFor=""> الاسم<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='s_name' onChange={(e) => {
     setItemName(e.target.value);
     getOrderData(e);
@@ -618,7 +653,7 @@ export default function AnwanShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> الايميل</label>
+                <label htmlFor=""> الايميل<span className="star-requered">*</span></label>
                 <input type="email" className="form-control" name='s_email' onChange={(e) => {
     setItemEmail(e.target.value);
     getOrderData(e);
@@ -631,7 +666,7 @@ export default function AnwanShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor="">رقم الهاتف</label>
+                <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='s_phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
@@ -649,7 +684,7 @@ export default function AnwanShippments(userData) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='s_city'
                 onChange={(e)=>{ 
                   setItemCity(e.target.value);
@@ -721,7 +756,7 @@ export default function AnwanShippments(userData) {
     })}
             </div> */}
             <div className='pb-3'>
-                <label htmlFor=""> العنوان </label>
+                <label htmlFor=""> العنوان <span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='s_address' onChange={(e) => {
     setItemAddress(e.target.value);
     getOrderData(e);
@@ -735,7 +770,7 @@ export default function AnwanShippments(userData) {
             </div>
             { userData.userData.data.user.rolle === "marketer"?(
               <div className='pb-3'>
-              <label htmlFor=""> كود المسوق </label>
+              <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='markterCode'){
@@ -766,7 +801,7 @@ export default function AnwanShippments(userData) {
                 <div className="row">
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> الوزن</label>
+                <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
                 <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
@@ -791,7 +826,7 @@ export default function AnwanShippments(userData) {
                  */}
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> عدد القطع</label>
+                <label htmlFor=""> عدد القطع<span className="star-requered">*</span></label>
                 <input type="number" className="form-control" name='pieces' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='pieces'){
@@ -805,7 +840,7 @@ export default function AnwanShippments(userData) {
                 {userData.userData.data.user.rolle === "user"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -841,7 +876,7 @@ export default function AnwanShippments(userData) {
             ):userData.userData.data.user.rolle === "marketer"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -920,7 +955,7 @@ export default function AnwanShippments(userData) {
                 </div>
 
                 <div className='pb-3'>
-                <label htmlFor=""> الوصف </label>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
                 <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='description'){
@@ -937,7 +972,7 @@ export default function AnwanShippments(userData) {
                 <h3>تفاصيل المستلم</h3>
                 
         <div className='pb-3'>
-                <label htmlFor=""> الاسم</label>
+                <label htmlFor=""> الاسم<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_name'){
@@ -947,7 +982,7 @@ export default function AnwanShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> الايميل</label>
+                <label htmlFor=""> الايميل<span className="star-requered">*</span></label>
                 <input type="email" className="form-control" name='c_email' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_email'){
@@ -957,7 +992,7 @@ export default function AnwanShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> رقم الهاتف</label>
+                <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control"/> */}
                 <PhoneInput name='c_phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
@@ -974,7 +1009,7 @@ export default function AnwanShippments(userData) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_city'
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
@@ -1042,7 +1077,7 @@ export default function AnwanShippments(userData) {
     })}
             </div> */}
             <div className='pb-3'>
-                <label htmlFor=""> العنوان</label>
+                <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_address' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_address'){

@@ -43,7 +43,8 @@ export default function SplShippments(userData) {
     deliveryAddress2: "",
     Pieces: pieces, 
     markterCode:"", 
-    clintid:'',
+    // clintid:'',
+    daftraid:'',
     shipmentValue:"",
   })
   const [error , setError]= useState('')
@@ -113,7 +114,9 @@ function getOrderData(e) {
         pickUpDistrictID: itemCity,
         SenderMobileNumber: itemMobile,
         pickUpAddress1: itemAddress,
-        clintid: itemId};
+        // clintid: itemId,
+        daftraid:itemId,
+      };
     } else {
       myOrderData = { ...orderData };
     }
@@ -139,8 +142,8 @@ function validateOrderUserForm(){
         pickUpDistrictID:Joi.string().required(),
         SenderMobileNumber:Joi.string().required(),
         pickUpAddress1:Joi.string().required(),
-        pickUpAddress2:Joi.string().required(),
-        Weight:Joi.number().required(),
+        pickUpAddress2:Joi.string().allow(null, ''),
+        Weight:Joi.number().required(),  
         ContentPrice:Joi.number().required(),
         ContentDescription:Joi.string().required(),
         reciverName:Joi.string().required(),
@@ -152,7 +155,8 @@ function validateOrderUserForm(){
         Pieces: Joi.array().items(pieceSchema),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
-        clintid:Joi.string().allow(null, ''),
+        // clintid:Joi.string().allow(null, ''),
+        daftraid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -306,6 +310,27 @@ useEffect(() => {
   };
 }, [showCitiesList2]);
 
+const clientsListRef = useRef(null);
+
+useEffect(() => {
+  const handleOutsideClick = (e) => {
+    if (
+      clientsListRef.current &&
+      !clientsListRef.current.contains(e.target) &&
+      e.target.getAttribute('name') !== 'client'
+    ) {
+      closeClientsList();
+    }
+  };
+
+  if (showClientsList) {
+    window.addEventListener('click', handleOutsideClick);
+  }
+
+  return () => {
+    window.removeEventListener('click', handleOutsideClick);
+  };
+}, [showClientsList]);
   return (
     <div className='p-4' id='content'>
     { userData.userData.data.user.rolle === "marketer"?(
@@ -332,12 +357,8 @@ useEffect(() => {
                    onClick={openClientsList}
                    />
                    {showClientsList && (
-                     <ul  className='ul-cities ul-clients'>
-                       <li onClick={(e)=>{ 
-                         const selectedCity = e.target.innerText;
-                         document.querySelector('input[name="client"]').value = selectedCity;
-                         closeClientsList();
-                     }}>غير ذلك</li>
+                     <ul  className='ul-cities ul-clients' ref={clientsListRef}>
+                       
                      {clients && clients.filter((item)=>{
                      return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                      }).map((item,index) =>{
@@ -376,6 +397,11 @@ useEffect(() => {
                       )
                      }
                      )}
+                     <li onClick={(e)=>{ 
+                         const selectedCity = e.target.innerText;
+                         document.querySelector('input[name="client"]').value = selectedCity;
+                         closeClientsList();
+                     }}>غير ذلك</li>
                      </ul>
                    )}
                  
@@ -397,11 +423,11 @@ useEffect(() => {
       <form onSubmit={submitOrderUserForm} className='' action="">
           <div className="row">
           <div className="col-md-6">
-          <div className="shipper-details brdr-grey p-4">
+          <div className="shipper-details brdr-grey p-3">
               <h3>تفاصيل المرسل</h3>
               
               <div className='pb-3'>
-              <label htmlFor=""> الاسم</label>
+              <label htmlFor=""> الاسم<span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='SenderName'  onChange={(e) => {
   setItemName(e.target.value);
   getOrderData(e);
@@ -414,7 +440,7 @@ useEffect(() => {
   })}
           </div>
           <div className='pb-3'>
-              <label htmlFor="">رقم الهاتف</label>
+              <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" /> */}
               <PhoneInput name='SenderMobileNumber' 
   labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
@@ -432,7 +458,7 @@ useEffect(() => {
     
           </div>
           <div className='pb-3 ul-box'>
-              <label htmlFor=""> الموقع</label>
+              <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='pickUpDistrictID' onChange={getOrderData}/> */}
               <input type="text" className="form-control" name='pickUpDistrictID'
               onChange={(e)=>{ 
@@ -484,7 +510,7 @@ useEffect(() => {
   })}
           </div>
           <div className='pb-3'>
-              <label htmlFor=""> العنوان </label>
+              <label htmlFor=""> العنوان <span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='pickUpAddress1' onChange={(e) => {
   setItemAddress(e.target.value);
   getOrderData(e);
@@ -508,7 +534,7 @@ useEffect(() => {
             </div>
           { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
-            <label htmlFor=""> كود المسوق </label>
+            <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
             <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
             {errorList.map((err,index)=>{
   if(err.context.label ==='markterCode'){
@@ -536,7 +562,7 @@ useEffect(() => {
               <div className="row">
               <div className="col-md-6">
               <div className='pb-3'>
-              <label htmlFor=""> الوزن</label>
+              <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
               <input type="number" step="0.001" className="form-control" name='Weight' onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='Weight'){
@@ -548,7 +574,7 @@ useEffect(() => {
               </div>
               <div className="col-md-6">
               <div className='pb-3'>
-              <label htmlFor=""> السعر</label>
+              <label htmlFor=""> السعر<span className="star-requered">*</span></label>
               <input type="number" step="0.001" className="form-control" name='ContentPrice' onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='ContentPrice'){
@@ -559,7 +585,7 @@ useEffect(() => {
           </div>
               </div>
               <div className='pb-3'>
-                <label htmlFor=""> الوصف </label>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
                 <textarea className="form-control" name='ContentDescription' onChange={getOrderData} cols="30" rows="3"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='ContentDescription'){
@@ -571,7 +597,7 @@ useEffect(() => {
             {userData.userData.data.user.rolle === "user"?(
             <>
             <div className="pb-3">
-            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+            <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                     <div className='pe-2'>
                     <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -607,7 +633,7 @@ useEffect(() => {
           ):userData.userData.data.user.rolle === "marketer"?(
             <>
             <div className="pb-3">
-            <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+            <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                     <div className='pe-2'>
                     <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -665,7 +691,7 @@ useEffect(() => {
           placeholder="وزن القطعة "
           value={piece.PieceWeight}
           onChange={e => updatePiece(index, 'PieceWeight', e.target.value)}
-        /> <br/>
+        /> <span className="star-requered">*</span><br/>
         <input
           type="text"
           name="PieceDescription"
@@ -707,7 +733,7 @@ useEffect(() => {
               <h3>تفاصيل المستلم</h3>
               
       <div className='pb-3'>
-              <label htmlFor=""> الاسم</label>
+              <label htmlFor=""> الاسم<span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='reciverName' onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='reciverName'){
@@ -717,7 +743,7 @@ useEffect(() => {
   })}
           </div>
           <div className='pb-3'>
-              <label htmlFor=""> رقم الهاتف</label>
+              <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
               <PhoneInput name='reciverMobile' 
   labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
   onChange={(phone2) => {
@@ -733,7 +759,7 @@ useEffect(() => {
     
           </div>
           <div className='pb-3 ul-box'>
-              <label htmlFor=""> الموقع</label>
+              <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='deliveryDistrictID' onChange={getOrderData}/> */}
 
               <input type="text" className="form-control" name='deliveryDistrictID'
@@ -784,7 +810,7 @@ useEffect(() => {
           </div>
           
           <div className='pb-3'>
-              <label htmlFor=""> العنوان</label>
+              <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='deliveryAddress1' onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='deliveryAddress1'){

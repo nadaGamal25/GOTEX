@@ -31,7 +31,8 @@ export default function SaeeShipments(userData) {
     cod: false,
     shipmentValue:'',
     markterCode:'',
-    clintid:'',
+    // clintid:'',
+    daftraid:'',
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -95,7 +96,9 @@ function getOrderData(e) {
         p_city: itemCity,
         p_mobile: itemMobile,
         p_streetaddress: itemAddress,
-        clintid: itemId};
+        // clintid: itemId,
+        daftraid:itemId,
+      };
     } else {
       myOrderData = { ...orderData };
     }
@@ -147,7 +150,8 @@ function getOrderData(e) {
         cod:Joi.required(),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
-        clintid:Joi.string().allow(null, ''),
+        // clintid:Joi.string().allow(null, ''),
+        daftraid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -296,6 +300,27 @@ function getOrderData(e) {
     };
   }, [showCitiesList2]);
 
+  const clientsListRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        clientsListRef.current &&
+        !clientsListRef.current.contains(e.target) &&
+        e.target.getAttribute('name') !== 'client'
+      ) {
+        closeClientsList();
+      }
+    };
+
+    if (showClientsList) {
+      window.addEventListener('click', handleOutsideClick);
+    }
+
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [showClientsList]);
   
   return (
     <div className='p-4' id='content'>
@@ -323,12 +348,8 @@ function getOrderData(e) {
                      onClick={openClientsList}
                      />
                      {showClientsList && (
-                       <ul  className='ul-cities ul-clients'>
-                         <li onClick={(e)=>{ 
-                           const selectedCity = e.target.innerText;
-                           document.querySelector('input[name="client"]').value = selectedCity;
-                           closeClientsList();
-                       }}>غير ذلك</li>
+                       <ul  className='ul-cities ul-clients' ref={clientsListRef}>
+                         
                        {clients && clients.filter((item)=>{
                        return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
@@ -367,6 +388,11 @@ function getOrderData(e) {
                         )
                        }
                        )}
+                       <li onClick={(e)=>{ 
+                           const selectedCity = e.target.innerText;
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           closeClientsList();
+                       }}>غير ذلك</li>
                        </ul>
                      )}
                    
@@ -388,11 +414,13 @@ function getOrderData(e) {
         <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
             <div className="col-md-6">
-            <div className="shipper-details brdr-grey p-4">
+            <div className="shipper-details brdr-grey p-3">
                 <h3>تفاصيل المرسل</h3>
                 
                 <div className='pb-3'>
-                <label htmlFor=""> الاسم</label>
+                <label htmlFor=""> الاسم
+                <span className="star-requered">*</span> 
+                </label>
                 <input type="text" className="form-control" name='p_name'  onChange={(e) => {
     setItemName(e.target.value);
     getOrderData(e);
@@ -405,7 +433,8 @@ function getOrderData(e) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor="">رقم الهاتف</label>
+                <label htmlFor="">رقم الهاتف
+                <span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='p_mobile' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
@@ -424,7 +453,8 @@ function getOrderData(e) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع
+                <span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_city'
                 onChange={(e)=>{ 
                   setItemCity(e.target.value);
@@ -480,7 +510,8 @@ function getOrderData(e) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> العنوان </label>
+                <label htmlFor=""> العنوان 
+                <span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_streetaddress' onChange={(e) => {
     setItemAddress(e.target.value);
     getOrderData(e);
@@ -494,7 +525,8 @@ function getOrderData(e) {
             </div>
             { userData.userData.data.user.rolle === "marketer"?(
               <div className='pb-3'>
-              <label htmlFor=""> كود المسوق </label>
+              <label htmlFor=""> كود المسوق 
+              <span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='markterCode'){
@@ -522,7 +554,8 @@ function getOrderData(e) {
                 <div className="row">
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> الوزن</label>
+                <label htmlFor=""> الوزن
+                <span className="star-requered">*</span></label>
                 <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
@@ -535,7 +568,8 @@ function getOrderData(e) {
                 
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> عدد القطع</label>
+                <label htmlFor=""> عدد القطع
+                <span className="star-requered">*</span></label>
                 <input type="number" className="form-control" name='quantity' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='quantity'){
@@ -548,7 +582,8 @@ function getOrderData(e) {
                 {userData.userData.data.user.rolle === "user"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:
+              <span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -584,7 +619,8 @@ function getOrderData(e) {
             ):userData.userData.data.user.rolle === "marketer"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:
+              <span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -642,7 +678,8 @@ function getOrderData(e) {
                 <h3>تفاصيل المستلم</h3>
                 
         <div className='pb-3'>
-                <label htmlFor=""> الاسم</label>
+                <label htmlFor=""> الاسم
+                <span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_name'){
@@ -652,7 +689,8 @@ function getOrderData(e) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> رقم الهاتف</label>
+                <label htmlFor=""> رقم الهاتف
+                <span className="star-requered">*</span></label>
                 <PhoneInput name='c_mobile' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
     onChange={(phone2) => {
@@ -668,7 +706,7 @@ function getOrderData(e) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_city'
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
@@ -717,7 +755,7 @@ function getOrderData(e) {
             </div>
             
             <div className='pb-3'>
-                <label htmlFor=""> العنوان</label>
+                <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_streetaddress' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_streetaddress'){

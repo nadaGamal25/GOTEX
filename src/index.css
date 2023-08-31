@@ -83,6 +83,12 @@ body{
 .marginForm{
   margin: 5px 40px;
 }
+.star-requered{
+  color: rgb(199, 61, 61);
+  padding-right: 3px;
+  font-size: 24px;
+  font-weight: 500;
+}
 .btn-addPiece{
   background-color: #0c5276 !important;
   color: #fff !important;
@@ -272,11 +278,13 @@ input:focus{
   color: #fff !important;
   margin-top: 10px;
   box-shadow: 5px 5px 5px #ec9873;
+  border: none !important;
 }
 .btn-signup{
   background-color: var(--orange-color) !important;
   color: #fff !important;
   box-shadow: 5px 5px 5px #ec9873;
+  border: none !important;
 }
 .email-note{
   color: #888;
@@ -287,6 +295,8 @@ input:focus{
 .btn-signup:hover{
   background-color: #dc4606 !important;
   color: #fff !important;
+  border: none !important;
+
 }
 .alert{
   background:none !important;
@@ -400,7 +410,7 @@ label{
 }
 .side-menu{
   width: 100%;
-  margin-top: 3px;
+  margin-top: 10px;
 }
 .side-menu li{
   height: 48px;
@@ -773,6 +783,7 @@ nav form .form-input button{
   color: #fff !important;
   background-color: var(--orange-color);
   margin-left: 15px;
+  border: none !important;
 }
 .company .btn-choose:hover{
   color: #fff !important;

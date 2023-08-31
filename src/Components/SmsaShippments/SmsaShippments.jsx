@@ -51,7 +51,8 @@ export default function SmsaShippments(userData) {
     cod: false,
     shipmentValue:'',
     markterCode:'',
-    clintid:'',
+    // clintid:'',
+    daftraid:'',
 
   })
   const [error , setError]= useState('')
@@ -119,7 +120,9 @@ export default function SmsaShippments(userData) {
         p_City: itemCity,
         p_ContactPhoneNumber: itemMobile,
         p_AddressLine1: itemAddress,
-        clintid: itemId};
+        // clintid: itemId,
+        daftraid:itemId,
+      };
     } else {
       myOrderData = { ...orderData };
     }
@@ -170,7 +173,8 @@ export default function SmsaShippments(userData) {
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),
           markterCode:Joi.string().allow(null, ''),
-          clintid:Joi.string().allow(null, ''),
+          // clintid:Joi.string().allow(null, ''),
+          daftraid:Joi.string().allow(null, ''),
 
   
       });
@@ -482,6 +486,27 @@ export default function SmsaShippments(userData) {
       };
     }, [showCitiesList2]);
 
+    const clientsListRef = useRef(null);
+
+    useEffect(() => {
+      const handleOutsideClick = (e) => {
+        if (
+          clientsListRef.current &&
+          !clientsListRef.current.contains(e.target) &&
+          e.target.getAttribute('name') !== 'client'
+        ) {
+          closeClientsList();
+        }
+      };
+  
+      if (showClientsList) {
+        window.addEventListener('click', handleOutsideClick);
+      }
+  
+      return () => {
+        window.removeEventListener('click', handleOutsideClick);
+      };
+    }, [showClientsList]);
   return (
 <div className='p-4' id='content'>
 { userData.userData.data.user.rolle === "marketer"?(
@@ -508,12 +533,8 @@ export default function SmsaShippments(userData) {
                      onClick={openClientsList}
                      />
                      {showClientsList && (
-                       <ul  className='ul-cities ul-clients'>
-                         <li onClick={(e)=>{ 
-                           const selectedCity = e.target.innerText;
-                           document.querySelector('input[name="client"]').value = selectedCity;
-                           closeClientsList();
-                       }}>غير ذلك</li>
+                       <ul  className='ul-cities ul-clients' ref={clientsListRef}>
+                         
                        {clients && clients.filter((item)=>{
                        return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
@@ -560,6 +581,11 @@ export default function SmsaShippments(userData) {
                         )
                        }
                        )}
+                       <li onClick={(e)=>{ 
+                           const selectedCity = e.target.innerText;
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           closeClientsList();
+                       }}>غير ذلك</li>
                        </ul>
                      )}
                    
@@ -581,10 +607,10 @@ export default function SmsaShippments(userData) {
         <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
             <div className="col-md-6">
-            <div className="shipper-details brdr-grey p-4">
+            <div className="shipper-details brdr-grey p-3">
                 <h3>تفاصيل المرسل</h3>
                 <div className='pb-3'>
-                <label htmlFor=""> الاسم </label>
+                <label htmlFor=""> الاسم <span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_name' onChange={(e) => {
     setItemName(e.target.value);
     getOrderData(e);
@@ -597,7 +623,7 @@ export default function SmsaShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor="">رقم الهاتف</label>
+                <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='p_ContactPhoneNumber' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
@@ -615,7 +641,7 @@ export default function SmsaShippments(userData) {
       
             </div>  
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_City'
                 onChange={(e)=>{ 
                   setItemCity(e.target.value);
@@ -686,7 +712,7 @@ export default function SmsaShippments(userData) {
     })}
             </div> */}
             <div className='pb-3'>
-                <label htmlFor=""> المنطقة</label>
+                <label htmlFor=""> المنطقة<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_District' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='p_District'){
@@ -696,7 +722,7 @@ export default function SmsaShippments(userData) {
     })}
             </div>
             <div className='pb-3'>
-                <label htmlFor=""> العنوان</label>
+                <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_AddressLine1' onChange={(e) => {
     setItemAddress(e.target.value);
     getOrderData(e);
@@ -720,7 +746,7 @@ export default function SmsaShippments(userData) {
             </div>
             { userData.userData.data.user.rolle === "marketer"?(
               <div className='pb-3'>
-              <label htmlFor=""> كود المسوق </label>
+              <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='markterCode'){
@@ -756,7 +782,7 @@ export default function SmsaShippments(userData) {
                 <div className="row">
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> الوزن</label>
+                <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
                 <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
@@ -768,7 +794,7 @@ export default function SmsaShippments(userData) {
                 </div>
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> عدد القطع</label>
+                <label htmlFor=""> عدد القطع<span className="star-requered">*</span></label>
                 <input type="number" className="form-control" name='pieces' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='pieces'){
@@ -780,7 +806,7 @@ export default function SmsaShippments(userData) {
                 </div>  
                 <div className="col-md-6">
                 <div className='pb-3'>
-                <label htmlFor=""> قيمة الشحنة </label>
+                <label htmlFor=""> قيمة الشحنة <span className="star-requered">*</span></label>
                 <input type="number" step="0.001" className="form-control" name='Value' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='Value'){
@@ -793,7 +819,7 @@ export default function SmsaShippments(userData) {
                 {userData.userData.data.user.rolle === "user"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -829,7 +855,7 @@ export default function SmsaShippments(userData) {
             ):userData.userData.data.user.rolle === "marketer"?(
               <>
               <div className="pb-3">
-              <label htmlFor="" className='d-block'>طريقة الدفع:</label>
+              <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
                       <div className='pe-2'>
                       <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                       <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
@@ -884,7 +910,7 @@ export default function SmsaShippments(userData) {
                 </div>
                 <div className="">
                 <div className='pb-3'>
-                <label htmlFor=""> الوصف </label>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
                 <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='description'){
@@ -905,7 +931,7 @@ export default function SmsaShippments(userData) {
         <input className='form-control' type="search" placeholder='بحث بالأسم' />
         </div> */}
         <div className='pb-3'>
-                <label htmlFor=""> اسم المستلم</label>
+                <label htmlFor=""> اسم المستلم<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_name'){
@@ -916,7 +942,7 @@ export default function SmsaShippments(userData) {
             </div>
             
             <div className='pb-3'>
-                <label htmlFor=""> رقم الهاتف</label>
+                <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control"/> */}
                 <PhoneInput name='c_ContactPhoneNumber' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
@@ -945,7 +971,7 @@ export default function SmsaShippments(userData) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع</label>
+                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_City'
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
@@ -1013,7 +1039,7 @@ export default function SmsaShippments(userData) {
     })}
             </div> */}
             <div className='pb-3'>
-                <label htmlFor=""> المنطقة</label>
+                <label htmlFor=""> المنطقة<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_District' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_District'){
@@ -1024,7 +1050,7 @@ export default function SmsaShippments(userData) {
             </div>
             
             <div className='pb-3'>
-                <label htmlFor=""> العنوان</label>
+                <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_AddressLine1' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_AddressLine1'){
