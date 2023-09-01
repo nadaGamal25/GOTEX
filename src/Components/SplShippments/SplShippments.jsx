@@ -156,7 +156,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.string().allow(null, ''),
+        daftraid:Joi.number().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -234,7 +234,7 @@ function validateOrderUserForm(){
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/user/all-markter-clint',
+      const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -345,7 +345,7 @@ useEffect(() => {
                    setSearchClients(searchValue);
                    // getOrderData(e)
                    const matchingClients = clients.filter((item) => {
-                     return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                     return searchValue === '' ? item : item.Client.first_name.toLowerCase().includes(searchValue.toLowerCase());
                    });
                
                    if (matchingClients.length === 0) {
@@ -360,7 +360,7 @@ useEffect(() => {
                      <ul  className='ul-cities ul-clients' ref={clientsListRef}>
                        
                      {clients && clients.filter((item)=>{
-                     return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
+                     return searchClients === ''? item : item.Client.first_name.toLowerCase().includes(searchClients.toLowerCase());
                      }).map((item,index) =>{
                       return(
                        <>
@@ -369,29 +369,39 @@ useEffect(() => {
  
                          const selectedCity = e.target.innerText;
  
-                         setItemName(item.name);
-                         setItemMobile(item.mobile);
-                         setItemCity(item.city);
-                         setItemAddress(item.address);
-                         setItemId(item._id);
-                         setPhoneValue(item.mobile)
-                         // document.querySelector('input[name="p_name"]').value = selectedItem.name;
-                         // document.querySelector('input[name="p_mobile"]').value = value;
-                         // document.querySelector('input[name="p_city"]').value = selectedItem.city;
-                         // document.querySelector('input[name="p_streetaddress"]').value = selectedItem.address;
- 
-                         document.querySelector('input[name="SenderName"]').value = item.name;
-                         document.querySelector('input[name="SenderMobileNumber"]').value = value;
-                         document.querySelector('input[name="pickUpDistrictID"]').value = item.city;
-                         document.querySelector('input[name="pickUpAddress1"]').value = item.address;
-     
+                        //  setItemName(item.name);
+                        //  setItemMobile(item.mobile);
+                        //  setItemCity(item.city);
+                        //  setItemAddress(item.address);
+                        //  setItemId(item._id);
+                        //  setPhoneValue(item.mobile)
+                        setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
+                       setItemMobile(item.Client.phone1);
+                       setItemCity(item.Client.city);
+                       setItemAddress(item.Client.address1);
+                      //  setItemEmail(item.Client.email);
+                       setItemId(Number(item.Client.id));
+                       setPhoneValue(item.Client.phone1)
+                        
+                        //  document.querySelector('input[name="SenderName"]').value = item.name;
+                        //  document.querySelector('input[name="SenderMobileNumber"]').value = value;
+                        //  document.querySelector('input[name="pickUpDistrictID"]').value = item.city;
+                        //  document.querySelector('input[name="pickUpAddress1"]').value = item.address;
+                        document.querySelector('input[name="SenderName"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+
+                        document.querySelector('input[name="SenderMobileNumber"]').value = value;
+                        document.querySelector('input[name="pickUpDistrictID"]').value = item.Client.city;
+                        document.querySelector('input[name="pickUpAddress1"]').value = item.Client.address1;
+    
                          
                          document.querySelector('input[name="client"]').value = selectedCity;
                          // getOrderData(e)
                          closeClientsList();
                      }}
                        >
-                         {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address}
+                         {/* {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address} */}
+                         {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1}
+
                       </li>
                       </>
                       )
@@ -849,6 +859,7 @@ useEffect(() => {
              <th scope="col">السعر </th> */}
             <th scope="col">id_الشحنة</th>
               <th scope="col">message</th>
+              <th scope="col">id_الفاتورة</th>                
               <th scope="col"></th>
               
             </tr>
@@ -864,6 +875,8 @@ useEffect(() => {
       <td>{item.price}</td> */}
       <td>{item.data.Items[0].Barcode}</td>
       <td>{item.data.Message}</td>
+      {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
       <td>
       <button
   onClick={() => handleShowStickerClick(item)}

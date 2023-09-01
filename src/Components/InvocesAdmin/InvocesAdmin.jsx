@@ -21,9 +21,19 @@ export default function InvocesAdmin() {
           console.error(error);
         }
       }
+      const [search, setSearch]= useState('')
+
   return (
     <>
     <div className='p-5' id='content'>
+    <div className="search-box p-4 mt-2 row g-1">
+        <div className="col-md-2">
+        <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+        </div>
+        <div className="col-md-10">
+        <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='id_الفاتورة' />
+        </div>
+      </div>
     <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
@@ -36,12 +46,15 @@ export default function InvocesAdmin() {
             <th scope="col">العنوان </th>
             <th scope="col">عنوان اضافى </th>
             <th scope="col">id_العميل </th>
+            <th scope="col">id_الفاتورة </th>            
             <th></th>
             
           </tr>
         </thead>
         <tbody>
-          {invocesAdmin && invocesAdmin.map((item,index) =>{
+          {invocesAdmin && invocesAdmin.filter((item)=>{
+          return search === ''? item : item.Invoice.id.includes(search);
+          }).map((item,index) =>{
             return(
               <tr key={index}>
                 <td>{index+1}</td>
@@ -52,6 +65,7 @@ export default function InvocesAdmin() {
                 {item.Invoice.client_address1?<td>{item.Invoice.client_address1}</td>:<td>_</td>}
                 {item.Invoice.client_address2?<td>{item.Invoice.client_address2}</td>:<td>_</td>}
                 {item.Invoice.client_id?<td>{item.Invoice.client_id}</td>:<td>_</td>}
+                {item.Invoice.id?<td>{item.Invoice.id}</td>:<td>_</td>}
                 <td>
                     <a className="btn btn-orange" href={item.Invoice.invoice_pdf_url} target='_blank'>
                         عرض الفاتورة

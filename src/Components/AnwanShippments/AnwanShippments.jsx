@@ -174,7 +174,7 @@ export default function AnwanShippments(userData) {
             shipmentValue:Joi.number().allow(null, ''),  
             markterCode:Joi.string().allow(null, ''),
             // clintid:Joi.string().allow(null, ''),
-            daftraid:Joi.string().allow(null, ''),
+            daftraid:Joi.number().allow(null, ''),
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
@@ -581,7 +581,7 @@ export default function AnwanShippments(userData) {
                        setItemCity(item.Client.city);
                        setItemAddress(item.Client.address1);
                        setItemEmail(item.Client.email);
-                       setItemId(item.Client.staff_id);
+                       setItemId(Number(item.Client.id));
                        setPhoneValue(item.Client.phone1)
                          
                       //  document.querySelector('input[name="s_name"]').value = item.name;
@@ -1106,6 +1106,7 @@ export default function AnwanShippments(userData) {
                <th scope="col">رقم الشحنة</th>
                <th scope="col">طريقة الدفع</th>
                <th scope="col">السعر </th>
+               <th scope="col">id_الفاتورة</th>                
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th></th>
@@ -1120,6 +1121,7 @@ export default function AnwanShippments(userData) {
         <td>{item.ordernumber}</td>
         <td>{item.paytype}</td>
         <td>{item.price}</td>
+        {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
         <td>
                 <button
       

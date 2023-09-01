@@ -33,6 +33,7 @@ export default function SaeeShipments(userData) {
     markterCode:'',
     // clintid:'',
     daftraid:'',
+    description:'',
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -67,7 +68,7 @@ export default function SaeeShipments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg || "An error occurred.";
+      const errorMessage = error.response?.data?.msg?.error || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
@@ -151,8 +152,8 @@ function getOrderData(e) {
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.string().allow(null, ''),
-
+        daftraid:Joi.number().allow(null, ''),
+        description:Joi.string().required(),
     });
     return scheme.validate(orderData, {abortEarly:false});
   }
@@ -243,7 +244,7 @@ function getOrderData(e) {
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/user/all-markter-clint',
+      const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -336,7 +337,7 @@ function getOrderData(e) {
                      setSearchClients(searchValue);
                      // getOrderData(e)
                      const matchingClients = clients.filter((item) => {
-                       return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                       return searchValue === '' ? item : item.Client.first_name.toLowerCase().includes(searchValue.toLowerCase());
                      });
                  
                      if (matchingClients.length === 0) {
@@ -351,7 +352,7 @@ function getOrderData(e) {
                        <ul  className='ul-cities ul-clients' ref={clientsListRef}>
                          
                        {clients && clients.filter((item)=>{
-                       return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
+                       return searchClients === ''? item : item.Client.first_name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
                         return(
                          <>
@@ -360,29 +361,38 @@ function getOrderData(e) {
    
                            const selectedCity = e.target.innerText;
    
-                           setItemName(item.name);
-                           setItemMobile(item.mobile);
-                           setItemCity(item.city);
-                           setItemAddress(item.address);
-                           setItemId(item._id);
-                           setPhoneValue(item.mobile)
-                           // document.querySelector('input[name="p_name"]').value = selectedItem.name;
-                           // document.querySelector('input[name="p_mobile"]').value = value;
-                           // document.querySelector('input[name="p_city"]').value = selectedItem.city;
-                           // document.querySelector('input[name="p_streetaddress"]').value = selectedItem.address;
-   
-                           document.querySelector('input[name="p_name"]').value = item.name;
-                           document.querySelector('input[name="p_mobile"]').value = value;
-                           document.querySelector('input[name="p_city"]').value = item.city;
-                           document.querySelector('input[name="p_streetaddress"]').value = item.address;
-       
+                          //  setItemName(item.name);
+                          //  setItemMobile(item.mobile);
+                          //  setItemCity(item.city);
+                          //  setItemAddress(item.address);
+                          //  setItemId(item._id);
+                          //  setPhoneValue(item.mobile)
+
+                           setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
+                           setItemMobile(item.Client.phone1);
+                           setItemCity(item.Client.city);
+                           setItemAddress(item.Client.address1);
+                          //  setItemEmail(item.Client.email);
+                           setItemId(Number(item.Client.id));
+                           setPhoneValue(item.Client.phone1)
                            
+                          //  document.querySelector('input[name="p_name"]').value = item.name;
+                          //  document.querySelector('input[name="p_mobile"]').value = value;
+                          //  document.querySelector('input[name="p_city"]').value = item.city;
+                          //  document.querySelector('input[name="p_streetaddress"]').value = item.address;
+       
+                           document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+                           document.querySelector('input[name="p_mobile"]').value = value;
+                           document.querySelector('input[name="p_city"]').value = item.Client.city;
+                           document.querySelector('input[name="p_streetaddress"]').value = item.Client.address1;
+       
                            document.querySelector('input[name="client"]').value = selectedCity;
                            // getOrderData(e)
                            closeClientsList();
                        }}
                          >
-                           {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address}
+                           {/* {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address} */}
+                           {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1}
                         </li>
                         </>
                         )
@@ -669,6 +679,16 @@ function getOrderData(e) {
                 <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
                 <label className='label-cod' htmlFor="">طلب المندوب</label>
                 </div>
+                <div className='pb-3'>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
+                <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="4"></textarea>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='description'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
                 
                 </div>
             </div>
@@ -783,7 +803,8 @@ function getOrderData(e) {
                <th scope="col">رقم التتبع</th>
                <th scope="col">طريقة الدفع</th>
                <th scope="col">السعر </th>
-                <th scope="col">message</th>
+               <th scope="col">message</th>
+               <th scope="col">id_الفاتورة</th>                
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th></th>
@@ -799,6 +820,8 @@ function getOrderData(e) {
         <td>{item.paytype}</td>
         <td>{item.price}</td>
         <td>{item.data.message}</td>
+        {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
         <td>
                 <button
       
