@@ -324,6 +324,8 @@ export default function Shipments(userData) {
 
              <th scope="col">طريقة الدفع</th>
              <th scope="col"> التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
+
              <th scope="col"></th>
            </tr>
          </thead>
@@ -348,6 +350,7 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
               <td>
               <button
@@ -389,6 +392,8 @@ export default function Shipments(userData) {
 
             <th scope="col">طريقة الدفع</th>
             <th scope="col">التاريخ</th>
+            <th scope="col">id_الفاتورة</th>                
+
             {/* <th scope="col">message</th> */}
             <th scope="col"></th>
             <th scope="col"></th>
@@ -414,7 +419,10 @@ export default function Shipments(userData) {
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
               {/* <td>{item.data.message}</td> */}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
               <td>
+
               <button
     
     className="btn btn-success"
@@ -452,6 +460,8 @@ export default function Shipments(userData) {
              {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طريقة الدفع</th>
              <th scope="col">التاريخ </th>
+             <th scope="col">id_الفاتورة</th>                
+
              <th scope="col"></th>
              <th scope="col"></th>
            </tr>
@@ -474,6 +484,7 @@ export default function Shipments(userData) {
 ) : null}
                 <td>{item.paytype}</td>
                 {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+                {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
                 <td>
                 <button
@@ -508,6 +519,7 @@ export default function Shipments(userData) {
              {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طريقة الدفع</th>
              <th scope="col">التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
              {/* <th scope="col">Tracking_Number</th> */}
              <th scope="col"></th>
              {/* <th scope="col"></th> */}
@@ -532,6 +544,8 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
               {/* <td>{item.data.orderTrackingNumber}</td> */}
               <td>
               <button
@@ -571,6 +585,8 @@ export default function Shipments(userData) {
             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
+
              <th scope="col"></th>
              {/* <th scope="col"></th> */}
            </tr>
@@ -593,6 +609,8 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               <td>{item.data.createDate.slice(0, 10)}</td>
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
               <td>
               <button
     
@@ -626,6 +644,8 @@ export default function Shipments(userData) {
             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
+
              <th scope="col"></th>
              {/* <th scope="col"></th> */}
            </tr>
@@ -649,6 +669,8 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
               <td>
               <button
     

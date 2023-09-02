@@ -207,6 +207,7 @@ export default function ShipmentsAdmin() {
                   طريقة الدفع
                 </th>
                 <th scope="col">التاريخ</th>
+                <th scope="col">id_الفاتورة</th>                
               </tr>
             </thead>
             <tbody>
@@ -239,6 +240,7 @@ export default function ShipmentsAdmin() {
                 {item.createdate ? (<td>{item.createdate.slice(0, 15)}</td>
 ) : item.data && item.data.createDate ? (
   <td>{item.data.createDate.slice(0, 10)}</td>) : (<td>_</td>)}
+        {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
               </tr>
             )
