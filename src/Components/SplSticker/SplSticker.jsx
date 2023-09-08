@@ -85,7 +85,7 @@ export default function SplSticker({item}) {
           <tr style={{borderBottom:'solid 1px black'}}>
           <td style={{ color: '#FFF' }} bgcolor="#333333" colSpan="5">
             <p style={{ textAlign: 'center' }}>
-            Number of Pieces: <b>{itemPieces.length}</b>
+            Number of Pieces: <b>{itemPieces.length + 1}</b>
             </p>
             </td>
             </tr>
