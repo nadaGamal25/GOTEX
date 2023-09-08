@@ -60,6 +60,9 @@ import InvocesAdmin from './Components/InvocesAdmin/InvocesAdmin';
 import InvocesMarkter from './Components/InvocesMarkter/InvocesMarkter';
 import ClientsCreditAdmin from './Components/ClientsCreditAdmin/ClientsCreditAdmin';
 import MarketerEditClient from './Components/MarketerEditClient/MarketerEditClient';
+import ImileEdit from './Components/ImileEdit/ImileEdit';
+import ImileAddClient from './Components/ImileAddClient/ImileAddClient';
+import ImileClients from './Components/ImileClients/ImileClients';
 
 function App() {
   
@@ -125,6 +128,8 @@ function App() {
       {path:'/gltOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltOrdersShipment userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/invocesMarkter',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesMarkter userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/marketerEditClient',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketerEditClient userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/imileAddClient',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileAddClient userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/imileClients',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileClients userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
       {path:'companiesAdmin',element:<ErrorBoundary><CompaniesAdmin userData={userData}/></ErrorBoundary>},
@@ -136,6 +141,7 @@ function App() {
     {path:'smsaEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'anwanEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'splEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'imileEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},

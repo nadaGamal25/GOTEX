@@ -11,7 +11,8 @@ import armx from '../../assets/armx.jpg'
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import SessionTimeoutAlert from '../SessionTimeoutAlert/SessionTimeoutAlert'
+import {Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 export default function Companies(userData) {
   useEffect(()=>{
@@ -32,6 +33,16 @@ export default function Companies(userData) {
       console.error(error);
     }
   }
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <>
     <div className='paddingCompanies' id='content'>
@@ -247,8 +258,10 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-center">
-                <p className="soon-word">قريباً ...</p>
+              <div className="d-flex pt-4 justify-content-between">
+                {/* <p className="soon-word">قريباً ...</p> */}
+                <h4></h4>
+                <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
               </div>
             </div>
           </div>
@@ -322,6 +335,25 @@ export default function Companies(userData) {
         </div>
       </div>
     </div>
+    <Modal show={showModal} onHide={closeModal}>
+        <Modal.Header >
+          <Modal.Title>شركة
+            iMile </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {/* Your content inside the modal */}
+          <div>
+          <Link to="/imileAddClient" className="btn btn-dark m-2">إضافة عميل</Link>
+          <Link to="" className="btn btn-orange m-2">عمل شحنة </Link>            
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+          إغلاق
+          </Button>
+          {/* Additional buttons or actions can be added here */}
+        </Modal.Footer>
+      </Modal>
     </>
       )
 }
