@@ -40,9 +40,8 @@ async function sendDataToApi() {
     if (response.status === 200) {
       setisLoading(false);
       window.alert("تمت اضافة العميل بنجاح");
-      console.log(response.data.data);
+      console.log(response.data);
       const clients = response.data.data;
-      setClientData(clients);
       console.log(clients)      
   }
       else if (response.status === 400) {
@@ -82,12 +81,15 @@ if (e.target.type === "number") { // Check if the value is a number
 } else if (e.target.value === "true" || e.target.value === "false") {
   myData[e.target.name] = e.target.value === "true";
 } else {
-  myData[e.target.name] = e.target.value;
-}
+  if (e.target.name === "phone" || e.target.name === "backupPhone") {
+    const phoneNumber = e.target.value ? e.target.value.replace(/\+/g, '') : '';
+    myData[e.target.name] = phoneNumber;
+  } else {
+    myData[e.target.name] = e.target.value;
+  }}
 
 setClientData(myData);
 console.log(myData);
-console.log(myData.cod);
 }
 
 
