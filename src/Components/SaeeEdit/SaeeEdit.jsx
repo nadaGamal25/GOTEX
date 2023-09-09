@@ -2,10 +2,11 @@ import React from 'react'
 import axios from 'axios'
 import Joi from 'joi'
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function SaeeEdit() {
     const [errorList, seterrorList]= useState([]); 
-  const [saeePrices,setSaeePrices] =useState({
+  const [Prices,setPrices] =useState({
     status :'',
     userprice :'',
     marketerprice:'',
@@ -20,7 +21,7 @@ export default function SaeeEdit() {
   async function sendSaeePricesToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const {data} = await axios.post(`https://dashboard.go-tex.net/api/saee/edit`, saeePrices,
+      const {data} = await axios.post(`https://dashboard.go-tex.net/api/saee/edit`, Prices,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -57,9 +58,9 @@ function submitSaeePricesForm(e){
 }
 
   function getSaeePrices(e){
-    let mySaeePrices={...saeePrices};
+    let mySaeePrices={...Prices};
     mySaeePrices[e.target.name]= e.target.value;
-    setSaeePrices(mySaeePrices);
+    setPrices(mySaeePrices);
     console.log(mySaeePrices);
   }
 
@@ -74,18 +75,42 @@ function submitSaeePricesForm(e){
         mincodmarkteer :Joi.number().required(),
 
     });
-    return scheme.validate(saeePrices, {abortEarly:false});
+    return scheme.validate(Prices, {abortEarly:false});
+  }
+  useEffect(()=>{
+    getCompaniesDetailsOrders()
+  },[])
+  const [companiesDetails,setCompaniesDetails]=useState([])
+  async function getCompaniesDetailsOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const companiesPrices = response.data.data;
+      console.log(companiesPrices)
+      setCompaniesDetails(companiesPrices)
+      setPrices({
+        ...Prices,
+        status:companiesPrices[0].status, 
+        userprice:companiesPrices[0].userprice,
+        marketerprice:companiesPrices[0].marketerprice,
+        kgprice:companiesPrices[0].kgprice,
+        userCodPrice:companiesPrices[0].codprice,
+        maxcodmarkteer:companiesPrices[0].maxcodmarkteer,
+        mincodmarkteer: companiesPrices[0].mincodmarkteer, 
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
   return (
     <>
     <div className='p-4 admin' id='content'>
-            <div className="row py-3">
-              <div className="col-md-6">
+            <div className=" py-3">
+              <div className="edit-form">
                 <div className="p-saee p-3">
                   <h5 className="text-center mb-3">أسعار شركة ساعي</h5>
                   <form onSubmit={submitSaeePricesForm} action="">
                     <label htmlFor="">سعر المسخدم</label>
-                    <input onChange={getSaeePrices} type="number" step="0.001" className='my-input my-2 form-control' name='userprice' />
+                    <input onChange={getSaeePrices} type="number" value={Prices.userprice} step="0.001" className='my-input my-2 form-control' name='userprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='userprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -93,7 +118,7 @@ function submitSaeePricesForm(e){
       
     })}
                     <label htmlFor="">سعر المدخلات</label>
-                    <input onChange={getSaeePrices} type="number" step="0.001" className='my-input my-2 form-control' name='marketerprice' />
+                    <input onChange={getSaeePrices} type="number" value={Prices.marketerprice} step="0.001" className='my-input my-2 form-control' name='marketerprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='marketerprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -101,7 +126,7 @@ function submitSaeePricesForm(e){
       
     })}
                     <label htmlFor="">سعر الزيادة</label>
-                    <input onChange={getSaeePrices} type="number" step="0.001" className='my-input my-2 form-control' name='kgprice' />
+                    <input onChange={getSaeePrices} type="number" value={Prices.kgprice} step="0.001" className='my-input my-2 form-control' name='kgprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='kgprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -109,7 +134,7 @@ function submitSaeePricesForm(e){
       
     })}
                     <label htmlFor="">سعر الدفع عند الاستلام</label>
-                    <input onChange={getSaeePrices} type="number" step="0.001" className='my-input my-2 form-control' name='userCodPrice' />
+                    <input onChange={getSaeePrices} type="number" value={Prices.userCodPrice} step="0.001" className='my-input my-2 form-control' name='userCodPrice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='userCodPrice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -117,7 +142,7 @@ function submitSaeePricesForm(e){
       
     })}
                     <label htmlFor="">اكبر سعر للمسوقين   </label>
-                    <input onChange={getSaeePrices} type="number" step="0.001" className='my-input my-2 form-control' name='maxcodmarkteer' />
+                    <input onChange={getSaeePrices} type="number" value={Prices.maxcodmarkteer} step="0.001" className='my-input my-2 form-control' name='maxcodmarkteer' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='maxcodmarkteer'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -125,7 +150,7 @@ function submitSaeePricesForm(e){
       
     })}
                     <label htmlFor="">اقل سعر للمسوقين   </label>
-                    <input onChange={getSaeePrices} type="number" step="0.001" className='my-input my-2 form-control' name='mincodmarkteer' />
+                    <input onChange={getSaeePrices} type="number" value={Prices.mincodmarkteer} step="0.001" className='my-input my-2 form-control' name='mincodmarkteer' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='mincodmarkteer'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -150,9 +175,11 @@ function submitSaeePricesForm(e){
       
     })}
 
-                      <button className='btn btn-primary mt-3'>
-                      {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'تسجيل'}
-                     </button>
+<div className="text-center">
+                    <button className='btn btn-primary mt-3'>
+                    {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'تسجيل'}
+                   </button>
+                   </div>
                   </form>
                 </div>
               </div>

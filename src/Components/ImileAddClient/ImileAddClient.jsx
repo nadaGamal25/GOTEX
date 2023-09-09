@@ -100,7 +100,7 @@ function validateForm(){
     area:Joi.string().required(),
     address:Joi.string().required(),
     phone:Joi.string().required(),
-    backupPhone:Joi.string().required(),
+    backupPhone:Joi.string().allow(null, ''), 
     attentions:Joi.string().required(),
   });
   return scheme.validate(clientData, {abortEarly:false});
@@ -112,7 +112,7 @@ function validateForm(){
         <form onSubmit={submitForm} className='my-3' action="">
             <div className="row">
                 <div className="col-md-6 pb-3">
-        <label htmlFor="companyName"> اسم الشركة  :</label>
+        <label htmlFor="companyName"> اسم الشركة  :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='companyName' />
       
       {errorList.map((err,index)=>{
@@ -123,7 +123,7 @@ function validateForm(){
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="contacts"> الاسم   :</label>
+        <label htmlFor="contacts"> الاسم   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='contacts' />
       
       {errorList.map((err,index)=>{
@@ -135,7 +135,7 @@ function validateForm(){
     </div>
     
     <div className="col-md-6 pb-3">
-    <label htmlFor="phone">رقم الهاتف</label>
+    <label htmlFor="phone">رقم الهاتف:<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput my-2' value={value}
@@ -151,7 +151,7 @@ function validateForm(){
     })}
     </div>
     <div className="col-md-6 pb-3">
-    <label htmlFor="">  رقم هاتف اضافى
+    <label htmlFor="">  رقم هاتف اضافى:
     {/* <span className="star-requered">*</span> */}
     </label>
               <PhoneInput name='backupPhone' 
@@ -168,7 +168,7 @@ function validateForm(){
   })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="email"> البريد الالكترونى   :</label>
+        <label htmlFor="email"> البريد الالكترونى   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='email' />
       
       {errorList.map((err,index)=>{
@@ -179,7 +179,7 @@ function validateForm(){
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="city">المدينة    :</label>
+        <label htmlFor="city">المدينة    :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='city' />
       
       {errorList.map((err,index)=>{
@@ -191,7 +191,7 @@ function validateForm(){
     </div>
     
     <div className="col-md-6 pb-3">
-        <label htmlFor="area"> المنطقة  :</label>
+        <label htmlFor="area"> المنطقة  :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='area' />
       
       {errorList.map((err,index)=>{
@@ -202,7 +202,7 @@ function validateForm(){
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="address">العنوان   :</label>
+        <label htmlFor="address">العنوان   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='address' />
       
       {errorList.map((err,index)=>{
@@ -215,7 +215,7 @@ function validateForm(){
     
     
     <div className="col-md-6 pb-3">
-        <label htmlFor="attentions">ملاحظات   :</label>
+        <label htmlFor="attentions">ملاحظات   :<span className="star-requered">*</span></label>
         <textarea className="form-control" name='attentions' onChange={getData} cols="70" rows="3"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='attentions'){
@@ -227,11 +227,12 @@ function validateForm(){
       
     
      
+      
+      </div>
       <div className="text-center pt-2">
       <button className='btn btn-dark my-2'>
       إضافة عميل 
       </button>
-      </div>
       </div>
      </form>
         </div>

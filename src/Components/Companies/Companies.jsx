@@ -238,6 +238,7 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
+              
               <div className="d-flex pt-4 justify-content-between">
                 {/* <p className="soon-word">قريباً ...</p> */}
                 <h4></h4>
@@ -258,11 +259,24 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               </div>
-              <div className="d-flex pt-4 justify-content-between">
-                {/* <p className="soon-word">قريباً ...</p> */}
+              {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
+                item.status === false && item.name === "imile" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "imile" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                    <h4></h4>}
+                <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
+                  </div>
+                ) : null
+                ))}
+              {/* <div className="d-flex pt-4 justify-content-between">
                 <h4></h4>
                 <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-md-6">

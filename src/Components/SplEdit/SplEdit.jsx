@@ -79,10 +79,10 @@ export default function SplEdit() {
   return (
 <>
     <div className='p-4 admin' id='content'>
-            <div className="row py-3">
-              <div className="col-md-6">
+            <div className=" py-3">
+              <div className="edit-form">
                 <div className="p-saee p-3">
-                  <h5 className="text-center mb-3">أسعار شركة smsa </h5>
+                  <h5 className="text-center mb-3">أسعار شركة SPL </h5>
                   <form onSubmit={submitPricesForm} action="">
                     <label htmlFor="">سعر المسخدم</label>
                     <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='userprice' />
@@ -150,9 +150,11 @@ export default function SplEdit() {
       
     })}
 
-                      <button className='btn btn-primary mt-3'>
-                      {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'تسجيل'}
-                     </button>
+<div className="text-center">
+                    <button className='btn btn-primary mt-3'>
+                    {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'تسجيل'}
+                   </button>
+                   </div>
                   </form>
                 </div>
               </div>
