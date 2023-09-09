@@ -358,7 +358,7 @@ export default function Companies(userData) {
           {/* Your content inside the modal */}
           <div>
           <Link to="/imileAddClient" className="btn btn-dark m-2">إضافة عميل</Link>
-          <Link to="" className="btn btn-orange m-2">عمل شحنة </Link>            
+          <Link to="/imileShippments" className="btn btn-orange m-2">عمل شحنة </Link>            
           </div>
         </Modal.Body>
         <Modal.Footer>

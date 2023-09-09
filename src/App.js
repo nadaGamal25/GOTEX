@@ -63,6 +63,7 @@ import MarketerEditClient from './Components/MarketerEditClient/MarketerEditClie
 import ImileEdit from './Components/ImileEdit/ImileEdit';
 import ImileAddClient from './Components/ImileAddClient/ImileAddClient';
 import ImileClients from './Components/ImileClients/ImileClients';
+import ImileShippments from './Components/ImileShippments/ImileShippments';
 
 function App() {
   
@@ -130,6 +131,7 @@ function App() {
       {path:'/marketerEditClient',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketerEditClient userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/imileAddClient',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileAddClient userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/imileClients',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileClients userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/imileShippments',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
       {path:'companiesAdmin',element:<ErrorBoundary><CompaniesAdmin userData={userData}/></ErrorBoundary>},
