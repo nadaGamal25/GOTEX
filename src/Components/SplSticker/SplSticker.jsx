@@ -46,6 +46,11 @@ export default function SplSticker({item}) {
             </td>
           </tr>
           <tr>
+          <td className='p-3' style={{ border: '1px solid black' }} colSpan="2">PieceWieght: <b>{item.weight}</b>  
+           </td>
+           <td colSpan="3">  PieceDescription: <b> {item.desc} </b></td>
+               </tr>
+          <tr>
             <td rowSpan="2" style={{ border: '1px solid black' }}>
               <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '5px' }}><b></b></h1>
               <h4 style={{ fontSize: '10px', fontWeight: 'bold', marginLeft: '5px' }}>{item.reciver.city}</h4>
@@ -85,12 +90,12 @@ export default function SplSticker({item}) {
           <tr style={{borderBottom:'solid 1px black'}}>
           <td style={{ color: '#FFF' }} bgcolor="#333333" colSpan="5">
             <p style={{ textAlign: 'center' }}>
-            Number of Pieces: <b>{itemPieces.length + 1}</b>
+            Number of Pieces: <b>{itemPieces?(<span>{itemPieces.length + 1}</span>): 1}</b>
             </p>
             </td>
             </tr>
 
-          {itemPieces.map((piece, index) => (
+          {itemPieces && itemPieces.map((piece, index) => (
             <tr key={index}>
               <td style={{ border: '1px solid black' }}>
                 <p style={{ verticalAlign: 'middle', float: 'left', marginTop: '8px' }}>PieceWieght: </p>
@@ -119,8 +124,10 @@ export default function SplSticker({item}) {
           <tr>
             <td colSpan="4" style={{ border: '1px solid black' }}>
               <p style={{ margin: '5px 0 0 10px' }}>
+                <b>From : </b><br/>
                 {item.sender.name}<br />
-              <b>  {item.sender.city}</b> , {item.sender.AddressLine1}
+              <b>  {item.sender.city}</b> , {item.sender.AddressLine1} <br/>
+              {item.sender.AddressLine2?(<p>{item.sender.AddressLine2}</p>):null}
               </p>
               <hr style={{ margin: '2px 10px' }} />
               <p style={{ margin: '0 0 5px 10px' }}>{item.sender.mobile}</p>
@@ -130,10 +137,13 @@ export default function SplSticker({item}) {
             <td colSpan="4" style={{ border: '1px solid black' }}>
               <table width="100%" border="0" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
                 <tr>
-                  <td colSpan="2"><p style={{ marginLeft: '10px' }}> {item.reciver.name}</p></td>
+                  <td colSpan="2"><p style={{ marginLeft: '10px' }}>
+                  <b>To : </b><br/>
+                    {item.reciver.name}</p></td>
                 </tr>
                 <tr>
-                  <td colSpan="2"><p style={{ marginLeft: '10px' }}><b>{item.reciver.city}</b> , {item.reciver.AddressLine1}</p></td>
+                  <td colSpan="2"><p style={{ marginLeft: '10px' }}><b>{item.reciver.city}</b> , {item.reciver.AddressLine1}<br/>
+                  {item.reciver.AddressLine2?(<p>{item.reciver.AddressLine2}</p>):null}</p></td>
                 </tr>
                 {/* <tr>
                   <td colSpan="2"><p style={{ marginLeft: '10px' }}></p></td>
@@ -157,14 +167,14 @@ export default function SplSticker({item}) {
             </td>
           </tr>
           <tr>
-            <td colSpan="3" style={{ border: '1px solid black' }}>
+            {/* <td colSpan="3" style={{ border: '1px solid black' }}>
               <div>
                 {/* <p style={{ padding: '10px 0 0', textAlign: 'center' }}>
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAAAhAQMAAACMbYc4AAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADBJREFUKJFjuCS7e1nM6b3WtltteoKSbONenjVRvvJlk5y3VfIahlHJUclRyUErCQBzBsPh8JDsagAAAABJRU5ErkJggg==" alt="barcode" style={{ width: '6cm', height: '1cm', padding: '1px' }} />
-                </p> */}
+                </p> 
                 <p style={{ textAlign: 'center' }}>{item.data.Items[0].ReferenceId}</p>
               </div>
-            </td>
+            </td> */}
             {/* <td style={{ border: '1px solid black', textAlign: 'center' }}>
               <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAA/AQMAAABtkYKcAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAMpJREFUKJGF0s0NwyAMBWB3gWaDsAhS1kovySbtKmEBWCG3XJG4tFLEq7HbpvmpanH4JIRsHhAwx6pBpkOkUBDJpsHSeUGCTcHCF1D1G7QF8AfcIvevXgoeA1jNswdXrEhLAcdbiJ3ArfEALwZdpmsrZ96oe9zQJM+YzSGkF7UU2wW427qfyjwKv0IWcOXTqBMqyr0cslzQDM0GCE3uJPBgucUHJagwcy+GcaPZYlbUxJmvwPFSJw+3A28ZeWUM1vgFkjxu+iX6bzwBIvo4+1Iuqt4AAAAASUVORK5CYII=" alt="qrcode" />
             </td> */}

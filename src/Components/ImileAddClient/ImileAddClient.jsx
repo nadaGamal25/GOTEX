@@ -154,7 +154,7 @@ function validateForm(){
     </div>
     <div className="col-md-6 pb-3">
     <label htmlFor="">  رقم هاتف اضافى:
-    {/* <span className="star-requered">*</span> */}
+    <span className="star-requered"> </span>
     </label>
               <PhoneInput name='backupPhone' 
   labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput my-2' value={phone2}

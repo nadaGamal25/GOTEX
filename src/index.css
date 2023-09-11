@@ -102,6 +102,25 @@ body{
   color: #fff !important;
  
 }
+.btn-gray{
+  background-color: #71828a !important;
+  color: #fff !important;
+  padding: 1px 3px;
+  border: none !important;
+  border-radius: 3px;
+  margin-right: 2px;
+}
+.btn-gray:hover{
+  background-color: #4b565c !important;
+  color: #fff !important;
+ 
+}
+.p-inline{
+  display: inline;
+  border-left: solid 1px #000;
+  margin-left: 5px;
+  padding: 0;
+}
 #barcode{
   width: 6cm ;
   height: 1cm ;
@@ -266,6 +285,9 @@ body{
   .edit-form{
     width: 100%;
   }
+}
+.text-blue{
+  color: var(--dark--color) !important;
 }
 /* start login & register */
 .login-container,

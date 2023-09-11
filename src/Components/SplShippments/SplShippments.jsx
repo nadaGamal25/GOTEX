@@ -19,10 +19,10 @@ export default function SplShippments(userData) {
   const [itemId, setItemId] = useState('');
 
   const [pieces, setPieces] = useState([
-    {
-      PieceWeight: '',
-      PieceDescription: '',
-    },
+    // {
+    //   PieceWeight: '',
+    //   PieceDescription: '',
+    // },
   ]);
 
 
@@ -71,9 +71,9 @@ export default function SplShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert("تم تسجيل الشحنة بنجاح");
-        console.log(response.data);
+        console.log(response.data.data);
         console.log(response);
-        const shipment = response.data;
+        const shipment = response.data.data;
         setShipments(prevShipments => [...prevShipments, shipment]);
         console.log(shipments)      
     }else if (response.status === 400) {
@@ -134,15 +134,15 @@ function getOrderData(e) {
 }
 function validateOrderUserForm(){
     const pieceSchema = Joi.object({
-        PieceWeight: Joi.number().required(),
-        PieceDescription: Joi.string().required(),
+        PieceWeight: Joi.number().allow(null, ''),
+        PieceDescription: Joi.string().allow(null, ''),
     });
     let scheme= Joi.object({
         SenderName:Joi.string().required(),
         pickUpDistrictID:Joi.string().required(),
         SenderMobileNumber:Joi.string().required(),
         pickUpAddress1:Joi.string().required(),
-        pickUpAddress2:Joi.string().allow(null, ''),
+        pickUpAddress2:Joi.string().required(),
         Weight:Joi.number().required(),  
         ContentPrice:Joi.number().required(),
         ContentDescription:Joi.string().required(),
@@ -331,6 +331,15 @@ useEffect(() => {
     window.removeEventListener('click', handleOutsideClick);
   };
 }, [showClientsList]);
+
+  function addingPiece(){
+    setPieces([
+      {
+        PieceWeight: '',
+        PieceDescription: '',
+      },
+    ])
+  }
   return (
     <div className='p-4' id='content'>
     { userData.userData.data.user.rolle === "marketer"?(
@@ -533,7 +542,7 @@ useEffect(() => {
   })}
           </div>
           <div className='pb-3'>
-                <label htmlFor=""> عنوان اضافى</label>
+                <label htmlFor=""> عنوان اضافى <span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='pickUpAddress2' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='pickUpAddress2'){
@@ -570,40 +579,8 @@ useEffect(() => {
           <div className="package-info brdr-grey p-3 my-3 ">
               <h3>بيانات الشحنة</h3>
               <div className="row">
-              <div className="col-md-6">
-              <div className='pb-3'>
-              <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='Weight' onChange={getOrderData}/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='Weight'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-              </div>
-              <div className="col-md-6">
-              <div className='pb-3'>
-              <label htmlFor=""> السعر<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='ContentPrice' onChange={getOrderData}/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='ContentPrice'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-              </div>
-              <div className='pb-3'>
-                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
-                <textarea className="form-control" name='ContentDescription' onChange={getOrderData} cols="30" rows="3"></textarea>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='ContentDescription'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
+              
+              
             {userData.userData.data.user.rolle === "user"?(
             <>
             <div className="pb-3">
@@ -687,11 +664,52 @@ useEffect(() => {
             </>
                     ):
                  <h4></h4>}
+                 
 
-<div className='d-flex align-items-center pb-3'>
+<div className='d-flex align-items-center pb-1'>
                 <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
                 <label className='label-cod' htmlFor="">طلب المندوب</label>
                 </div>
+                <div className="">
+              <div className='pb-1'>
+              <label htmlFor=""> السعر<span className="star-requered">*</span></label>
+              <input type="number" step="0.001" className="form-control" name='ContentPrice' onChange={getOrderData}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='ContentPrice'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              </div>
+               <h6 className='text-blue text-center pt-2'>{'<<'}  القطعة الرئيسية   {'>>'}</h6>
+                <div className="">
+              <div className='pb-1'>
+              <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
+              <input type="number" step="0.001" className="form-control" name='Weight' placeholder="وزن القطعة " onChange={getOrderData}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='Weight'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              </div>
+              
+              <div className='pb-1'>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
+                <textarea className="form-control" name='ContentDescription' placeholder="وصف القطعة" onChange={getOrderData} cols="30" rows="2"></textarea>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='ContentDescription'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            <div className="text-center">
+              <button type='button' className="m-2 btn-gray" onClick={addingPiece}>  إضافة قطع اخرى </button>
+            </div>
+            {/* <h6 className='text-blue text-center pt-2'>{'<<'}  إضافة قطع اخرى    {'>>'}</h6> */}
                  
       {pieces.map((piece, index) => (
       <div className='my-1' key={index}>
@@ -701,7 +719,7 @@ useEffect(() => {
           placeholder="وزن القطعة "
           value={piece.PieceWeight}
           onChange={e => updatePiece(index, 'PieceWeight', e.target.value)}
-        /> <span className="star-requered">*</span><br/>
+        /> <br/>
         <input
           type="text"
           name="PieceDescription"
@@ -710,7 +728,7 @@ useEffect(() => {
           onChange={e => updatePiece(index, 'PieceDescription', e.target.value)}
         />
          <button className=' btn-addPiece' type="button" onClick={addPiece}>
-        اضافة اخرى
+         إضافة اخرى
       </button>
       </div>
       
@@ -830,7 +848,7 @@ useEffect(() => {
   })}
           </div>
           <div className='pb-3'>
-                <label htmlFor=""> عنوان اضافى</label>
+                <label htmlFor=""> عنوان اضافى <span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='deliveryAddress2' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='deliveryAddress2'){
