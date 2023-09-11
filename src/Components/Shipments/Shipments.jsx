@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { saveAs } from 'file-saver';
+import { atob } from 'js-base64';
 
 export default function Shipments(userData) {
   const [saeeAllOrders,setSaeeAllOrders]=useState([]);
@@ -303,7 +305,30 @@ export default function Shipments(userData) {
         const stickerData = encodeURIComponent(JSON.stringify(item));
         window.open(`/splStickerPreview?stickerData=${stickerData}`, '_blank');
       };
-
+      function convertBase64ToPDF(base64String, filename) {
+        // Decode the base64 string
+        const byteCharacters = atob(base64String);
+      
+        // Convert the binary data to an array buffer
+        const byteArray = new Uint8Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteArray[i] = byteCharacters.charCodeAt(i);
+        }
+      
+        // Create a Blob from the array buffer
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+      
+        // Use file-saver to save the Blob as a PDF file
+        saveAs(blob, filename);
+      }
+        const filename = 'sticker.pdf'; // Replace with your desired filename
+      
+        function handleConvertAndDownload(base64String) {
+          convertBase64ToPDF(base64String, filename);
+          // const stickerUrl=filename
+          // const newTab = window.open();
+          // newTab.location.href = stickerUrl;
+        } 
   return (
     <>
     
@@ -747,7 +772,13 @@ export default function Shipments(userData) {
               <td>{item.paytype}</td>
               {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-
+              <td>
+        <button className="btn btn-success"  onClick={() => {
+        //  setbase64String(bs)
+        handleConvertAndDownload(item.data.data.imileAwb)
+        // openBase64PDFInNewWindow(item.data.data.imileAwb)
+      }}>تحميل الاستيكر</button>
+      </td>
               
               
             </tr>

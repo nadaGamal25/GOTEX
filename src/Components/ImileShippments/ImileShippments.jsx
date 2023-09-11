@@ -221,15 +221,15 @@ function validateOrderUserForm(){
 //     }
 //   }
 
-//   const [search, setSearch]= useState('')
-//   const [showCitiesList, setCitiesList] = useState(false);
-//   const openCitiesList = () => {
-//     setCitiesList(true);
-//   };
+  const [search, setSearch]= useState('')
+  const [showCitiesList, setCitiesList] = useState(false);
+  const openCitiesList = () => {
+    setCitiesList(true);
+  };
 
-//   const closeCitiesList = () => {
-//     setCitiesList(false);
-//   };
+  const closeCitiesList = () => {
+    setCitiesList(false);
+  };
 
 
   const [searchClients, setSearchClients]= useState('')
@@ -330,6 +330,25 @@ function validateOrderUserForm(){
         }
       } 
 
+      useEffect(() => {
+        const handleOutsideClick = (e) => {
+          if (
+            citiesListRef.current &&
+            !citiesListRef.current.contains(e.target) &&
+            e.target.getAttribute('name') !== 'pickUpDistrictID'
+          ) {
+            closeCitiesList();
+          }
+        };
+      
+        if (showCitiesList) {
+          window.addEventListener('click', handleOutsideClick);
+        }
+      
+        return () => {
+          window.removeEventListener('click', handleOutsideClick);
+        };
+      }, [showCitiesList]);
   return (
     <>
      <div className='p-4' id='content'>
@@ -436,11 +455,63 @@ function validateOrderUserForm(){
               <h3> </h3>
               
               <div className='pb-1'>
-              <label htmlFor=""> شركة المرسل<span className="star-requered">*</span></label>
-              <input type="text" className="form-control" name='p_company'  onChange={(e) => {
+              <label htmlFor="">  المرسل<span className="star-requered">*</span></label>
+              {/* <input type="text" className="form-control" name='p_company'  onChange={(e) => {
 //   setItemName(e.target.value);
   getOrderData(e);
-}}/>
+}}/> */}
+             {/* <select className="form-control" name='c_company' onChange={getOrderData}>
+              <option value=""></option>
+              {imileclients.map((item,index) =>{
+            return(
+              <option value={item.companyName}>
+                {item.companyName} , {item.contacts} , {item.city} , {item.phone} , {item.email}
+              </option>
+              )
+          }
+          )}
+             </select> */}
+             <input type="text" className="form-control" name='p_company' placeholder='اسم المرسل'
+              onChange={(e)=>{ 
+                openCitiesList();
+                setItemCity(e.target.value);
+                const searchValue = e.target.value;
+                setSearch(searchValue);
+                getOrderData(e)
+                const matchingCities = imileclients.filter((item) => {
+                  return searchValue === '' ? item : item.contacts.toLowerCase().includes(searchValue.toLowerCase());
+                });
+            
+                if (matchingCities.length === 0) {
+                  closeCitiesList();
+                } else {
+                  openCitiesList();
+                }
+                }}
+                onClick={openCitiesList}
+                />
+                {showCitiesList && (
+                  <ul  className='ul-cities'ref={citiesListRef}>
+                  {imileclients && imileclients.filter((item)=>{
+                  return search === ''? item : item.contacts.toLowerCase().includes(search.toLowerCase());
+                  }).map((item,index) =>{
+                   return(
+                    <li key={index} name='p_company' 
+                    onClick={(e)=>{ 
+                      const selectedCity = item.companyName;
+                      setItemCity(selectedCity)
+                      getOrderData({ target: { name: 'p_company', value: selectedCity } });
+                      document.querySelector('input[name="p_company"]').value = selectedCity;
+                      closeCitiesList();
+                  }}
+                    >
+                      {item.companyName} , {item.contacts} , {item.city} , {item.phone} , {item.email}
+                   </li>
+                   )
+                  }
+                  )}
+                  </ul>
+                )}
               {errorList.map((err,index)=>{
     if(err.context.label ==='p_company'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -467,6 +538,7 @@ function validateOrderUserForm(){
 //   setItemName(e.target.value);
   getOrderData(e);
 }}/>
+             
               {errorList.map((err,index)=>{
     if(err.context.label ==='c_company'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
