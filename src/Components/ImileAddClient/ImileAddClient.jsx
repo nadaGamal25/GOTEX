@@ -97,7 +97,7 @@ function validateForm(){
   let scheme= Joi.object({
     companyName:Joi.string().required(),
     contacts:Joi.string().required(),
-    email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
+    email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).allow(null, ''),
     city:Joi.string().required(),
     area:Joi.string().required(),
     address:Joi.string().required(),

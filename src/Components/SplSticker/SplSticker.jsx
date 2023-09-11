@@ -61,7 +61,8 @@ export default function SplSticker({item}) {
                 <br />
                 {item.paytype?(<><span></span><b>{item.paytype}</b></>):''}
                 <br/>
-                {item.price?(<><span>price: </span><b>{item.price} SAR</b></>):''}
+                {item.paytype === "cod"?(<>{item.price?(<><span>price: </span><b>{item.price} SAR</b></>):''}</>):''}
+                
 
                 {/* <b>0 SAR</b> */}
               </p>

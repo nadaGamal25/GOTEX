@@ -6,6 +6,8 @@ import axios from 'axios';
 import Joi from 'joi';
 import { Link } from 'react-router-dom';
 import SplSticker from '../SplSticker/SplSticker';
+import { saveAs } from 'file-saver';
+import { atob } from 'js-base64';
 
 export default function ImileShippments(userData) {
     const [value ,setPhoneValue]=useState()
@@ -55,7 +57,7 @@ export default function ImileShippments(userData) {
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
   const [shipments,setShipments]=useState([])
-
+  const [tbase64String,setbase64String]=useState('')
   async function sendOrderDataToApi() {
     console.log(localStorage.getItem('userToken'))
 
@@ -140,7 +142,7 @@ function getOrderData(e) {
 }
 function validateOrderUserForm(){
     const skuDetailsSchema = Joi.object({
-        skuQty: Joi.number().required(),
+        skuQty: Joi.number().allow(null, ''),
         skuGoodsValue: Joi.number().required(),
         skuWeight: Joi.number().allow(null, ''),
         skuName: Joi.string().required(),
@@ -199,6 +201,7 @@ function validateOrderUserForm(){
   useEffect(()=>{
     // getCities()
     getCompaniesDetailsOrders()
+    getimileClientsList()
     // getClientsList()
   },[])
 //   const [cities,setCities]=useState()
@@ -268,6 +271,64 @@ function validateOrderUserForm(){
       console.error(error);
     }
   }
+  // const base64String = tbase64String ; // Replace with your actual base64 string
+
+  function openBase64PDFInNewWindow(base64String) {
+    // Create a new Blob with the base64 data and a PDF content type
+    const blob = new Blob([base64String], { type: 'application/pdf' });
+
+    // Create a URL for the Blob
+    const pdfUrl = URL.createObjectURL(blob);
+
+    // Open the PDF in a new browser window
+    // window.open(pdfUrl);
+    const stickerUrl = `https://dashboard.go-tex.net/api/${pdfUrl}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
+  }
+
+  function convertBase64ToPDF(base64String, filename) {
+    // Decode the base64 string
+    const byteCharacters = atob(base64String);
+  
+    // Convert the binary data to an array buffer
+    const byteArray = new Uint8Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArray[i] = byteCharacters.charCodeAt(i);
+    }
+  
+    // Create a Blob from the array buffer
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+  
+    // Use file-saver to save the Blob as a PDF file
+    saveAs(blob, filename);
+  }
+    const filename = 'sticker.pdf'; // Replace with your desired filename
+  
+    function handleConvertAndDownload(base64String) {
+      convertBase64ToPDF(base64String, filename);
+      // const stickerUrl=filename
+      // const newTab = window.open();
+      // newTab.location.href = stickerUrl;
+    } 
+    const[imileclients,setimileClients]=useState([])
+
+
+      async function getimileClientsList() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/imile/get-all-clients',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const List = response.data.data
+          console.log(List)
+          setimileClients(List)
+        } catch (error) {
+          console.error(error);
+        }
+      } 
 
   return (
     <>
@@ -725,14 +786,7 @@ function validateOrderUserForm(){
           value={piece.skuNo}
           onChange={e => updateSku(index, 'skuNo', e.target.value)}
         />
-        <input
-          type="number"
-          name="skuQty"
-          className='form-control mb-2'
-          placeholder=" عدد القطع"
-          value={piece.skuQty}
-          onChange={e => updateSku(index, 'skuQty', e.target.value)}
-        />
+        
         <input
           type="number"
           name="skuGoodsValue"
@@ -783,17 +837,24 @@ function validateOrderUserForm(){
           </thead>
           <tbody>
 {Array.isArray(shipments) && shipments.map((item, index) => {
+  // const bs =item.data.data.imileAwb
   return (
     <tr key={index}>
       <td>{index + 1}</td>
       <td>{item.company}</td>
       <td>{item.data.data.expressNo}</td>
       <td>{item.price}</td>
+      <td>
+        <button className="btn btn-success"  onClick={() => {
+        //  setbase64String(bs)
+        handleConvertAndDownload(item.data.data.imileAwb)
+        // openBase64PDFInNewWindow(item.data.data.imileAwb)
+      }}>تحميل الاستيكر</button>
+      </td>
       {/* <td>{item.data.Items[0].Barcode}</td>
       <td>{item.data.Message}</td>
       {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
 
-    
     </tr>
   );
 })}
