@@ -229,184 +229,178 @@ export default function SmsaShippments(userData) {
     //   }
     // }
 
-    const cities=[
-      { name: "عقيق Aqiq" },
-  { name: "الأطولة Atawlah" },
-  { name: "بهاء Baha" },
-  { name: "بلجرشي Baljurashi" },
-  { name: "المندق Mandaq" },
-  { name: "مضيلف Mudhaylif" },
-  { name: "مخواة Mukhwah" },
-  { name: "قلوة Qilwah" },
-  { name: "القنفذة Qunfudhah" },
-  { name: "الجوف Al Jouf" },
-  { name: "دومة الجندل Dawmat Al Jandal" },
-  { name: "سكاكا Skakah" },
-  { name: "بشاير Bashayer" },
-  { name: "بيلسمار Bellasmar" },
-  { name: "ناماس Namas" },
-  { name: "سابت العلايا Sapt Al Alaya" },
-  { name: "تنومة Tanumah" },
-  { name: "عين دار Ain Dar" },
-  { name: "عنك Anak" },
-  { name: "جسر البحرين Bahrain Causeway" },
-  { name: "بقيق Buqaiq" },
-  { name: "الدمام Dammam" },
-  { name: "مطار الدمام Dammam Airport" },
-  { name: "الظهران Dhahran" },
-  { name: "الجبيل Jubail" },
-  { name: "الخفجي Khafji" },
-  { name: "الخبر Khubar" },
-  { name: "المنيفة Muneefa" },
-  { name: "النعيرية Nairiyah" },
-  { name: "قرية العليا Qarya Al Uliya" },
-  { name: "القطيف Qatif" },
-  { name: "رحيمة Rahima" },
-  { name: "رأس تنورة Ras Tannurah" },
-  { name: "صفوى Safwa" },
-  { name: "سايرا Saira" },
-  { name: "سيهات Sayhat" },
-  { name: "شدقم Shedgum" },
-  { name: "تناجب Tanajib" },
-  { name: "تاروت (دارين) Tarut (Darin)" },
-  { name: "الثقبة Thqbah" },
-  { name: "العضيلية Udhayliyah" },
-  { name: "العثمانية Uthmaniyah" },
-  { name: "نجران Najran" },
-  { name: "شرورة Sharourah" },
-  { name: "وادي الدواسر Wadi Dawasir" },
-  { name: "بدية Badaya" },
-  { name: "البكيرية Bukayriyah" },
-  { name: "بريدة Buraydah" },
-  { name: "الدخنة Dukhnah" },
-  { name: "خبرا Khabra" },
-  { name: "مذنب Midhnab" },
-  { name: "النبانية Nabaniya" },
-  { name: "نبهانية Nabhaniah" },
-  { name: "نيفي Nifi" },
-  { name: "مطار القصيم Qaseem Airport" },
-  { name: "رفايا القمش Rafayaa Al Gimsh" },
-  { name: "راس Rass" },
-  { name: "رياض الخبراء Riyadh Al Khabra" },
-  { name: "ساجر Sajir" },
-  { name: "عنيزة Unayzah" },
-  { name: "عقلة الصقور Uqlat As Suqur" },
-  { name: "عيون الجواء Uyun Al Jiwa" },
-  { name: "ابو عريش Abu Arish" },
-  { name: "احد المسارحه Ahad Al Masarhah" },
-  { name: "الداير Al Dayer" },
-  { name: "في طوال At Tuwal" },
-  { name: "بني مالك Bani Malek" },
-  { name: "بايش Baysh" },
-  { name: "درب Darb" },
-  { name: "دماد Dhamad" },
-  { name: "فرسان Farasan" },
-  { name: "جازان Jazan" },
-  { name: "صبيا Sabya" },
-  { name: "صامطة Samtah" },
-  { name: "الشقيق Shuqayq" },
-  { name: "يشيد Hail" },
-  { name: "صيرة Sayirah" },
-  { name: "الرقي Al Ruqi" },
-  { name: "حفر الباطن Hafar Al Baten" },
-  { name: "مدينة الملك خالد King Khalid City" },
-  { name: "القيصومة Qaysumah" },
-  { name: "رفحاء Rafha" },
-  { name: "صرار Sarrar" },
-  { name: "الأحساء الاحساء" },
-  { name: "العيون Al Ayun" },
-  { name: "الجفر Al Jafr" },
-  { name: "البطحاء Batha" },
-  { name: "الهفوف Hufuf" },
-  { name: "المبرز Mubarraz" },
-  { name: "سلوى Salwa" },
-  { name: "بدر Badr" },
-  { name: "بحرة Bahrah" },
-  { name: "جدة Jeddah" },
-  { name: "مطار جدة Jeddah Airport" },
-  { name: "كامل Kamil" },
-  { name: "خليص Khulais" },
-  { name: "ليث Lith" },
-  { name: "مستورة Masturah" },
-  { name: "رابغ Rabigh" },
-  { name: "شيبة Shaibah" },
-  { name: "ثول Thuwal" },
-  { name: "أبها Abha" },
-  { name: "احد رفيدة Ahad Rafidah" },
-  { name: "براق Bariq" },
-  { name: "بيشة Bishah" },
-  { name: "ظهران الجنوب Dhahran Al Janoub" },
-  { name: "جاش Jash" },
-  { name: "خميس مشيط Khamis Mushayt" },
-  { name: "المجاردة Majardah" },
-  { name: "محايل Muhayil" },
-  { name: "النقيع Nakeea" },
-  { name: "رجال ألمع Rijal Almaa" },
-  { name: "سراة عبيدة Sarat Abida" },
-  { name: "طريب Tarib" },
-  { name: "تثليث Tathlith" },
-  { name: "وادي بن هشبل Wadi Bin Hashbal" },
-  { name: "جموم Jamoum" },
-  { name: "مكه Makkah" },
-  { name: "حناكية Hanakiyah" },
-  { name: "خيبر Khayber" },
-  { name: "المدينة المنورة Madinah" },
-  { name: "مهد الذهب Mahd Ad Dhahab" },
-  { name: "علا Ula" },
-  { name: "عفيف Afif" },
-  { name: "الأرطاوية Artawiyah" },
-  { name: "بجدية Bijadiyah" },
-  { name: "الدوادمي Duwadimi" },
-  { name: "غات Ghat" },
-  { name: "حوطة سدير Hawtat Sudayr" },
-  { name: "المجمعة Majmaah" },
-  { name: "شقراء Shaqra" },
-  { name: "الزلفي Zulfi" },
-  { name: "عرعر Arar" },
-  { name: "جديدة عرار Jadidah Arar" },
-  { name: "الأفلاج (ليلى) Al Aflaj (Layla)" },
-  { name: "ضرما Dhurma" },
-  { name: "ديلم Dilam" },
-  { name: "الدرعية Diriyah" },
-  { name: "حوطة بني تميم Hawtat Bani Tamim" },
-  { name: "هاير Hayer" },
-  { name: "حريميلة Huraymila" },
-  { name: "الخرج Kharj" },
-  { name: "مزاحمية Muzahmiyah" },
-  { name: "القويعية Quwayiyah" },
-  { name: "راين Rayn" },
-  { name: "الرياض Riyadh" },
-  { name: "مطار الرياض Riyadh Airport" },
-  { name: "رماح Rumah" },
-  { name: "الرويدة Ruwaidah" },
-  { name: "دليم Dhalim " },
-  { name: "خورمه Khurmah " },
-  { name: "مويه Muwayh " },
-  { name: "رنية Ranyah" },
-  { name: "صيل الكبير Sayl Al Kabir " },
-  { name: "الطائف Taif " },
-  { name: "تربه Turbah" },
-  { name: "تربه (مكة المكرمة) Turbah (Makkah)" },
-  { name: "سيء Bad" },
-  { name: "دوبا Dhuba " },
-  { name: "حالة عمار Halit Ammar " },
-  { name: "حقل Haql" },
-  { name: "تبوك Tabuk" },
-  { name: "تيماء Taima" },
-  { name: "حديثة Haditha " },
-  { name: "قريات Qurayyat" },
-  { name: "طبرجل Tabarjal" },
-  { name: "طريف Turayf" },
-  { name: "خماسين Khamasin" },
-  { name: "السليل Sulayyil " },
-  { name: "بدر حنين Badar Hunain" },
-  { name: "أملج Ummlujj" },
-  { name: "الوجه Wajh" },
-  { name: "ينبع Yanbu" },
-  { name: "القصيم Qaseem" },
-  { name: "سبت العلايا Sabt Alalayah" },
-  { name: "ضليع الرشيد DULAY RASHEED" },
-    ]
+    const cities=["Aqiq",
+    "Atawlah",
+    "Baha",
+    "Baljurashi",
+    "Mandaq",
+    "Mudhaylif",
+    "Mukhwah",
+    "Qilwah",
+    "Qunfudhah",
+    "Al Jouf",
+    "Dawmat Al Jandal",
+    "Skakah",
+    "Bashayer",
+    "Bellasmar",
+    "Namas",
+    "Sapt Al Alaya",
+    "Tanumah",
+    "Ain Dar",
+    "Anak",
+    "Bahrain Causeway",
+    "Buqaiq",
+    "Dammam",
+    "Dammam Airport",
+    "Dhahran",
+    "Jubail",
+    "Khafji",
+    "Khubar",
+    "Muneefa",
+    "Nairiyah",
+    "Qarya Al Uliya",
+    "Qatif",
+    "Rahima",
+    "Ras Tannurah",
+    "Safwa",
+    "Saira",
+    "Sayhat",
+    "Shedgum",
+    "Tanajib",
+    "Tarut (Darin)",
+    "Thqbah",
+    "Udhayliyah",
+    "Uthmaniyah",
+    "Najran",
+    "Sharourah",
+    "Wadi Al-Dawasir",
+    "Badaya",
+    "Bukayriyah",
+    "Buraydah",
+    "Dukhnah",
+    "Khabra","Midhnab",
+    "Nabaniya",
+    "Nabhaniah",
+    "Nifi",
+    "Qaseem Airport",
+    "Rafayaa Al Gimsh",
+    "Rass",
+    "Riyadh Al Khabra",
+    "Sajir",
+    "Unayzah",
+    "Uqlat As Suqur",
+    "Uyun Al Jiwa",
+    "Abu Arish",
+    "Ahad Al Masarhah",
+    "Al Dayer",
+    "At Tuwal",
+    "Bani Malek",
+    "Baysh",
+    "Darb",
+    "Dhamad",
+    "Farasan",
+    "Jazan",
+    "Sabya",
+    "Samtah",
+    "Shuqayq",
+    "Hail",
+    "Sayirah",
+    "Al Ruqi",
+    "Hafar Al Baten",
+    "King Khalid City",
+    "Qaysumah",
+    "Rafha",
+    "Sarrar",
+    "Al Ahsa",
+    "Al Ayun",
+    "Al Jafr",
+    "Batha",
+    "Hufuf",
+    "Mubarraz",
+    "Salwa",
+    "Badr",
+    "Bahrah",
+    "Jeddah",
+    "Jeddah Airport",
+    "Kamil",
+    "Khulais",
+    "Lith",
+    "Masturah",
+    "Rabigh",
+    "Shaibah","Thuwal",
+    "Abha",
+    "Ahad Rafidah",
+    "Bariq",
+    "Bishah",
+    "Dhahran Al Janoub",
+    "Jash",
+    "Khamis Mushayt",
+    "Majardah",
+    "Muhayil",
+    "Nakeea",
+    "Rijal Almaa",
+    "Sarat Abida",
+    "Tarib",
+    "Tathlith",
+    "Wadi Bin Hashbal",
+    "Jamoum",
+    "Makkah",
+    "Hanakiyah",
+    "Khayber",
+    "Madinah",
+    "Mahd Ad Dhahab",
+    "Ula",
+    "Afif",
+    "Artawiyah",
+    "Bijadiyah",
+    "Duwadimi",
+    "Ghat",
+    "Hawtat Sudayr",
+    "Majmaah",
+    "Shaqra",
+    "Zulfi",
+    "Arar",
+    "Jadidah Arar",
+    "Al Aflaj (Layla)",
+    "Dhurma",
+    "Dilam",
+    "Diriyah",
+    "Hawtat Bani Tamim",
+    "Hayer",
+    "Huraymila",
+    "Kharj",
+    "Muzahmiyah",
+    "Quwayiyah",
+    "Rayn",
+    "Riyadh",
+    "Riyadh Airport",
+    "Rumah",
+    "Ruwaidah",
+    "Dhalim","Khurmah",
+    "Muwayh",
+    "Ranyah",
+    "Sayl Al Kabir",
+    "Taif",
+    "Turbah",
+    "Turbah (Makkah)",
+    "Bad",
+    "Dhuba",
+    "Halit Ammar",
+    "Haql",
+    "Tabuk",
+    "Taima",
+    "Haditha",
+    "Qurayyat",
+    "Tabarjal",
+    "Turayf",
+    "Khamasin",
+    "Sulayyil",
+    "Badar Hunain",
+    "Ummlujj",
+    "Wajh",
+    "Yanbu",
+    "Qaseem"]
+   
 
     const [search, setSearch]= useState('')
     const [search2, setSearch2]= useState('')
@@ -427,6 +421,22 @@ export default function SmsaShippments(userData) {
     const closeCitiesList2 = () => {
       setCitiesList2(false);
     };
+    // async function getSmsaSticker(orderId) {
+    //   try {
+    //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+    //       },
+    //     });
+    //          console.log(response.data.data)
+    //          const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+    //          const newTab = window.open();
+    //          newTab.location.href = stickerUrl;
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
+
     async function getSmsaSticker(orderId) {
       try {
         const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
@@ -434,14 +444,22 @@ export default function SmsaShippments(userData) {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
           },
         });
-             console.log(response.data.data)
-             const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
-             const newTab = window.open();
-             newTab.location.href = stickerUrl;
+    
+        const stickerUrls = response.data.data;
+    console.log(response.data.data)
+        if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
+          stickerUrls.forEach((stickerUrl) => {
+            const newTab = window.open();
+            newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+          });
+        } else {
+          console.log("No sticker URLs found in the response.");
+        }
       } catch (error) {
         console.error(error);
       }
     }
+    
 
     
     const citiesListRef = useRef(null);
@@ -663,21 +681,22 @@ export default function SmsaShippments(userData) {
                   setSearch(searchValue);
                   getOrderData(e)
                   const matchingCities = cities.filter((item) => {
-                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
                   });
               
-                  if (matchingCities.length === 0) {
-                    closeCitiesList();
-                  } else {
-                    openCitiesList();
-                  }
+                  // if (matchingCities.length === 0) {
+                  //   closeCitiesList();
+                  // } else {
+                  //   openCitiesList();
+                  // }
+                  openCitiesList();
                   }}
                   onClick={openCitiesList}
                   />
                   {showCitiesList && (
-                    <ul  className='ul-cities' ref={citiesListRef}>
+                    <ul  className='ul-cities'>
                     {cities && cities.filter((item)=>{
-                    return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
+                    return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
                     }).map((item,index) =>{
                      return(
                       <li key={index} name='p_City' 
@@ -689,7 +708,7 @@ export default function SmsaShippments(userData) {
                         closeCitiesList();
                     }}
                       >
-                        {item.name}
+                        {item}
                      </li>
                      )
                     }
@@ -992,21 +1011,22 @@ export default function SmsaShippments(userData) {
                   setSearch2(searchValue);
                   getOrderData(e)
                   const matchingCities = cities.filter((item) => {
-                    return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
                   });
               
-                  if (matchingCities.length === 0) {
-                    closeCitiesList2();
-                  } else {
-                    openCitiesList2();
-                  }
+                  // if (matchingCities.length === 0) {
+                  //   closeCitiesList2();
+                  // } else {
+                  //   openCitiesList2();
+                  // }
+                  openCitiesList2();
                   }}
                   onClick={openCitiesList2}
                   />
                   {showCitiesList2 && (
-                    <ul  className='ul-cities' ref={citiesListRef2}>
+                    <ul  className='ul-cities'>
                     {cities && cities.filter((item)=>{
-                    return search2 === ''? item : item.name.toLowerCase().includes(search2.toLowerCase());
+                    return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
                     }).map((item,index) =>{
                      return(
                       <li key={index} name='c_City' 
@@ -1017,7 +1037,7 @@ export default function SmsaShippments(userData) {
                         closeCitiesList2();
                     }}
                       >
-                        {item.name}
+                        {item}
                      </li>
                      )
                     }
