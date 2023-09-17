@@ -85,7 +85,7 @@ export default function ImileShippments(userData) {
         console.log(shipments)      
     }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data?.data?.Message || "An error occurred.";
+        const errorMessage = response.data?.msg?.message || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }
@@ -93,7 +93,7 @@ export default function ImileShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.data?.Message || "An error occurred.";
+      const errorMessage = error.response?.data?.msg?.message || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
