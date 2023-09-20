@@ -922,7 +922,7 @@ nav form .form-input button{
 .brdr-grey h3{
   font-weight: 500;
   color: var(--dark--color);
-  padding-bottom: 15px;
+  padding-bottom: 5px;
 }
 .clients-table h6{
   color: var(--orange-color);

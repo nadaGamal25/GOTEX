@@ -64,6 +64,8 @@ import ImileEdit from './Components/ImileEdit/ImileEdit';
 import ImileAddClient from './Components/ImileAddClient/ImileAddClient';
 import ImileClients from './Components/ImileClients/ImileClients';
 import ImileShippments from './Components/ImileShippments/ImileShippments';
+import JtEdit from './Components/JtEdit/JtEdit';
+import JtShippments from './Components/JtShippments/JtShippments';
 
 function App() {
   
@@ -132,6 +134,7 @@ function App() {
       {path:'/imileAddClient',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileAddClient userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/imileClients',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileClients userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/imileShippments',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/jtShippments',element:<ErrorBoundary><ProtectedRoute userData={userData}><JtShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
       {path:'companiesAdmin',element:<ErrorBoundary><CompaniesAdmin userData={userData}/></ErrorBoundary>},
@@ -144,6 +147,7 @@ function App() {
     {path:'anwanEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><AnwanEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'splEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><SplEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'imileEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'jtEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><JtEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},

@@ -5,7 +5,6 @@ import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
 import { Link } from 'react-router-dom';
-import SplSticker from '../SplSticker/SplSticker';
 import { saveAs } from 'file-saver';
 import { atob } from 'js-base64';
 
