@@ -4,6 +4,10 @@ import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
+import PdfViewer from '../PdfViewer/PdfViewer';
+import base64js from 'base64-js';
+import { saveAs } from 'file-saver';
+
 
 export default function JtShippments(userData) {
     const [value ,setPhoneValue]=useState()
@@ -266,13 +270,6 @@ function validateOrderUserForm(){
       console.error(error);
     }
   }
-
-  const [showsticker,setshowsticker]=useState(false)
-  
-  const handleShowStickerClick = (item) => {
-    const stickerData = encodeURIComponent(JSON.stringify(item));
-    window.open(`/splStickerPreview?stickerData=${stickerData}`, '_blank');
-  };
   
     const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
@@ -358,34 +355,34 @@ useEffect(() => {
 //           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
 //         },
 //       });
-//            console.log(response)
+//            console.log(response.data.data)
 //       const stickerUrl = `${response.data.data}`;
 //       const newTab = window.open();
-//       newTab.location.href = stickerUrl;
+//       newTab.document.open();
+//     //   newTab.document.write(stickerUrl);
+//       newTab.document.close();
+//     //   newTab.location.href = stickerUrl;
 //     } catch (error) {
 //       console.error(error);
 //     }
 //   }
-async function getSticker(orderId) {
+
+  async function getSticker(orderId) {
     try {
       const response = await axios.get(`https://dashboard.go-tex.net/api/jt/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
-        responseType: 'arraybuffer', // Set the response type to 'arraybuffer'
       });
-      console.log(response.data)
-      const blob = new Blob([response.data], { type: 'application/pdf' }); // Create a Blob with the response data
-      const url = URL.createObjectURL(blob); // Create a URL for the Blob
-  
+           console.log(response.data.data)
+      const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
       const newTab = window.open();
-      newTab.location.href = url;
+      newTab.location.href = stickerUrl;
     } catch (error) {
       console.error(error);
     }
   }
-  
-  
+
   
   return (
     <>
@@ -613,151 +610,7 @@ async function getSticker(orderId) {
           ):null}   
           
           </div>
-         <div className="shipper-details brdr-grey my-3 p-3">
-             <h3>بيانات المستلم </h3>
-             
-             
-         <div className='pb-1'>
-             <label htmlFor=""> الاسم <span className="star-requered">*</span></label>
-             <input type="text" className="form-control" name='re_name'  onChange={(e) => {
-//   setItemName(e.target.value);
- getOrderData(e);
-}}/>
-             {errorList.map((err,index)=>{
-   if(err.context.label ==='re_name'){
-     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-   }
-   
- })}
-         </div>
-        
-         <div className='pb-1'>
-             <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
-             {/* <input type="text" className="form-control" /> */}
-             <PhoneInput name='re_mobile' 
-  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
-  onChange={(phone2) => {
-    setPhone2(phone2);
-    getOrderData({ target: { name: 're_mobile', value: phone2 } });
-  }}/>
-            
- {errorList.map((err,index)=>{
-   if(err.context.label ==='re_mobile'){
-     return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
-   }
-   
- })}
-   
-         </div>
-         
-         <div className='pb-1 ul-box'>
-               <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
-               <input type="text" className="form-control" name='re_city' onChange={getOrderData}/>
-               {/* <input type="text" className="form-control" name='c_city'
-               onChange={(e)=>{ 
-                 const searchValue = e.target.value;
-                 setSearch2(searchValue);
-                 getOrderData(e)
-                 const matchingCities = cities.filter((item) => {
-                   return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
-                 });
-             
-                 if (matchingCities.length === 0) {
-                   closeCitiesList2();
-                 } else {
-                   openCitiesList2();
-                 }
-                 }}
-                 onClick={openCitiesList2}
-                 />
-                 {showCitiesList2 && (
-                   <ul  className='ul-cities' ref={citiesListRef2}>
-                   {cities && cities.filter((item)=>{
-                   return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
-                   }).map((item,index) =>{
-                    return(
-                     <li key={index} name='c_city' 
-                     onClick={(e)=>{ 
-                       const selectedCity = e.target.innerText;
-                       getOrderData({ target: { name: 'c_city', value: selectedCity } });
-                       document.querySelector('input[name="c_city"]').value = selectedCity;
-                       closeCitiesList2();
-                   }}
-                     >
-                       {item}
-                    </li>
-                    )
-                   }
-                   )}
-                   </ul>
-                 )}
-                */}
-               {errorList.map((err,index)=>{
-     if(err.context.label ==='re_city'){
-       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-     }
-     
-   })}
-           </div>
-          {/* <div className='pb-1'>
-             <label htmlFor=""> المدينة <span className="star-requered">*</span></label>
-             <input type="text" className="form-control" name='c_city'  onChange={(e) => {
-//   setItemName(e.target.value);
- getOrderData(e);
-}}/>
-             {errorList.map((err,index)=>{
-   if(err.context.label ==='c_city'){
-     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-   }
-   
- })}
-         </div> */}
-         <div className='pb-1'>
-             <label htmlFor=""> المنطقة <span className="star-requered">*</span></label>
-             <input type="text" className="form-control" name='re_prov'  onChange={(e) => {
-//   setItemName(e.target.value);
- getOrderData(e);
-}}/>
-             {errorList.map((err,index)=>{
-   if(err.context.label ==='re_prov'){
-     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-   }
-   
- })}
-         </div>
-         <div className='pb-1'>
-             <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
-             <input type="text" className="form-control" name='re_address'  onChange={(e) => {
-//   setItemName(e.target.value);
- getOrderData(e);
-}}/>
-             {errorList.map((err,index)=>{
-   if(err.context.label ==='re_address'){
-     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-   }
-   
- })}
-         </div>
-         
-         
-         { userData.userData.data.user.rolle === "marketer"?(
-           <div className='pb-1'>
-           <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
-           <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
-           {errorList.map((err,index)=>{
- if(err.context.label ==='markterCode'){
-   return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
- }
- 
-})}
-       </div>
-         ):null}   
-        
-         </div>
-         
-         </div>
-         <div className="col-md-6">
-         <div className="package-info brdr-grey p-3 my-2 ">
+          <div className="package-info brdr-grey p-3 my-3 ">
              <h3>بيانات الشحنة</h3>
              <div className="row">
              <div className="col-md-6">
@@ -907,6 +760,151 @@ async function getSticker(orderId) {
              
              </div>
          </div>
+         
+         </div>
+         <div className="col-md-6">
+         <div className="shipper-details brdr-grey my-2 p-3">
+             <h3>بيانات المستلم </h3>
+             
+             
+         <div className='pb-1'>
+             <label htmlFor=""> الاسم <span className="star-requered">*</span></label>
+             <input type="text" className="form-control" name='re_name'  onChange={(e) => {
+//   setItemName(e.target.value);
+ getOrderData(e);
+}}/>
+             {errorList.map((err,index)=>{
+   if(err.context.label ==='re_name'){
+     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+   }
+   
+ })}
+         </div>
+        
+         <div className='pb-1'>
+             <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
+             {/* <input type="text" className="form-control" /> */}
+             <PhoneInput name='re_mobile' 
+  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
+  onChange={(phone2) => {
+    setPhone2(phone2);
+    getOrderData({ target: { name: 're_mobile', value: phone2 } });
+  }}/>
+            
+ {errorList.map((err,index)=>{
+   if(err.context.label ==='re_mobile'){
+     return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+   }
+   
+ })}
+   
+         </div>
+         
+         <div className='pb-1 ul-box'>
+               <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
+               <input type="text" className="form-control" name='re_city' onChange={getOrderData}/>
+               {/* <input type="text" className="form-control" name='c_city'
+               onChange={(e)=>{ 
+                 const searchValue = e.target.value;
+                 setSearch2(searchValue);
+                 getOrderData(e)
+                 const matchingCities = cities.filter((item) => {
+                   return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+                 });
+             
+                 if (matchingCities.length === 0) {
+                   closeCitiesList2();
+                 } else {
+                   openCitiesList2();
+                 }
+                 }}
+                 onClick={openCitiesList2}
+                 />
+                 {showCitiesList2 && (
+                   <ul  className='ul-cities' ref={citiesListRef2}>
+                   {cities && cities.filter((item)=>{
+                   return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
+                   }).map((item,index) =>{
+                    return(
+                     <li key={index} name='c_city' 
+                     onClick={(e)=>{ 
+                       const selectedCity = e.target.innerText;
+                       getOrderData({ target: { name: 'c_city', value: selectedCity } });
+                       document.querySelector('input[name="c_city"]').value = selectedCity;
+                       closeCitiesList2();
+                   }}
+                     >
+                       {item}
+                    </li>
+                    )
+                   }
+                   )}
+                   </ul>
+                 )}
+                */}
+               {errorList.map((err,index)=>{
+     if(err.context.label ==='re_city'){
+       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+     }
+     
+   })}
+           </div>
+          {/* <div className='pb-1'>
+             <label htmlFor=""> المدينة <span className="star-requered">*</span></label>
+             <input type="text" className="form-control" name='c_city'  onChange={(e) => {
+//   setItemName(e.target.value);
+ getOrderData(e);
+}}/>
+             {errorList.map((err,index)=>{
+   if(err.context.label ==='c_city'){
+     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+   }
+   
+ })}
+         </div> */}
+         <div className='pb-1'>
+             <label htmlFor=""> المنطقة <span className="star-requered">*</span></label>
+             <input type="text" className="form-control" name='re_prov'  onChange={(e) => {
+//   setItemName(e.target.value);
+ getOrderData(e);
+}}/>
+             {errorList.map((err,index)=>{
+   if(err.context.label ==='re_prov'){
+     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+   }
+   
+ })}
+         </div>
+         <div className='pb-1'>
+             <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
+             <input type="text" className="form-control" name='re_address'  onChange={(e) => {
+//   setItemName(e.target.value);
+ getOrderData(e);
+}}/>
+             {errorList.map((err,index)=>{
+   if(err.context.label ==='re_address'){
+     return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+   }
+   
+ })}
+         </div>
+         
+         
+         { userData.userData.data.user.rolle === "marketer"?(
+           <div className='pb-1'>
+           <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
+           <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
+           {errorList.map((err,index)=>{
+ if(err.context.label ==='markterCode'){
+   return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+ }
+ 
+})}
+       </div>
+         ):null}   
+        
+         </div>
+         
          <div className="reciever-details brdr-grey mt-3 p-3">
              <h3>تفاصيل المنتج :</h3>
              {theSkuDetailList.map((piece, index) => (
@@ -1000,10 +998,18 @@ async function getSticker(orderId) {
      <td>
        <button className="btn btn-success"  onClick={()=>{getSticker(item._id)}}>عرض الاستيكر</button>
      </td>
+     {/* <td>
+     <div>
+      <button className="btn btn-success" onClick={() => fetchPdfData(item._id)}>عرض الاستيكر</button>
+      {pdfData && <PdfViewer pdfData={pdfData} />}
+    </div>
+</td> */}
+
      {/* <td>{item.data.Items[0].Barcode}</td>
      <td>{item.data.Message}</td>*/}
 
    </tr>
+   
  );
 })} 
 </tbody>
