@@ -120,7 +120,7 @@ export default function Navbar({userData ,logout}) {
   return (
     <>
     {/* <!-- start side navbar --> */}
-    <section id="sidebar" className={sideToggle? "hide" :""}>
+    <section id="sidebar" className={sideToggle? "hide sidenav" :"sidenav"}>
         <a href="#" class="brand">
             <img src={logo} alt='logo'/>
         </a>
