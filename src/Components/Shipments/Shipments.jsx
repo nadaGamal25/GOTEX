@@ -462,6 +462,7 @@ export default function Shipments(userData) {
             {/* <th scope="col">message</th> */}
             <th scope="col"></th>
             <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -504,6 +505,32 @@ export default function Shipments(userData) {
                       تتبع الشحنة
                     </a>
               </td>
+              {/* <td><button
+            className="btn btn-danger"
+            onClick={() => {
+              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+                axios
+                  .get(`https://dashboard.go-tex.net/api/saee/cancel-order`, {
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                  },
+                  {
+                    orderId:item._id,
+                  })
+                  .then((response) => {
+                    if (response.data.msg === 'ok') {
+                      getUserOrders();
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button></td> */}
             </tr>
             )
           }
@@ -560,6 +587,7 @@ export default function Shipments(userData) {
       عرض الاستيكر
     </button>
                 </td>
+                
                 
               </tr>
             )
