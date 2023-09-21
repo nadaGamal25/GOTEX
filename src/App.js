@@ -66,6 +66,7 @@ import ImileClients from './Components/ImileClients/ImileClients';
 import ImileShippments from './Components/ImileShippments/ImileShippments';
 import JtEdit from './Components/JtEdit/JtEdit';
 import JtShippments from './Components/JtShippments/JtShippments';
+import PaymentOrders from './Components/PaymentOrders/PaymentOrders';
 
 function App() {
   
@@ -135,6 +136,7 @@ function App() {
       {path:'/imileClients',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileClients userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/imileShippments',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/jtShippments',element:<ErrorBoundary><ProtectedRoute userData={userData}><JtShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/paymentOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><PaymentOrders userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
       {path:'companiesAdmin',element:<ErrorBoundary><CompaniesAdmin userData={userData}/></ErrorBoundary>},

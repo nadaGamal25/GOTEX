@@ -73,6 +73,50 @@ export default function Navbar({userData ,logout}) {
       function waitingAlert(){
         window.alert('سوف يكون متاح قريباً ')
       }
+
+      const [showModal, setShowModal] = useState(false);
+          const [depositAmount, setDepositAmount] = useState('');
+          async function addDepositToUser() {
+            try {
+              const response = await axios.post(
+                'https://dashboard.go-tex.net/api/user/add-user-balance',
+                {
+                  amount: depositAmount,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                  },
+                }
+    
+              );
+              // Handle the response as per your requirement
+              console.log(response.data);
+              window.alert('يرجى ملئ جميع البيانات التالية ')
+              // navigate(response.data.data.order.url);
+              const stickerUrl = `${response.data.data.order.url}`;
+           const newTab = window.open();
+           newTab.location.href = stickerUrl;
+
+              // if (response.data.msg === 'ok') {
+                closeModal();
+                // getUsersListsAdmin();
+              // }
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          const openModal = () => {
+            setShowModal(true);
+          };
+        
+          const closeModal = () => {
+            setShowModal(false);
+            setDepositAmount('');
+          };
+          const handleDepositChange = (event) => {
+            setDepositAmount(Number(event.target.value));
+          };
   return (
     <>
     {/* <!-- start side navbar --> */}
@@ -114,7 +158,19 @@ export default function Navbar({userData ,logout}) {
                     <span class="text">الشحنات</span>
                 </Link>
             </li>
-            
+            <li>
+                <Link to="#" onClick={openModal}>
+                <i class="fa-solid fa-credit-card bx"></i>
+                  <span class="text">إضافة رصيد </span>
+                </Link>
+            </li>
+            <li>
+                <Link to="/paymentOrders">
+                <i class="fa-solid fa-file-invoice bx"></i>
+                    <span class="text">طلبات الدفع
+                </span>
+                </Link>
+            </li>
             
             {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
@@ -139,6 +195,7 @@ export default function Navbar({userData ,logout}) {
                   <span class="text"> العملاء </span>
               </Link>
           </li>
+
             ):null}
             {userData?.data?.user?.rolle !== "marketer"?(
               <li>
@@ -216,7 +273,53 @@ export default function Navbar({userData ,logout}) {
         </nav>
         {/* <!--end navbar --> */}
         </section>
-        
+        {showModal && (
+        <div className='modal bg-d' style={{ display: 'block' }}>
+          <div className='modal-dialog'>
+            <div className='modal-content '>
+              <div className='modal-header'>
+                <h5 className='modal-title'>إضافة رصيد </h5>
+                {/* <button
+                  type='button'
+                  className='close'
+                  onClick={closeModal}
+                >
+                  <span aria-hidden='true'>&times;</span>
+                </button> */}
+              </div>
+              <div className='modal-body'>
+                <div className='form-group'>
+                  <label htmlFor='deposit'>الرصيد :</label>
+                  <input
+                    type='number'
+                    className='form-control'
+                    id='deposit'
+                    value={depositAmount}
+                    onChange={handleDepositChange}
+                   
+                  />
+                </div>
+              </div>
+              <div className='modal-footer'>
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  onClick={addDepositToUser}
+                >
+                  إضافة
+                </button>
+                <button
+                  type='button'
+                  className='btn btn-secondary'
+                  onClick={closeModal}
+                >
+                  إلغاء
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}  
     </>
   )
 }
