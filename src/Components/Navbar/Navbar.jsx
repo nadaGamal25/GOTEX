@@ -197,14 +197,20 @@ export default function Navbar({userData ,logout}) {
           </li>
 
             ):null}
-            {userData?.data?.user?.rolle !== "marketer"?(
+            <li>
+              <Link onClick={waitingAlert}>
+              <i class="fa-solid fa-keyboard bx"></i>
+                    <span class="text">مستلزمات الشحن(قريباً)</span>
+              </Link>
+          </li>
+            {/* {userData?.data?.user?.rolle !== "marketer"?(
               <li>
               <Link onClick={waitingAlert}>
               <i class="fa-solid fa-keyboard bx"></i>
                     <span class="text">مستلزمات الشحن(قريباً)</span>
               </Link>
           </li>
-            ):null}
+            ):null} */}
 
 
             {userData?.data?.user?.rolle === "marketer"?(

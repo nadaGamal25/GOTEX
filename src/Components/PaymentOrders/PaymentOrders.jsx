@@ -26,7 +26,7 @@ export default function PaymentOrders() {
           
   return (
     <div className='p-4' id='content'>
-    <div className="gray-table p-3 mt-4">
+    <div className="clients-table p-3 mt-4">
     
       <table className="table">
         <thead>
