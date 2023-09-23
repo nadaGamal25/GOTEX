@@ -207,13 +207,14 @@ export default function ShipmentsAdmin() {
                   طريقة الدفع
                 </th>
                 <th scope="col">التاريخ</th>
-                <th scope="col">id_الفاتورة</th>                
+                <th scope="col">id_الفاتورة</th>  
+                <th scope="col"></th>              
               </tr>
             </thead>
             <tbody>
               {filteredShipments.map((item, index) => {
             return(
-              <tr key={index}>
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
                 <td>{index+1}</td>
                 {item.company?<td>{item.company}</td>:<td>_</td>}
                 {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
@@ -241,7 +242,7 @@ export default function ShipmentsAdmin() {
 ) : item.data && item.data.createDate ? (
   <td>{item.data.createDate.slice(0, 10)}</td>) : (<td>_</td>)}
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-
+        {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'>Canceled</span> </td> : <td></td>}
               </tr>
             )
           }

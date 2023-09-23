@@ -352,6 +352,7 @@ export default function Shipments(userData) {
           // const newTab = window.open();
           // newTab.location.href = stickerUrl;
         } 
+        const [canceled , setcanceled] = useState(false)
   return (
     <>
     
@@ -472,9 +473,11 @@ export default function Shipments(userData) {
     }
     return item.marktercode && item.marktercode.includes(search);
   }).map((item,index) =>{
-            return(
-              <tr key={index}>
-              <td>{index+1}</td>
+    // const isCanceled = canceledRows.includes(item._id);
+
+      return(
+              <tr key={index}       className={item.status=== "canceled" ? 'cancel' : ''}              >
+              <td >{index+1}</td>
               <td>ساعي</td>
               <td>{item.ordernumber}</td>
               {item.price?(<td>{item.price}</td>):(<td> _ </td>)}
@@ -505,32 +508,42 @@ export default function Shipments(userData) {
                       تتبع الشحنة
                     </a>
               </td>
-              {/* <td><button
+              <td >
+                
+                {item.status=== "canceled" ?
+                <span className='text-center text-danger fw-bold'>Canceled</span>:
+                <button
             className="btn btn-danger"
             onClick={() => {
               if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+                const orderId = item._id;
                 axios
-                  .get(`https://dashboard.go-tex.net/api/saee/cancel-order`, {
+                  .post(`https://dashboard.go-tex.net/api/saee/cancel-order`, 
+                   { orderId },
+                   {
                     headers: {
-                      Authorization: `Bearer ${localStorage.getItem('token')}`,
+                      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
                     },
-                  },
-                  {
-                    orderId:item._id,
                   })
                   .then((response) => {
-                    if (response.data.msg === 'ok') {
+                    if (response.status === 200) {
+                      console.log(response)
                       getUserOrders();
+                              window.alert(response.data.data.message)
+                              setcanceled(true)
+
                     }
                   })
                   .catch((error) => {
                     console.error(error);
+                        window.alert(error.response.data.data.error)
                   });
               }
             }}
           >
              الغاء الشحنة
-          </button></td> */}
+          </button> }
+          </td>
             </tr>
             )
           }
@@ -800,7 +813,7 @@ export default function Shipments(userData) {
              <th scope="col">id_الفاتورة</th>                
 
              <th scope="col"></th>
-             {/* <th scope="col"></th> */}
+             <th scope="col"></th>
            </tr>
          </thead>
        <tbody>
@@ -811,7 +824,7 @@ export default function Shipments(userData) {
     return item.marktercode && item.marktercode.includes(search);
   }).map((item,index) =>{
             return(
-              <tr key={index}>
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
               <td>{index+1}</td>
               <td>{item.company}</td>
               <td>{item.ordernumber}</td>
@@ -830,6 +843,38 @@ export default function Shipments(userData) {
         // openBase64PDFInNewWindow(item.data.data.imileAwb)
       }}>تحميل الاستيكر</button>
       </td>
+       <td>
+        {item.status=== "canceled" ? 
+          <span className='text-center text-danger fw-bold'>Canceled</span>:
+        <button
+            className="btn btn-danger"
+            onClick={() => {
+              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+                const orderId= item._id;
+                axios
+                  .post(`https://dashboard.go-tex.net/api/imile/cancel-order`, { orderId },
+                  {
+                   headers: {
+                     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                   },
+                 })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      getImileUserOrders();
+                          //  window.alert(response.data.data.message)
+                           console.log(response)
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    window.alert(error.response.data.msg.message)
+                  });
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button>}
+          </td> 
               
               
             </tr>
