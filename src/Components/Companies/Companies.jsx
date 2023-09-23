@@ -8,6 +8,7 @@ import sae from '../../assets/sae.jpg'
 import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
+import dhl from '../../assets/dhl.jpg'
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
@@ -288,6 +289,23 @@ export default function Companies(userData) {
                 <h4></h4>
                 <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
               </div> */}
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img src={dhl} alt="company" />
+              </div>
+              <div className="stars text-center mt-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
+              </div>
             </div>
           </div>
           <div className="col-md-6">
