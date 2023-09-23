@@ -436,7 +436,7 @@ label{
   height: 100% !important;
   /* background: #f2f2f2; */
   /* background: rgba(8, 204, 132, 0.4) ; */
-  background:#24ba83;
+  background:#9FBC9F  ;
   z-index: 999;
   transition: all 0.3s ease;
   overflow-y: scroll;
@@ -451,7 +451,7 @@ label{
   border-radius: 20px;
 }
 #sidebar::-webkit-scrollbar-track{
-  background-color: #24ba83;
+  background-color: #9FBC9F;
 }
 #sidebar.hide{
   width: 60px;
@@ -625,7 +625,7 @@ left: 0px;
 nav{
   height: 56px;
   /* background-color: #f2f2f2; */
-  background-color: #24ba83;
+  background-color: #9FBC9F;
   padding: 0 24px;
   grid-gap: 24px;
   position: relative;
