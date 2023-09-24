@@ -978,7 +978,7 @@ export default function Shipments(userData) {
                  })
                   .then((response) => {
                     if (response.status === 200) {
-                      getImileUserOrders();
+                      getJtUserOrders();
                           //  window.alert(response.data.data.message)
                            console.log(response)
                     }
