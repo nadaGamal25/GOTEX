@@ -438,7 +438,7 @@ html, body ,
   right: 0;
   bottom: 0;
   width: 280px;
-  height: 100% !important;
+  height: 100vh !important;
   /* background: #f2f2f2; */
   /* background: rgba(8, 204, 132, 0.4) ; */
   background:#D0F2CB
@@ -447,6 +447,9 @@ html, body ,
   transition: all 0.3s ease;
   overflow-y: scroll;
 
+}
+#sidebar.collapsed {
+  width: 60px;
 }
 #sidebar::-webkit-scrollbar{
   width: 5px;
@@ -596,13 +599,14 @@ left: 0px;
 @media only screen and (max-width: 768px){
   #sidebar.hide{
     width: 280px;
-    height: 100% !important;
+    height: 100vh !important;
 
   }
   #sidebar{
     width: 60px;
-    height: 100% !important;
+    height: 100vh !important;
   }
+  
   #sidebar .side-menu li a{
     width: calc(48px - (4px * 2));
     transition: width 0.3s ease;

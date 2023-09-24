@@ -21,8 +21,14 @@ export default function Navbar({userData ,logout}) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+    
   }, []);
-
+    const [isCollapsed, setIsCollapsed] = useState(false);
+  
+    // Function to toggle the collapsed state of the sidebar
+    function toggleSidebar() {
+      setIsCollapsed((prevIsCollapsed) => !prevIsCollapsed);
+    }
 
   useEffect(()=>{
     getUserBalance()
@@ -120,7 +126,7 @@ export default function Navbar({userData ,logout}) {
   return (
     <>
     {/* <!-- start side navbar --> */}
-    <section id="sidebar" className={sideToggle? "hide sidenav" :"sidenav"}>
+    <section id="sidebar" className={`${sideToggle? "hide sidenav" :"sidenav"} ${isCollapsed ? 'collapsed' : ''}`}>
         <a href="#" class="brand">
             <img src={logo} alt='logo'/>
         </a>
@@ -271,7 +277,9 @@ export default function Navbar({userData ,logout}) {
         {/* <!--start navbar --> */}
         <nav class="d-flex align-items-center" id='navb'>
           <div className="w-280" ></div>
-            <i class="fa-solid fa-bars" onClick={()=> setSideToggle(!sideToggle)}></i>
+          <i class="fa-solid fa-bars" onClick={()=> {setSideToggle(!sideToggle)
+          toggleSidebar()}}></i>
+          {/* <i class="fa-solid fa-bars" id="menu-toggle" onClick={toggleSidebar}></i> */}
             
             
             {/* <a href="#" class="profile">
