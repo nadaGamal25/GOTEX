@@ -13,6 +13,7 @@ export default function Shipments(userData) {
   const [smsaAllOrders,setSmsaAllOrders]=useState([]);
   const [splAllOrders,setSplAllOrders]=useState([]);
   const [imileAllOrders,setImileAllOrders]=useState([]);
+  const [jtAllOrders,setJtAllOrders]=useState([]);
   const [sticker, setSticker] = useState('');
   const [gltSticker, setGltSticker] = useState('');
 
@@ -24,6 +25,7 @@ export default function Shipments(userData) {
     getGotexUserOrders()
     getSplUserOrders()
     getImileUserOrders()
+    getJtUserOrders()
   },[])
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredShipments, setFilteredShipments] = useState([]);  
@@ -37,6 +39,21 @@ export default function Shipments(userData) {
       shipment.item.marktercode.includes(searchQuery)
     );
     setFilteredShipments(filteredShipments);
+  }
+  async function getJtUserOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/jt/get-all-orders',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      const Orders = response.data.data;
+      console.log(Orders)
+      setJtAllOrders(Orders)
+    } catch (error) {
+      console.error(error);
+    }
   }
   async function getImileUserOrders() {
     try {
@@ -134,7 +151,21 @@ export default function Shipments(userData) {
           console.error(error);
         }
       }
-
+      async function getJtSticker(orderId) {
+        try {
+          const response = await axios.get(`https://dashboard.go-tex.net/api/jt/print-sticker/${orderId}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+               console.log(response.data.data)
+          const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+          const newTab = window.open();
+          newTab.location.href = stickerUrl;
+        } catch (error) {
+          console.error(error);
+        }
+      }
       
       async function getGotexSticker(orderId) {
         try {
@@ -853,6 +884,93 @@ export default function Shipments(userData) {
                 const orderId= item._id;
                 axios
                   .post(`https://dashboard.go-tex.net/api/imile/cancel-order`, { orderId },
+                  {
+                   headers: {
+                     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                   },
+                 })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      getImileUserOrders();
+                          //  window.alert(response.data.data.message)
+                           console.log(response)
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    window.alert(error.response.data.msg.message)
+                  });
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button>}
+          </td> 
+              
+              
+            </tr>
+            )
+          }
+          )}
+           
+        </tbody>
+      </table>
+     </div> 
+     <div className="clients-table p-4 mt-4">
+     { userData.userData.data.user.rolle === "marketer"?(
+        <h5>شركة J&T</h5>):null}
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col"> الشركة</th>
+            <th scope="col">رقم الشحنة</th>
+            <th scope="col">السعر </th>
+            <th scope="col">رقم التتبع</th>
+            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+             <th scope="col">طرقة الدفع</th>
+             <th scope="col">التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
+
+             <th scope="col"></th>
+             <th scope="col"></th>
+           </tr>
+         </thead>
+       <tbody>
+       {jtAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return item.marktercode && item.marktercode.includes(search);
+  }).map((item,index) =>{
+            return(
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
+              <td>{index+1}</td>
+              <td>{item.company}</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.price}</td>
+              <td>{item.data?.data?.billCode}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
+              <td>{item.paytype}</td>
+              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              <td>
+        <button className="btn btn-success"  onClick={() => {
+          getJtSticker(item._id)
+      }}>عرض الاستيكر</button>
+      </td>
+       <td>
+        {item.status=== "canceled" ? 
+          <span className='text-center text-danger fw-bold'>Canceled</span>:
+        <button
+            className="btn btn-danger"
+            onClick={() => {
+              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+                const orderId= item._id;
+                axios
+                  .post(`https://dashboard.go-tex.net/api/jt/cancel-order`, { orderId },
                   {
                    headers: {
                      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
