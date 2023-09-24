@@ -916,7 +916,7 @@ export default function Shipments(userData) {
         </tbody>
       </table>
      </div> 
-     <div className="clients-table p-4 mt-4">
+     {/* <div className="clients-table p-4 mt-4">
      { userData.userData.data.user.rolle === "marketer"?(
         <h5>شركة J&T</h5>):null}
        <table className="table">
@@ -1003,7 +1003,7 @@ export default function Shipments(userData) {
         </tbody>
       </table>
      </div> 
-    
+     */}
     </div> 
       </>  
   )
