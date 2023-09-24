@@ -428,13 +428,16 @@ label{
   font-weight: 600;
 }
 /* start side navbar */
+html, body {
+  height: 100%;
+}
 #sidebar{
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: 280px;
-  /* height: 100% !important; */
+  height: 100% !important;
   /* background: #f2f2f2; */
   /* background: rgba(8, 204, 132, 0.4) ; */
   background:#D0F2CB
@@ -597,7 +600,7 @@ left: 0px;
   }
   #sidebar{
     width: 60px;
-    /* height: 100% !important; */
+    height: 100% !important;
   }
   #sidebar .side-menu li a{
     width: calc(48px - (4px * 2));
