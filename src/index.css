@@ -428,7 +428,8 @@ label{
   font-weight: 600;
 }
 /* start side navbar */
-html, body {
+html, body ,
+#root{
   height: 100%;
 }
 #sidebar{

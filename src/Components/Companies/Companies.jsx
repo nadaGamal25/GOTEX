@@ -163,7 +163,7 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              {/* <i class="fa-solid fa-star"></i> */}
               {/* <i class="fa-solid fa-star"></i> */}
               </div>
               {/* <div className="d-flex pt-4 justify-content-center">
