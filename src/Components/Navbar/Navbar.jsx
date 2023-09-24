@@ -269,7 +269,8 @@ export default function Navbar({userData ,logout}) {
         {/* <!-- end side navbar --> */}
     <section id="content">
         {/* <!--start navbar --> */}
-        <nav class="d-flex align-items-center">
+        <nav class="d-flex align-items-center" id='navb'>
+          <div className="w-280" ></div>
             <i class="fa-solid fa-bars" onClick={()=> setSideToggle(!sideToggle)}></i>
             
             

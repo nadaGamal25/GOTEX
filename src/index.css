@@ -432,11 +432,13 @@ label{
   position: fixed;
   top: 0;
   right: 0;
+  bottom: 0;
   width: 280px;
-  height: 100% !important;
+  /* height: 100% !important; */
   /* background: #f2f2f2; */
   /* background: rgba(8, 204, 132, 0.4) ; */
-  background:#9FBC9F  ;
+  background:#D0F2CB
+;
   z-index: 999;
   transition: all 0.3s ease;
   overflow-y: scroll;
@@ -451,7 +453,7 @@ label{
   border-radius: 20px;
 }
 #sidebar::-webkit-scrollbar-track{
-  background-color: #9FBC9F;
+  background-color: #D0F2CB;
 }
 #sidebar.hide{
   width: 60px;
@@ -565,6 +567,7 @@ label{
   width: calc(100% - 280px);
   transition: all 0.3s ease;
   right: 280px;
+  margin-top: 56px;
 }
 #sidebar.hide ~ #content{
   width: calc(100% - 60px);
@@ -594,7 +597,7 @@ left: 0px;
   }
   #sidebar{
     width: 60px;
-    height: 100% !important;
+    /* height: 100% !important; */
   }
   #sidebar .side-menu li a{
     width: calc(48px - (4px * 2));
@@ -617,20 +620,42 @@ left: 0px;
       width: calc(100% - 60px);
       right: 60px;
   }
+  /* nav{
+    width: calc(100% - 60px);
+    right: 60px;
+} */
   .fa-bars{
-    margin-right: auto;
+    margin-right: auto !important;
   }
 }
+.fa-bars{
+  /* margin-right: auto; */
+  margin-right: -30px; 
+}
 /* start navbar */
-nav{
+#navb{
   height: 56px;
   /* background-color: #f2f2f2; */
-  background-color: #9FBC9F;
-  padding: 0 24px;
+  background-color: #D0F2CB
+  ;
+  padding: 0 20px;
   grid-gap: 24px;
-  position: relative;
+  z-index: 99;
+  position: fixed;
+  left: 0;
+  top: 0;
+  /* width: calc(100% - 280px); */
+  right: 0;
 }
-nav::before{
+.w-280{
+  width: 280px;
+}
+
+/* #sidebar.hide ~ #navb{
+  width: calc(100% - 60px) !important;
+  right: 60px !important;
+} */
+/* nav::before{
   content: '';
   position: absolute;
   width: 40px ;
@@ -639,7 +664,7 @@ nav::before{
   left: 0;
   border-radius: 50%;
   box-shadow: -20 -20 0 var(--light);
-}
+} */
 nav a{
   color: var(--dark);
 }
