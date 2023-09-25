@@ -1117,7 +1117,7 @@ export default function SmsaShippments(userData) {
               <tr>
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
-               <th scope="col">رقم الشحنة</th>
+               <th scope="col">رقم البوليصة</th>
                <th scope="col">طريقة الدفع</th>
                <th scope="col">التاريخ </th>
                <th scope="col">id_الفاتورة</th>                
@@ -1130,7 +1130,7 @@ export default function SmsaShippments(userData) {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>{item.company}</td>
-        <td>{item.ordernumber}</td>
+        <td>{item.data.sawb}</td>
         <td>{item.paytype}</td>
         <td>{item.data.createDate.slice(0, 10)}</td>
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}

@@ -1104,6 +1104,7 @@ export default function AnwanShippments(userData) {
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
                <th scope="col">رقم الشحنة</th>
+               <th scope="col">رقم التتبع</th>
                <th scope="col">طريقة الدفع</th>
                <th scope="col">السعر </th>
                <th scope="col">id_الفاتورة</th>                
@@ -1119,6 +1120,7 @@ export default function AnwanShippments(userData) {
         <td>{index + 1}</td>
         <td>{item.company}</td>
         <td>{item.ordernumber}</td>
+        <td>{item.data.awb_no}</td>
         <td>{item.paytype}</td>
         <td>{item.price}</td>
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
