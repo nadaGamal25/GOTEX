@@ -52,7 +52,7 @@ export default function SmsaShippments(userData) {
     shipmentValue:'',
     markterCode:'',
     // clintid:'',
-    daftraid:'',
+    // daftraid:'',
 
   })
   const [error , setError]= useState('')
@@ -121,7 +121,7 @@ export default function SmsaShippments(userData) {
         p_ContactPhoneNumber: itemMobile,
         p_AddressLine1: itemAddress,
         // clintid: itemId,
-        daftraid:itemId,
+        // daftraid:itemId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -174,7 +174,7 @@ export default function SmsaShippments(userData) {
           shipmentValue:Joi.number().allow(null, ''),
           markterCode:Joi.string().allow(null, ''),
           // clintid:Joi.string().allow(null, ''),
-          daftraid:Joi.number().allow(null, ''),
+          // daftraid:Joi.number().allow(null, ''),
 
   
       });
@@ -199,7 +199,7 @@ export default function SmsaShippments(userData) {
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
+      const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -539,7 +539,7 @@ export default function SmsaShippments(userData) {
                      setSearchClients(searchValue);
                      // getOrderData(e)
                      const matchingClients = clients.filter((item) => {
-                       return searchValue === '' ? item : item.Client.first_name.toLowerCase().includes(searchValue.toLowerCase());
+                       return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
                      });
                  
                      if (matchingClients.length === 0) {
@@ -554,7 +554,7 @@ export default function SmsaShippments(userData) {
                        <ul  className='ul-cities ul-clients' ref={clientsListRef}>
                          
                        {clients && clients.filter((item)=>{
-                       return searchClients === ''? item : item.Client.first_name.toLowerCase().includes(searchClients.toLowerCase());
+                       return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
                         return(
                          <>
@@ -576,38 +576,38 @@ export default function SmsaShippments(userData) {
                        //     document.querySelector('input[name="p_City"]').value = selectedItem.city;
                        //     document.querySelector('input[name="p_AddressLine1"]').value = selectedItem.address;
                        
-                      //  setItemName(item.name);
-                      //  setItemMobile(item.mobile);
+                       setItemName(item.name);
+                       setItemMobile(item.mobile);
                       //  setItemCity(item.city);
-                      //  setItemAddress(item.address);
-                      //  setItemId(item._id);
-                      //  setPhoneValue(item.mobile);
-                      setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
-                      setItemMobile(item.Client.phone1);
-                      setItemCity(item.Client.city);
-                      setItemAddress(item.Client.address1);
-                      // setItemEmail(item.Client.email);
-                      setItemId(Number(item.Client.id));
-                      setPhoneValue(item.Client.phone1)
+                       setItemAddress(item.address);
+                       setItemId(item._id);
+                       setPhoneValue(item.mobile);
+                      // setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
+                      // setItemMobile(item.Client.phone1);
+                      // setItemCity(item.Client.city);
+                      // setItemAddress(item.Client.address1);
+                      // // setItemEmail(item.Client.email);
+                      // setItemId(Number(item.Client.id));
+                      // setPhoneValue(item.Client.phone1)
    
-                      //  document.querySelector('input[name="p_name"]').value = item.name;
-                      //  document.querySelector('input[name="p_ContactPhoneNumber"]').value = value;
+                       document.querySelector('input[name="p_name"]').value = item.name;
+                       document.querySelector('input[name="p_ContactPhoneNumber"]').value = value;
                       //  document.querySelector('input[name="p_City"]').value = item.city;
-                      //  document.querySelector('input[name="p_AddressLine1"]').value = item.address;
-                      document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+                       document.querySelector('input[name="p_AddressLine1"]').value = item.address;
+                      // document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
-                      document.querySelector('input[name="p_ContactPhoneNumber"]').value = value;
-                      document.querySelector('input[name="p_City"]').value = item.Client.city;
-                      document.querySelector('input[name="p_AddressLine1"]').value = item.Client.address1;
+                      // document.querySelector('input[name="p_ContactPhoneNumber"]').value = value;
+                      // document.querySelector('input[name="p_City"]').value = item.Client.city;
+                      // document.querySelector('input[name="p_AddressLine1"]').value = item.Client.address1;
   
                            document.querySelector('input[name="client"]').value = selectedCity;
                            // getOrderData(e)
                            closeClientsList();
                        }}
                          >
-                           {/* {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address} */}
+                           {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
 
-                           {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1}
+                           {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
                         </li>
                         </>
                         )
@@ -676,7 +676,7 @@ export default function SmsaShippments(userData) {
                 <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_City'
                 onChange={(e)=>{ 
-                  setItemCity(e.target.value);
+                  // setItemCity(e.target.value);
                   const searchValue = e.target.value;
                   setSearch(searchValue);
                   getOrderData(e)
