@@ -94,10 +94,7 @@ export default function ClientsAll() {
       const closeModal = () => {
         setIsModalOpen(false);
       };
-      const handleShowClick = (item) => {
-        const Data = encodeURIComponent(JSON.stringify(item));
-        window.open(`/EditClientModal?Data=${Data}`);
-      };
+      
       const [formData, setFormData] = useState({
         name: editedClient?.name || '',
         // Add other fields here with default values if needed
