@@ -284,7 +284,9 @@ export default function Companies(userData) {
                   <div key={index} className="d-flex pt-4 justify-content-between">
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
-                <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
+                {/* <Link className="btn btn-choose" onClick={openModal}>أختر</Link> */}
+                <Link to="/imileShippments" className="btn btn-choose">أختر</Link>
+
                   </div>
                 ) : null
                 ))}
