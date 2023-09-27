@@ -58,7 +58,7 @@ export default function AddClientAll() {
       console.error(error);
       setisLoading(false);
       const errorMessage = error.response?.data?.msg || "An error occurred.";
-      const errorMessage2 = error.response.data?.err?.message || " error .";
+      const errorMessage2 = error.response.data?.err?.message || " و يرجى عدم تكرار التسجيل بنفس البريد الالكترونى اكثر من مرة ";
       window.alert(`${errorMessage}  && ${errorMessage2}`);    }
   }
 
