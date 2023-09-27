@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export default function MarketerClients() {
+export default function ClientsAll() {
     useEffect(()=>{
         getClientsList()
       },[])
@@ -11,7 +11,7 @@ export default function MarketerClients() {
 
       async function getClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -67,11 +67,19 @@ export default function MarketerClients() {
       const handleDepositChange = (event) => {
         setDepositAmount(Number(event.target.value));
       };
-     
-      
+      const [search, setSearch]= useState('')
+
   return (
     <>
     <div className='p-5' id='content'>
+    <div className="search-box p-4 mt-2 row g-1">
+        <div className="col-md-2">
+        <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+        </div>
+        <div className="col-md-10">
+        <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' />
+        </div>
+      </div>
     <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
@@ -90,12 +98,14 @@ export default function MarketerClients() {
             {/* <th scope="col">id_العميل </th> */}
             <th scope="col">ملاحظات </th>
             {/* <th scope="col">id_الموظف </th> */}
-            <th></th>
+            {/* <th></th> */}
             
           </tr>
         </thead>
         <tbody>
-          {clients && clients.map((item,index) =>{
+          {clients && clients.filter((item)=>{
+          return search === ''? item : item.email.includes(search);
+          }).map((item,index) =>{
             return(
               <tr key={index}>
                 <td>{index+1}</td>
@@ -121,14 +131,14 @@ export default function MarketerClients() {
                 {/* {item.Client.staff_id?<td>{item.Client.staff_id}</td>:<td>_</td>} */}
                 {item.notes?<td>{item.notes}</td>:<td>_</td>}
 
-                <td>
+                {/* <td>
                 <button
                         className='sdd-deposite btn btn-success mt-2'
                         onClick={() => openModal(item._id)}
                       >
                         إضافة credit 
                       </button>
-              </td>
+              </td> */}
                 
               </tr>
             )
