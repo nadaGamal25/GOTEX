@@ -67,6 +67,9 @@ import ImileShippments from './Components/ImileShippments/ImileShippments';
 import JtEdit from './Components/JtEdit/JtEdit';
 import JtShippments from './Components/JtShippments/JtShippments';
 import PaymentOrders from './Components/PaymentOrders/PaymentOrders';
+import AddClientAll from './Components/AddClientAll/AddClientAll';
+import ClientsAll from './Components/ClientsAll/ClientsAll';
+import EditClientModal from './Components/EditClientModal/EditClientModal';
 
 function App() {
   
@@ -137,6 +140,9 @@ function App() {
       {path:'/imileShippments',element:<ErrorBoundary><ProtectedRoute userData={userData}><ImileShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/jtShippments',element:<ErrorBoundary><ProtectedRoute userData={userData}><JtShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/paymentOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><PaymentOrders userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/addClientAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddClientAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/clientsAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
       {path:'companiesAdmin',element:<ErrorBoundary><CompaniesAdmin userData={userData}/></ErrorBoundary>},

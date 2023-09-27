@@ -78,14 +78,18 @@ export default function MarketerClients() {
           <tr>
             <th scope="col">#</th>
             <th scope="col">العميل </th>
+            <th scope="col">الشركة </th>
             <th scope="col">الهاتف </th>
             <th scope="col">الايميل </th>
             <th scope="col">المدينة </th>
             <th scope="col">العنوان </th>
-            <th scope="col">عنوان اضافى </th>
+            <th scope="col">الشارع  </th>
+            <th scope="col">الفئة </th>
             <th scope="col"> credit  </th>
-            <th scope="col">id_العميل </th>
-            <th scope="col">id_الموظف </th>
+            <th scope="col">الشحنات </th>
+            {/* <th scope="col">id_العميل </th> */}
+            <th scope="col">ملاحظات </th>
+            {/* <th scope="col">id_الموظف </th> */}
             <th></th>
             
           </tr>
@@ -95,20 +99,32 @@ export default function MarketerClients() {
             return(
               <tr key={index}>
                 <td>{index+1}</td>
-                {item.Client?<td>{item.Client.first_name} {item.Client.last_name}</td>:<td>_</td>}
-                {item.Client.phone1?<td>{item.Client.phone1} ,<br/>
-                {item.Client.phone2} </td>:<td>_</td>}
-                {item.Client.email?<td>{item.Client.email}</td>:<td>_</td>}
-                {item.Client.city?<td>{item.Client.city}</td>:<td>_</td>}
-                {item.Client.address1?<td>{item.Client.address1}</td>:<td>_</td>}
-                {item.Client.address2?<td>{item.Client.address2}</td>:<td>_</td>}
-                {item.Client.credit_limit?<td>{item.Client.credit_limit}</td>:<td>_</td>}
-                {item.Client.id?<td>{item.Client.id}</td>:<td>_</td>}
-                {item.Client.staff_id?<td>{item.Client.staff_id}</td>:<td>_</td>}
+                {item.name?<td>{item.name}</td>:<td>_</td>}
+                {item.company?<td>{item.company}</td>:<td>_</td>}
+                {item.mobile?<td>{item.mobile} </td>:<td>_</td>}
+                {item.email?<td>{item.email}</td>:<td>_</td>}
+                {item.city?<td>{item.city}</td>:<td>_</td>}
+                {item.address?<td>{item.address}</td>:<td>_</td>}
+                {item.street?<td>{item.street}</td>:<td>_</td>}
+                {item.category?<td>{item.category}</td>:<td>_</td>}
+                {item.wallet?<td>{item.wallet}</td>:<td>_</td>}
+                {item.orders ? (
+          <td>
+            {item.orders.map((order) => (
+              <span key={order.id}>{order.company}, </span>
+            ))}
+          </td>
+        ) : (
+          <td>_</td>
+        )}
+                {/* {item.Client.id?<td>{item.Client.id}</td>:<td>_</td>} */}
+                {/* {item.Client.staff_id?<td>{item.Client.staff_id}</td>:<td>_</td>} */}
+                {item.notes?<td>{item.notes}</td>:<td>_</td>}
+
                 <td>
                 <button
                         className='sdd-deposite btn btn-success mt-2'
-                        onClick={() => openModal(item.Client.id)}
+                        onClick={() => openModal(item._id)}
                       >
                         إضافة credit 
                       </button>

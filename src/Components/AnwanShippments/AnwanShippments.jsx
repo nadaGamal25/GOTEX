@@ -52,7 +52,7 @@ export default function AnwanShippments(userData) {
       shipmentValue:'',
       markterCode:'',
       // clintid:'',
-      daftraid:'',
+      // daftraid:'',
   
     })
     const [error , setError]= useState('')
@@ -120,7 +120,7 @@ export default function AnwanShippments(userData) {
       s_phone: itemMobile,
       s_address: itemAddress,
       // clintid: itemId,
-      daftraid: itemId,
+      // daftraid: itemId,
       s_email: itemEmail,
     };
   } else {
@@ -174,7 +174,7 @@ export default function AnwanShippments(userData) {
             shipmentValue:Joi.number().allow(null, ''),  
             markterCode:Joi.string().allow(null, ''),
             // clintid:Joi.string().allow(null, ''),
-            daftraid:Joi.number().allow(null, ''),
+            // daftraid:Joi.number().allow(null, ''),
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
@@ -227,7 +227,7 @@ export default function AnwanShippments(userData) {
       const[clients,setClients]=useState([])
       async function getClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -545,7 +545,7 @@ export default function AnwanShippments(userData) {
                      setSearchClients(searchValue);
                      // getOrderData(e)
                      const matchingClients = clients.filter((item) => {
-                       return searchValue === '' ? item : item.Client.first_name.toLowerCase().includes(searchValue.toLowerCase());
+                       return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
                      });
                  
                      if (matchingClients.length === 0) {
@@ -560,7 +560,7 @@ export default function AnwanShippments(userData) {
                        <ul  className='ul-cities ul-clients' ref={clientsListRef}>
                          
                        {clients && clients.filter((item)=>{
-                       return searchClients === ''? item : item.Client.first_name.toLowerCase().includes(searchClients.toLowerCase());
+                       return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
                         return(
                          <>
@@ -568,42 +568,42 @@ export default function AnwanShippments(userData) {
                          onClick={(e)=>{ 
    
                            const selectedCity = e.target.innerText;
-                      //      setItemName(item.name);
-                      //  setItemMobile(item.mobile);
+                           setItemName(item.name);
+                       setItemMobile(item.mobile);
                       //  setItemCity(item.city);
-                      //  setItemAddress(item.address);
-                      //  setItemEmail(item.email);
-                      //  setItemId(item._id);
-                      //  setPhoneValue(item.mobile)
+                       setItemAddress(item.address);
+                       setItemEmail(item.email);
+                       setItemId(item._id);
+                       setPhoneValue(item.mobile)
                       // setItemName(item.Client.first_name && item.Client.last_name);
-                      setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
-                       setItemMobile(item.Client.phone1);
-                       setItemCity(item.Client.city);
-                       setItemAddress(item.Client.address1);
-                       setItemEmail(item.Client.email);
-                       setItemId(Number(item.Client.id));
-                       setPhoneValue(item.Client.phone1)
+                      // setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
+                      //  setItemMobile(item.Client.phone1);
+                      //  setItemCity(item.Client.city);
+                      //  setItemAddress(item.Client.address1);
+                      //  setItemEmail(item.Client.email);
+                      //  setItemId(Number(item.Client.id));
+                      //  setPhoneValue(item.Client.phone1)
                          
-                      //  document.querySelector('input[name="s_name"]').value = item.name;
-                      //  document.querySelector('input[name="s_phone"]').value = value;
+                       document.querySelector('input[name="s_name"]').value = item.name;
+                       document.querySelector('input[name="s_phone"]').value = value;
                       //  document.querySelector('input[name="s_city"]').value = item.city;
-                      //  document.querySelector('input[name="s_address"]').value = item.address;
-                      //  document.querySelector('input[name="s_email"]').value = item.email; 
+                       document.querySelector('input[name="s_address"]').value = item.address;
+                       document.querySelector('input[name="s_email"]').value = item.email; 
                       // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name;
-                      document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+                      // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
-                      document.querySelector('input[name="s_phone"]').value = value;
-                       document.querySelector('input[name="s_city"]').value = item.Client.city;
-                       document.querySelector('input[name="s_address"]').value = item.Client.address1;
-                       document.querySelector('input[name="s_email"]').value = item.Client.email;                    
+                      // document.querySelector('input[name="s_phone"]').value = value;
+                      //  document.querySelector('input[name="s_city"]').value = item.Client.city;
+                      //  document.querySelector('input[name="s_address"]').value = item.Client.address1;
+                      //  document.querySelector('input[name="s_email"]').value = item.Client.email;                    
    
                            document.querySelector('input[name="client"]').value = selectedCity;
                            // getOrderData(e)
                            closeClientsList();
                        }}
                          >
-                           {/* {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address} */}
-                           {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1}
+                           {item.name} , {item.company} , {item.email} , {item.mobile} , {item.city} , {item.address}
+                           {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
                         </li>
                         </>
                         )
@@ -687,7 +687,7 @@ export default function AnwanShippments(userData) {
                 <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='s_city'
                 onChange={(e)=>{ 
-                  setItemCity(e.target.value);
+                  // setItemCity(e.target.value);
 
                   const searchValue = e.target.value;
                   setSearch(searchValue);

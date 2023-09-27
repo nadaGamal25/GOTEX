@@ -177,16 +177,25 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
-            
             {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
-              <Link  to="/inviteLink">
-              <i class="fa-solid fa-link bx"></i>
-                  <span class="text"> إنشاء دعوة</span>
+              <Link  to="/addClientAll">
+              <i class="fa-solid fa-user-plus bx"></i>
+                  <span class="text">إضافة عميل </span>
               </Link>
           </li>
             ):null}
             {userData?.data?.user?.rolle === "marketer"?(
+              <li className=''>
+              <Link  to="/clientsAll">
+              <i class="fa-solid fa-users bx"></i>
+                  <span class="text"> العملاء </span>
+              </Link>
+          </li>
+            ):null}
+            
+            
+            {/* {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
               <Link  to="/addClientMarketer">
               <i class="fa-solid fa-user-plus bx"></i>
@@ -202,7 +211,7 @@ export default function Navbar({userData ,logout}) {
               </Link>
           </li>
 
-            ):null}
+            ):null} */}
             <li>
               <Link onClick={waitingAlert}>
               <i class="fa-solid fa-keyboard bx"></i>
@@ -219,7 +228,7 @@ export default function Navbar({userData ,logout}) {
             ):null} */}
 
 
-            {userData?.data?.user?.rolle === "marketer"?(
+            {/* {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
               <Link  to="/MArketerAddClient">
               <i class="fa-solid fa-user-plus bx"></i>
@@ -234,16 +243,23 @@ export default function Navbar({userData ,logout}) {
                   <span class="text"> العملاء (دفترة)</span>
               </Link>
           </li>
+            ):null} */}
+            {userData?.data?.user?.rolle === "marketer"?(
+              <li className=''>
+              <Link  to="/inviteLink">
+              <i class="fa-solid fa-link bx"></i>
+                  <span class="text"> إنشاء دعوة</span>
+              </Link>
+          </li>
             ):null}
-            
-             {userData?.data?.user?.rolle === "marketer"?(
+             {/* {userData?.data?.user?.rolle === "marketer"?(
             <li>
                 <Link to="/marketerEditClient">
                 <i class="fa-solid fa-user-pen bx"></i>
                       <span class="text">تعديل بيانات العميل</span>
                 </Link>
             </li>
-            ):null}
+            ):null} */}
             {userData?.data?.user?.rolle === "marketer"?(
             <li>
                 <Link to="/invocesMarkter">

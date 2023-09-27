@@ -76,6 +76,10 @@ body{
 .logo{
   width: 80px;
 }
+.modale{
+  width: 75%;
+  /* z-index: 999999; */
+}
 .p-footer{
   color: var(--dark--color);
 }

@@ -315,7 +315,7 @@ function validateOrderUserForm(){
 
       async function getimileClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/imile/get-all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -951,7 +951,7 @@ function validateOrderUserForm(){
           <div className="shipper-details brdr-grey p-3">
               <h3> </h3>
               
-              <div className='pb-1'>
+              <div className='pb-1 ul-box'>
               <label htmlFor="">  المرسل<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='p_company'  onChange={(e) => {
 //   setItemName(e.target.value);
@@ -976,7 +976,7 @@ function validateOrderUserForm(){
                 setSearch(searchValue);
                 getOrderData(e)
                 const matchingCities = imileclients.filter((item) => {
-                  return searchValue === '' ? item : item.contacts.toLowerCase().includes(searchValue.toLowerCase());
+                  return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
                 });
             
                 // if (matchingCities.length === 0) {
@@ -991,19 +991,19 @@ function validateOrderUserForm(){
                 {showCitiesList && (
                   <ul  className='ul-cities'>
                   {imileclients && imileclients.filter((item)=>{
-                  return search === ''? item : item.contacts.toLowerCase().includes(search.toLowerCase());
+                  return search === ''? item : item.name.toLowerCase().includes(search.toLowerCase());
                   }).map((item,index) =>{
                    return(
-                    <li key={index} name='p_company' 
+                    <li key={index} name='p_company'  
                     onClick={(e)=>{ 
-                      const selectedCity = item.companyName;
+                      const selectedCity = item.company;
                       setItemCity(selectedCity)
                       getOrderData({ target: { name: 'p_company', value: selectedCity } });
                       document.querySelector('input[name="p_company"]').value = selectedCity;
                       closeCitiesList();
                   }}
                     >
-                     <b>{item.companyName}</b> , <b>{item.contacts}</b> , {item.city} , {item.phone} , {item.email}
+                     <b>{item.company}</b> , <b>{item.name}</b> , {item.city} , {item.mobile} , {item.email}
                    </li>
                    )
                   }

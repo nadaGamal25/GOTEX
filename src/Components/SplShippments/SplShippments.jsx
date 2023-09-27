@@ -44,7 +44,7 @@ export default function SplShippments(userData) {
     Pieces: pieces, 
     markterCode:"", 
     // clintid:'',
-    daftraid:'',
+    // daftraid:'',
     shipmentValue:"",
   })
   const [error , setError]= useState('')
@@ -115,7 +115,7 @@ function getOrderData(e) {
         SenderMobileNumber: itemMobile,
         pickUpAddress1: itemAddress,
         // clintid: itemId,
-        daftraid:itemId,
+        // daftraid:itemId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -156,7 +156,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.number().allow(null, ''),
+        // daftraid:Joi.number().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -234,7 +234,7 @@ function validateOrderUserForm(){
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
+      const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -354,7 +354,7 @@ useEffect(() => {
                    setSearchClients(searchValue);
                    // getOrderData(e)
                    const matchingClients = clients.filter((item) => {
-                     return searchValue === '' ? item : item.Client.first_name.toLowerCase().includes(searchValue.toLowerCase());
+                     return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
                    });
                
                    if (matchingClients.length === 0) {
@@ -369,7 +369,7 @@ useEffect(() => {
                      <ul  className='ul-cities ul-clients' ref={clientsListRef}>
                        
                      {clients && clients.filter((item)=>{
-                     return searchClients === ''? item : item.Client.first_name.toLowerCase().includes(searchClients.toLowerCase());
+                     return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                      }).map((item,index) =>{
                       return(
                        <>
@@ -378,29 +378,29 @@ useEffect(() => {
  
                          const selectedCity = e.target.innerText;
  
-                        //  setItemName(item.name);
-                        //  setItemMobile(item.mobile);
+                         setItemName(item.name);
+                         setItemMobile(item.mobile);
                         //  setItemCity(item.city);
-                        //  setItemAddress(item.address);
-                        //  setItemId(item._id);
-                        //  setPhoneValue(item.mobile)
-                        setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
-                       setItemMobile(item.Client.phone1);
-                       setItemCity(item.Client.city);
-                       setItemAddress(item.Client.address1);
-                      //  setItemEmail(item.Client.email);
-                       setItemId(Number(item.Client.id));
-                       setPhoneValue(item.Client.phone1)
+                         setItemAddress(item.address);
+                         setItemId(item._id);
+                         setPhoneValue(item.mobile)
+                      //   setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
+                      //  setItemMobile(item.Client.phone1);
+                      //  setItemCity(item.Client.city);
+                      //  setItemAddress(item.Client.address1);
+                      // //  setItemEmail(item.Client.email);
+                      //  setItemId(Number(item.Client.id));
+                      //  setPhoneValue(item.Client.phone1)
                         
-                        //  document.querySelector('input[name="SenderName"]').value = item.name;
-                        //  document.querySelector('input[name="SenderMobileNumber"]').value = value;
+                         document.querySelector('input[name="SenderName"]').value = item.name;
+                         document.querySelector('input[name="SenderMobileNumber"]').value = value;
                         //  document.querySelector('input[name="pickUpDistrictID"]').value = item.city;
-                        //  document.querySelector('input[name="pickUpAddress1"]').value = item.address;
-                        document.querySelector('input[name="SenderName"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+                         document.querySelector('input[name="pickUpAddress1"]').value = item.address;
+                        // document.querySelector('input[name="SenderName"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
-                        document.querySelector('input[name="SenderMobileNumber"]').value = value;
-                        document.querySelector('input[name="pickUpDistrictID"]').value = item.Client.city;
-                        document.querySelector('input[name="pickUpAddress1"]').value = item.Client.address1;
+                        // document.querySelector('input[name="SenderMobileNumber"]').value = value;
+                        // document.querySelector('input[name="pickUpDistrictID"]').value = item.Client.city;
+                        // document.querySelector('input[name="pickUpAddress1"]').value = item.Client.address1;
     
                          
                          document.querySelector('input[name="client"]').value = selectedCity;
@@ -408,8 +408,8 @@ useEffect(() => {
                          closeClientsList();
                      }}
                        >
-                         {/* {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address} */}
-                         {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1}
+                         {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
+                         {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
 
                       </li>
                       </>
@@ -481,7 +481,7 @@ useEffect(() => {
               {/* <input type="text" className="form-control" name='pickUpDistrictID' onChange={getOrderData}/> */}
               <input type="text" className="form-control" name='pickUpDistrictID'
               onChange={(e)=>{ 
-                setItemCity(e.target.value);
+                // setItemCity(e.target.value);
                 const searchValue = e.target.value;
                 setSearch(searchValue);
                 getOrderData(e)

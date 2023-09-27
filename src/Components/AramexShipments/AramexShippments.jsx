@@ -47,7 +47,7 @@ export default function AramexShippments(userData) {
     markterCode:'',
     description:'',
     // clintid:'',
-    daftraid:'',
+    // daftraid:'',
 
   })
   const [error , setError]= useState('')
@@ -118,7 +118,7 @@ export default function AramexShippments(userData) {
         p_phone: itemMobile,
         p_line1: itemAddress,
         // clintid: itemId,
-        daftraid:itemId,
+        // daftraid:itemId,
         p_email:itemEmail};
     } else {
       myOrderData = { ...orderData };
@@ -176,7 +176,7 @@ export default function AramexShippments(userData) {
           markterCode:Joi.string().allow(null, ''),
           description: Joi.string().required(),
           // clintid:Joi.string().allow(null, ''),
-          daftraid:Joi.number().allow(null, ''),
+          // daftraid:Joi.number().allow(null, ''),
   
       });
       return scheme.validate(orderData, {abortEarly:false});
@@ -200,7 +200,7 @@ export default function AramexShippments(userData) {
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
+      const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -369,7 +369,7 @@ export default function AramexShippments(userData) {
                      setSearchClients(searchValue);
                      // getOrderData(e)
                      const matchingClients = clients.filter((item) => {
-                       return searchValue === '' ? item : item.Client.first_name.toLowerCase().includes(searchValue.toLowerCase());
+                       return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
                      });
                  
                      if (matchingClients.length === 0) {
@@ -384,7 +384,7 @@ export default function AramexShippments(userData) {
                        <ul  className='ul-cities ul-clients' ref={clientsListRef}>
                          
                        {clients && clients.filter((item)=>{
-                       return searchClients === ''? item : item.Client.first_name.toLowerCase().includes(searchClients.toLowerCase());
+                       return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
                        }).map((item,index) =>{
                         return(
                          <>
@@ -392,41 +392,41 @@ export default function AramexShippments(userData) {
                          onClick={(e)=>{ 
    
                            const selectedCity = e.target.innerText;
-                          //  setItemName(item.name);
-                          //  setItemMobile(item.mobile);
+                           setItemName(item.name);
+                           setItemMobile(item.mobile);
                           //  setItemCity(item.city);
-                          //  setItemAddress(item.address);
-                          //  setItemEmail(item.email);
-                          //  setItemId(item._id);
-                          //  setPhoneValue(item.mobile)
-                          setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
-                          setItemMobile(item.Client.phone1);
-                       setItemCity(item.Client.city);
-                       setItemAddress(item.Client.address1);
-                       setItemEmail(item.Client.email);
-                       setItemId(Number(item.Client.id));
-                       setPhoneValue(item.Client.phone1)
+                           setItemAddress(item.address);
+                           setItemEmail(item.email);
+                           setItemId(item._id);
+                           setPhoneValue(item.mobile)
+                      //     setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
+                      //     setItemMobile(item.Client.phone1);
+                      //  setItemCity(item.Client.city);
+                      //  setItemAddress(item.Client.address1);
+                      //  setItemEmail(item.Client.email);
+                      //  setItemId(Number(item.Client.id));
+                      //  setPhoneValue(item.Client.phone1)
                          
                          
-                      //  document.querySelector('input[name="p_name"]').value = item.name;
-                      //  document.querySelector('input[name="p_phone"]').value = value;
+                       document.querySelector('input[name="p_name"]').value = item.name;
+                       document.querySelector('input[name="p_phone"]').value = value;
                       //  document.querySelector('input[name="p_city"]').value = item.city;
-                      //  document.querySelector('input[name="p_line1"]').value = item.address;
-                      //  document.querySelector('input[name="p_email"]').value = item.email;                    
-                      document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+                       document.querySelector('input[name="p_line1"]').value = item.address;
+                       document.querySelector('input[name="p_email"]').value = item.email;                    
+                      // document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
-                      document.querySelector('input[name="p_phone"]').value = value;
-                      document.querySelector('input[name="p_city"]').value = item.Client.city;
-                      document.querySelector('input[name="p_line1"]').value = item.Client.address1;
-                      document.querySelector('input[name="p_email"]').value = item.Client.email;                    
+                      // document.querySelector('input[name="p_phone"]').value = value;
+                      // document.querySelector('input[name="p_city"]').value = item.Client.city;
+                      // document.querySelector('input[name="p_line1"]').value = item.Client.address1;
+                      // document.querySelector('input[name="p_email"]').value = item.Client.email;                    
   
                            document.querySelector('input[name="client"]').value = selectedCity;
                            // getOrderData(e)
                            closeClientsList();
                        }}
                          >
-                           {/* {item.name} , {item.email} , {item.mobile} , {item.city} , {item.address} */}
-                           {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1}
+                           {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
+                           {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
 
                         </li>
                         </>
@@ -556,7 +556,7 @@ export default function AramexShippments(userData) {
                 <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_city'
                 onChange={(e)=>{ 
-                  setItemCity(e.target.value);
+                  // setItemCity(e.target.value);
                   const searchValue = e.target.value;
                   setSearch(searchValue);
                   getOrderData(e)
