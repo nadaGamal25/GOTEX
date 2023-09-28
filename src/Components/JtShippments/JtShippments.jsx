@@ -1271,7 +1271,7 @@ useEffect(() => {
 'وابرة',
 'وادي الدواسر',
 'واسط',
-'وشي'
+'وشي',
 
     ]
 
@@ -1416,46 +1416,47 @@ useEffect(() => {
           <div className='pb-1 ul-box'>
               <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='s_city' onChange={getOrderData}/> */}
-              <input type="text" className="form-control" name='s_city'
-              onChange={(e)=>{ 
-                setItemCity(e.target.value);
-                const searchValue = e.target.value;
-                setSearch(searchValue);
-                getOrderData(e)
-                const matchingCities = cities.filter((item) => {
-                  return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
-                });
-            
-                if (matchingCities.length === 0) {
-                  closeCitiesList();
-                } else {
+              <input type="text" className="form-control" name='s_city' onClick={openCitiesList}
+
+                onChange={(e)=>{
+                  // setItemCity(e.target.value);
                   openCitiesList();
-                }
-                }}
-                onClick={openCitiesList}
-                />
-                {showCitiesList && (
-                  <ul  className='ul-cities'ref={citiesListRef}>
-                  {cities && cities.filter((item)=>{
-                  return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
-                  }).map((item,index) =>{
-                   return(
-                    <li key={index} name='s_city' 
-                    onClick={(e)=>{ 
-                      const selectedCity = e.target.innerText;
-                      setItemCity(selectedCity)
-                      getOrderData({ target: { name: 's_city', value: selectedCity } });
-                      document.querySelector('input[name="s_city"]').value = selectedCity;
-                      closeCitiesList();
+                  const searchValue = e.target.value;
+                  setSearch(searchValue);
+                  getOrderData(e)
+                  const matchingCities = cities.filter((item) => {
+                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+                  });
+              
+                  // if (matchingCities.length === 0) {
+                  //   closeCitiesList();
+                  // } else {
+                    openCitiesList();
+                  // }
                   }}
-                    >
-                      {item}
-                   </li>
-                   )
-                  }
+                  />
+                  {showCitiesList && (
+                    <ul  className='ul-cities' ref={citiesListRef}>  
+                    {cities && cities.filter((item)=>{
+                    return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
+                    }).map((item,index) =>{
+                     return(
+                      <li key={index} name='s_city' 
+                      onClick={(e)=>{ 
+                        const selectedCity = e.target.innerText;
+                        setItemCity(selectedCity)
+                        getOrderData({ target: { name: 's_city', value: selectedCity } });
+                        document.querySelector('input[name="s_city"]').value = selectedCity;
+                        closeCitiesList();
+                    }}
+                      >
+                        {item}
+                     </li>
+                     )
+                    }
+                    )}
+                    </ul>
                   )}
-                  </ul>
-                )}
                
              
               {errorList.map((err,index)=>{
@@ -1705,11 +1706,11 @@ useEffect(() => {
                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
                  });
              
-                 if (matchingCities.length === 0) {
-                   closeCitiesList2();
-                 } else {
+                //  if (matchingCities.length === 0) {
+                //    closeCitiesList2();
+                //  } else {
                    openCitiesList2();
-                 }
+                //  }
                  }}
                  onClick={openCitiesList2}
                  />
