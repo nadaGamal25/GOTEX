@@ -8,20 +8,20 @@ export default function NavAdmin({userData ,logout}) {
     
     const [sideToggle ,setSideToggle]=useState(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setSideToggle(true);
-      } else {
-        setSideToggle(false);
-      }
-    };
+//   useEffect(() => {
+//     const handleResize = () => {
+//       if (window.innerWidth < 768) {
+//         setSideToggle(true);
+//       } else {
+//         setSideToggle(false);
+//       }
+//     };
 
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+//     window.addEventListener('resize', handleResize);
+//     return () => {
+//       window.removeEventListener('resize', handleResize);
+//     };
+//   }, []);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -135,7 +135,8 @@ export default function NavAdmin({userData ,logout}) {
         {/* <!-- end side navbar --> */}
     <section id="content">
         {/* <!--start navbar --> */}
-        <nav class="d-flex align-items-center">
+        <nav class="d-flex align-items-center" id='navb'>
+          <div className="w-280" ></div>
             <i class="fa-solid fa-bars" onClick={()=> setSideToggle(!sideToggle)}></i>
             
             
