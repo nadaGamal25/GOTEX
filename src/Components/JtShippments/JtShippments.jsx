@@ -92,7 +92,6 @@ export default function JtShippments(userData) {
         console.log(response.data);
       }
     } catch (error) {
-      // Handle error
       console.error(error);
       setisLoading(false);
       const errorMessage = error.response?.data?.data?.Message || "An error occurred.";

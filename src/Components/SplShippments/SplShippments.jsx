@@ -920,7 +920,6 @@ useEffect(() => {
 
        </table>
       </div>
-      {/* {showsticker&& Array.isArray(shipments) && shipments.map((item, index) =>
-    <SplSticker key={index} item={item}/>)} */}
+      
   </div>  )
 }

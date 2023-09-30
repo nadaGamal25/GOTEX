@@ -89,7 +89,6 @@ export default function ImileShippments(userData) {
         console.log(response.data);
       }
     } catch (error) {
-      // Handle error
       console.error(error);
       setisLoading(false);
       const errorMessage = error.response?.data?.msg?.message || "An error occurred.";
@@ -270,16 +269,11 @@ function validateOrderUserForm(){
       console.error(error);
     }
   }
-  // const base64String = tbase64String ; // Replace with your actual base64 string
 
   function openBase64PDFInNewWindow(base64String) {
-    // Create a new Blob with the base64 data and a PDF content type
     const blob = new Blob([base64String], { type: 'application/pdf' });
 
-    // Create a URL for the Blob
     const pdfUrl = URL.createObjectURL(blob);
-
-    // Open the PDF in a new browser window
     // window.open(pdfUrl);
     const stickerUrl = `https://dashboard.go-tex.net/api/${pdfUrl}`;
       const newTab = window.open();
@@ -287,22 +281,16 @@ function validateOrderUserForm(){
   }
 
   function convertBase64ToPDF(base64String, filename) {
-    // Decode the base64 string
     const byteCharacters = atob(base64String);
-  
-    // Convert the binary data to an array buffer
-    const byteArray = new Uint8Array(byteCharacters.length);
+      const byteArray = new Uint8Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteArray[i] = byteCharacters.charCodeAt(i);
     }
   
-    // Create a Blob from the array buffer
     const blob = new Blob([byteArray], { type: 'application/pdf' });
-  
-    // Use file-saver to save the Blob as a PDF file
-    saveAs(blob, filename);
+      saveAs(blob, filename);
   }
-    const filename = 'sticker.pdf'; // Replace with your desired filename
+    const filename = 'sticker.pdf'; 
   
     function handleConvertAndDownload(base64String) {
       convertBase64ToPDF(base64String, filename);
@@ -1455,7 +1443,6 @@ function validateOrderUserForm(){
           </thead>
           <tbody>
 {Array.isArray(shipments) && shipments.map((item, index) => {
-  // const bs =item.data.data.imileAwb
   return (
     <tr key={index}>
       <td>{index + 1}</td>
@@ -1464,9 +1451,7 @@ function validateOrderUserForm(){
       <td>{item.price}</td>
       <td>
         <button className="btn btn-success"  onClick={() => {
-        //  setbase64String(bs)
         handleConvertAndDownload(item.data.data.imileAwb)
-        // openBase64PDFInNewWindow(item.data.data.imileAwb)
       }}>تحميل الاستيكر</button>
       </td>
       {/* <td>{item.data.Items[0].Barcode}</td>
