@@ -452,7 +452,7 @@ export default function AramexShippments(userData) {
             <div className="prices-box text-center">
             {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
-                item.name === "glt" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
+                item.name === "aramex" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
                 null))}
           </div>
           ): null}
@@ -1020,8 +1020,8 @@ export default function AramexShippments(userData) {
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
                <th scope="col">id_الشحنة </th>
-               <th scope="col">عدد القطع </th>
-               <th scope="col">id_الفاتورة</th>                
+{/*                <th scope="col">عدد القطع </th>
+               <th scope="col">id_الفاتورة</th>                 */}
                {/* <th scope="col">السعر </th>
                 <th scope="col">message</th> */}
                 <th></th>
@@ -1033,9 +1033,9 @@ export default function AramexShippments(userData) {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>aramex</td>
-        {item?.data.Shipments[0]?.ID?(<td>{item.data.Shipments[0].ID}</td>):(<td>_</td>)}
+{/*         {item?.data.Shipments[0]?.ID?(<td>{item.data.Shipments[0].ID}</td>):(<td>_</td>)}
         {item?.data.Shipments[0]?.ShipmentDetails?.NumberOfPieces?
-        (<td>{item.data.Shipments[0].ShipmentDetails.NumberOfPieces}</td>):(<td>_</td>)}
+        (<td>{item.data.Shipments[0].ShipmentDetails.NumberOfPieces}</td>):(<td>_</td>)} */}
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
         {/* {item?.Shipments[0]?.ShipmentLabel?.LabelURL?(<td>
                 <a href={item.Shipments[0].ShipmentLabel.LabelURL}
