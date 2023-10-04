@@ -1019,9 +1019,9 @@ export default function AramexShippments(userData) {
               <tr>
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
-               <th scope="col">id_الشحنة </th>
-{/*                <th scope="col">عدد القطع </th>
-               <th scope="col">id_الفاتورة</th>                 */}
+{/*                <th scope="col">id_الشحنة </th>
+               <th scope="col">عدد القطع </th> */}
+               <th scope="col">id_الفاتورة</th>                
                {/* <th scope="col">السعر </th>
                 <th scope="col">message</th> */}
                 <th></th>
