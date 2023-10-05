@@ -32,7 +32,7 @@ export default function SaeeShipments(userData) {
     shipmentValue:'',
     markterCode:'',
     // clintid:'',
-    // daftraid:'',
+    daftraid:'',
     description:'',
   })
   const [error , setError]= useState('')
@@ -98,7 +98,7 @@ function getOrderData(e) {
         p_mobile: itemMobile,
         p_streetaddress: itemAddress,
         // clintid: itemId,
-        // daftraid:itemId,
+        daftraid:itemId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -152,7 +152,7 @@ function getOrderData(e) {
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
-        // daftraid:Joi.number().allow(null, ''),
+        daftraid:Joi.number().allow(null, ''),
         description:Joi.string().required(),
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -227,6 +227,21 @@ function getOrderData(e) {
       newWindow.document.open();
       newWindow.document.write(sticker);
       newWindow.document.close();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function getInvoice(daftraId) {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+           console.log(response)
+      const stickerUrl = `${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
     } catch (error) {
       console.error(error);
     }
@@ -365,7 +380,7 @@ function getOrderData(e) {
                            setItemMobile(item.mobile);
                           //  setItemCity(item.city);
                            setItemAddress(item.address);
-                           setItemId(item._id);
+                           setItemId(item.daftraClientId);
                            setPhoneValue(item.mobile)
 
                           //  setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
@@ -831,6 +846,13 @@ function getOrderData(e) {
       عرض الاستيكر
     </button>
                 </td>
+                {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
       </tr>
     );
   })}

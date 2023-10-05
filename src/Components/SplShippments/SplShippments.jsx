@@ -44,7 +44,7 @@ export default function SplShippments(userData) {
     Pieces: pieces, 
     markterCode:"", 
     // clintid:'',
-    // daftraid:'',
+    daftraid:'',
     shipmentValue:"",
   })
   const [error , setError]= useState('')
@@ -115,7 +115,7 @@ function getOrderData(e) {
         SenderMobileNumber: itemMobile,
         pickUpAddress1: itemAddress,
         // clintid: itemId,
-        // daftraid:itemId,
+        daftraid:itemId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -156,7 +156,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
-        // daftraid:Joi.number().allow(null, ''),
+        daftraid:Joi.number().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -243,6 +243,22 @@ function validateOrderUserForm(){
       const List = response.data.data;
       console.log(List)
       setClients(List)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getInvoice(daftraId) {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+           console.log(response)
+      const stickerUrl = `${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
     } catch (error) {
       console.error(error);
     }
@@ -382,7 +398,7 @@ useEffect(() => {
                          setItemMobile(item.mobile);
                         //  setItemCity(item.city);
                          setItemAddress(item.address);
-                         setItemId(item._id);
+                         setItemId(item.daftraClientId);
                          setPhoneValue(item.mobile)
                       //   setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       //  setItemMobile(item.Client.phone1);
@@ -879,6 +895,7 @@ useEffect(() => {
               <th scope="col">message</th>
               <th scope="col">id_الفاتورة</th>                
               <th scope="col"></th>
+              <th scope="col"></th>
               
             </tr>
           </thead>
@@ -902,6 +919,13 @@ useEffect(() => {
 >
   عرض الاستيكر
 </button>
+{item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
 
               {/* <button
               onClick={()=> setshowsticker(true)}
@@ -912,6 +936,7 @@ useEffect(() => {
     عرض الاستيكر
   </button> */}
               </td>
+             
     </tr>
   );
 })}

@@ -115,13 +115,13 @@ function getOrderData(e) {
   let myOrderData;
 
     if (userData.userData.data.user.rolle === "marketer") {
-      myOrderData = { ...orderData
-        // , SenderName: itemName,
+      myOrderData = { ...orderData,
+        //  SenderName: itemName,
         // pickUpDistrictID: itemCity,
         // SenderMobileNumber: itemMobile,
         // pickUpAddress1: itemAddress,
         // // clintid: itemId,
-        // daftraid:itemId,
+        daftraid:itemId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -167,7 +167,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.number().allow(null, ''),
+        daftraid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -834,6 +834,21 @@ function validateOrderUserForm(){
             window.removeEventListener('click', handleOutsideClick);
           };
         }, [showCitiesList2]);
+        async function getInvoice(daftraId) {
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            });
+                 console.log(response)
+            const stickerUrl = `${response.data.data}`;
+            const newTab = window.open();
+            newTab.location.href = stickerUrl;
+          } catch (error) {
+            console.error(error);
+          }
+        }
   return (
     <>
      <div className='p-4' id='content'>
@@ -984,6 +999,7 @@ function validateOrderUserForm(){
                    return(
                     <li key={index} name='p_company'  
                     onClick={(e)=>{ 
+                      setItemId(item.daftraClientId);
                       const selectedCity = item.company;
                       setItemCity(selectedCity)
                       getOrderData({ target: { name: 'p_company', value: selectedCity } });
@@ -1438,6 +1454,7 @@ function validateOrderUserForm(){
             <th scope="col">السعر</th>
               {/* <th scope="col">id_الفاتورة</th>                 */}
               <th scope="col"></th>
+              <th></th>
               
             </tr>
           </thead>
@@ -1454,6 +1471,13 @@ function validateOrderUserForm(){
         handleConvertAndDownload(item.data.data.imileAwb)
       }}>تحميل الاستيكر</button>
       </td>
+      {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
       {/* <td>{item.data.Items[0].Barcode}</td>
       <td>{item.data.Message}</td>
       {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}

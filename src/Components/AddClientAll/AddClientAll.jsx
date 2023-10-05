@@ -100,16 +100,16 @@ function getData(e) {
     let scheme= Joi.object({
         first_name:Joi.string().required(),
         last_name:Joi.string().required(),
-        company:Joi.string().required(),
-        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
+        company:Joi.string().allow(null, ''),
+        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).allow(null, ''),
         mobile:Joi.string().required(),
         city:Joi.string().required(),
         address:Joi.string().required(),
         state:Joi.string().required(),
         street:Joi.string().required(),
-        category:Joi.string().required(),
-        notes:Joi.string().required(),
-        birth_date:Joi.date().required(),        
+        category:Joi.string().allow(null, ''),
+        notes:Joi.string().allow(null, ''),
+        birth_date:Joi.date().allow(null, ''),       
     });
     return scheme.validate(clientData, {abortEarly:false});
   } 
@@ -617,7 +617,7 @@ function getData(e) {
         <form onSubmit={submitForm} className='my-3' action="">
             <div className="row">
                 <div className="col-md-6 pb-3">
-        <label htmlFor="first_name">الاسم الاول  :</label>
+        <label htmlFor="first_name">الاسم الاول  :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='first_name' />
       
       {errorList.map((err,index)=>{
@@ -628,7 +628,7 @@ function getData(e) {
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="last_name">اسم العائلة   :</label>
+        <label htmlFor="last_name">اسم العائلة   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='last_name' />
       
       {errorList.map((err,index)=>{
@@ -659,7 +659,7 @@ function getData(e) {
     })}
     </div>
     <div className="col-md-6 pb-3">
-    <label htmlFor="mobile">رقم الهاتف</label>
+    <label htmlFor="mobile">رقم الهاتف: <span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='mobile' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput my-2' value={value}
@@ -734,7 +734,7 @@ function getData(e) {
     })}
             </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="state">المنطقة   :</label>
+        <label htmlFor="state">المنطقة   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='state' />
       
       {errorList.map((err,index)=>{
@@ -746,7 +746,7 @@ function getData(e) {
     </div>
     
     <div className="col-md-6 pb-3">
-        <label htmlFor="address">العنوان   :</label>
+        <label htmlFor="address">العنوان   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='address' />
       
       {errorList.map((err,index)=>{
@@ -757,7 +757,7 @@ function getData(e) {
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="street">الشارع   :</label>
+        <label htmlFor="street">الشارع   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='street' />
       
       {errorList.map((err,index)=>{
