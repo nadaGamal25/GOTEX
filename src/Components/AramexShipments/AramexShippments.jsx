@@ -1033,7 +1033,11 @@ export default function AramexShippments(userData) {
               <tr>
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
+<<<<<<< HEAD
                {/* <th scope="col">id_الشحنة </th>
+=======
+{/*                <th scope="col">id_الشحنة </th>
+>>>>>>> f6ce8b13d8e894cf2afacb0ee35d68b957678175
                <th scope="col">عدد القطع </th> */}
                <th scope="col">id_الفاتورة</th>                
                {/* <th scope="col">السعر </th>
@@ -1048,7 +1052,11 @@ export default function AramexShippments(userData) {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>aramex</td>
+<<<<<<< HEAD
         {/* {item?.data.Shipments[0]?.ID?(<td>{item.data.Shipments[0].ID}</td>):(<td>_</td>)}
+=======
+{/*         {item?.data.Shipments[0]?.ID?(<td>{item.data.Shipments[0].ID}</td>):(<td>_</td>)}
+>>>>>>> f6ce8b13d8e894cf2afacb0ee35d68b957678175
         {item?.data.Shipments[0]?.ShipmentDetails?.NumberOfPieces?
         (<td>{item.data.Shipments[0].ShipmentDetails.NumberOfPieces}</td>):(<td>_</td>)} */}
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
