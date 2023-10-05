@@ -52,7 +52,7 @@ export default function AnwanShippments(userData) {
       shipmentValue:'',
       markterCode:'',
       // clintid:'',
-      // daftraid:'',
+      daftraid:'',
   
     })
     const [error , setError]= useState('')
@@ -120,7 +120,7 @@ export default function AnwanShippments(userData) {
       s_phone: itemMobile,
       s_address: itemAddress,
       // clintid: itemId,
-      // daftraid: itemId,
+      daftraid: itemId,
       s_email: itemEmail,
     };
   } else {
@@ -174,7 +174,7 @@ export default function AnwanShippments(userData) {
             shipmentValue:Joi.number().allow(null, ''),  
             markterCode:Joi.string().allow(null, ''),
             // clintid:Joi.string().allow(null, ''),
-            // daftraid:Joi.number().allow(null, ''),
+            daftraid:Joi.string().allow(null, ''),
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
@@ -466,6 +466,21 @@ export default function AnwanShippments(userData) {
             console.error(error);
           }
         }
+        async function getInvoice(daftraId) {
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            });
+                 console.log(response)
+            const stickerUrl = `${response.data.data}`;
+            const newTab = window.open();
+            newTab.location.href = stickerUrl;
+          } catch (error) {
+            console.error(error);
+          }
+        }
 
         const citiesListRef = useRef(null);
 
@@ -573,7 +588,7 @@ export default function AnwanShippments(userData) {
                       //  setItemCity(item.city);
                        setItemAddress(item.address);
                        setItemEmail(item.email);
-                       setItemId(item._id);
+                       setItemId(item.daftraClientId);
                        setPhoneValue(item.mobile)
                       // setItemName(item.Client.first_name && item.Client.last_name);
                       // setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
@@ -628,7 +643,7 @@ export default function AnwanShippments(userData) {
             <div className="prices-box text-center">
             {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
-                item.name === "glt" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
+                item.name === "anwan" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
                 null))}
           </div>
           ): null}
@@ -1104,7 +1119,7 @@ export default function AnwanShippments(userData) {
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
                <th scope="col">رقم الشحنة</th>
-               <th scope="col">رقم التتبع</th>
+               <th scope="col">رقم التتبع </th>
                <th scope="col">طريقة الدفع</th>
                <th scope="col">السعر </th>
                <th scope="col">id_الفاتورة</th>                
@@ -1127,12 +1142,20 @@ export default function AnwanShippments(userData) {
         <td>
                 <button
       
-      className="glt-btn btn btn-success"
+      className="btn btn-success"
       onClick={() => getGotexSticker(item._id)}
     >
       عرض الاستيكر
     </button>
                 </td>
+        {/* {item.inovicedaftra?.id?(<td></td>):(<td>_</td>)} */}
+        {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
       </tr>
     );
   })}

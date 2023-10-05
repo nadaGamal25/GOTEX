@@ -384,6 +384,22 @@ export default function Shipments(userData) {
           // newTab.location.href = stickerUrl;
         } 
         const [canceled , setcanceled] = useState(false)
+
+        async function getInvoice(daftraId) {
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            });
+                 console.log(response)
+            const stickerUrl = `${response.data.data}`;
+            const newTab = window.open();
+            newTab.location.href = stickerUrl;
+          } catch (error) {
+            console.error(error);
+          }
+        }
   return (
     <>
     
@@ -424,6 +440,7 @@ export default function Shipments(userData) {
              <th scope="col">id_الفاتورة</th>                
 
              <th scope="col"></th>
+             <th scope="col"></th>
            </tr>
          </thead>
        <tbody>
@@ -458,6 +475,14 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
+             
               {/* <td>
                 <button
                       className="btn btn-info text-white"
@@ -495,6 +520,7 @@ export default function Shipments(userData) {
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -539,6 +565,13 @@ export default function Shipments(userData) {
                       تتبع الشحنة
                     </a>
               </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
               <td >
                 
                 {item.status=== "canceled" ?
@@ -659,7 +692,7 @@ export default function Shipments(userData) {
              <th scope="col">id_الفاتورة</th>                
              {/* <th scope="col">Tracking_Number</th> */}
              <th scope="col"></th>
-             {/* <th scope="col"></th> */}
+             <th scope="col"></th>
            </tr>
          </thead>
        <tbody>
@@ -693,6 +726,13 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
               {/* <td>
                 <button
                       className="btn btn-info text-white"
@@ -725,7 +765,7 @@ export default function Shipments(userData) {
              <th scope="col">id_الفاتورة</th>                
 
              <th scope="col"></th>
-             {/* <th scope="col"></th> */}
+             <th scope="col"></th>
            </tr>
          </thead>
        <tbody>
@@ -757,6 +797,13 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
               
             </tr>
             )
@@ -784,7 +831,7 @@ export default function Shipments(userData) {
              <th scope="col">id_الفاتورة</th>                
 
              <th scope="col"></th>
-             {/* <th scope="col"></th> */}
+             <th scope="col"></th>
            </tr>
          </thead>
        <tbody>
@@ -817,6 +864,13 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
               
             </tr>
             )
@@ -845,6 +899,7 @@ export default function Shipments(userData) {
 
              <th scope="col"></th>
              <th scope="col"></th>
+             <th></th>
            </tr>
          </thead>
        <tbody>
@@ -874,6 +929,13 @@ export default function Shipments(userData) {
         // openBase64PDFInNewWindow(item.data.data.imileAwb)
       }}>تحميل الاستيكر</button>
       </td>
+      {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
        <td>
         {item.status=== "canceled" ? 
           <span className='text-center text-danger fw-bold'>Canceled</span>:
@@ -916,7 +978,7 @@ export default function Shipments(userData) {
         </tbody>
       </table>
      </div> 
-     <div className="clients-table p-4 mt-4">
+     {/* <div className="clients-table p-4 mt-4">
      { userData.userData.data.user.rolle === "marketer"?(
         <h5>شركة J&T</h5>):null}
        <table className="table">
@@ -961,6 +1023,13 @@ export default function Shipments(userData) {
           getJtSticker(item._id)
       }}>عرض الاستيكر</button>
       </td>
+      {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
        <td>
         {item.status=== "canceled" ? 
           <span className='text-center text-danger fw-bold'>Canceled</span>:
@@ -1003,7 +1072,7 @@ export default function Shipments(userData) {
         </tbody>
       </table>
      </div> 
-    
+     */}
     </div> 
       </>  
   )

@@ -47,7 +47,7 @@ export default function AramexShippments(userData) {
     markterCode:'',
     description:'',
     // clintid:'',
-    // daftraid:'',
+    daftraid:'',
 
   })
   const [error , setError]= useState('')
@@ -118,7 +118,7 @@ export default function AramexShippments(userData) {
         p_phone: itemMobile,
         p_line1: itemAddress,
         // clintid: itemId,
-        // daftraid:itemId,
+        daftraid:itemId,
         p_email:itemEmail};
     } else {
       myOrderData = { ...orderData };
@@ -176,7 +176,7 @@ export default function AramexShippments(userData) {
           markterCode:Joi.string().allow(null, ''),
           description: Joi.string().required(),
           // clintid:Joi.string().allow(null, ''),
-          // daftraid:Joi.number().allow(null, ''),
+          daftraid:Joi.number().allow(null, ''),
   
       });
       return scheme.validate(orderData, {abortEarly:false});
@@ -275,7 +275,21 @@ export default function AramexShippments(userData) {
       console.error(error);
     }
   }
-
+  async function getInvoice(daftraId) {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+           console.log(response)
+      const stickerUrl = `${response.data.data}`;
+      const newTab = window.open();
+      newTab.location.href = stickerUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  }
   
   const citiesListRef = useRef(null);
 
@@ -397,7 +411,7 @@ export default function AramexShippments(userData) {
                           //  setItemCity(item.city);
                            setItemAddress(item.address);
                            setItemEmail(item.email);
-                           setItemId(item._id);
+                           setItemId(item.daftraClientId);
                            setPhoneValue(item.mobile)
                       //     setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       //     setItemMobile(item.Client.phone1);
@@ -452,7 +466,7 @@ export default function AramexShippments(userData) {
             <div className="prices-box text-center">
             {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
-                item.name === "glt" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
+                item.name === "aramex" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
                 null))}
           </div>
           ): null}
@@ -1019,11 +1033,12 @@ export default function AramexShippments(userData) {
               <tr>
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
-               <th scope="col">id_الشحنة </th>
-               <th scope="col">عدد القطع </th>
+{/*                <th scope="col">id_الشحنة </th>
+               <th scope="col">عدد القطع </th> */}
                <th scope="col">id_الفاتورة</th>                
                {/* <th scope="col">السعر </th>
                 <th scope="col">message</th> */}
+                <th></th>
                 <th></th>
               </tr>
             </thead>
@@ -1033,9 +1048,9 @@ export default function AramexShippments(userData) {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>aramex</td>
-        {item?.data.Shipments[0]?.ID?(<td>{item.data.Shipments[0].ID}</td>):(<td>_</td>)}
+{/*         {item?.data.Shipments[0]?.ID?(<td>{item.data.Shipments[0].ID}</td>):(<td>_</td>)}
         {item?.data.Shipments[0]?.ShipmentDetails?.NumberOfPieces?
-        (<td>{item.data.Shipments[0].ShipmentDetails.NumberOfPieces}</td>):(<td>_</td>)}
+        (<td>{item.data.Shipments[0].ShipmentDetails.NumberOfPieces}</td>):(<td>_</td>)} */}
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
         {/* {item?.Shipments[0]?.ShipmentLabel?.LabelURL?(<td>
                 <a href={item.Shipments[0].ShipmentLabel.LabelURL}
@@ -1054,6 +1069,13 @@ export default function AramexShippments(userData) {
     عرض الاستيكر
   </button>
               </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
       </tr>
     );
   })}

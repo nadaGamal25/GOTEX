@@ -137,7 +137,7 @@ export default function NavAdmin({userData ,logout}) {
         {/* <!--start navbar --> */}
         <nav class="d-flex align-items-center" id='navb'>
           <div className="w-280" ></div>
-            <i class="fa-solid fa-bars" onClick={()=> setSideToggle(!sideToggle)}></i>
+                <i class="fa-solid fa-bars" onClick={()=> setSideToggle(!sideToggle)}></i>
             
             
             {/* <a href="#" class="profile">
