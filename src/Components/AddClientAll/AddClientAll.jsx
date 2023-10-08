@@ -638,7 +638,7 @@ function getData(e) {
       
     })}
     </div><div className="col-md-6 pb-3">
-        <label htmlFor="company"> الشركة   :</label>
+        <label htmlFor="company"> الشركة   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='company' />
       
       {errorList.map((err,index)=>{
@@ -648,7 +648,7 @@ function getData(e) {
       
     })}
     </div><div className="col-md-6 pb-3">
-        <label htmlFor="birth_date">تاريخ الميلاد   :</label>
+        <label htmlFor="birth_date">تاريخ الميلاد   :<span className="star-requered"> </span></label>
       <input onChange={getData} type="date" className='my-input my-2 form-control' name='birth_date' />
       
       {errorList.map((err,index)=>{
@@ -675,7 +675,7 @@ function getData(e) {
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="email"> الايميل  :</label>
+        <label htmlFor="email"> الايميل  :<span className="star-requered"> </span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='email' />
       
       {errorList.map((err,index)=>{
