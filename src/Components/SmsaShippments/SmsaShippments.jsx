@@ -423,6 +423,28 @@ export default function SmsaShippments(userData) {
     };
     
 
+    // async function getSmsaSticker(orderId) {
+    //   try {
+    //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+    //       },
+    //     });
+    
+    //     const stickerUrls = response.data.data;
+    // console.log(response.data.data)
+    //     if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
+    //       stickerUrls.forEach((stickerUrl) => {
+    //         const newTab = window.open();
+    //         newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+    //       });
+    //     } else {
+    //       console.log("No sticker URLs found in the response.");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
     async function getSmsaSticker(orderId) {
       try {
         const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
@@ -432,11 +454,17 @@ export default function SmsaShippments(userData) {
         });
     
         const stickerUrls = response.data.data;
-    console.log(response.data.data)
+    
         if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
           stickerUrls.forEach((stickerUrl) => {
-            const newTab = window.open();
-            newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+            const link = document.createElement("a");
+            link.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+            link.target = "_blank";
+            link.download = "";
+    
+            link.dispatchEvent(new MouseEvent("click"));
+    
+            link.remove();
           });
         } else {
           console.log("No sticker URLs found in the response.");
@@ -445,6 +473,7 @@ export default function SmsaShippments(userData) {
         console.error(error);
       }
     }
+    
     async function getInvoice(daftraId) {
       try {
         const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
