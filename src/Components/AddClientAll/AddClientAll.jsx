@@ -100,7 +100,7 @@ function getData(e) {
     let scheme= Joi.object({
         first_name:Joi.string().required(),
         last_name:Joi.string().required(),
-        company:Joi.string().allow(null, ''),
+        company:Joi.string().required(),
         email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).allow(null, ''),
         mobile:Joi.string().required(),
         city:Joi.string().required(),

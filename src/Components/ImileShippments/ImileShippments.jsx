@@ -198,6 +198,7 @@ function validateOrderUserForm(){
   
   useEffect(()=>{
     // getCities()
+    console.log(cities)
     getCompaniesDetailsOrders()
     getimileClientsList()
     // getClientsList()
