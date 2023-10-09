@@ -152,14 +152,14 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link to="/packeges">
                 <i class="fa-solid fa-money-bill bx"></i>
                     <span class="text">شراء باقات
                
                 </span>
                 </Link>
-            </li>
+            </li> */}
             {/* <li>
                 <Link to="/clients">
                     <i class="fa-solid fa-users bx"></i>
