@@ -422,7 +422,7 @@ export default function SmsaShippments(userData) {
       setCitiesList2(false);
     };
     
-
+    const [stickerUrls , setStickerUrls] =useState([])
     async function getSmsaSticker(orderId) {
       try {
         const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
@@ -431,20 +431,23 @@ export default function SmsaShippments(userData) {
           },
         });
     
-        const stickerUrls = response.data.data;
-    console.log(response.data.data)
-        if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
-          stickerUrls.forEach((stickerUrl) => {
-            const newTab = window.open();
-            newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
-          });
-        } else {
-          console.log("No sticker URLs found in the response.");
-        }
+        const stickers = response.data.data;
+        setStickerUrls(stickers)
+        console.log(stickerUrls)
+    console.log(response)
+        
       } catch (error) {
         console.error(error);
       }
     }
+    // if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
+        //   stickerUrls.forEach((stickerUrl) => {
+        //     const newTab = window.open();
+        //     newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+        //   });
+        // } else {
+        //   console.log("No sticker URLs found in the response.");
+        // }
     // async function getSmsaSticker(orderId) {
     //   try {
     //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
@@ -1141,6 +1144,7 @@ export default function SmsaShippments(userData) {
         
         </div>
         <div className="clients-table p-4 mt-4">
+        
           <table className="table">
             <thead>
               <tr>
@@ -1166,13 +1170,36 @@ export default function SmsaShippments(userData) {
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
         <td>
-                <button
+        <div class="dropdown">
+  <button class="btn btn-success dropdown-toggle"
+  onClick={() => getSmsaSticker(item._id)} 
+  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    عرض الاستيكر 
+  </button>
+  {/* <ul class="dropdown-menu">
+    {stickerUrls.map((sticker,index)=>{
+          <li><a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`}>استيكر </a></li>
+
+    })}
+  </ul> */}
+  <ul class="dropdown-menu">
+  {stickerUrls.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
+        استيكر {index+1}
+      </a>
+    </li>
+  ))}
+</ul>
+
+</div>
+                {/* <button
       
       className="smsa-btn btn btn-success"
       onClick={() => getSmsaSticker(item._id)}
     >
       عرض الاستيكر
-    </button>
+    </button> */}
                 </td>
                 {item.inovicedaftra?.id?(<td><button
       
@@ -1188,6 +1215,7 @@ export default function SmsaShippments(userData) {
 
 
          </table>
+        
         </div>
         
     </div> 
