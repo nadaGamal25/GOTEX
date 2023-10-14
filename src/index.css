@@ -730,6 +730,40 @@ nav form .form-input button{
   padding: 15px;
   border-radius: 15px;
   box-shadow: 8px 8px 10px #adb6ba;
+  background-size: 100% 100%;
+}
+.h-80{
+  height: 105px;
+}
+.saee{
+  background-image: url(../src/assets/saee2.jpg);
+}
+.smsa{
+  background-image: url(../src/assets/smsa2.jpg);
+}
+.aramex{
+  background-image: url(../src/assets/aramex2.jpg);
+}
+.glt{
+  background-image: url(../src/assets/glt2.jpg);
+}
+.jt{
+  background-image: url(../src/assets/jt2.jpg);
+}
+.jonex{
+  background-image: url(../src/assets/jonex2.jpg);
+}
+.dhl{
+  background-image: url(../src/assets/dhl2.jpg);
+}
+.spl{
+  background-image: url(../src/assets/spl2.jpg);
+}
+.imile{
+  background-image: url(../src/assets/imile2.jpg);
+}
+.aymkan{
+  background-image: url(../src/assets/aymkan2.jpg);
 }
 .company img{
   width: 160px;
@@ -874,7 +908,9 @@ nav form .form-input button{
   border-radius: 5px;
 }
 .company h4{
-  color: #f9f9f9;
+  /* color: #f9f9f9; */
+  color: #fff;
+  /* letter-spacing: 1px; */
   padding-right: 15px;
 
 }
@@ -896,10 +932,15 @@ nav form .form-input button{
 }
 .soon-word{
   font-weight: 600;
-  color: #f9f9f9;
+  color: #fff;
   padding-right: 15px;
+  padding-left: 10px;
   letter-spacing: 1px;
   font-size:larger;
+  border: #fff 2px solid;
+  border-radius: 8px;
+  margin-bottom: 0 !important;
+  /* padding:0px 5px; */
 }
 @media only screen and (max-width: 380px){
   .company img{

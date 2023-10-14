@@ -125,16 +125,16 @@ export default function Companies(userData) {
        
         
         <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={sae} alt="company" />
+            <div className="company saee">
+              <div className="text-center h-80">
+              {/* <img src={sae} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
@@ -155,16 +155,16 @@ export default function Companies(userData) {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={jt} alt="company" />
+            <div className="company jt">
+              <div className="text-center h-80">
+              {/* <img src={jt} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {/* <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
@@ -186,16 +186,16 @@ export default function Companies(userData) {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={armx} alt="company" />
+            <div className="company aramex">
+              <div className="text-center h-80">
+              {/* <img src={armx} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
@@ -214,16 +214,16 @@ export default function Companies(userData) {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={sms} alt="company" />
+            <div className="company smsa">
+              <div className="text-center h-80">
+              {/* <img src={sms} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
@@ -242,16 +242,16 @@ export default function Companies(userData) {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={spl} alt="company" />
+            <div className="company spl">
+              <div className="text-center h-80">
+              {/* <img src={spl} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
@@ -265,16 +265,16 @@ export default function Companies(userData) {
           </div>
           
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={imile} alt="company" />
+            <div className="company imile">
+              <div className="text-center h-80">
+              {/* <img src={imile} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
@@ -299,16 +299,16 @@ export default function Companies(userData) {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={dhl} alt="company" />
+            <div className="company dhl">
+              <div className="text-center h-80">
+              {/* <img src={dhl} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
@@ -316,34 +316,16 @@ export default function Companies(userData) {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={jonex} alt="company" />
+            <div className="company jonex">
+              <div className="text-center h-80">
+              {/* <img src={jonex} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              </div>
-              <div className="d-flex pt-4 justify-content-center">
-                <p className="soon-word">قريباً ...</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={mkan} alt="company" />
-              </div>
-              <div className="stars text-center mt-3">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
@@ -352,16 +334,34 @@ export default function Companies(userData) {
           </div>
           
           <div className="col-md-6">
-            <div className="company">
-              <div className="text-center">
-              <img src={glt} alt="company" />
+            <div className="company aymkan">
+              <div className="text-center h-80">
+              {/* <img src={mkan} alt="company" /> */}
               </div>
               <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
+              </div>
+              <div className="d-flex pt-4 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="col-md-6">
+            <div className="company glt">
+              <div className="text-center h-80">
+              {/* <img src={glt} alt="company" /> */}
+              </div>
+              <div className="stars text-center mt-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):

@@ -58,8 +58,8 @@ export default function AddClientAll() {
       console.error(error);
       setisLoading(false);
       const errorMessage = error.response?.data?.msg || "An error occurred.";
-      const errorMessage2 = error.response.data?.err?.message || " و يرجى عدم تكرار التسجيل بنفس البريد الالكترونى اكثر من مرة ";
-      window.alert(`${errorMessage} && error occcured`);    }
+      const errorMessage2 = error.response.data?.err?.message || "  error occcured";
+      window.alert(`${errorMessage} && ${errorMessage2}`);    }
   }
 
 function submitForm(e){
@@ -563,7 +563,7 @@ function getData(e) {
          "Macca",
          "Mahd Al Thahab",
          "Mastorah",
-         "Mecca",
+         
          "Medina",
          "New Muwayh",
          "Nimran",
