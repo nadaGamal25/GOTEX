@@ -256,11 +256,22 @@ export default function Companies(userData) {
               <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
               </div>
+              {/* {companiesDetails.map((item, index) => (
+                item === null?(<div></div>):
+                item.status === false && item.name === "spl" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word">متوقفة مؤقتاً ...</p>
+                  </div>
+                ) : item.status === true && item.name === "spl" ? (
+                  <div key={index} className="d-flex pt-4 justify-content-between">
+                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
+                    <h4></h4>}
+                    <Link to="/splShipment" className="btn btn-choose">أختر</Link>
+                  </div>
+                ) : null
+                ))}
+               */}
               
-              {/* <div className="d-flex pt-4 justify-content-between">
-                <h4></h4>
-                <Link to="/splShipment" className="btn btn-choose">أختر</Link>
-              </div> */}
             </div>
           </div>
           

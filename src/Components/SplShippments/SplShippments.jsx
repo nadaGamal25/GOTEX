@@ -181,7 +181,7 @@ function validateOrderUserForm(){
   
   useEffect(()=>{
     getCities()
-    // getCompaniesDetailsOrders()
+    getCompaniesDetailsOrders()
     getClientsList()
   },[])
   const [cities,setCities]=useState()
@@ -271,17 +271,17 @@ function validateOrderUserForm(){
     window.open(`/splStickerPreview?stickerData=${stickerData}`, '_blank');
   };
   
-  //   const [companiesDetails,setCompaniesDetails]=useState([])
-//   async function getCompaniesDetailsOrders() {
-//     try {
-//       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
-//       const companiesPrices = response.data.data;
-//       console.log(companiesPrices)
-//       setCompaniesDetails(companiesPrices)
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
+    const [companiesDetails,setCompaniesDetails]=useState([])
+  async function getCompaniesDetailsOrders() {
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const companiesPrices = response.data.data;
+      console.log(companiesPrices)
+      setCompaniesDetails(companiesPrices)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 
 const citiesListRef = useRef(null);
@@ -447,14 +447,14 @@ useEffect(() => {
          ): null}
      
       <div className="shipmenForm">
-      {/* { userData.userData.data.user.rolle === "marketer"?(
+      { userData.userData.data.user.rolle === "marketer"?(
           <div className="prices-box text-center">
           {companiesDetails.map((item, index) => (
               item === null?(<div></div>):
-              item.name === "saee" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
+              item.name === "spl" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
               null))}
         </div>
-        ): null} */}
+        ): null}
       <form onSubmit={submitOrderUserForm} className='' action="">
           <div className="row">
           <div className="col-md-6">
@@ -919,13 +919,6 @@ useEffect(() => {
 >
   عرض الاستيكر
 </button>
-{item.inovicedaftra?.id?(<td><button
-      
-      className="btn btn-orange"
-      onClick={() => getInvoice(item.inovicedaftra.id)}
-    >
-      عرض الفاتورة
-    </button></td>):(<td>_</td>)}
 
               {/* <button
               onClick={()=> setshowsticker(true)}
@@ -936,6 +929,13 @@ useEffect(() => {
     عرض الاستيكر
   </button> */}
               </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
              
     </tr>
   );

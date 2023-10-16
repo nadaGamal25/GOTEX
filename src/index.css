@@ -733,7 +733,7 @@ nav form .form-input button{
   background-size: 100% 100%;
 }
 .h-80{
-  height: 105px;
+  height: 110px;
 }
 .saee{
   background-image: url(../src/assets/saee2.jpg);
@@ -778,7 +778,7 @@ nav form .form-input button{
 }
 
 .area{
-  background: var(--dark--color);  
+  background:#dfe0e5  ;  
   /* background: #1d7253;   */
   width: 100%;
   

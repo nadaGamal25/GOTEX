@@ -20,10 +20,10 @@ export default function ClientsAll() {
       async function addDepositToUser() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/daftra/markter-add-credit-for-client',
+            'https://dashboard.go-tex.net/api/user/add-credit-to-client',
             {
-              client_id: selectedUserId,
-              credit_limit: depositAmount,
+              clientid : selectedUserId,
+              cartid_limit: depositAmount,
             },
             {
               headers: {
@@ -34,25 +34,25 @@ export default function ClientsAll() {
           );
           // Handle the response as per your requirement
           console.log(response.data);
-          window.alert(response.data.msg)
+          window.alert('الرصيد معلق حتى تتم الموافقه من قبل الادارة')
           // if (response.data.msg === 'ok') {
-            closeModal();
-            // getUsersListsAdmin();
+            closeModal2();
+            getClientsList();
           // }
         } catch (error) {
           console.error(error);
         }
       }
-      // const openModal = (userId) => {
-      //   setSelectedUserId(userId);
-      //   setShowModal(true);
-      // };
+      const openModal2 = (userId) => {
+        setSelectedUserId(userId);
+        setShowModal(true);
+      };
     
-      // const closeModal = () => {
-      //   setSelectedUserId(null);
-      //   setShowModal(false);
-      //   setDepositAmount('');
-      // };
+      const closeModal2 = () => {
+        setSelectedUserId(null);
+        setShowModal(false);
+        setDepositAmount('');
+      };
       const handleDepositChange = (event) => {
         setDepositAmount(Number(event.target.value));
       };
@@ -152,10 +152,11 @@ export default function ClientsAll() {
             <th scope="col">المدينة </th>
             <th scope="col">العنوان </th>
             <th scope="col">الشارع  </th>
-            <th scope="col">الفئة </th>
-            <th scope="col"> credit  </th>
-            <th scope="col">الشحنات </th>
-            <th scope="col">ملاحظات </th>
+            {/* <th scope="col">الفئة </th> */}
+            <th scope="col"> الرصيد  </th>
+            {/* <th scope="col">الشحنات </th>
+            <th scope="col">ملاحظات </th> */}
+            <th></th>
            
           </tr>
         </thead>
@@ -177,9 +178,9 @@ export default function ClientsAll() {
                 {item.city?<td>{item.city}</td>:<td>_</td>}
                 {item.address?<td>{item.address}</td>:<td>_</td>}
                 {item.street?<td>{item.street}</td>:<td>_</td>}
-                {item.category?<td>{item.category}</td>:<td>_</td>}
-                {item.wallet?<td>{item.wallet}</td>:<td>_</td>}
-                {item.orders ? (
+                {/* {item.category?<td>{item.category}</td>:<td>_</td>} */}
+                {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
+                {/* {item.orders ? (
           <td>
             {item.orders.map((order) => (
               <span key={order.id}>{order.company}, </span>
@@ -187,10 +188,17 @@ export default function ClientsAll() {
           </td>
         ) : (
           <td>_</td>
-        )}
-                 {item.notes?<td>{item.notes}</td>:<td>_</td>}
+        )} */}
+                 {/* {item.notes?<td>{item.notes}</td>:<td>_</td>} */}
 
-                
+                 <td>
+                <button
+                        className='sdd-deposite btn btn-success mt-2'
+                        onClick={() => openModal2(item._id)}
+                      >
+                        إضافة credit 
+                      </button>
+              </td>
               </tr>
             )
           }
@@ -345,16 +353,16 @@ export default function ClientsAll() {
           </Button>
         </Modal.Footer>
       </Modal>)}
-    {/* {showModal && (
+    {showModal && (
         <div className='modal' style={{ display: 'block' }}>
           <div className='modal-dialog'>
             <div className='modal-content'>
               <div className='modal-header'>
-                <h5 className='modal-title'>إضافة حد ائتمانى</h5>
+                <h5 className='modal-title'>إضافة credit </h5>
                 <button
                   type='button'
                   className='close'
-                  onClick={closeModal}
+                  onClick={closeModal2}
                 >
                   <span aria-hidden='true'>&times;</span>
                 </button>
@@ -383,7 +391,7 @@ export default function ClientsAll() {
                 <button
                   type='button'
                   className='btn btn-secondary'
-                  onClick={closeModal}
+                  onClick={closeModal2}
                 >
                   إلغاء
                 </button>
@@ -391,7 +399,7 @@ export default function ClientsAll() {
             </div>
           </div>
         </div>
-      )}      */}
+      )}     
     </>
   )
 }

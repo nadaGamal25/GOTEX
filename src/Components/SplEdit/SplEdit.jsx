@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import Joi from 'joi'
 import { useState } from 'react'
@@ -76,6 +76,30 @@ export default function SplEdit() {
       });
       return scheme.validate(Prices, {abortEarly:false});
     }
+    useEffect(()=>{
+      getCompaniesDetailsOrders()
+    },[])
+    const [companiesDetails,setCompaniesDetails]=useState([])
+    async function getCompaniesDetailsOrders() {
+      try {
+        const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+        const companiesPrices = response.data.data;
+        console.log(companiesPrices)
+        setCompaniesDetails(companiesPrices)
+        setPrices({
+          ...Prices,
+          status:companiesPrices[7].status, 
+          userprice:companiesPrices[7].userprice,
+          marketerprice:companiesPrices[7].marketerprice,
+          kgprice:companiesPrices[7].kgprice,
+          codprice:companiesPrices[7].codprice,
+          maxcodmarkteer:companiesPrices[7].maxcodmarkteer,
+          mincodmarkteer: companiesPrices[7].mincodmarkteer, 
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
   return (
 <>
     <div className='p-4 admin' id='content'>
@@ -85,7 +109,7 @@ export default function SplEdit() {
                   <h5 className="text-center mb-3">أسعار شركة SPL </h5>
                   <form onSubmit={submitPricesForm} action="">
                     <label htmlFor="">سعر المسخدم</label>
-                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='userprice' />
+                    <input onChange={getPrices} type="number" value={Prices.userprice} step="0.001" className='my-input my-2 form-control' name='userprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='userprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -93,7 +117,7 @@ export default function SplEdit() {
       
     })}
                     <label htmlFor="">سعر المدخلات</label>
-                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='marketerprice' />
+                    <input onChange={getPrices} type="number" value={Prices.marketerprice} step="0.001" className='my-input my-2 form-control' name='marketerprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='marketerprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -101,7 +125,7 @@ export default function SplEdit() {
       
     })}
                     <label htmlFor="">سعر الزيادة</label>
-                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='kgprice' />
+                    <input onChange={getPrices} type="number" value={Prices.kgprice} step="0.001" className='my-input my-2 form-control' name='kgprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='kgprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -109,7 +133,7 @@ export default function SplEdit() {
       
     })}
                     <label htmlFor="">سعر الدفع عند الاستلام</label>
-                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='codprice' />
+                    <input onChange={getPrices} type="number" value={Prices.codprice} step="0.001" className='my-input my-2 form-control' name='codprice' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='codprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -117,7 +141,7 @@ export default function SplEdit() {
       
     })}
                     <label htmlFor="">اكبر سعر للمسوقين   </label>
-                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='maxcodmarkteer' />
+                    <input onChange={getPrices} type="number" value={Prices.maxcodmarkteer} step="0.001" className='my-input my-2 form-control' name='maxcodmarkteer' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='maxcodmarkteer'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
@@ -125,7 +149,7 @@ export default function SplEdit() {
       
     })}
                     <label htmlFor="">اقل سعر للمسوقين   </label>
-                    <input onChange={getPrices} type="number" step="0.001" className='my-input my-2 form-control' name='mincodmarkteer' />
+                    <input onChange={getPrices} type="number" value={Prices.mincodmarkteer} step="0.001" className='my-input my-2 form-control' name='mincodmarkteer' />
                     {errorList.map((err,index)=>{
       if(err.context.label ==='mincodmarkteer'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
