@@ -12,7 +12,7 @@ export default function AddClientAll() {
   const [clientData,setClientData] =useState({
     company: "",
     first_name: "",
-    last_name: "",
+    // last_name: "",
     email: "",
     address: "",
     city: "",
@@ -99,7 +99,7 @@ function getData(e) {
   function validateForm(){
     let scheme= Joi.object({
         first_name:Joi.string().required(),
-        last_name:Joi.string().required(),
+        // last_name:Joi.string().required(),
         company:Joi.string().required(),
         email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).allow(null, ''),
         mobile:Joi.string().required(),
@@ -617,7 +617,7 @@ function getData(e) {
         <form onSubmit={submitForm} className='my-3' action="">
             <div className="row">
                 <div className="col-md-6 pb-3">
-        <label htmlFor="first_name">الاسم الاول  :<span className="star-requered">*</span></label>
+        <label htmlFor="first_name">الاسم  :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='first_name' />
       
       {errorList.map((err,index)=>{
@@ -627,7 +627,7 @@ function getData(e) {
       
     })}
     </div>
-    <div className="col-md-6 pb-3">
+    {/* <div className="col-md-6 pb-3">
         <label htmlFor="last_name">اسم العائلة   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='last_name' />
       
@@ -637,7 +637,8 @@ function getData(e) {
       }
       
     })}
-    </div><div className="col-md-6 pb-3">
+    </div> */}
+    <div className="col-md-6 pb-3">
         <label htmlFor="company"> الشركة   :<span className="star-requered">*</span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='company' />
       
@@ -686,8 +687,8 @@ function getData(e) {
     })}
     </div>
     <div className='col-md-6 pb-3 ul-box'>
-                <label htmlFor=""> المدينة<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='city'
+                <label htmlFor=""> المدينة : <span className="star-requered">*</span></label>
+                <input type="text" className="form-control my-2" name='city'
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
                   setSearch2(searchValue);
@@ -768,7 +769,7 @@ function getData(e) {
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="category">الفئة   :</label>
+        <label htmlFor="category">الفئة   :<span className="star-requered"> </span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='category' />
       
       {errorList.map((err,index)=>{
@@ -779,7 +780,7 @@ function getData(e) {
     })}
     </div>
     <div className="col-md-6 pb-3">
-        <label htmlFor="notes">ملاحظات   :</label>
+        <label htmlFor="notes">ملاحظات   :<span className="star-requered"> </span></label>
         <textarea className="form-control my-2" name='notes' onChange={getData} cols="70" rows="2"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='notes'){
