@@ -373,7 +373,7 @@ useEffect(() => {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       });
-           console.log(response.data.data)
+           console.log(response)
       const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
       const newTab = window.open();
       newTab.location.href = stickerUrl;
