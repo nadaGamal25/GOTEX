@@ -71,6 +71,8 @@ import AddClientAll from './Components/AddClientAll/AddClientAll';
 import ClientsAll from './Components/ClientsAll/ClientsAll';
 import EditClientModal from './Components/EditClientModal/EditClientModal';
 import Packeges from './Components/Packeges/Packeges';
+import SignupMarketers from './Components/SignupMarketers/SignupMarketers';
+import MarketersAdmin from './Components/MarketersAdmin/MarketersAdmin';
 
 function App() {
   
@@ -106,6 +108,7 @@ function App() {
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
+    {path:'signupMarketers',element:<SignupMarketers/>},
     {path:'splSticker',element:<SplSticker/>},
     {path:'splStickerPreview',element:<SplStickerPreview/>},
     {path:'invitedSignUp',element:<InvitedSignUp/>},
@@ -164,6 +167,7 @@ function App() {
     {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentsAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'invocesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsCreditAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsCreditAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'marketersAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketersAdmin/></ProtectedRoute></ErrorBoundary>},
    
     ]},
     {path:'*', element:<PageNotFound/>}
