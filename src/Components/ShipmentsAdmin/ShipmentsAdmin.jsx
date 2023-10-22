@@ -62,25 +62,25 @@ export default function ShipmentsAdmin() {
   });
   function exportToExcel() {
     const header = [
-      '#',
-      'الشركة',
+      // '#',
+      'التاريخ',
       'العميل',
+      'شركة الشحن',
+      'رقم التتبع',
+      ' حالة الشحنة',
+      'طريقة الدفع',
       'الهاتف',
       'الايميل',
       'السعر',
-      'رقم التتبع',
       'كود المسوق',
-      'طريقة الدفع',
-      'التاريخ',
     ];
   
     const shipmentsData = filteredShipments.map((item, index) => [
-      index + 1,
-      item.company || '_',
+      // index + 1,
+      item.createdate ? item.createdate.slice(0, 15) : (item.data && item.data.createDate ? item.data.createDate.slice(0, 10) : '_'),
+
       item.user && item.user.name ? item.user.name : '_',
-      item.user && item.user.mobile ? item.user.mobile : '_',
-      item.user && item.user.email ? item.user.email : '_',
-      item.price || '_',
+      item.company || '_',
       item.data && (
         item.data.awb_no ||
         item.data.waybill ||
@@ -93,12 +93,16 @@ export default function ShipmentsAdmin() {
        item.data.orderTrackingNumber ||
        (item.data.Shipments && item.data.Shipments.length > 0 && item.data.Shipments[0]?.ID) ||
        item.data.sawb) : '_',
+       item.status || '_',
+       item.paytype || '_',
+      item.user && item.user.mobile ? item.user.mobile : '_',
+      item.user && item.user.email ? item.user.email : '_',
+      item.price || '_',
+      
        item.marktercode || '_',
-      item.paytype || '_',
-      item.createdate ? item.createdate.slice(0, 15) : (item.data && item.data.createDate ? item.data.createDate.slice(0, 10) : '_'),
     ]);
-  
     const ws = XLSX.utils.aoa_to_sheet([header, ...shipmentsData]);
+  
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Shipments');
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -111,6 +115,8 @@ export default function ShipmentsAdmin() {
     a.click();
     URL.revokeObjectURL(url);
   }
+ 
+   
   
   
   return (
@@ -181,11 +187,22 @@ export default function ShipmentsAdmin() {
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">
-                  الشركة
-                </th>
+                <th scope="col">التاريخ</th>
+                
                 <th scope="col">
                   العميل
+                </th>
+                <th scope="col">
+                  شركة الشحن
+                </th>
+                <th scope="col">
+                  رقم التتبع
+                </th>
+                <th scope="col">
+                  حالة الشحنة 
+                </th>
+                <th scope="col">
+                  طريقة الدفع
                 </th>
                 <th scope="col">
                   الهاتف
@@ -197,16 +214,11 @@ export default function ShipmentsAdmin() {
                 <th scope="col">
                   السعر
                 </th>
-                <th scope="col">
-                  رقم التتبع
-                </th>
+                
                 <th scope="col">
                   كود المسوق
                 </th>
-                <th scope="col">
-                  طريقة الدفع
-                </th>
-                <th scope="col">التاريخ</th>
+                
                 <th scope="col">id_الفاتورة</th>  
                 <th scope="col"></th>              
               </tr>
@@ -216,13 +228,12 @@ export default function ShipmentsAdmin() {
             return(
               <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
                 <td>{index+1}</td>
-                {item.company?<td>{item.company}</td>:<td>_</td>}
+                {item.createdate ? (<td>{item.createdate.slice(0, 15)}</td>
+) : item.data && item.data.createDate ? (
+  <td>{item.data.createDate.slice(0, 10)}</td>) : (<td>_</td>)}
                 {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
-                {item.user && item.user.mobile?<td>{item.user.mobile}</td>:<td>_</td>}
-                {item.user && item.user.email?<td>{item.user.email}</td>:<td>_</td>}
-                {item.price?<td>{item.price}</td>:<td>_</td>}
-                
-{item.data && item.data.awb_no ? (
+                {item.company?<td>{item.company}</td>:<td>_</td>}
+                {item.data && item.data.awb_no ? (
   <td>{item.data.awb_no}</td>
 ) : item.data && item.data.waybill ? (
   <td>{item.data.waybill}</td>
@@ -235,14 +246,19 @@ export default function ShipmentsAdmin() {
 ) : (
   <td>_</td>
 )}
+               {item.status?<td className={item.status=== "canceled" ?'text-center text-danger fw-bold':''}>{item.status}</td>:<td>_</td>}
+                {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
+
+                {item.user && item.user.mobile?<td>{item.user.mobile}</td>:<td>_</td>}
+                {item.user && item.user.email?<td>{item.user.email}</td>:<td>_</td>}
+                {item.price?<td>{item.price}</td>:<td>_</td>}
+                
+
 
                 {item.marktercode?<td>{item.marktercode}</td>:<td>_</td>}
-                {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
-                {item.createdate ? (<td>{item.createdate.slice(0, 15)}</td>
-) : item.data && item.data.createDate ? (
-  <td>{item.data.createDate.slice(0, 10)}</td>) : (<td>_</td>)}
+                
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-        {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'>Canceled</span> </td> : <td></td>}
+        {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'> x </span> </td> : <td></td>}
               </tr>
             )
           }

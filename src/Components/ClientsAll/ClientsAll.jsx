@@ -128,17 +128,57 @@ export default function ClientsAll() {
       }     
       const [value ,setPhoneValue]=useState()
 
+      const [searchName, setSearchName] = useState('');
+      const [searchEmail, setSearchEmail] = useState('');
+      const [searchPhone, setSearchPhone] = useState('');
+      const [searchCity, setSearchCity] = useState('');
+      const [searchCompany, setSearchCompany] = useState('');
+
+      const filteredClients = clients.filter((item) => {
+        return (
+          (searchPhone === '' || item.mobile?.includes(searchPhone)) &&
+          (searchName === '' || (item.name?.includes(searchName)) )&&
+          (searchEmail === '' || item.email?.includes(searchEmail)) &&
+          (searchCity === '' || item.city.includes(searchCity)) &&
+          (searchCompany === '' || item.company?.includes(searchCompany))
+         
+        );
+    
+      });
+
   return (
     <>
     <div className='p-5' id='content'>
-    <div className="search-box p-4 mt-2 row g-1">
-        <div className="col-md-2">
-        <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+    <div className="gray-table p-4 mb-4">
+      <div className="row">
+        
+        <div className="col-md-4">
+          <label htmlFor="">اسم العميل:</label>
+          <input className='form-control' type="search" value={searchName} onChange={(e) => setSearchName(e.target.value)} />
         </div>
-        <div className="col-md-10">
-        <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' />
+        <div className="col-md-4">
+          <label htmlFor="">الشركة :</label>
+          <input className='form-control' type="search" value={searchCompany} onChange={(e) => setSearchCompany(e.target.value)} />
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="">الايميل:</label>
+          <br/><input className='form-control' type="search" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="">الهاتف:</label>
+          <input className='form-control' type="search" value={searchPhone} onChange={(e) => setSearchPhone(e.target.value)} />
+        </div>
+        <div className="col-md-4">
+          <label htmlFor="">المدينة :</label>
+          <input className='form-control' type="search" value={searchCity} onChange={(e) => setSearchCity(e.target.value)} />
+        </div>
+        
+       
+        <div className="text-center mt-3">
+          <button className="btn dark"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
         </div>
       </div>
+    </div>
     <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
@@ -152,8 +192,8 @@ export default function ClientsAll() {
             <th scope="col">المدينة </th>
             <th scope="col">العنوان </th>
             <th scope="col">الشارع  </th>
-            {/* <th scope="col">الفئة </th> */}
-            <th scope="col"> الرصيد  </th>
+            <th scope="col">المحفظة </th>
+            <th scope="col"> credit </th>
             {/* <th scope="col">الشحنات </th>
             <th scope="col">ملاحظات </th> */}
             <th></th>
@@ -161,7 +201,7 @@ export default function ClientsAll() {
           </tr>
         </thead>
         <tbody>
-          {clients && clients.filter((item)=>{
+          {filteredClients && filteredClients.filter((item)=>{
           return search === ''? item : item.email.includes(search);
           }).map((item,index) =>{
             return(
@@ -178,7 +218,7 @@ export default function ClientsAll() {
                 {item.city?<td>{item.city}</td>:<td>_</td>}
                 {item.address?<td>{item.address}</td>:<td>_</td>}
                 {item.street?<td>{item.street}</td>:<td>_</td>}
-                {/* {item.category?<td>{item.category}</td>:<td>_</td>} */}
+                {item.wallet?<td>{item.wallet}</td>:<td>_</td>}
                 {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
                 {/* {item.orders ? (
           <td>
