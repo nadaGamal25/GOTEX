@@ -1104,8 +1104,11 @@ export default function AnwanShippments(userData) {
             
                 
             
-            
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
+            <button className="btn btn-orange" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
+            {/* <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button> */}
             </div>
             </div>
             </div>

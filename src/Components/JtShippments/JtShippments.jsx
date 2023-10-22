@@ -1873,7 +1873,11 @@ useEffect(() => {
    ))}
          </div>
          {errorList && <div className="text-danger mx-3 my-1">يجب ملئ جميع البيانات</div> }
-         <button type="submit" className="btn btn-orange mx-3 my-1"> <i className='fa-solid fa-plus'></i> عمل شحنة</button>
+         <button type="submit" className="btn btn-orange mx-3 my-1" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
+         {/* <button type="submit" className="btn btn-orange mx-3 my-1"> <i className='fa-solid fa-plus'></i> عمل شحنة</button> */}
 
          </div>
          </div>

@@ -7,6 +7,7 @@ import Joi from 'joi';
 
 export default function SmsaShippments(userData) {
   const [companiesDetails,setCompaniesDetails]=useState([])
+
   async function getCompaniesDetailsOrders() {
     try {
       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
@@ -1136,7 +1137,10 @@ export default function SmsaShippments(userData) {
     })}
             </div>
             
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
+            <button className="btn btn-orange" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
             </div>
             </div>
             </div>

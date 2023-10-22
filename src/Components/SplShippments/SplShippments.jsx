@@ -874,8 +874,11 @@ useEffect(() => {
     })}
             </div>
           {/* <h6 className='text-center py-2'>{'<<'}  معلومات اضافية  {'>>'}</h6> */}
-          
-          <button type="submit" className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
+          <button type='submit' className="btn btn-orange" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
+          {/* <button type="submit" className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button> */}
           </div>
           </div>
           </div>

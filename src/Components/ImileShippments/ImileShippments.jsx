@@ -1435,7 +1435,11 @@ function validateOrderUserForm(){
     ))}
           </div>
           {errorList && <div className="text-danger m-3">يجب ملئ جميع البيانات</div> }
-          <button type="submit" className="btn btn-orange m-3"> <i className='fa-solid fa-plus'></i> عمل شحنة</button>
+          <button type="submit" className="btn btn-orange" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
+          {/* <button type="submit" className="btn btn-orange m-3"> <i className='fa-solid fa-plus'></i> عمل شحنة</button> */}
 
           </div>
           </div>

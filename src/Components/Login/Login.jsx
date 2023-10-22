@@ -88,11 +88,12 @@ export default function Login({saveUserData}) {
         setisLoading(false);
          saveUserData();
       } else {
-        setisLoading(false);
+        setisLoading(true);
         setError(data.msg);
         console.log(data.msg);
       }
     } catch (error) {
+      setisLoading(true)
       console.log(error);
       window.alert('كلمة المرور او البريد الالكترونى قد يكون خطأ');
     }
@@ -209,7 +210,8 @@ export default function Login({saveUserData}) {
     </div>
       <Link className='pt-2' to="/forgetPassword">هل نسيت كلمة المرور؟</Link> <br/>
       <button className='btn btn-login'>
-        تسجيل الدخول
+      {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:' تسجيل الدخول'}
+       
       </button>
      </form>
      <div className='text-center sign-footer'>
