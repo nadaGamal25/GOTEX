@@ -107,12 +107,12 @@ export default function NavAdmin({userData ,logout}) {
                     <span class="text">المسوقات</span>
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link to="/clientsAmarketers">
                 <i class="fa-solid fa-users-viewfinder bx"></i>
                     <span class="text">ربط المتاجر بالمسوقات</span>
                 </Link>
-            </li>
+            </li> */}
             <li>
                 <Link to="/invocesAdmin">
                 <i class="fa-solid fa-receipt bx"></i>
