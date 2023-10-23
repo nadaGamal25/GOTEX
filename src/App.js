@@ -73,6 +73,7 @@ import EditClientModal from './Components/EditClientModal/EditClientModal';
 import Packeges from './Components/Packeges/Packeges';
 import SignupMarketers from './Components/SignupMarketers/SignupMarketers';
 import MarketersAdmin from './Components/MarketersAdmin/MarketersAdmin';
+import ClientsAmarketers from './Components/Clients&marketers/ClientsAmarketers';
 
 function App() {
   
@@ -168,6 +169,7 @@ function App() {
     {path:'invocesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsCreditAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsCreditAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'marketersAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketersAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'clientsAmarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAmarketers/></ProtectedRoute></ErrorBoundary>},
    
     ]},
     {path:'*', element:<PageNotFound/>}
