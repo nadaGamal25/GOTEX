@@ -252,6 +252,11 @@ export default function SmsaShippments(userData) {
     "Bahrain Causeway",
     "Buqaiq",
     "Dammam",
+    //........
+    "Edabi",
+    "Shinan",
+    "Namerah",
+    "Dhamad",
     "Dammam Airport",
     "Dhahran",
     "Jubail",
