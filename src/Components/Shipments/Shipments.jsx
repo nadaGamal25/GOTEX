@@ -214,6 +214,25 @@ export default function Shipments(userData) {
       console.error(error);
     }
   }
+  const [stickerUrls , setStickerUrls] =useState([])
+  async function getSmsaSticker(orderId) {
+    setStickerUrls('');
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+  
+      const stickers = response.data.data;
+      setStickerUrls(stickers)
+      console.log(stickerUrls)
+  console.log(response)
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
   // async function getSmsaSticker(orderId) {
   //   try {
   //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
@@ -229,28 +248,28 @@ export default function Shipments(userData) {
   //     console.error(error);
   //   }
   // }
-  async function getSmsaSticker(orderId) {
-    try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-        },
-      });
+  // async function getSmsaSticker(orderId) {
+  //   try {
+  //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+  //       },
+  //     });
   
-      const stickerUrls = response.data.data;
-  console.log(response.data.data)
-      if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
-        stickerUrls.forEach((stickerUrl) => {
-          const newTab = window.open();
-          newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
-        });
-      } else {
-        console.log("No sticker URLs found in the response.");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //     const stickerUrls = response.data.data;
+  // console.log(response.data.data)
+  //     if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
+  //       stickerUrls.forEach((stickerUrl) => {
+  //         const newTab = window.open();
+  //         newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+  //       });
+  //     } else {
+  //       console.log("No sticker URLs found in the response.");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
   
   
    async function getUserOrders() {
@@ -787,8 +806,37 @@ export default function Shipments(userData) {
               <td>{item.paytype}</td>
               <td>{item.data.createDate.slice(0, 10)}</td>
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-
               <td>
+        <div class="dropdown">
+  <button class="btn btn-success dropdown-toggle"
+  onClick={() => getSmsaSticker(item._id)} 
+  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    عرض الاستيكر 
+  </button>
+
+  <ul class="dropdown-menu">
+  {stickerUrls ?( stickerUrls.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
+        استيكر {index+1}
+      </a>
+    </li>
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+}
+</ul>
+
+</div>
+                {/* <button
+      
+      className="smsa-btn btn btn-success"
+      onClick={() => getSmsaSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button> */}
+                </td>
+              {/* <td>
               <button
     
     className="smsa-btn btn btn-success"
@@ -796,7 +844,7 @@ export default function Shipments(userData) {
   >
     عرض الاستيكر
   </button>
-              </td>
+              </td> */}
               {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"

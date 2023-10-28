@@ -1186,12 +1186,7 @@ export default function SmsaShippments(userData) {
   type="button" data-bs-toggle="dropdown" aria-expanded="false">
     عرض الاستيكر 
   </button>
-  {/* <ul class="dropdown-menu">
-    {stickerUrls.map((sticker,index)=>{
-          <li><a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`}>استيكر </a></li>
 
-    })}
-  </ul> */}
   <ul class="dropdown-menu">
   {stickerUrls ?( stickerUrls.map((sticker, index) => (
     <li key={index}>
@@ -1214,6 +1209,12 @@ export default function SmsaShippments(userData) {
       عرض الاستيكر
     </button> */}
                 </td>
+                  {/* <ul class="dropdown-menu">
+    {stickerUrls.map((sticker,index)=>{
+          <li><a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`}>استيكر </a></li>
+
+    })}
+  </ul> */}
                 {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
