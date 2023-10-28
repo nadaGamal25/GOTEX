@@ -430,6 +430,7 @@ export default function SmsaShippments(userData) {
     
     const [stickerUrls , setStickerUrls] =useState([])
     async function getSmsaSticker(orderId) {
+      setStickerUrls('');
       try {
         const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
           headers: {
@@ -1192,13 +1193,16 @@ export default function SmsaShippments(userData) {
     })}
   </ul> */}
   <ul class="dropdown-menu">
-  {stickerUrls.map((sticker, index) => (
+  {stickerUrls ?( stickerUrls.map((sticker, index) => (
     <li key={index}>
       <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
         استيكر {index+1}
       </a>
     </li>
-  ))}
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+}
 </ul>
 
 </div>
