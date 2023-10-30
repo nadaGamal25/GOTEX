@@ -186,9 +186,9 @@ function submitRegisterForm(e){
       </div>
      </form>
      
-     {/* <div className='text-center'>
-      <p>هل لديك حساب بالفعل؟ <Link className='sign-link' to='/'>قم بتسجيل الدخول..</Link> </p>
-     </div> */}
+     <div className='text-center'>
+      <p>هل لديك حساب بالفعل؟ <Link className='sign-link' to='/loginMarketers'>قم بتسجيل الدخول..</Link> </p>
+     </div>
      </div>
      </div>
     </>

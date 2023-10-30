@@ -1,0 +1,656 @@
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+
+export default function AdminSearchShipments() {
+    const [shipmentsAdmin,setShipmentsAdmin]=useState([])
+    const [theLimit,setLimit]=useState(30)
+    const [currentPage, setCurrentPage] = useState(Number(1));
+    const [numberOfPages, setNumberOfPages] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [searchCompany, setSearchCompany] = useState('');
+const [searchPaytype, setSearchPaytype] = useState('');
+const [searchBillCode, setSearchBillCode] = useState('');
+const [currentPage2, setCurrentPage2] = useState(Number(1));
+    const [numberOfPages2, setNumberOfPages2] = useState(1);
+const [secondFilter, setSecondFilter] = useState(false);
+const [currentPage3, setCurrentPage3] = useState(Number(1));
+    const [numberOfPages3, setNumberOfPages3] = useState(1);
+const [marketerFilter, setMarketerFilter] = useState(false);
+const [currentPage4, setCurrentPage4] = useState(Number(1));
+const [numberOfPages4, setNumberOfPages4] = useState(1);
+const [dateFilter, setDateFilter] = useState(false);
+    const [clientFilter, setClientFilter] = useState('');
+  const [marketerCodeFilter, setMarketerCodeFilter] = useState('');
+  const [minPriceFilter, setMinPriceFilter] = useState('');
+  const [maxPriceFilter, setMaxPriceFilter] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+
+    async function getShipmentsAdmin() {
+        try {
+          setLoading(true);
+          const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+            params: {
+                page: currentPage,
+                limit: 30,
+                company: searchCompany,
+                paytype: searchPaytype,
+                billCode: searchBillCode,
+              },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+      
+          setShipmentsAdmin(response.data.data);
+          setSecondFilter(false)
+          setMarketerFilter(false)
+          setDateFilter(false)
+          console.log(response)
+          setCurrentPage(response.data.pagination.currentPage);
+          setNumberOfPages(response.data.pagination.numberOfPages);
+        } catch (error) {
+          console.error('Error fetching students:', error);
+        } finally {
+          setLoading(false); 
+        }
+      }
+      
+    useEffect(() => {
+        getShipmentsAdmin();
+    }, [currentPage, searchCompany, searchPaytype, searchBillCode]);
+  
+    const handlePreviousPage = () => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    };
+  
+    const handleNextPage = () => {
+      if (currentPage < numberOfPages) {
+        setCurrentPage(currentPage + 1);
+      }
+    };
+
+async function filterByClientData() {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://dashboard.go-tex.net/api/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
+        {
+            params: { page: currentPage2, limit: 30 },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
+
+      setShipmentsAdmin(response.data.data);
+      setMarketerFilter(false)
+      setDateFilter(false)
+      setSecondFilter(true)
+      
+      setCurrentPage2(response.data.pagination.currentPage);
+  setNumberOfPages2(response.data.pagination.numberOfPages);
+      console.log(response)
+    } catch (error) {
+      console.error('Error filtering by client data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  const handlePreviousPage2 = async () => {
+    if (currentPage2 > 1) {
+      setCurrentPage2(currentPage2 - 1); // Call setCurrentPage2 first
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `https://dashboard.go-tex.net/api/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
+          {
+            params: { page: currentPage2 -1 , limit: 30 },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
+        );
+  
+        setShipmentsAdmin(response.data.data);
+        setMarketerFilter(false)
+        setDateFilter(false)
+        setSecondFilter(true);
+        setCurrentPage2(response.data.pagination.currentPage);
+        setNumberOfPages2(response.data.pagination.numberOfPages);
+        console.log(response);
+      } catch (error) {
+        console.error('Error filtering by client data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+  
+
+  const handleNextPage2 = async () => {
+    if (currentPage2 < numberOfPages2) {
+      setCurrentPage2(currentPage2 + 1);
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `https://dashboard.go-tex.net/api/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
+          {
+            params: { page: currentPage2 +1 , limit: 30 },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
+        );
+  
+        setShipmentsAdmin(response.data.data);
+        setMarketerFilter(false)
+        setDateFilter(false)
+        setSecondFilter(true);
+        setCurrentPage2(response.data.pagination.currentPage);
+        setNumberOfPages2(response.data.pagination.numberOfPages);
+        console.log(response);
+      } catch (error) {
+        console.error('Error filtering by client data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+  };
+  
+  async function filterByMarketerCode() {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://dashboard.go-tex.net/api/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
+        {
+            params: { page: currentPage3, limit: 30 },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
+      console.log(response)
+      setShipmentsAdmin(response.data.data);
+      setSecondFilter(false)
+      setDateFilter(false)
+      setMarketerFilter(true)
+      setCurrentPage3(response.data.pagination.currentPage);
+  setNumberOfPages3(response.data.pagination.numberOfPages);
+    } catch (error) {
+      console.error('Error filtering by marketer code:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  const handlePreviousPage3 = async () => {
+    if (currentPage3 > 1) {
+      setCurrentPage3(currentPage3 - 1); 
+      try {
+        setLoading(true);
+        const response = await axios.get(
+            `https://dashboard.go-tex.net/api/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
+            {
+            params: { page: currentPage3 -1 , limit: 30 },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
+        );
+  
+        setShipmentsAdmin(response.data.data);
+        setSecondFilter(false);
+        setDateFilter(false)
+        setMarketerFilter(true)
+        setCurrentPage3(response.data.pagination.currentPage);
+        setNumberOfPages3(response.data.pagination.numberOfPages);
+        console.log(response);
+      } catch (error) {
+        console.error('Error filtering by client data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+  
+
+  const handleNextPage3 = async () => {
+    if (currentPage3 < numberOfPages3) {
+      setCurrentPage3(currentPage3 + 1);
+      try {
+        setLoading(true);
+        const response = await axios.get(
+            `https://dashboard.go-tex.net/api/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
+            {
+            params: { page: currentPage3 +1 , limit: 30 },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
+        );
+  
+        setShipmentsAdmin(response.data.data);
+        setSecondFilter(false)
+        setDateFilter(false)
+        setMarketerFilter(true);
+        setCurrentPage3(response.data.pagination.currentPage);
+        setNumberOfPages3(response.data.pagination.numberOfPages);
+        console.log(response);
+      } catch (error) {
+        console.error('Error filtering by client data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+  };
+  async function filterByDate() {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://dashboard.go-tex.net/api/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
+        {
+            params: { page: currentPage4, limit: 30 },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
+
+      setShipmentsAdmin(response.data.data);
+      setMarketerFilter(false)
+      setSecondFilter(false)
+      setDateFilter(true)
+      
+      setCurrentPage4(response.data.pagination.currentPage);
+  setNumberOfPages4(response.data.pagination.numberOfPages);
+      console.log(response)
+    } catch (error) {
+      console.error('Error filtering by client data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  const handlePreviousPage4 = async () => {
+    if (currentPage4 > 1) {
+      setCurrentPage4(currentPage4 - 1); 
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `https://dashboard.go-tex.net/api/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
+          {
+              params: { page: currentPage4, limit: 30 },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
+        );
+  
+        setShipmentsAdmin(response.data.data);
+        setMarketerFilter(false)
+        setSecondFilter(false)
+        setDateFilter(true)
+        
+        setCurrentPage4(response.data.pagination.currentPage);
+    setNumberOfPages4(response.data.pagination.numberOfPages);
+        console.log(response)
+      } catch (error) {
+        console.error('Error filtering by client data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+  
+
+  const handleNextPage4 = async () => {
+    if (currentPage4 < numberOfPages4) {
+      setCurrentPage4(currentPage4 + 1);
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `https://dashboard.go-tex.net/api/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
+          {
+              params: { page: currentPage4, limit: 30 },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
+        );
+  
+        setShipmentsAdmin(response.data.data);
+        setMarketerFilter(false)
+        setSecondFilter(false)
+        setDateFilter(true)
+        
+        setCurrentPage4(response.data.pagination.currentPage);
+    setNumberOfPages4(response.data.pagination.numberOfPages);
+        console.log(response)
+      } catch (error) {
+        console.error('Error filtering by client data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+  };
+
+  return (
+    <>
+    <div className='p-5' id='content'>
+    <div className="clients-table p-4 my-4">
+        <div className='my-1'>
+<input
+  className='mx-1'
+  type="text"
+  placeholder="شركة الشحن"
+//   value={searchCompany}
+  onChange={(e) => setSearchCompany(e.target.value)}
+/>
+
+<input
+  className='mx-1'
+  type="text"
+  placeholder="طريقة الدفع"
+//   value={searchPaytype}
+  onChange={(e) => setSearchPaytype(e.target.value)}
+/>
+
+<input
+className='mx-1'
+  type="text"
+  placeholder="رقم التتبع"
+//   value={searchBillCode}
+  onChange={(e) => setSearchBillCode(e.target.value)}
+/>
+
+{/* Add a search button to trigger the search */}
+<button className="btn btn-dark m-1" onClick={getShipmentsAdmin}>
+  بحث
+</button> 
+        </div>
+        <div>
+<input
+    type="text"
+    placeholder="الاسم , الايميل ,الهاتف"
+    value={clientFilter}
+    onChange={(e) => setClientFilter(e.target.value)}
+  />
+  <button className="btn btn-dark m-1" onClick={filterByClientData}>بحث بالاسم أو الايميل</button>
+</div>
+        <div className='mb-1'>
+<input
+    type="text"
+    placeholder="كود المسوق"
+    value={marketerCodeFilter}
+    onChange={(e) => setMarketerCodeFilter(e.target.value)}
+  />
+  <button className="btn btn-dark m-1" onClick={filterByMarketerCode}>بحث بكود المسوق</button>
+
+        </div>
+
+        {/* <div>
+          <label>
+  من:
+  <input
+    type="date"
+    value={startDate}
+    onChange={(e) => setStartDate(e.target.value)}
+    max={endDate || undefined}
+  />
+</label>
+<label>
+  الى:
+  <input
+    type="date"
+    value={endDate}
+    onChange={(e) => setEndDate(e.target.value)}
+    min={startDate || undefined}
+  />
+</label>
+<button className="btn btn-dark m-1" onClick={filterByDate}>بحث بالتاريخ </button>
+        </div> */}
+        <button className="btn btn-addPiece m-1" onClick={getShipmentsAdmin}>عرض جميع الشحنات  </button>
+
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">التاريخ</th>
+                <th scope="col">العميل</th>
+                <th scope="col">
+                  شركة الشحن</th>
+                <th scope="col">
+                  رقم التتبع</th>
+                <th scope="col">
+                  حالة الشحنة </th>
+                <th scope="col">
+                  طريقة الدفع</th>
+                <th scope="col">
+                  الهاتف</th>
+                <th scope="col">
+                  الايميل</th>
+                <th scope="col">
+                  السعر</th>
+                <th scope="col">
+                  كود المسوق</th>
+                <th scope="col">id_الفاتورة</th>  
+                <th scope="col"></th>              
+              </tr>
+            </thead>
+            <tbody>
+            {shipmentsAdmin && shipmentsAdmin.map((item, index) => (
+  <tr key={index} className={item.status === "canceled" ? 'cancel' : ''}>
+    {loading ? (
+      <td>
+        <i className="fa-solid fa-spinner fa-spin"></i>
+      </td>
+    ) : (
+      <>
+        <td>{index+1}</td>
+                {item.createdate ? (<td>{item.createdate.slice(0, 15)}</td>
+) : item.data && item.data.createDate ? (
+  <td>{item.data.createDate.slice(0, 10)}</td>) : (<td>_</td>)}
+                {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
+                {item.company?<td>{item.company}</td>:<td>_</td>}
+                {item.data && item.data.awb_no ? (
+  <td>{item.data.awb_no}</td>
+) : item.data && item.data.waybill ? (
+  <td>{item.data.waybill}</td>
+) :item.data.data && item.data.data.billCode?(
+    <td>{item.data.data.billCode}</td>
+) : item.data && item.data.orderTrackingNumber ? (
+  <td>{item.data.orderTrackingNumber}</td>
+) : item.data && item.data.Shipments && item.data.Shipments[0]?.ID ? (
+  <td>{item.data.Shipments[0].ID}</td>
+) : item.data && item.data.sawb ? (
+  <td>{item.data.sawb}</td>
+) : (
+  <td>_</td>
+)}
+               {item.status?<td className={item.status=== "canceled" ?'text-center text-danger fw-bold':''}>{item.status}</td>:<td>_</td>}
+                {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
+
+                {item.user && item.user.mobile?<td>{item.user.mobile}</td>:<td>_</td>}
+                {item.user && item.user.email?<td>{item.user.email}</td>:<td>_</td>}
+                {item.price?<td>{item.price}</td>:<td>_</td>}
+                
+
+
+                {item.marktercode?<td>{item.marktercode}</td>:<td>_</td>}
+                
+        {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+        {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'> x </span> </td> : <td></td>}
+            
+      </>
+    )}
+  </tr>
+))}         
+        </tbody>
+      </table>
+      {secondFilter?(<div>
+        <button className="btn btn-dark" onClick={handlePreviousPage2} disabled={currentPage2 === 1}>
+          الصفحة السابقة 
+        </button>
+        <span className='px-1'>
+          Page {currentPage2} of {numberOfPages2}
+        </span>
+        <button className="btn btn-dark" onClick={handleNextPage2} disabled={currentPage2 === numberOfPages2}>
+          الصفحة التالية 
+        </button>
+      </div>):marketerFilter?(<div>
+        <button className="btn btn-dark" onClick={handlePreviousPage3} disabled={currentPage3 === 1}>
+          الصفحة السابقة 
+        </button>
+        <span className='px-1'>
+          Page {currentPage3} of {numberOfPages3}
+        </span>
+        <button className="btn btn-dark" onClick={handleNextPage3} disabled={currentPage3 === numberOfPages3}>
+          الصفحة التالية 
+        </button>
+      </div>):
+      dateFilter?(<div>
+        <button className="btn btn-dark" onClick={handlePreviousPage4} disabled={currentPage4 === 1}>
+          الصفحة السابقة 
+        </button>
+        <span className='px-1'>
+          Page {currentPage4} of {numberOfPages4}
+        </span>
+        <button className="btn btn-dark" onClick={handleNextPage4} disabled={currentPage4 === numberOfPages4}>
+          الصفحة التالية 
+        </button>
+      </div>):
+      (
+        <div>
+        <button className="btn btn-dark" onClick={handlePreviousPage} disabled={currentPage === 1}>
+          الصفحة السابقة 
+        </button>
+        <span className='px-1'>
+          Page {currentPage} of {numberOfPages}
+        </span>
+        <button className="btn btn-dark" onClick={handleNextPage} disabled={currentPage === numberOfPages}>
+          الصفحة التالية 
+        </button>
+      </div>
+      )}
+      
+     </div>
+
+    </div>
+    </>
+  )
+}
+
+// useEffect(() => {
+//     getShipmentsAdmin();
+// }, [currentPage, clientFilter, marketerCodeFilter, minPriceFilter, maxPriceFilter]);
+
+
+// async function filterByClientData() {
+//     try {
+//       setLoading(true);
+//       const response = await axios.get(
+//         `https://dashboard.go-tex.net/api/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
+//         {
+//             params: { page: currentPage, limit: 30 },
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+//           },
+//         }
+//       );
+
+//       setShipmentsAdmin(response.data.data);
+//       setCurrentPage(response.data.pagination.currentPage);
+//   setNumberOfPages(response.data.pagination.numberOfPages);
+//       console.log(response)
+//     } catch (error) {
+//       console.error('Error filtering by client data:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
+
+//   async function filterByMarketerCode() {
+//     try {
+//       setLoading(true);
+//       const response = await axios.get(
+//         `https://dashboard.go-tex.net/api/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
+//         {
+//             params: { page: currentPage, limit: 30 },
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+//           },
+//         }
+//       );
+//       console.log(response)
+//       setShipmentsAdmin(response.data.data);
+//       setCurrentPage(response.data.pagination.currentPage);
+//   setNumberOfPages(response.data.pagination.numberOfPages);
+//     } catch (error) {
+//       console.error('Error filtering by marketer code:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
+
+//   async function filterByPriceRange() {
+//     try {
+//       setLoading(true);
+//       const response = await axios.get(
+//         `https://dashboard.go-tex.net/api/companies/orders/filter-by-price?minPrice=${minPriceFilter}&maxPrice=${maxPriceFilter}`,
+//         {
+//             params: { page: currentPage, limit: 30 },
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+//           },
+//         }
+//       );
+//       console.log(response)
+
+//       setShipmentsAdmin(response.data.data);
+//       setCurrentPage(response.data.pagination.currentPage);
+//   setNumberOfPages(response.data.pagination.numberOfPages);
+//     } catch (error) {
+//       console.error('Error filtering by price range:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
+
+//   <div>
+//   <input
+//     type="text"
+//     placeholder="Search by client name, email, or mobile"
+//     value={clientFilter}
+//     onChange={(e) => setClientFilter(e.target.value)}
+//   />
+//   <input
+//     type="text"
+//     placeholder="Search by marketer code"
+//     value={marketerCodeFilter}
+//     onChange={(e) => setMarketerCodeFilter(e.target.value)}
+//   />
+//   <input
+//     type="text"
+//     placeholder="Min Price"
+//     value={minPriceFilter}
+//     onChange={(e) => setMinPriceFilter(e.target.value)}
+//   />
+//   <input
+//     type="text"
+//     placeholder="Max Price"
+//     value={maxPriceFilter}
+//     onChange={(e) => setMaxPriceFilter(e.target.value)}
+//   />
+// </div>
+
+// {/* Add buttons to trigger filtering */}
+// <button onClick={filterByClientData}>Filter by Client Data</button>
+// <button onClick={filterByMarketerCode}>Filter by Marketer Code</button>
+// <button onClick={filterByPriceRange}>Filter by Price Range</button>
+
+

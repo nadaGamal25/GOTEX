@@ -74,6 +74,10 @@ import Packeges from './Components/Packeges/Packeges';
 import SignupMarketers from './Components/SignupMarketers/SignupMarketers';
 import MarketersAdmin from './Components/MarketersAdmin/MarketersAdmin';
 import ClientsAmarketers from './Components/Clients&marketers/ClientsAmarketers';
+import AdminSearchShipments from './Components/AdminSearchShipments/AdminSearchShipments';
+import LoginMarketers from './Components/LoginMarketers/LoginMarketers';
+import MarketersShipments from './Components/MarketersShipments/MarketersShipments';
+import LayoutMarketers from './Components/LayoutMarketers/LayoutMarketers';
 
 function App() {
   
@@ -92,16 +96,26 @@ function App() {
     setuserData(decodedToken)
     console.log(userData)
   }
+  const [marketerData, setmarketerData] = useState(null)
+
+  async function saveMarketerData(){
+    let encodedToken =localStorage.getItem('marketerToken')
+    let decodedToken = jwtDecode(encodedToken);
+    console.log(decodedToken);
+    setmarketerData(decodedToken)
+    console.log(marketerData)
+  }
   useEffect(() => {
     const timeout = setTimeout(() => {
       window.alert('الجلسة انتهت..قم بتسجيل الدخول مرة اخرى');
       localStorage.removeItem('userToken');
       setuserData(null);
+      setmarketerData(null)
       window.location.href = '/';
     }, 60 * 60 * 1000); // 1 hour in milliseconds
 
     return () => clearTimeout(timeout);
-  }, [userData]);
+  }, [userData,marketerData]);
   
  
 
@@ -110,6 +124,8 @@ function App() {
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
     {path:'signupMarketers',element:<SignupMarketers/>},
+    {path:'loginMarketers',element:<LoginMarketers saveMarketerData={saveMarketerData}/>},
+    // {path:'marketersShipments',element:<MarketersShipments/>},
     {path:'splSticker',element:<SplSticker/>},
     {path:'splStickerPreview',element:<SplStickerPreview/>},
     {path:'invitedSignUp',element:<InvitedSignUp/>},
@@ -165,11 +181,15 @@ function App() {
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},
-    {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentsAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AdminSearchShipments/></ProtectedRoute></ErrorBoundary>},
     {path:'invocesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsCreditAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsCreditAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'marketersAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketersAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsAmarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAmarketers/></ProtectedRoute></ErrorBoundary>},
+   
+    ]},
+    {path:'/',element:<LayoutMarketers setmarketerData={setmarketerData} marketerData={marketerData}/> ,children:[
+      {path:'marketersShipments',element:<ErrorBoundary><MarketersShipments marketerData={marketerData}/></ErrorBoundary>},
    
     ]},
     {path:'*', element:<PageNotFound/>}
