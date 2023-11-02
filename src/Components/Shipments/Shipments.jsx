@@ -394,7 +394,7 @@ export default function Shipments(userData) {
         // Use file-saver to save the Blob as a PDF file
         saveAs(blob, filename);
       }
-        const filename = 'sticker.pdf'; // Replace with your desired filename
+        const filename = 'sticker.pdf'; 
       
         function handleConvertAndDownload(base64String) {
           convertBase64ToPDF(base64String, filename);

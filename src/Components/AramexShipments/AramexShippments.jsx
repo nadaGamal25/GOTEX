@@ -369,6 +369,9 @@ export default function AramexShippments(userData) {
       console.error(error);
     }
   }
+
+  const[addMarketer,setMarketer]=useState(false);
+
   return (
 <div className='p-4' id='content'>
 { userData.userData.data.user.rolle === "marketer"?(
@@ -660,19 +663,21 @@ export default function AramexShippments(userData) {
       }
       
     })}
-    { userData.userData.data.user.rolle === "marketer"?(
-              <div className='py-3'>
-              <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
-              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='markterCode'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-            ):null}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+            <div className='py-1'>
+              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
+              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
+              </button>
+              {addMarketer && (<div>
+                <label htmlFor=""> كود المسوق 
+             <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
+             
+              </div>) }
+             
+         </div>
+            ):null}
             {/* <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>

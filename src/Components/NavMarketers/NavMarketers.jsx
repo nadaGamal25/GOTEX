@@ -55,7 +55,7 @@ export default function NavMarketers({marketerData ,logout}) {
         <ul class="side-menu">
             
         <li>
-                <Link onClick={logout} class="logout" to='/'>
+                <Link onClick={logout} class="logout" to='/loginMarketers'>
                 <i class="fa-solid fa-right-from-bracket bx"></i>
                     <span class="text">تسجيل الخروج</span>
                 </Link>

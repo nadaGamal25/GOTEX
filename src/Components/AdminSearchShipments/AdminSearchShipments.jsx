@@ -344,13 +344,23 @@ async function filterByClientData() {
     <div className='p-5' id='content'>
     <div className="clients-table p-4 my-4">
         <div className='my-1'>
-<input
+{/* <input
   className='mx-1'
   type="text"
   placeholder="شركة الشحن"
 //   value={searchCompany}
   onChange={(e) => setSearchCompany(e.target.value)}
-/>
+/> */}
+<select className='mx-1' name="" id="" onChange={(e) => setSearchCompany(e.target.value)}>
+<option value="">شركة الشحن</option>
+<option value="saee">saee</option>
+<option value="anwan">gotex</option>
+<option value="smsa">smsa</option>
+<option value="aramex">aramex</option>
+<option value="imile">imile</option>
+<option value="jt">jt</option>
+<option value="spl">spl</option>
+</select>
 
 <input
   className='mx-1'
@@ -456,7 +466,8 @@ className='mx-1'
 ) : item.data && item.data.createDate ? (
   <td>{item.data.createDate.slice(0, 10)}</td>) : (<td>_</td>)}
                 {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
-                {item.company?<td>{item.company}</td>:<td>_</td>}
+                {item.company ==="anwan"?<td>gotex</td>:<td>{item.company}</td>}
+                {/* {item.company?<td>{item.company}</td>:<td>_</td>} */}
                 {item.data && item.data.awb_no ? (
   <td>{item.data.awb_no}</td>
 ) : item.data && item.data.waybill ? (

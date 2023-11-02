@@ -337,6 +337,8 @@ function getOrderData(e) {
       window.removeEventListener('click', handleOutsideClick);
     };
   }, [showClientsList]);
+
+  const[addMarketer,setMarketer]=useState(false);
   
   return (
     <div className='p-4' id='content'>
@@ -549,17 +551,18 @@ function getOrderData(e) {
     })}
             </div>
             { userData.userData.data.user.rolle === "marketer"?(
-              <div className='pb-3'>
-              <label htmlFor=""> كود المسوق 
-              <span className="star-requered">*</span></label>
-              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='markterCode'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
+            <div className='py-1'>
+              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
+              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
+              </button>
+              {addMarketer && (<div>
+                <label htmlFor=""> كود المسوق 
+             <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
+             
+              </div>) }
+             
+         </div>
             ):null}   
             {/* { userData.userData.data.user.rolle === "marketer"?(
               <div className='pb-3'>

@@ -108,10 +108,16 @@ function App() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       window.alert('الجلسة انتهت..قم بتسجيل الدخول مرة اخرى');
-      localStorage.removeItem('userToken');
-      setuserData(null);
-      setmarketerData(null)
-      window.location.href = '/';
+      
+      if(localStorage.getItem('userToken') !== null){
+        window.location.href = '/';
+        localStorage.removeItem('userToken');
+        setuserData(null);
+      }else{
+        window.location.href = '/loginMarketers';
+        localStorage.removeItem('marketerToken');
+        setmarketerData(null)
+      }
     }, 60 * 60 * 1000); // 1 hour in milliseconds
 
     return () => clearTimeout(timeout);
