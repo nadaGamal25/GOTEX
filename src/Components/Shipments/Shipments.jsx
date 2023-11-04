@@ -435,13 +435,12 @@ export default function Shipments(userData) {
             <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
             </div>
             <div className="col-md-10">
-            <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='كود المسوق' />
+            <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder=' رقم التتبع أو كود المسوق' />
             </div>
           </div>
           ): null}
       <div className="clients-table p-4 mt-4">
-      { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة gotex</h5>):null}
+        <h5>شركة gotex</h5>
        <table className="table">
          <thead>
            <tr>
@@ -467,7 +466,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.awb_no && item.data.awb_no.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -519,8 +521,7 @@ export default function Shipments(userData) {
       </table>
      </div> 
      <div className="clients-table p-4 my-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة saee</h5>):null}
+        <h5>شركة saee</h5>
       <table className="table">
         <thead>
           <tr>
@@ -547,7 +548,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.waybill && item.data.waybill.includes(search))
+    );
   }).map((item,index) =>{
     // const isCanceled = canceledRows.includes(item._id);
 
@@ -635,68 +639,10 @@ export default function Shipments(userData) {
       </table>
      </div> 
 
-     <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة glt</h5>):null}
-       <table className="table">
-         <thead>
-           <tr>
-            <th scope="col">#</th>
-            <th scope="col"> الشركة</th>
-             <th scope="col">رقم الشحنة</th>
-             <th scope="col">رقم التتبع</th>
-             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
-             <th scope="col">طريقة الدفع</th>
-             <th scope="col">التاريخ </th>
-             <th scope="col">id_الفاتورة</th>                
-
-             <th scope="col"></th>
-             <th scope="col"></th>
-           </tr>
-         </thead>
-       <tbody>
-       {gltAllOrders.filter((item) => {
-    if (search === '') {
-      return true;
-    }
-    return item.marktercode && item.marktercode.includes(search);
-  }).map((item,index) =>{
-            return(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{item.company}</td>
-                <td>{item.ordernumber}</td>
-                <td>{item.data.orderTrackingNumber}</td>
-                {userData.userData.data.user.rolle === "marketer" ? (
-  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
-) : null}
-                <td>{item.paytype}</td>
-                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
-                {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-
-                <td>
-                <button
-      
-      className="glt-btn btn btn-success"
-      onClick={() => getGltSticker(item._id)}
-    >
-      عرض الاستيكر
-    </button>
-                </td>
-                
-                
-              </tr>
-            )
-          }
-          )}
-           
-        </tbody>
-      </table>
-     </div> 
+     
 
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة aramex</h5>):null}
+        <h5>شركة aramex</h5>
        <table className="table">
          <thead>
            <tr>
@@ -719,7 +665,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.Shipments[0].ID && item.data.Shipments[0].ID.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -769,8 +718,7 @@ export default function Shipments(userData) {
       </table>
      </div> 
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة smsa</h5>):null}
+        <h5>شركة smsa</h5>
        <table className="table">
          <thead>
            <tr>
@@ -792,7 +740,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.sawb && item.data.sawb.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -862,9 +813,8 @@ export default function Shipments(userData) {
       </table>
      </div> 
     
-     <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة spl</h5>):null}
+     {/* <div className="clients-table p-4 mt-4">
+        <h5>شركة spl</h5>
        <table className="table">
          <thead>
            <tr>
@@ -887,7 +837,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+    (item.marktercode && item.marktercode.includes(search)) ||
+    (item.data.Items[0].Barcode && item.data.Items[0].Barcode.includes(search))
+  );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -927,11 +880,10 @@ export default function Shipments(userData) {
            
         </tbody>
       </table>
-     </div> 
+     </div>  */}
 
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة iMile</h5>):null}
+        <h5>شركة iMile</h5>
        <table className="table">
          <thead>
            <tr>
@@ -955,7 +907,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.data.expressNo && item.data.data.expressNo.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
@@ -1027,8 +982,7 @@ export default function Shipments(userData) {
       </table>
      </div> 
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة J&T</h5>):null}
+        <h5>شركة J&T</h5>
        <table className="table">
          <thead>
            <tr>
@@ -1051,7 +1005,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.data.billCode && item.data.data.billCode.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
@@ -1113,6 +1070,66 @@ export default function Shipments(userData) {
               
               
             </tr>
+            )
+          }
+          )}
+           
+        </tbody>
+      </table>
+     </div> 
+     <div className="clients-table p-4 mt-4">
+        <h5>شركة glt</h5>
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col"> الشركة</th>
+             <th scope="col">رقم الشحنة</th>
+             <th scope="col">رقم التتبع</th>
+             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+             <th scope="col">طريقة الدفع</th>
+             <th scope="col">التاريخ </th>
+             <th scope="col">id_الفاتورة</th>                
+
+             <th scope="col"></th>
+             <th scope="col"></th>
+           </tr>
+         </thead>
+       <tbody>
+       {gltAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.orderTrackingNumber && item.data.orderTrackingNumber.includes(search))
+    );
+  }).map((item,index) =>{
+            return(
+              <tr key={index}>
+                <td>{index+1}</td>
+                <td>{item.company}</td>
+                <td>{item.ordernumber}</td>
+                <td>{item.data.orderTrackingNumber}</td>
+                {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
+                <td>{item.paytype}</td>
+                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+                {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
+                <td>
+                <button
+      
+      className="glt-btn btn btn-success"
+      onClick={() => getGltSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button>
+                </td>
+                
+                
+              </tr>
             )
           }
           )}
