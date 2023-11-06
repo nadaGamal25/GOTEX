@@ -4,6 +4,8 @@ import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
+import { saveAs } from 'file-saver';
+import { atob } from 'js-base64';
 
 export default function SmsaShippments(userData) {
   const [companiesDetails,setCompaniesDetails]=useState([])
@@ -257,6 +259,7 @@ export default function SmsaShippments(userData) {
     "Shinan",
     "Namerah",
     "Dhamad",
+    "Dulay Rasheed",
     "Dammam Airport",
     "Dhahran",
     "Jubail",
@@ -566,6 +569,24 @@ export default function SmsaShippments(userData) {
     }, [showClientsList]);
 
     const[addMarketer,setMarketer]=useState(false);
+
+    
+  function convertBase64ToPDF(base64String, filename) {
+    const byteCharacters = atob(base64String);
+      const byteArray = new Uint8Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArray[i] = byteCharacters.charCodeAt(i);
+    }
+  
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+      saveAs(blob, filename);
+  }
+    const filename = 'sticker.pdf'; 
+  
+    function handleConvertAndDownload(base64String , sawb) {
+      convertBase64ToPDF(base64String, sawb);
+      
+    }
 
   return (
 <div className='p-4' id='content'>
@@ -1187,15 +1208,28 @@ export default function SmsaShippments(userData) {
         <td>
         <div class="dropdown">
   <button class="btn btn-success dropdown-toggle"
-  onClick={() => getSmsaSticker(item._id)} 
+  // onClick={() => getSmsaSticker(item._id)} 
   type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    عرض الاستيكر 
+    تحميل الاستيكر 
   </button>
 
   <ul class="dropdown-menu">
+  {/* 
   {stickerUrls ?( stickerUrls.map((sticker, index) => (
     <li key={index}>
       <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
+        استيكر {index+1}
+      </a>
+    </li>
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+} */}
+  {item.data.waybills ?( item.data.waybills.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item"  onClick={() => {
+        handleConvertAndDownload(sticker.awbFile , item.data.sawb)
+      }}>
         استيكر {index+1}
       </a>
     </li>

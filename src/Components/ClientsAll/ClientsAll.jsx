@@ -77,9 +77,26 @@ export default function ClientsAll() {
       const [isModalOpen, setIsModalOpen] = useState(false);
       
       const [editedClient, setEditedClient] = useState(null);
+      const [eClient, setEClient] = useState(null);
   const handleEditClick = (client) => {
+    setEClient(client);
+    setEditedClient(
+      {
+        company: client?.company || '',
+        first_name: client?.name || '',
+        city: client?.city || '',
+        state: client?.state || '', // optional
+        address: client?.address || '',
+        mobile: client?.mobile || '',
+        email: client?.email || '', // optional
+        notes: client?.notes || '', // optional
+        category: client?.category || '', // optional
+        birth_date: client?.birth_date || '', // optional
+        street: client?.street || ''
+    }
+    )
     setIsModalOpen(true);
-    setEditedClient(client);
+
     console.log(client)
     console.log(editedClient)
     console.log("yes")
@@ -93,6 +110,7 @@ export default function ClientsAll() {
       };
       const closeModal = () => {
         setIsModalOpen(false);
+        setEditedClient(null)
       };
       
       const [formData, setFormData] = useState({
@@ -105,25 +123,28 @@ export default function ClientsAll() {
         console.log(editedClient)
       }
       const handleSubmit = async (event) => {
+        console.log(editedClient)
         event.preventDefault();
         try {
           const response = await axios.post(
-            `https://dashboard.go-tex.net/api/clients/edit-client/${editedClient._id}`,
+            `https://dashboard.go-tex.net/api/clients/edit-client/${eClient._id}`,
             editedClient,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
               },
             }
           );
+          console.log(editedClient)
           console.log(response);
-          console.log(response.data.msg);
     
           closeModal();
           window.alert("تم تعديل بيانات العميل بنجاح")
+          getClientsList()
           
         } catch (error) {
           console.error(error);
+          alert(error.response.data.err.message)
         }
       }     
       const [value ,setPhoneValue]=useState()
@@ -183,7 +204,6 @@ export default function ClientsAll() {
       <table className="table">
         <thead>
           <tr>
-          {/* <th scope="col"></th>             */}
           <th scope="col">#</th>
             <th scope="col">العميل </th>
             <th scope="col">الشركة </th>
@@ -196,7 +216,9 @@ export default function ClientsAll() {
             <th scope="col"> credit </th>
             {/* <th scope="col">الشحنات </th>
             <th scope="col">ملاحظات </th> */}
-            <th></th>
+            <th scope="col"></th>            
+            <th scope="col"></th>            
+
            
           </tr>
         </thead>
@@ -206,9 +228,7 @@ export default function ClientsAll() {
           }).map((item,index) =>{
             return(
               <tr key={index}>
-                {/* <td>
-  <button className="btn btn-dark" onClick={() => handleEditClick(item)}>تعديل</button>
-</td> */}
+                
 
                 <td>{index+1}</td>
                 {item.name?<td>{item.name}</td>:<td>_</td>}
@@ -233,12 +253,15 @@ export default function ClientsAll() {
 
                  <td>
                 <button
-                        className='sdd-deposite btn btn-success mt-2'
+                        className='sdd-deposite btn btn-success '
                         onClick={() => openModal2(item._id)}
                       >
                         إضافة credit 
                       </button>
               </td>
+              <td>
+  <button className="btn btn-dark" onClick={() => handleEditClick(item)}>تعديل</button>
+</td>
               </tr>
             )
           }
@@ -249,7 +272,7 @@ export default function ClientsAll() {
          </div>
          
          {/* <EditClientModal isOpen={isModalOpen} closeModal={closeModal} client={editedClient} /> */}
-{editedClient && (<Modal show={isModalOpen} onHide={closeModal} >
+{isModalOpen && (<Modal show={isModalOpen} onHide={closeModal} >
         <Modal.Header >
           <Modal.Title>تعديل بيانات العميل
              </Modal.Title>
@@ -261,7 +284,7 @@ export default function ClientsAll() {
         <div className="row">
                 <div className="col-md-6 pb-1">
         <label htmlFor="first_name">الاسم   :</label>
-      <input onChange={handleInputChange} value={editedClient.name} type="text" className='my-input my-2 form-control' name='name' />
+      <input onChange={handleInputChange} value={editedClient.first_name} type="text" className='my-input my-2 form-control' name='first_name' />
       
       
     </div>
@@ -300,7 +323,7 @@ export default function ClientsAll() {
     {/* </div> */}
     <div className="col-md-6 pb-1">
         <label htmlFor="email"> الايميل  :</label>
-      <input onChange={handleInputChange} value={editedClient.email} type="text" className='my-input my-2 form-control' name='email' />
+      <input onChange={handleInputChange} value={editedClient.email} type="email" className='my-input my-2 form-control' name='email' />
       
       
     </div>

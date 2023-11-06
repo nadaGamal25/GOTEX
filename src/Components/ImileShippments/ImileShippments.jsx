@@ -295,9 +295,7 @@ function validateOrderUserForm(){
   
     function handleConvertAndDownload(base64String) {
       convertBase64ToPDF(base64String, filename);
-      // const stickerUrl=filename
-      // const newTab = window.open();
-      // newTab.location.href = stickerUrl;
+      
     } 
     const[imileclients,setimileClients]=useState([])
 

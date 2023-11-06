@@ -419,6 +419,21 @@ export default function Shipments(userData) {
             console.error(error);
           }
         }
+
+        function convertBase64ToPDFSmsa(base64String, filename) {
+          const byteCharacters = atob(base64String);
+            const byteArray = new Uint8Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteArray[i] = byteCharacters.charCodeAt(i);
+          }
+        
+          const blob = new Blob([byteArray], { type: 'application/pdf' });
+            saveAs(blob, filename);
+        }        
+          function handleConvertAndDownloadSmsa(base64String , sawb) {
+            convertBase64ToPDF(base64String, sawb);
+            
+          }
   return (
     <>
     
@@ -760,13 +775,25 @@ export default function Shipments(userData) {
               <td>
         <div class="dropdown">
   <button class="btn btn-success dropdown-toggle"
-  onClick={() => getSmsaSticker(item._id)} 
+  // onClick={() => getSmsaSticker(item._id)} 
   type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    عرض الاستيكر 
+    تحميل الاستيكر 
   </button>
 
   <ul class="dropdown-menu">
-  {stickerUrls ?( stickerUrls.map((sticker, index) => (
+  {item.data.waybills ?( item.data.waybills.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item"  onClick={() => {
+        handleConvertAndDownloadSmsa(sticker.awbFile , item.data.sawb)
+      }}>
+        استيكر {index+1}
+      </a>
+    </li>
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+}
+  {/* {stickerUrls ?( stickerUrls.map((sticker, index) => (
     <li key={index}>
       <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
         استيكر {index+1}
@@ -775,7 +802,7 @@ export default function Shipments(userData) {
   )) ): (<li>
     <i class="fa-solid fa-spinner fa-spin"></i>
   </li>)
-}
+} */}
 </ul>
 
 </div>
