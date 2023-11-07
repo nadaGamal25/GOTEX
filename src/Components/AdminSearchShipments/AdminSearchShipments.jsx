@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import * as XLSX from 'xlsx'; // Import the xlsx library
+// import * as XLSXStyle from 'xlsx-style'; // Import the xlsx-style library
+import { saveAs } from 'file-saver';
 
 export default function AdminSearchShipments() {
     const [shipmentsAdmin,setShipmentsAdmin]=useState([])
@@ -283,7 +286,7 @@ async function filterByClientData() {
         const response = await axios.get(
           `https://dashboard.go-tex.net/api/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
           {
-              params: { page: currentPage4, limit: 30 },
+              params: { page: currentPage4 -1 , limit: 30 },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
@@ -315,7 +318,7 @@ async function filterByClientData() {
         const response = await axios.get(
           `https://dashboard.go-tex.net/api/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
           {
-              params: { page: currentPage4, limit: 30 },
+              params: { page: currentPage4 +1 , limit: 30 },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
@@ -339,10 +342,33 @@ async function filterByClientData() {
 
   };
 
+
   return (
     <>
     <div className='p-5' id='content'>
     <div className="clients-table p-4 my-4">
+
+    <div className="row">
+        <div className='col-md-6'>
+<input
+    type="text"
+    placeholder="الاسم , الايميل ,الهاتف"
+    value={clientFilter}
+    onChange={(e) => setClientFilter(e.target.value)}
+  />
+  <button className="btn btn-dark m-1" onClick={filterByClientData}>بحث بالاسم أو الايميل</button>
+</div>
+        <div className='col-md-6'>
+<input
+    type="text"
+    placeholder="كود المسوق"
+    value={marketerCodeFilter}
+    onChange={(e) => setMarketerCodeFilter(e.target.value)}
+  />
+  <button className="btn btn-dark m-1" onClick={filterByMarketerCode}>بحث بكود المسوق</button>
+
+        </div>
+        </div>
         <div className='my-1'>
 {/* <input
   className='mx-1'
@@ -384,26 +410,6 @@ className='mx-1'
 </button> 
         </div>
         <div>
-<input
-    type="text"
-    placeholder="الاسم , الايميل ,الهاتف"
-    value={clientFilter}
-    onChange={(e) => setClientFilter(e.target.value)}
-  />
-  <button className="btn btn-dark m-1" onClick={filterByClientData}>بحث بالاسم أو الايميل</button>
-</div>
-        <div className='mb-1'>
-<input
-    type="text"
-    placeholder="كود المسوق"
-    value={marketerCodeFilter}
-    onChange={(e) => setMarketerCodeFilter(e.target.value)}
-  />
-  <button className="btn btn-dark m-1" onClick={filterByMarketerCode}>بحث بكود المسوق</button>
-
-        </div>
-
-        {/* <div>
           <label>
   من:
   <input
@@ -423,10 +429,11 @@ className='mx-1'
   />
 </label>
 <button className="btn btn-dark m-1" onClick={filterByDate}>بحث بالتاريخ </button>
-        </div> */}
+        </div>
+       
         <button className="btn btn-addPiece m-1" onClick={getShipmentsAdmin}>عرض جميع الشحنات  </button>
 
-          <table className="table">
+          <table className="table" id="table-to-export">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -470,7 +477,12 @@ className='mx-1'
                 {/* {item.company?<td>{item.company}</td>:<td>_</td>} */}
                 {item.data && item.data.awb_no ? (
   <td>{item.data.awb_no}</td>
-) : item.data && item.data.waybill ? (
+): item.data.data && item.data.data.expressNo? (
+  <td>{item.data.data.expressNo}</td>
+): item.data && item.data.Items && item.data.Items[0]?.Barcode? (
+  <td>{item.data.Items[0].Barcode}</td>
+)
+ : item.data && item.data.waybill ? (
   <td>{item.data.waybill}</td>
 ) :item.data.data && item.data.data.billCode?(
     <td>{item.data.data.billCode}</td>
