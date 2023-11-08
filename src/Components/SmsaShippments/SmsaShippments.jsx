@@ -259,6 +259,7 @@ export default function SmsaShippments(userData) {
     "Shinan",
     "Namerah",
     "Dhamad",
+    "Al Ardah",
     "Dulay Rasheed",
     "Dammam Airport",
     "Dhahran",
