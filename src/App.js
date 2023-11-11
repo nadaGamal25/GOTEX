@@ -114,7 +114,7 @@ function App() {
         localStorage.removeItem('userToken');
         setuserData(null);
       }else{
-        window.location.href = '/loginMarketers';
+        // window.location.href = '/loginMarketers';
         localStorage.removeItem('marketerToken');
         setmarketerData(null)
       }

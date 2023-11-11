@@ -126,12 +126,7 @@ export default function AnwanShippments(userData) {
   } else {
     myOrderData = { ...orderData };
   }
-      // let myOrderData = { ...orderData, s_name: itemName,
-      //   s_city: itemCity,
-      //   s_phone: itemMobile,
-      //   s_address: itemAddress,
-      //   clintid: itemId,
-      //   s_email:itemEmail};
+      
         if (e.target.type === "number") { // Check if the value is a number
         myOrderData[e.target.name] = Number(e.target.value);
       } else if (e.target.value === "true" || e.target.value === "false") {
@@ -546,7 +541,21 @@ export default function AnwanShippments(userData) {
           };
         }, [showClientsList]);
         const[addMarketer,setMarketer]=useState(false);
-
+        const [Branches,setBranches]=useState('')
+        const [isBranches,setIsBranches]=useState(false)
+        
+        useEffect(() => {
+          getOrderData({
+            target: { name: 's_city', value: itemCity },
+          });
+        }, [itemCity]); 
+        
+        useEffect(() => {
+          getOrderData({
+            target: { name: 's_address', value: itemAddress },
+          });
+        }, [itemAddress]);
+   
   return (
 <div className='p-4' id='content'>
 { userData.userData.data.user.rolle === "marketer"?(
@@ -582,11 +591,11 @@ export default function AnwanShippments(userData) {
                          <>
                          <li key={index} name='' 
                          onClick={(e)=>{ 
-   
+                          setBranches(item.branches)
                            const selectedCity = e.target.innerText;
                            setItemName(item.name);
                        setItemMobile(item.mobile);
-                      //  setItemCity(item.city);
+                       setItemCity(item.city);
                        setItemAddress(item.address);
                        setItemEmail(item.email);
                        setItemId(item.daftraClientId);
@@ -700,10 +709,10 @@ export default function AnwanShippments(userData) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
+            <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='s_city'
                 onChange={(e)=>{ 
-                  // setItemCity(e.target.value);
+                  setItemCity(e.target.value);
 
                   const searchValue = e.target.value;
                   setSearch(searchValue);
@@ -784,6 +793,60 @@ export default function AnwanShippments(userData) {
       
     })}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
+    }
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
+
+   {/* onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+  
+      // Use the callback function of setItemCity
+      setItemCity(selectedBranch.city, () => {
+        // This code will be executed after setItemCity updates the state
+        getOrderData({
+          target: { name: 's_city', value: selectedBranch.city },
+        });
+        getOrderData({
+          target: { name: 's_address', value: selectedBranch.address },
+        });
+      });
+    }
+  }} */}
             { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
               <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>

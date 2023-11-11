@@ -9,6 +9,12 @@ export default function AddClientAll() {
     const [value ,setPhoneValue]=useState()
 
     const [errorList, seterrorList]= useState([]); 
+    const [Branches, setBranches]= useState([
+      {
+        city:'',
+        address:''
+      }
+    ]); 
   const [clientData,setClientData] =useState({
     company: "",
     first_name: "",
@@ -21,7 +27,8 @@ export default function AddClientAll() {
     mobile: "",
     notes: "",
     category: "",
-    birth_date: ""
+    birth_date: "",
+    branches:Branches,
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -31,7 +38,10 @@ export default function AddClientAll() {
     try {
       const response = await axios.post(
         "https://dashboard.go-tex.net/api/clients/add-new-client",
-        clientData,
+        {
+          ...clientData,
+          branches:Branches
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -97,6 +107,10 @@ function getData(e) {
 
   
   function validateForm(){
+    const branchesSchema = Joi.object({
+      city: Joi.string().allow(null, ''),
+      address: Joi.string().allow(null, ''),
+  });
     let scheme= Joi.object({
         first_name:Joi.string().required(),
         // last_name:Joi.string().required(),
@@ -105,14 +119,51 @@ function getData(e) {
         mobile:Joi.string().required(),
         city:Joi.string().required(),
         address:Joi.string().required(),
-        state:Joi.string().required(),
+        state:Joi.string().allow(null, ''),
         street:Joi.string().required(),
         category:Joi.string().allow(null, ''),
         notes:Joi.string().allow(null, ''),
-        birth_date:Joi.date().allow(null, ''),       
+        birth_date:Joi.date().allow(null, ''),  
+        branches: Joi.array().items(branchesSchema),
+     
     });
     return scheme.validate(clientData, {abortEarly:false});
   } 
+
+  function addBranche() {
+    setBranches(prevBranches => [
+      ...prevBranches,
+      {
+        city: '',
+        address: ''
+      }
+    ]);
+  }
+
+  function updateBranche(index, field, value) {
+    const updatedBranches = [...Branches];
+    updatedBranches[index][field] = value;
+    setBranches(updatedBranches);
+  }
+
+  function handleCityInputChange(e, index) {
+    const searchValue = e.target.value;
+    setSearch2(searchValue);
+    getData(e);
+    const matchingCities = cities.filter((item) => {
+      return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+    });
+  
+    if (matchingCities.length === 0) {
+      closeCitiesList2();
+    } else {
+      openCitiesList2();
+    }
+  
+    // Update the 'city' field in the 'branche' object
+    updateBranche(index, 'city', e.target.value);
+  }
+  
   const cities =[ "Ad Dilam",
       "Ad Diriyah",
       "Afif",
@@ -648,16 +699,6 @@ function getData(e) {
       }
       
     })}
-    </div><div className="col-md-6 pb-3">
-        <label htmlFor="birth_date">تاريخ الميلاد   :<span className="star-requered"> </span></label>
-      <input onChange={getData} type="date" className='my-input my-2 form-control' name='birth_date' />
-      
-      {errorList.map((err,index)=>{
-      if(err.context.label ==='birth_date'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
-      }
-      
-    })}
     </div>
     <div className="col-md-6 pb-3">
     <label htmlFor="mobile">رقم الهاتف: <span className="star-requered">*</span></label>
@@ -686,8 +727,19 @@ function getData(e) {
       
     })}
     </div>
+    <div className="col-md-6 pb-3">
+        <label htmlFor="birth_date">تاريخ الميلاد   :<span className="star-requered"> </span></label>
+      <input onChange={getData} type="date" className='my-input my-2 form-control' name='birth_date' />
+      
+      {errorList.map((err,index)=>{
+      if(err.context.label ==='birth_date'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+      
+    })}
+    </div>
     <div className='col-md-6 pb-3 ul-box'>
-                <label htmlFor=""> المدينة : <span className="star-requered">*</span></label>
+                <label htmlFor=""> المدينة (الفرع الرئيسى) : <span className="star-requered">*</span></label>
                 <input type="text" className="form-control my-2" name='city'
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
@@ -768,7 +820,7 @@ function getData(e) {
       
     })}
     </div>
-    <div className="col-md-6 pb-3">
+    {/* <div className="col-md-6 pb-3">
         <label htmlFor="category">الفئة   :<span className="star-requered"> </span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='category' />
       
@@ -778,10 +830,10 @@ function getData(e) {
       }
       
     })}
-    </div>
+    </div> */}
     <div className="col-md-6 pb-3">
         <label htmlFor="notes">ملاحظات   :<span className="star-requered"> </span></label>
-        <textarea className="form-control my-2" name='notes' onChange={getData} cols="70" rows="2"></textarea>
+        <textarea className="form-control my-2" name='notes' onChange={getData} cols="70" rows="1"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='notes'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -789,6 +841,50 @@ function getData(e) {
       
     })}
     </div>
+    {Branches.map((branche, index) => (
+      <>
+       
+         <div className='col-md-6 pb-3 ul-box'>
+                <label htmlFor=""> اضافة فرع اخر  : </label>
+                <input
+        type="text"
+        className="form-control my-2"
+        name='city'
+        placeholder='المدينة'
+        value={branche.city}
+        onChange={(e) => updateBranche(index, 'city', e.target.value)}
+      />
+                
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='city'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+    
+    <div className="col-md-6 pb-3">
+        <label htmlFor="address">   </label>
+      <input type="text" className='my-input my-2 form-control' name='address' placeholder='عنوان الفرع'
+      value={branche.address}
+      onChange={e => updateBranche(index, 'address', e.target.value)} />
+      
+      {errorList.map((err,index)=>{
+      if(err.context.label ==='address'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+      
+    })}
+    </div>
+    <div className="text-center">
+    <button className=' btn-addPiece' type="button" onClick={addBranche}>
+         إضافة فرع اخر
+      </button>
+    </div>
+         
+      </>
+      
+    ))}
       
     
      

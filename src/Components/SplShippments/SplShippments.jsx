@@ -358,7 +358,20 @@ useEffect(() => {
   }
 
   const[addMarketer,setMarketer]=useState(false);
-
+  const [Branches,setBranches]=useState('')
+  const [isBranches,setIsBranches]=useState(false)
+  
+  useEffect(() => {
+    getOrderData({
+      target: { name: 'pickUpDistrictID', value: itemCity },
+    });
+  }, [itemCity]); 
+  
+  useEffect(() => {
+    getOrderData({
+      target: { name: 'pickUpAddress1', value: itemAddress },
+    });
+  }, [itemAddress]);
   return (
     <div className='p-4' id='content'>
     { userData.userData.data.user.rolle === "marketer"?(
@@ -394,7 +407,7 @@ useEffect(() => {
                        <>
                        <li key={index} name='' 
                        onClick={(e)=>{ 
- 
+                        setBranches(item.branches)
                          const selectedCity = e.target.innerText;
  
                          setItemName(item.name);
@@ -496,7 +509,7 @@ useEffect(() => {
     
           </div>
           <div className='pb-3 ul-box'>
-              <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
+          <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='pickUpDistrictID' onChange={getOrderData}/> */}
               <input type="text" className="form-control" name='pickUpDistrictID'
               onChange={(e)=>{ 
@@ -570,6 +583,41 @@ useEffect(() => {
       
     })}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
+    }
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
             { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
               <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>

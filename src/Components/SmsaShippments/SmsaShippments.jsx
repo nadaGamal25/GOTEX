@@ -588,6 +588,21 @@ export default function SmsaShippments(userData) {
       convertBase64ToPDF(base64String, sawb);
       
     }
+    const [Branches,setBranches]=useState('')
+    const [isBranches,setIsBranches]=useState(false)
+    
+    useEffect(() => {
+      getOrderData({
+        target: { name: 'p_City', value: itemCity },
+      });
+    }, [itemCity]); 
+    
+    useEffect(() => {
+      getOrderData({
+        target: { name: 'p_AddressLine1', value: itemAddress },
+      });
+    }, [itemAddress]);
+
 
   return (
 <div className='p-4' id='content'>
@@ -639,7 +654,7 @@ export default function SmsaShippments(userData) {
                        //     document.querySelector('input[name="p_ContactPhoneNumber"]').value = value;
                        //     document.querySelector('input[name="p_City"]').value = selectedItem.city;
                        //     document.querySelector('input[name="p_AddressLine1"]').value = selectedItem.address;
-                       
+                       setBranches(item.branches)
                        setItemName(item.name);
                        setItemMobile(item.mobile);
                       //  setItemCity(item.city);
@@ -737,7 +752,7 @@ export default function SmsaShippments(userData) {
       
             </div>  
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
+            <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_City'
                 onChange={(e)=>{ 
                   // setItemCity(e.target.value);
@@ -841,6 +856,41 @@ export default function SmsaShippments(userData) {
       
     })}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
+    }
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
             { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
               <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>

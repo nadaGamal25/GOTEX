@@ -212,6 +212,7 @@ export default function ClientsAll() {
             <th scope="col">المدينة </th>
             <th scope="col">العنوان </th>
             <th scope="col">الشارع  </th>
+            <th scope="col">الفروع  </th>
             <th scope="col">المحفظة </th>
             <th scope="col"> credit </th>
             {/* <th scope="col">الشحنات </th>
@@ -238,17 +239,18 @@ export default function ClientsAll() {
                 {item.city?<td>{item.city}</td>:<td>_</td>}
                 {item.address?<td>{item.address}</td>:<td>_</td>}
                 {item.street?<td>{item.street}</td>:<td>_</td>}
-                {item.wallet?<td>{item.wallet}</td>:<td>_</td>}
-                {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
-                {/* {item.orders ? (
+                 {item.branches ? (
           <td>
-            {item.orders.map((order) => (
-              <span key={order.id}>{order.company}, </span>
+            {item.branches.map((branche) => (
+              <span key={branche._id}>{branche.city}  {branche.address} & </span>
             ))}
           </td>
         ) : (
           <td>_</td>
-        )} */}
+        )}
+                {item.wallet?<td>{item.wallet}</td>:<td>_</td>}
+                {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
+               
                  {/* {item.notes?<td>{item.notes}</td>:<td>_</td>} */}
 
                  <td>

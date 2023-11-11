@@ -17,6 +17,7 @@ export default function ImileShippments(userData) {
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [clientId, setClientId] = useState('');
 
   const [theSkuDetailList, setSkuDetailList] = useState([
     {
@@ -35,6 +36,8 @@ export default function ImileShippments(userData) {
   const [orderData,setOrderData] =useState({
     p_company: "",
     c_company: "",
+    p_city:"",
+    p_address:"",
     c_name: "",
     c_mobile: "",
     c_city: "",
@@ -51,6 +54,7 @@ export default function ImileShippments(userData) {
     // clintid:'',
     daftraid:'',
     shipmentValue:"",
+    clintid:"",
 
   })
   const [error , setError]= useState('')
@@ -117,11 +121,12 @@ function getOrderData(e) {
     if (userData.userData.data.user.rolle === "marketer") {
       myOrderData = { ...orderData,
         //  SenderName: itemName,
-        // pickUpDistrictID: itemCity,
+        p_city: itemCity,
         // SenderMobileNumber: itemMobile,
-        // pickUpAddress1: itemAddress,
+        p_address: itemAddress,
         // // clintid: itemId,
         daftraid:itemId,
+        clintid:clientId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -166,8 +171,11 @@ function validateOrderUserForm(){
         skuDetailList: Joi.array().items(skuDetailsSchema),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
+        p_city:Joi.string().allow(null, ''),
+        p_address:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
         daftraid:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -850,6 +858,20 @@ function validateOrderUserForm(){
         }
 
         const[addMarketer,setMarketer]=useState(false);
+        const [Branches,setBranches]=useState('')
+        const [isBranches,setIsBranches]=useState(false)
+        
+        useEffect(() => {
+          getOrderData({
+            target: { name: 'p_city', value: itemCity },
+          });
+        }, [itemCity]); 
+        
+        useEffect(() => {
+          getOrderData({
+            target: { name: 'p_address', value: itemAddress },
+          });
+        }, [itemAddress]);
 
   return (
     <>
@@ -976,7 +998,7 @@ function validateOrderUserForm(){
              <input type="text" className="form-control" name='p_company' placeholder='اسم المرسل'
               onChange={(e)=>{ 
                 // openCitiesList();
-                setItemCity(e.target.value);
+                // setItemCity(e.target.value);
                 const searchValue = e.target.value;
                 setSearch(searchValue);
                 getOrderData(e)
@@ -1001,9 +1023,11 @@ function validateOrderUserForm(){
                    return(
                     <li key={index} name='p_company'  
                     onClick={(e)=>{ 
+                      setBranches(item.branches)
+                      setClientId(item._id)
                       setItemId(item.daftraClientId);
                       const selectedCity = item.company;
-                      setItemCity(selectedCity)
+                      // setItemCity(selectedCity)
                       getOrderData({ target: { name: 'p_company', value: selectedCity } });
                       document.querySelector('input[name="p_company"]').value = selectedCity;
                       closeCitiesList();
@@ -1023,6 +1047,41 @@ function validateOrderUserForm(){
     
   })}
           </div>
+          { userData.userData.data.user.rolle === "marketer"?(
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
+    }
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
           <div className='pb-1'>
               <label htmlFor=""> اسم المستلم<span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='c_name'  onChange={(e) => {
