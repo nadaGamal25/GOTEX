@@ -109,15 +109,15 @@ function App() {
     const timeout = setTimeout(() => {
       window.alert('الجلسة انتهت..قم بتسجيل الدخول مرة اخرى');
       
-      if(localStorage.getItem('userToken') !== null){
+      // if(localStorage.getItem('userToken') !== null){
         window.location.href = '/';
         localStorage.removeItem('userToken');
         setuserData(null);
-      }else{
+      // }else{
         // window.location.href = '/loginMarketers';
         localStorage.removeItem('marketerToken');
         setmarketerData(null)
-      }
+      // }
     }, 60 * 60 * 1000); // 1 hour in milliseconds
 
     return () => clearTimeout(timeout);
