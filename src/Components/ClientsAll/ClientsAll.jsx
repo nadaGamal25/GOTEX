@@ -92,7 +92,8 @@ export default function ClientsAll() {
         notes: client?.notes || '', // optional
         category: client?.category || '', // optional
         birth_date: client?.birth_date || '', // optional
-        street: client?.street || ''
+        street: client?.street || '',
+        // branches:client?.branches || '',
     }
     )
     setIsModalOpen(true);
