@@ -1253,7 +1253,7 @@ export default function SmsaShippments(userData) {
         <td>{item.company}</td>
         <td>{item.data.sawb}</td>
         <td>{item.paytype}</td>
-        <td>{item.data.createDate.slice(0, 10)}</td>
+        <td>{item.created_at.slice(0, 10)}</td>
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
         <td>

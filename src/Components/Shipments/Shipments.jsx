@@ -499,7 +499,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
               <td>
@@ -581,7 +581,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {/* <td>{item.data.message}</td> */}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
@@ -696,7 +696,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
               {/* <td>{item.data.orderTrackingNumber}</td> */}
@@ -770,7 +770,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              <td>{item.data.createDate.slice(0, 10)}</td>
+              <td>{item.created_at.slice(0, 10)}</td>
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
               <td>
         <div class="dropdown">
@@ -840,74 +840,7 @@ export default function Shipments(userData) {
       </table>
      </div> 
     
-     {/* <div className="clients-table p-4 mt-4">
-        <h5>شركة spl</h5>
-       <table className="table">
-         <thead>
-           <tr>
-            <th scope="col">#</th>
-            <th scope="col"> الشركة</th>
-            <th scope="col">رقم الشحنة</th>
-            <th scope="col">السعر </th>
-            <th scope="col">رقم التتبع</th>
-            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
-             <th scope="col">طرقة الدفع</th>
-             <th scope="col">التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
-
-             <th scope="col"></th>
-             <th scope="col"></th>
-           </tr>
-         </thead>
-       <tbody>
-       {splAllOrders.filter((item) => {
-    if (search === '') {
-      return true;
-    }
-    return  (
-    (item.marktercode && item.marktercode.includes(search)) ||
-    (item.data.Items[0].Barcode && item.data.Items[0].Barcode.includes(search))
-  );
-  }).map((item,index) =>{
-            return(
-              <tr key={index}>
-              <td>{index+1}</td>
-              <td>{item.company}</td>
-              <td>{item.ordernumber}</td>
-              <td>{item.price}</td>
-              <td>{item.data?.Items[0]?.Barcode}</td>
-              {userData.userData.data.user.rolle === "marketer" ? (
-  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
-) : null}
-              <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-
-              <td>
-              <button
     
-    className="spl-btn btn btn-success"
-    onClick={() => handleShowStickerClick(item)}
-    >
-    عرض الاستيكر
-  </button>
-              </td>
-              {item.inovicedaftra?.id?(<td><button
-      
-      className="btn btn-orange"
-      onClick={() => getInvoice(item.inovicedaftra.id)}
-    >
-      عرض الفاتورة
-    </button></td>):(<td>_</td>)}
-              
-            </tr>
-            )
-          }
-          )}
-           
-        </tbody>
-      </table>
-     </div>  */}
 
      <div className="clients-table p-4 mt-4">
         <h5>شركة iMile</h5>
@@ -950,7 +883,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
               <td>
         <button className="btn btn-success"  onClick={() => {
@@ -1048,7 +981,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
               <td>
         <button className="btn btn-success"  onClick={() => {
@@ -1104,6 +1037,74 @@ export default function Shipments(userData) {
         </tbody>
       </table>
      </div> 
+      <div className="clients-table p-4 mt-4">
+        <h5>شركة spl</h5>
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col"> الشركة</th>
+            <th scope="col">رقم الشحنة</th>
+            <th scope="col">السعر </th>
+            <th scope="col">رقم التتبع</th>
+            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+             <th scope="col">طرقة الدفع</th>
+             <th scope="col">التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
+
+             <th scope="col"></th>
+             <th scope="col"></th>
+           </tr>
+         </thead>
+       <tbody>
+       {splAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return  (
+    (item.marktercode && item.marktercode.includes(search)) ||
+    (item.data.Items[0].Barcode && item.data.Items[0].Barcode.includes(search))
+  );
+  }).map((item,index) =>{
+            return(
+              <tr key={index}>
+              <td>{index+1}</td>
+              <td>{item.company}</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.price}</td>
+              <td>{item.data?.Items[0]?.Barcode}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
+              <td>{item.paytype}</td>
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
+              <td>
+              <button
+    
+    className="spl-btn btn btn-success"
+    onClick={() => handleShowStickerClick(item)}
+    >
+    عرض الاستيكر
+  </button>
+              </td>
+              {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
+              
+            </tr>
+            )
+          }
+          )}
+           
+        </tbody>
+      </table>
+     </div> 
      <div className="clients-table p-4 mt-4">
         <h5>شركة glt</h5>
        <table className="table">
@@ -1142,7 +1143,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
                 <td>{item.paytype}</td>
-                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+                {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
                 {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
                 <td>

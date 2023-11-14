@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useRef} from 'react'
+import React, { useEffect, useState ,useRef ,createRef} from 'react'
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
@@ -661,6 +661,30 @@ function getData(e) {
             window.removeEventListener('click', handleOutsideClick);
           };
         }, [showCitiesList2]);
+
+        // Example state variables
+const [showCitiesList, setShowCitiesList] = useState(Array(Branches.length).fill(false));
+const [searchCities, setSearchCities] = useState(Array(Branches.length).fill(''));
+const citiesListRef = useRef(Array(Branches.length).map(() => createRef()));
+
+// Example functions
+const openCitiesList = (index) => {
+  setShowCitiesList((prev) => {
+    const newState = [...prev];
+    newState[index] = true;
+    return newState;
+  });
+};
+
+const closeCitiesList = (index) => {
+  setShowCitiesList((prev) => {
+    const newState = [...prev];
+    newState[index] = false;
+    return newState;
+  });
+};
+
+
   return (
     <>
     <div className='p-4' id='content'>
@@ -844,7 +868,7 @@ function getData(e) {
     {Branches.map((branche, index) => (
       <>
        
-         <div className='col-md-6 pb-3 ul-box'>
+         {/* <div className='col-md-6 pb-3 ul-box'>
                 <label htmlFor=""> اضافة فرع اخر  : </label>
                 <input
         type="text"
@@ -854,14 +878,70 @@ function getData(e) {
         value={branche.city}
         onChange={(e) => updateBranche(index, 'city', e.target.value)}
       />
-                
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='city'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
+            </div> */}
+         <div className='col-md-6 pb-3 ul-box' key={index}>
+    <label htmlFor=""> اضافة فرع اخر : </label>
+    
+<input
+  type="text"
+  className="form-control my-2"
+  name='city'
+  placeholder='المدينة'
+  value={branche.city}
+  onChange={(e) => {
+    const searchValue = e.target.value;
+    setSearchCities((prevSearchCities) => {
+      const updatedSearchCities = [...prevSearchCities];
+      updatedSearchCities[index] = searchValue;
+      return updatedSearchCities;
+    });
+
+    updateBranche(index, 'city', e.target.value);
+
+    const matchingCities = cities.filter((item) => {
+      return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+    });
+
+    if (matchingCities.length === 0) {
+      closeCitiesList(index);
+    } else {
+      openCitiesList(index);
+    }
+  }}
+  onClick={() => openCitiesList(index)}
+/>
+
+{showCitiesList[index] && (
+  <div>
+    <ul className='ul-cities'>
+      {cities &&
+        cities
+          .filter((item) => {
+            const lowercasedItem = item.toLowerCase();
+            const lowercasedSearchValue = (searchCities[index] || '').toLowerCase();
+            return lowercasedItem.includes(lowercasedSearchValue);
+          })
+          .map((item, cityIndex) => (
+            <li
+              key={cityIndex}
+              name='city'
+              onClick={(e) => {
+                const selectedCity = e.target.innerText;
+                updateBranche(index, 'city', selectedCity);
+                closeCitiesList(index);
+              }}
+            >
+              {item}
+            </li>
+          ))}
+    </ul>
+    <div onClick={() => closeCitiesList(index)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} />
+  </div>
+)}
+
+
+  
+  </div>   
     
     <div className="col-md-6 pb-3">
         <label htmlFor="address">   </label>
