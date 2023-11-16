@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef ,createRef } from 'react'
 import axios from 'axios'
 import EditClientModal from '../EditClientModal/EditClientModal';
 import {Modal , Button} from 'react-bootstrap';
@@ -78,6 +78,29 @@ export default function ClientsAll() {
       
       const [editedClient, setEditedClient] = useState(null);
       const [eClient, setEClient] = useState(null);
+      const [Branches, setBranches]= useState([
+        {
+          city:'',
+          address:''
+        }
+      ]); 
+      function addBranche() {
+        setBranches(prevBranches => [
+          ...prevBranches,
+          {
+            city: '',
+            address: ''
+          }
+        ]);
+      }
+    
+      function updateBranche(index, field, value) {
+        const updatedBranches = [...Branches];
+        updatedBranches[index][field] = value;
+        setBranches(updatedBranches);
+      }
+      
+      
   const handleEditClick = (client) => {
     setEClient(client);
     setEditedClient(
@@ -93,7 +116,7 @@ export default function ClientsAll() {
         category: client?.category || '', // optional
         birth_date: client?.birth_date || '', // optional
         street: client?.street || '',
-        // branches:client?.branches || '',
+        branches:client?.branches || Branches ,
     }
     )
     setIsModalOpen(true);
@@ -116,20 +139,76 @@ export default function ClientsAll() {
       
       const [formData, setFormData] = useState({
         name: editedClient?.name || '',
-        // Add other fields here with default values if needed
       });
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setEditedClient({ ...editedClient, [name]: value });
-        console.log(editedClient)
+    // const handleInputChange = (event) => {
+    //     const { name, value } = event.target;
+    //     setEditedClient({ ...editedClient, [name]: value });
+    //     console.log(editedClient)
+    //   }
+    // const handleInputChange = (event, branchIndex) => {
+    //   const { name, value } = event.target;
+    
+    //   // Check if the changed input belongs to the branch fields
+    //   if (name === 'city' || name === 'address') {
+    //     setEditedClient((prev) => {
+    //       const updatedBranches = [...prev.branches];
+    //       const updatedBranch = { ...updatedBranches[branchIndex], [name]: value };
+    //       updatedBranches[branchIndex] = updatedBranch;
+    
+    //       return { ...prev, branches: updatedBranches };
+    //     });
+    //   } else {
+    //     // If it's not a branch field, update the main form fields
+    //     setEditedClient({ ...editedClient, [name]: value });
+    //   }
+    // };
+    const handleInputChange = (event, branchIndex) => {
+      const { name, value } = event.target;
+    
+      if (branchIndex !== undefined) {
+        // Handle branch fields
+        setEditedClient((prev) => {
+          const updatedBranches = [...prev.branches];
+          const updatedBranch = { ...updatedBranches[branchIndex], [name]: value };
+          updatedBranches[branchIndex] = updatedBranch;
+    
+          return { ...prev, branches: updatedBranches };
+        });
+      } else {
+        // Handle main form fields
+        setEditedClient((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
       }
+    };
+    
+    const addBranche2 = () => {
+      setEditedClient((prev) => {
+        const newBranches = [
+          ...prev.branches,
+          {
+            city: '',
+            address: ''
+          }
+        ];
+    
+        return {
+          ...prev,
+          branches: newBranches
+        };
+      });
+    };
+    
       const handleSubmit = async (event) => {
         console.log(editedClient)
         event.preventDefault();
         try {
           const response = await axios.post(
             `https://dashboard.go-tex.net/api/clients/edit-client/${eClient._id}`,
-            editedClient,
+            {...editedClient,
+              branches: editedClient.branches.length > 0 ? editedClient.branches : Branches,
+            },
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -168,6 +247,523 @@ export default function ClientsAll() {
     
       });
 
+      const cities =[ "Ad Dilam",
+      "Ad Diriyah",
+      "Afif",
+      "Afifh",
+      "Al Aarid",
+      "Al Aflag",
+      "Al Aflaj",
+      "Al Ahmar",
+      "Al Amaaria",
+      "Al Badayea",
+      "Al Bijadyah",
+      "Al Bir",
+      "Al Bukayriyah",
+      "Al Dhahreyah",
+      "Al Dheelah",
+      "Al Dulaymiyah",
+      "Al Duwadimi",
+      "Al Fawwarah",
+      "Al Ghnamiah",
+      "Al Hariq",
+      "Al Hayathem",
+      "Al Janadriyyah",
+      "Al Jubaylah",
+      "Al Khabra",
+      "Al Kharma Al Shimaliah",
+      "Al Mansourah",
+      "Al Mashael",
+      "Al Muzahimiyah",
+      "Al Petra",
+      "Al Qarinah",
+      "Al Qasab",
+      "Al Qirawan",
+      "Al Qurainah",
+      "Al Quwaiiyah",
+      "Al Quwarah",
+      "Al Umjiah",
+      "Al Uyaynah",
+      "Al-Badie Al-Shamali",
+      "Al-Fuwayliq",
+      "Al-Kharj",
+      "AlMu'tadil",
+      "Almuzayri",
+      "Ammaria",
+      "An Nabhaniyah",
+      "Ar Rass",
+      "Ar Rayn",
+      "Ar Ruwaidah",
+      "arja",
+      "As Sulayyil","As Suwaidi",
+      "Ash Shifa",
+      "Ash Shu'ara",
+      "At Tuwalah",
+      "Ath Thumamah Village",
+      "Banban",
+      "Da'a",
+      "Dariyah",
+      "Dhurma",
+      "Duhknah",
+      "Dulay Rasheed",
+      "Hareeq",
+      "Howtat Bani Tamim",
+      "Huraymila",
+      "Jubaila",
+      "Kalakh Dam",
+      "Khairan",
+      "Malham",
+      "Maraghan",
+      "Marat",
+      "Mubhel",
+      "Naajan",
+      "Nifi",
+      "Nubayha",
+      "Qusaiba",
+      "Rafaya Al Jemsh",
+      "Riyadh",
+      "Riyadh Al Khabra",
+      "Rumah",
+      "Sajir",
+      "Salbookh",
+      "Salbukh",
+      "Shaqra",
+      "Subaih",
+      "Thadiq",
+      "Tharamda",
+      "Thebea",
+      "Tumair",
+      "Uglat Asugour",
+      "Umm al Jamajim",
+      "Ushaiqer",
+      "Wadi al Dawasir",
+      "Abu Hadriyah",
+      "Airj",
+      "Al Awamiyah",
+      "Al Aziziyah",
+      "Al Badiyah",
+      "Al Batha",
+      "Al Fadiliyah",
+      "Al Hassa",  "Al Hinnah",
+        "Al Hofuf",  "Al Husayy",  "Al Jubail", 
+         "Al Khobar",  "Al Khushaybi",  "Al Markuz",  
+         "Al Mubarraz",  "Al Nuzha",  "Al Oyun",  "Al Oyun Hofuf",
+           "Al Qatif",  "Al Qulayyib",  "Al Taraf",  "Al Tarf",  "Al Thawn",
+             "Al Umran",  "Al Wannan",  "Al Wozeyh",  "AlKhhafah",  
+             "Almazrooa 2nd",  "Anak",  "As Sadawi",  "As Salmanyah",
+               "As Sarrar",  "As Sihaf",  "Ash Shu'bah",  "At Timyat",
+                 "Ath Thybiyah",  "Az Zahrah",  "Az Zughayn",  "Buqayq", 
+                  "Dammam",  "Dhahran",  "Ghanwa",  "Hanidh",  "Harad",  
+                  "Haradh",  "Hawiyah",  "Ibn Shuraym",  "Juatha",  "Judah",  "Julayjilah",
+        "Khafji",  "Manifah",  "Mighati",  "Mulayjah",  "Nairyah",  "Nisab", 
+         "Nita","Qaryat Al Ulya",
+         "Rahima",
+         "Ras Al Khair",
+         "Ras Tanura",
+         "Rawdat Habbas",
+         "Safwa",
+         "Saihat",
+         "Salasil",
+         "Salwa",
+         "Satorp",
+         "Shedgum Gas Plant",
+         "Shifiyah",
+         "Tanajib",
+         "Tarout",
+         "Thaj",
+         "Udhailiyah",
+         "Udhailiyah Hofuf",
+         "Utayiq",
+         "Uthmaniyah",
+         "Zibala",
+         "Abu Ajram",
+         "Al Ajfar",
+         "Al Amar",
+         "Al Ammar",
+         "Al Artawiyah",
+         "Al Asyah",
+         "Al Atheeb",
+         "Al Bad",
+         "Al Butayn",
+         "Al Gayal",
+         "Al Ghat",
+         "Al Ghazalah",
+         "Al Hadithah",
+         "Al Hait",
+         "Al Hufayr",
+         "Al Hulayfah As Sufla",
+         "Al JABRIYAH",
+         "Al Jihfah",
+         "Al Jouf",
+         "Al Jumaymah",
+         "Al Khitah",
+         "Al Khuffiyah",
+         "Al Khuraytah",
+         "Al Khuzama",
+         "Al Laqayit",
+         "Al Lsawiyah",
+         "Al Majmaah",
+         "Al Majma'ah",
+         "Al Mayyah",
+         "Al Mithnab","Al Mudayyih",
+         "Al Muhammadiyah D",
+         "Al Mukaily",
+         "Al Muwaileh",
+         "Al Qaid",
+         "Al Qaisumah",
+         "Al Qalibah",
+         "Al Qarah",
+         "Al Qurayyat",
+         "Al Rafaeya'a",
+         "Al Ula",
+         "Al Uwayqilah",
+         "Al Wajh",
+         "Al-Nasfah",
+         "Al-Nasifa",
+         "Alsharaf",
+         "Amaaer Ben Sana'a",
+         "An Nabk Abu Qasr",
+         "An Nazayim",
+         "Ar Rafi'ah",
+         "Ar Rawdah",
+         "Arar",
+         "Artawiah",
+         "As Sam'uriyah",
+         "As Sulubiayh",
+         "Asbtar",
+         "Ash Shamli",
+         "Ash Sharaf",
+         "Ash Shimasiyah",
+         "Ash Shinan",
+         "Ash Shuqayq",
+         "Ath Thamiriyah",
+         "Ayn Ibn Fuhayd",
+         "Az Zulfi",
+         "Bada",
+         "Baqaa",
+         "Barzan",
+         "Bir ibn Harmas",
+         "Bir Ibn Hirmas",
+         "Buraydah",
+         "Duba",
+         "DUBAY'AH",
+         "Dulayhan",
+         "Dumah Al Jandal",
+         "Feyadh Tabrjal",
+         "Ghaf Al Jawa",
+         "Hadban",
+         "HADCO-Almarai",
+         "Hafar Al Batin",
+         "Hail","Halat Ammar",
+         "Haql",
+         "Hautat Sudair",
+         "Hazem Aljalamid",
+         "Hedeb",
+         "Ithrah",
+         "Jalajil",
+         "Jibal Khuraibah",
+         "Jubbah",
+         "King Khalid Military City",
+         "Magna",
+         "Mawqaq",
+         "Meegowa",
+         "Mogayra",
+         "Mudarraj",
+         "Mulayh",
+         "Munifah",
+         "Qassim",
+         "Qina",
+         "Qiyal",
+         "Qlayyb Khedr",
+         "Qufar",
+         "Radifah",
+         "Rafha",
+         "Raudat Sudair",
+         "Rawdat Al Hisu",
+         "Rawdat Sudair",
+         "Sadyan",
+         "Sakaka",
+         "Saqf",
+         "Shari",
+         "Sharma",
+         "Shiqri",
+         "Sude'a",
+         "Sumaira'a",
+         "Suwayr",
+         "Tabarjal",
+         "Tabuk",
+         "Tayma",
+         "Thumair",
+         "Trubah",
+         "Tubarjal",
+         "Turaif",
+         "Umm Al Jamajm",
+         "Umm Hazim",
+         "Unayzah",
+         "Uthal",
+         "Uyun Al Jawa",
+         "Zalom",
+         "Abha","Abu Arish",
+         "Abu Muloh",
+         "Ad Darb",
+         "Addayer",
+         "Adham",
+         "Ahad Al Masarihah",
+         "Ahad Rafidah",
+         "Al Ama ir",
+         "Al Amoah",
+         "Al Aqiq",
+         "Al Aridhah",
+         "Al Atawilah",
+         "Al Bahah",
+         "Al Baheem",
+         "Al Birk",
+         "Al Dhabyah",
+         "Al Edabi",
+         "Al Farshah",
+         "Al Gafrat",
+         "Al Habala",
+         "Al Hadror",
+         "Al Hajrah",
+         "Al Harajah",
+         "Al Hazmi",
+         "Al Hifah",
+         "Al Husayniyah",
+         "Al Jaizah",
+         "Al Jaradiyah",
+         "Al Jifah",
+         "Al Karbus",
+         "Al Khaniq",
+         "Al Khashabiyah",
+         "Al Lith",
+         "Al Madaya",
+         "Al Makhwah",
+         "Al Marooj",
+         "Al Mishaliah",
+         "Al Mozvin",
+         "Al Mubarakah",
+         "Al Namas",
+         "Al Qahma",
+         "Al Qeddeh",
+         "Al Qunfudhah",
+         "Al Rafaie",
+         "Al Salamah",
+         "Al Shatt",
+         "Al Sheqiqah",
+         "Al Shuqaiq",
+         "Al Soudah",
+         "Al Theniah","Al Turshiah",
+         "Al Tuwal",
+         "Al Uferiah",
+         "Al Wadeen",
+         "Al Wurud",
+         "Algayed",
+         "Alkhazzan",
+         "Almahalah",
+         "Almajaridah",
+         "Almandaq",
+         "Al-Matan",
+         "Almuzaylif",
+         "Alnajameiah",
+         "Alsilaa",
+         "Amaq",
+         "An Nuzhah",
+         "Arman",
+         "As Safa",
+         "Bahr Abu Sukaynah",
+         "Baish",
+         "Baljurashi",
+         "Bani Malik",
+         "Bariq",
+         "Baynah",
+         "Biljurashi",
+         "Billasmar",
+         "Bir Askar",
+         "Bish",
+         "Bisha",
+         "Bishah",
+         "Dahu",
+         "Damad",
+         "Dhahran Al Janoob",
+         "Dhahran Al Janub",
+         "Farasan Island",
+         "Fayfa",
+         "Gaabah",
+         "Hajrah",
+         "Harub",
+         "Hubuna",
+         "Hullatal Ahwass",
+         "Jarab",
+         "Jazan",
+         "Jazan Economic City",
+         "Jazirah",
+         "Karra",
+         "Khamis Mushait",
+         "Khamis Mutair",
+         "Khbash",
+         "Lahumah","Mahalah",
+         "Majzuah",
+         "Mehr Bisha Center",
+         "Mijannah",
+         "Mizhirah",
+         "Mojour",
+         "Mu fija",
+         "Muhayil",
+         "Najran",
+         "Nakhal",
+         "Namerah",
+         "Qana",
+         "Qilwah",
+         "Ranyah",
+         "Rijal Alma",
+         "Rojal",
+         "Ruqayqah",
+         "Sabt Al Alayah",
+         "Sabya",
+         "Samtah",
+         "Sarat Abidah",
+         "Sharorah",
+         "Sittr AlLihyani",
+         "Tabalah",
+         "Tamniah",
+         "Tanomah",
+         "Tarqush",
+         "Tathleeth",
+         "Tendaha",
+         "Tereeb",
+         "Thar",
+         "Umm Rahta",
+         "Waaer",
+         "Wadi Bishah",
+         "Wadi Ibn Hashbal",
+         "Zawral Harith",
+         "Abiyar Al Mashi",
+         "Abu Markha",
+         "Ad Dumayriyah",
+         "Airpot",
+         "Al Akhal",
+         "Al Arbaeen",
+         "Al Aziziyah",
+         "Al Basatin",
+         "Al Harara",
+         "Al Henakiyah",
+         "Al Heno",
+         "Al Jerisiyah",
+         "Al Jumum",
+         "Al Juranah","Al Kamil",
+         "Al Khurma",
+         "Al Lahien",
+         "Al Mabuth",
+         "Al Mindassah",
+         "Al Mulaylih",
+         "Al Muwayh",
+         "Al Nabah",
+         "Al Nagaf",
+         "Al Qrahin",
+         "Al Rathaya",
+         "Al Rawabi",
+         "Al Rehab",
+         "Al Shegrah",
+         "Al Shlayil",
+         "Al Sir",
+         "Al Thamad",
+         "Al Torkiyah",
+         "Al Yutamah",
+         "Alhada",
+         "Almojermah Village",
+         "An Nawwariyyah",
+         "Ar rayis",
+         "Arafa",
+         "As Sail Al Kabeer",
+         "As Sayl as Saghir",
+         "As Sudayrah",
+         "Asfan",
+         "Ash Shafa",
+         "Ashayrah",
+         "Asuwayq",
+         "Ateef",
+         "Badr",
+         "Bahrah",
+         "Bryman",
+         "Dahaban",
+         "Dhalm",
+         "Heelan Village",
+         "Husayniyah",
+         "Industrial Area",
+         "Isharah",
+         "Jeddah",
+         "Khaybar",
+         "Khulais",
+         "Macca",
+         "Mahd Al Thahab",
+         "Mastorah",
+         
+         "Medina",
+         "New Muwayh",
+         "Nimran",
+         "Qia",
+         "Rabigh",
+         "Shoaiba",
+         "Shoqsan",
+         "Taiba",
+         "Taif",
+         "Thuwal",
+         "Turbah",
+         "Umluj",
+         "Umm Aldoom",
+         "Urwah",
+         "Ushayrah",
+         "Wadi Al Fora'a",
+         "Wadi Reem",
+         "Yanbu"]
+      const [showCitiesList, setShowCitiesList] = useState(Array(Branches.length).fill(false));
+      const [searchCities, setSearchCities] = useState(Array(Branches.length).fill(''));
+      const citiesListRef = useRef(Array(Branches.length).map(() => createRef()));
+      
+      const openCitiesList = (index) => {
+        setShowCitiesList((prev) => {
+          const newState = [...prev];
+          newState[index] = true;
+          return newState;
+        });
+      };
+      
+      const closeCitiesList = (index) => {
+        setShowCitiesList((prev) => {
+          const newState = [...prev];
+          newState[index] = false;
+          return newState;
+        });
+      };
+
+      const [search2, setSearch2]= useState('')
+         const [showCitiesList2, setCitiesList2] = useState(false);
+      const openCitiesList2 = () => {
+        setCitiesList2(true);
+      };
+    
+      const closeCitiesList2 = () => {
+        setCitiesList2(false);
+      };
+      const citiesListRef2 = useRef(null);
+        useEffect(() => {
+          const handleOutsideClick = (e) => {
+            if (
+              citiesListRef2.current &&
+              !citiesListRef2.current.contains(e.target) &&
+              e.target.getAttribute('name') !== 'city'
+            ) {
+              closeCitiesList2();
+            }
+          };
+      
+          if (showCitiesList2) {
+            window.addEventListener('click', handleOutsideClick);
+          }     
+          return () => {
+            window.removeEventListener('click', handleOutsideClick);
+          };
+        }, [showCitiesList2]);
   return (
     <>
     <div className='p-5' id='content'>
@@ -331,14 +927,13 @@ export default function ClientsAll() {
       
     </div>
     <div className='col-md-6 pb-1 ul-box'>
-                <label htmlFor=""> المدينة</label>
-                <input onChange={handleInputChange} value={editedClient.city} type="text" className='my-input my-2 form-control' name='city' />
+                <label htmlFor=""> المدينة (الفرع الرئيسى)</label>
 
-                {/* <input type="text" className="form-control" name='city'
+                <input type="text" className=" my-input form-control my-2" name='city' value={editedClient.city}
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
                   setSearch2(searchValue);
-                  getData(e)
+                  handleInputChange(e)
                   const matchingCities = cities.filter((item) => {
                     return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
                   });
@@ -350,8 +945,8 @@ export default function ClientsAll() {
                   }
                   }}
                   onClick={openCitiesList2}
-                  /> */}
-                  {/* {showCitiesList2 && (
+                  />
+                  {showCitiesList2 && (
                     <ul  className='ul-cities' ref={citiesListRef2}>
                     {cities && cities.filter((item)=>{
                     return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
@@ -360,7 +955,7 @@ export default function ClientsAll() {
                       <li key={index} name='city' 
                       onClick={(e)=>{ 
                         const selectedCity = e.target.innerText;
-                        getData({ target: { name: 'city', value: selectedCity } });
+                        handleInputChange({ target: { name: 'city', value: selectedCity } });
                         document.querySelector('input[name="city"]').value = selectedCity;
                         closeCitiesList2();
                     }}
@@ -372,19 +967,19 @@ export default function ClientsAll() {
                     )}
                     </ul>
                   )}
-                 */}
+                 
             </div>
-    {/* <div className="col-md-6 pb-3">
-        <label htmlFor="state">المنطقة   :</label>
-      <input onChange={handleInputChange} value={editedClient.name} type="text" className='my-input my-2 form-control' name='state' />
-      
-    </div> */}
     
     <div className="col-md-6 pb-1">
         <label htmlFor="address">العنوان   :</label>
       <input onChange={handleInputChange} value={editedClient.address} type="text" className='my-input my-2 form-control' name='address' />
       
     </div>
+    {/* <div className="col-md-6 pb-3">
+        <label htmlFor="state">المنطقة   :</label>
+      <input onChange={handleInputChange} value={editedClient.name} type="text" className='my-input my-2 form-control' name='state' />
+      
+    </div> */}
     <div className="col-md-6 pb-1">
         <label htmlFor="street">الشارع   :</label>
       <input onChange={handleInputChange} value={editedClient.street} type="text" className='my-input my-2 form-control' name='street' />
@@ -395,6 +990,351 @@ export default function ClientsAll() {
       <input onChange={handleInputChange} value={editedClient.category} type="text" className='my-input my-2 form-control' name='category' />
       
     </div>
+    {/* updateBranche(index, 'city', e.target.value); 
+                    updateBranche(index, 'city', selectedCity);
+*/}
+{editedClient.branches.length > 0 ? (
+  editedClient.branches.map((branche, index) => (
+    <div className='row' key={index}>
+      <div className='col-md-6 pb-3 ul-box'>
+        <label htmlFor="">  فرع اخر : </label>
+        <input
+          type="text"
+          className="form-control my-2"
+          name='city'
+          placeholder='المدينة'
+          value={branche.city}
+          onChange={(e) => {
+            const searchValue = e.target.value;
+            setSearchCities((prevSearchCities) => {
+              const updatedSearchCities = [...prevSearchCities];
+              updatedSearchCities[index] = searchValue;
+              return updatedSearchCities;
+            });
+            handleInputChange(e, index)
+
+            const matchingCities = cities.filter((item) => {
+              return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+            });
+
+            if (matchingCities.length === 0) {
+              closeCitiesList(index);
+            } else {
+              openCitiesList(index);
+            }
+          }}
+          onClick={() => openCitiesList(index)}
+        />
+
+        {showCitiesList[index] && (
+          <div>
+            <ul className='ul-cities'>
+              {cities &&
+                cities
+                  .filter((item) => {
+                    const lowercasedItem = item.toLowerCase();
+                    const lowercasedSearchValue = (searchCities[index] || '').toLowerCase();
+                    return lowercasedItem.includes(lowercasedSearchValue);
+                  })
+                  .map((item, cityIndex) => (
+                    <li
+                      key={cityIndex}
+                      name='city'
+                      onClick={(e) => {
+                        const selectedCity = e.target.innerText;
+                        handleInputChange({ target: { name: 'city', value: selectedCity } }, index);
+                        closeCitiesList(index);
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+            </ul>
+            <div onClick={() => closeCitiesList(index)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} />
+          </div>
+        )}
+
+      </div>
+
+      <div className="col-md-6 pb-3">
+        <label htmlFor="address">   </label>
+        <input
+          type="text"
+          className='my-input my-2 form-control'
+          name='address'
+          placeholder='عنوان الفرع'
+          value={branche.address}
+          onChange={(e) => handleInputChange(e, index)}
+
+        />
+
+      </div>
+
+      <div className="text-center">
+        <button className='btn-addPiece' type="button" onClick={addBranche2}>
+          إضافة فرع اخر
+        </button>
+      </div>
+    </div>
+  ))
+) : (
+  Branches.map((branche, index) => (
+    <>
+       
+         <div className='col-md-6 pb-3 ul-box' key={index}>
+    <label htmlFor=""> اضافة فرع اخر : </label>
+    
+<input
+  type="text"
+  className="form-control my-2"
+  name='city'
+  placeholder='المدينة'
+  value={branche.city}
+  onChange={(e) => {
+    const searchValue = e.target.value;
+    setSearchCities((prevSearchCities) => {
+      const updatedSearchCities = [...prevSearchCities];
+      updatedSearchCities[index] = searchValue;
+      return updatedSearchCities;
+    });
+
+    updateBranche(index, 'city', e.target.value);
+
+    const matchingCities = cities.filter((item) => {
+      return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+    });
+
+    if (matchingCities.length === 0) {
+      closeCitiesList(index);
+    } else {
+      openCitiesList(index);
+    }
+  }}
+  onClick={() => openCitiesList(index)}
+/>
+
+{showCitiesList[index] && (
+  <div>
+    <ul className='ul-cities'>
+      {cities &&
+        cities
+          .filter((item) => {
+            const lowercasedItem = item.toLowerCase();
+            const lowercasedSearchValue = (searchCities[index] || '').toLowerCase();
+            return lowercasedItem.includes(lowercasedSearchValue);
+          })
+          .map((item, cityIndex) => (
+            <li
+              key={cityIndex}
+              name='city'
+              onClick={(e) => {
+                const selectedCity = e.target.innerText;
+                updateBranche(index, 'city', selectedCity);
+                closeCitiesList(index);
+              }}
+            >
+              {item}
+            </li>
+          ))}
+    </ul>
+    <div onClick={() => closeCitiesList(index)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} />
+  </div>
+)}
+
+
+  
+  </div>   
+    
+    <div className="col-md-6 pb-3">
+        <label htmlFor="address">   </label>
+      <input type="text" className='my-input my-2 form-control' name='address' placeholder='عنوان الفرع'
+      value={branche.address}
+      onChange={e => updateBranche(index, 'address', e.target.value)} />
+      
+      
+    </div>
+    <div className="text-center">
+    <button className=' btn-addPiece' type="button" onClick={addBranche}>
+         إضافة فرع اخر
+      </button>
+    </div>
+         
+      </>
+    
+  ))
+)}
+
+    {/* {editedClient.branches ? (editedClient.branches.map((branche, index) => (
+      <>
+       
+         <div className='col-md-6 pb-3 ul-box' key={index}>
+    <label htmlFor=""> اضافة فرع اخر : </label>
+    
+<input
+  type="text"
+  className="form-control my-2"
+  name='city'
+  placeholder='المدينة'
+  value={branche.city}
+  onChange={(e) => {
+    const searchValue = e.target.value;
+    setSearchCities((prevSearchCities) => {
+      const updatedSearchCities = [...prevSearchCities];
+      updatedSearchCities[index] = searchValue;
+      return updatedSearchCities;
+    });
+
+
+    const matchingCities = cities.filter((item) => {
+      return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+    });
+
+    if (matchingCities.length === 0) {
+      closeCitiesList(index);
+    } else {
+      openCitiesList(index);
+    }
+  }}
+  onClick={() => openCitiesList(index)}
+/>
+
+{showCitiesList[index] && (
+  <div>
+    <ul className='ul-cities'>
+      {cities &&
+        cities
+          .filter((item) => {
+            const lowercasedItem = item.toLowerCase();
+            const lowercasedSearchValue = (searchCities[index] || '').toLowerCase();
+            return lowercasedItem.includes(lowercasedSearchValue);
+          })
+          .map((item, cityIndex) => (
+            <li
+              key={cityIndex}
+              name='city'
+              onClick={(e) => {
+                const selectedCity = e.target.innerText;
+                closeCitiesList(index);
+              }}
+            >
+              {item}
+            </li>
+          ))}
+    </ul>
+    <div onClick={() => closeCitiesList(index)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} />
+  </div>
+)}
+
+
+  
+  </div>   
+    
+    <div className="col-md-6 pb-3">
+        <label htmlFor="address">   </label>
+      <input type="text" className='my-input my-2 form-control' name='address' placeholder='عنوان الفرع'
+      value={branche.address}
+          
+       />
+      
+    </div>
+    <div className="text-center">
+    <button className=' btn-addPiece' type="button" onClick={addBranche}>
+         إضافة فرع اخر
+      </button>
+    </div>
+         
+      </>
+      
+    )) ):({Branches.map((branche, index) => (
+      <>
+       
+         <div className='col-md-6 pb-3 ul-box' key={index}>
+    <label htmlFor=""> اضافة فرع اخر : </label>
+    
+<input
+  type="text"
+  className="form-control my-2"
+  name='city'
+  placeholder='المدينة'
+  value={branche.city}
+  onChange={(e) => {
+    const searchValue = e.target.value;
+    setSearchCities((prevSearchCities) => {
+      const updatedSearchCities = [...prevSearchCities];
+      updatedSearchCities[index] = searchValue;
+      return updatedSearchCities;
+    });
+
+    updateBranche(index, 'city', e.target.value);
+
+    const matchingCities = cities.filter((item) => {
+      return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+    });
+
+    if (matchingCities.length === 0) {
+      closeCitiesList(index);
+    } else {
+      openCitiesList(index);
+    }
+  }}
+  onClick={() => openCitiesList(index)}
+/>
+
+{showCitiesList[index] && (
+  <div>
+    <ul className='ul-cities'>
+      {cities &&
+        cities
+          .filter((item) => {
+            const lowercasedItem = item.toLowerCase();
+            const lowercasedSearchValue = (searchCities[index] || '').toLowerCase();
+            return lowercasedItem.includes(lowercasedSearchValue);
+          })
+          .map((item, cityIndex) => (
+            <li
+              key={cityIndex}
+              name='city'
+              onClick={(e) => {
+                const selectedCity = e.target.innerText;
+                updateBranche(index, 'city', selectedCity);
+                closeCitiesList(index);
+              }}
+            >
+              {item}
+            </li>
+          ))}
+    </ul>
+    <div onClick={() => closeCitiesList(index)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} />
+  </div>
+)}
+
+
+  
+  </div>   
+    
+    <div className="col-md-6 pb-3">
+        <label htmlFor="address">   </label>
+      <input type="text" className='my-input my-2 form-control' name='address' placeholder='عنوان الفرع'
+      value={branche.address}
+      onChange={e => updateBranche(index, 'address', e.target.value)} />
+      
+      {errorList.map((err,index)=>{
+      if(err.context.label ==='address'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+      
+    })}
+    </div>
+    <div className="text-center">
+    <button className=' btn-addPiece' type="button" onClick={addBranche}>
+         إضافة فرع اخر
+      </button>
+    </div>
+         
+      </>
+      
+    ))})
+  } */}
     {/* <div className="col-md-6 pb-3">
         <label htmlFor="notes">ملاحظات   :</label>
         <textarea className="form-control my-2" name='notes' onChange={handleInputChange} value={editedClient.notes} cols="70" rows="2"></textarea>

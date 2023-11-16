@@ -662,12 +662,10 @@ function getData(e) {
           };
         }, [showCitiesList2]);
 
-        // Example state variables
 const [showCitiesList, setShowCitiesList] = useState(Array(Branches.length).fill(false));
 const [searchCities, setSearchCities] = useState(Array(Branches.length).fill(''));
 const citiesListRef = useRef(Array(Branches.length).map(() => createRef()));
 
-// Example functions
 const openCitiesList = (index) => {
   setShowCitiesList((prev) => {
     const newState = [...prev];
