@@ -427,7 +427,8 @@ async function getPackageDetails() {
                 <span>{packegeDetails.userAvailableOrders}</span>
               </div>
               
-              </div>}
+              </div>
+              }
           </div>
           ): null}
       { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
