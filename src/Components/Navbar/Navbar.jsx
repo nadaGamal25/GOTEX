@@ -152,14 +152,26 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
-            {/* <li>
+            {userData?.data?.user?.rolle === "user"?(
+            <li>
                 <Link to="/packeges">
                 <i class="fa-solid fa-money-bill bx"></i>
-                    <span class="text">شراء باقات
+                    <span class="text">شراء باقة
                
                 </span>
                 </Link>
-            </li> */}
+            </li>
+            ):null}
+            {userData?.data?.user?.rolle === "user"?(
+            <li>
+                <Link to="/packageDetails">
+                <i class="fa-solid fa-money-bill bx"></i>
+                    <span class="text"> تفاصيل باقتك
+               
+                </span>
+                </Link>
+            </li>
+            ):null}
             {/* <li>
                 <Link to="/clients">
                     <i class="fa-solid fa-users bx"></i>

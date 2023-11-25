@@ -276,6 +276,12 @@ const handleNextPage2 = async () => {
         //   value={searchPaytype}
           onChange={(e) => setSearchPaytype(e.target.value)} />
         </div>
+        {/* <div className="col-md-4">
+          <input className='form-control m-1' type="search" 
+          
+          placeholder="رقم الصفحة "
+          onChange={(e) => setCurrentPage2(e.target.value)} />
+        </div> */}
         <div className="col-md-8 p-1">
           <label>
   التاريخ من:

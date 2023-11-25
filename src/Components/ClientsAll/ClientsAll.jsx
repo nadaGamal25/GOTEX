@@ -145,28 +145,11 @@ export default function ClientsAll() {
     //     setEditedClient({ ...editedClient, [name]: value });
     //     console.log(editedClient)
     //   }
-    // const handleInputChange = (event, branchIndex) => {
-    //   const { name, value } = event.target;
-    
-    //   // Check if the changed input belongs to the branch fields
-    //   if (name === 'city' || name === 'address') {
-    //     setEditedClient((prev) => {
-    //       const updatedBranches = [...prev.branches];
-    //       const updatedBranch = { ...updatedBranches[branchIndex], [name]: value };
-    //       updatedBranches[branchIndex] = updatedBranch;
-    
-    //       return { ...prev, branches: updatedBranches };
-    //     });
-    //   } else {
-    //     // If it's not a branch field, update the main form fields
-    //     setEditedClient({ ...editedClient, [name]: value });
-    //   }
-    // };
+   
     const handleInputChange = (event, branchIndex) => {
       const { name, value } = event.target;
     
       if (branchIndex !== undefined) {
-        // Handle branch fields
         setEditedClient((prev) => {
           const updatedBranches = [...prev.branches];
           const updatedBranch = { ...updatedBranches[branchIndex], [name]: value };
@@ -175,7 +158,6 @@ export default function ClientsAll() {
           return { ...prev, branches: updatedBranches };
         });
       } else {
-        // Handle main form fields
         setEditedClient((prev) => ({
           ...prev,
           [name]: value,
@@ -1164,182 +1146,7 @@ export default function ClientsAll() {
   ))
 )}
 
-    {/* {editedClient.branches ? (editedClient.branches.map((branche, index) => (
-      <>
-       
-         <div className='col-md-6 pb-3 ul-box' key={index}>
-    <label htmlFor=""> اضافة فرع اخر : </label>
-    
-<input
-  type="text"
-  className="form-control my-2"
-  name='city'
-  placeholder='المدينة'
-  value={branche.city}
-  onChange={(e) => {
-    const searchValue = e.target.value;
-    setSearchCities((prevSearchCities) => {
-      const updatedSearchCities = [...prevSearchCities];
-      updatedSearchCities[index] = searchValue;
-      return updatedSearchCities;
-    });
-
-
-    const matchingCities = cities.filter((item) => {
-      return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
-    });
-
-    if (matchingCities.length === 0) {
-      closeCitiesList(index);
-    } else {
-      openCitiesList(index);
-    }
-  }}
-  onClick={() => openCitiesList(index)}
-/>
-
-{showCitiesList[index] && (
-  <div>
-    <ul className='ul-cities'>
-      {cities &&
-        cities
-          .filter((item) => {
-            const lowercasedItem = item.toLowerCase();
-            const lowercasedSearchValue = (searchCities[index] || '').toLowerCase();
-            return lowercasedItem.includes(lowercasedSearchValue);
-          })
-          .map((item, cityIndex) => (
-            <li
-              key={cityIndex}
-              name='city'
-              onClick={(e) => {
-                const selectedCity = e.target.innerText;
-                closeCitiesList(index);
-              }}
-            >
-              {item}
-            </li>
-          ))}
-    </ul>
-    <div onClick={() => closeCitiesList(index)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} />
-  </div>
-)}
-
-
-  
-  </div>   
-    
-    <div className="col-md-6 pb-3">
-        <label htmlFor="address">   </label>
-      <input type="text" className='my-input my-2 form-control' name='address' placeholder='عنوان الفرع'
-      value={branche.address}
-          
-       />
-      
-    </div>
-    <div className="text-center">
-    <button className=' btn-addPiece' type="button" onClick={addBranche}>
-         إضافة فرع اخر
-      </button>
-    </div>
-         
-      </>
-      
-    )) ):({Branches.map((branche, index) => (
-      <>
-       
-         <div className='col-md-6 pb-3 ul-box' key={index}>
-    <label htmlFor=""> اضافة فرع اخر : </label>
-    
-<input
-  type="text"
-  className="form-control my-2"
-  name='city'
-  placeholder='المدينة'
-  value={branche.city}
-  onChange={(e) => {
-    const searchValue = e.target.value;
-    setSearchCities((prevSearchCities) => {
-      const updatedSearchCities = [...prevSearchCities];
-      updatedSearchCities[index] = searchValue;
-      return updatedSearchCities;
-    });
-
-    updateBranche(index, 'city', e.target.value);
-
-    const matchingCities = cities.filter((item) => {
-      return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
-    });
-
-    if (matchingCities.length === 0) {
-      closeCitiesList(index);
-    } else {
-      openCitiesList(index);
-    }
-  }}
-  onClick={() => openCitiesList(index)}
-/>
-
-{showCitiesList[index] && (
-  <div>
-    <ul className='ul-cities'>
-      {cities &&
-        cities
-          .filter((item) => {
-            const lowercasedItem = item.toLowerCase();
-            const lowercasedSearchValue = (searchCities[index] || '').toLowerCase();
-            return lowercasedItem.includes(lowercasedSearchValue);
-          })
-          .map((item, cityIndex) => (
-            <li
-              key={cityIndex}
-              name='city'
-              onClick={(e) => {
-                const selectedCity = e.target.innerText;
-                updateBranche(index, 'city', selectedCity);
-                closeCitiesList(index);
-              }}
-            >
-              {item}
-            </li>
-          ))}
-    </ul>
-    <div onClick={() => closeCitiesList(index)} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} />
-  </div>
-)}
-
-
-  
-  </div>   
-    
-    <div className="col-md-6 pb-3">
-        <label htmlFor="address">   </label>
-      <input type="text" className='my-input my-2 form-control' name='address' placeholder='عنوان الفرع'
-      value={branche.address}
-      onChange={e => updateBranche(index, 'address', e.target.value)} />
-      
-      {errorList.map((err,index)=>{
-      if(err.context.label ==='address'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
-      }
-      
-    })}
-    </div>
-    <div className="text-center">
-    <button className=' btn-addPiece' type="button" onClick={addBranche}>
-         إضافة فرع اخر
-      </button>
-    </div>
-         
-      </>
-      
-    ))})
-  } */}
-    {/* <div className="col-md-6 pb-3">
-        <label htmlFor="notes">ملاحظات   :</label>
-        <textarea className="form-control my-2" name='notes' onChange={handleInputChange} value={editedClient.notes} cols="70" rows="2"></textarea>
-               
-    </div> */}
+   
       
     
      

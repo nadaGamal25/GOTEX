@@ -167,7 +167,7 @@ export default function Login({saveUserData}) {
 
   function validateLoginForm(){
     let scheme= Joi.object({
-      email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
+      email:Joi.string().email({ tlds: { allow: ['com', 'net','lol','info'] }}).required(),
       password:Joi.string().required()
 
     });

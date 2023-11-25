@@ -4,6 +4,7 @@ import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
+import { Link } from 'react-router-dom';
 
 export default function AnwanShippments(userData) {
     const [companiesDetails,setCompaniesDetails]=useState([])
@@ -21,7 +22,7 @@ export default function AnwanShippments(userData) {
       useEffect(()=>{
           getCompaniesDetailsOrders()
           getClientsList()
-
+          console.log(cities)
           // getCities()
       },[])
       const [value ,setPhoneValue]=useState()
@@ -75,6 +76,8 @@ export default function AnwanShippments(userData) {
         if (response.status === 200) {
           setisLoading(false);
           window.alert("تم تسجيل الشحنة بنجاح");
+          getPackageDetails()
+
           console.log(response.data.data);
           const shipment = response.data.data;
           setShipments(prevShipments => [...prevShipments, shipment]);
@@ -555,9 +558,73 @@ export default function AnwanShippments(userData) {
             target: { name: 's_address', value: itemAddress },
           });
         }, [itemAddress]);
-   
+        useEffect(()=>{
+          getPackageDetails()
+        },[])
+        const [packegeDetails,setPackegeDetails]=useState([])
+      async function getPackageDetails() {
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+             
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            });
+            if (response.status === 200) {
+              console.log(response)
+              setPackegeDetails(response.data.data)
+              
+            } else {
+              console.log(response)
+            }
+          } catch (error) {
+            console.log(error);
+            // window.alert('somthing wrong');
+          }
+        }
   return (
 <div className='p-4' id='content'>
+{ userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+            <div className="prices-box">
+             <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
+             {packegeDetails.userAvailableOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة بك..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packegeDetails.companies ? (
+              <span>
+                {packegeDetails.companies.map((company) => (
+                  <span >{company === "anwan" ? "gotex" : company} , </span>
+                ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span>{packegeDetails.userAvailableOrders}</span>
+              </div>
+              
+              </div>}
+          
+          </div>
+          ): null}
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
+            <div className='text-center package-poster mb-3 mx-2 '>
+            <div className='p-4'>
+            <p>قم بشراء باقة الأن..
+              <Link to="/packeges">اضغط هنا  </Link>
+            </p>
+            </div>
+            
+          </div>
+          ): null}
 { userData.userData.data.user.rolle === "marketer"?(
            <div className="search-box p-4 mt-2 mb-4 row g-1">
            <div className="col-md-2">

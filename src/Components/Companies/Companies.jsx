@@ -78,7 +78,17 @@ export default function Companies(userData) {
       </table>
      </div> */}
         <div className="row g-4">
-          
+          <div className="col-md-12 ">
+          { userData.userData.data.user.rolle === "user"?
+            <div className='text-center package-poster '>
+              <div className='p-4'>
+              <p>قم بشراء باقة الأن..
+                <Link to="/packeges">اضغط هنا  </Link>
+              </p>
+              </div>
+              
+            </div>:null}
+          </div>
             <div className="col-md-12  position-relative">
             <div className="company-main company area position-relative">
             <ul class="circles">

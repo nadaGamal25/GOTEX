@@ -116,7 +116,7 @@ function submitRegisterForm(e){
     let scheme= Joi.object({
         name:Joi.string().required(),
         mobile:Joi.string().required(),
-        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
+        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol','info'] }}).required(),
         password:Joi.string().pattern(/^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
         ).required(),
         // password:Joi.string().pattern(/^[a-zA-Z0-9]{8,}$/),

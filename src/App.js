@@ -78,6 +78,8 @@ import AdminSearchShipments from './Components/AdminSearchShipments/AdminSearchS
 import LoginMarketers from './Components/LoginMarketers/LoginMarketers';
 import MarketersShipments from './Components/MarketersShipments/MarketersShipments';
 import LayoutMarketers from './Components/LayoutMarketers/LayoutMarketers';
+import PackegesAdmin from './Components/PackegesAdmin/PackegesAdmin';
+import PackageDetails from './Components/PackageDetails/PackageDetails';
 
 function App() {
   
@@ -137,6 +139,7 @@ function App() {
     {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'forgetPassword',element:<ForgetPassword/>},
     {path:'updatePassword/:x',element:<UpdatePassword/>},
+    {path:'/packeges',element:<ErrorBoundary><ProtectedRoute userData={userData}><Packeges userData={userData}/></ProtectedRoute></ErrorBoundary>},
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
     {path:'nav',element:<ProtectedRoute><NavAdmin setuserData={setuserData} userData={userData}/></ProtectedRoute>},
     // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
@@ -169,7 +172,7 @@ function App() {
       {path:'/paymentOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><PaymentOrders userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/addClientAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddClientAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/clientsAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
-      {path:'/packeges',element:<ErrorBoundary><ProtectedRoute userData={userData}><Packeges userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/packageDetails',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackageDetails userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
@@ -192,6 +195,7 @@ function App() {
     {path:'clientsCreditAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsCreditAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'marketersAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketersAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsAmarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAmarketers/></ProtectedRoute></ErrorBoundary>},
+    {path:'packegesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesAdmin/></ProtectedRoute></ErrorBoundary>},
    
     ]},
     {path:'/',element:<LayoutMarketers setmarketerData={setmarketerData} marketerData={marketerData}/> ,children:[

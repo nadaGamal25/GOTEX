@@ -55,6 +55,7 @@ export default function SaeeShipments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert("تم تسجيل الشحنة بنجاح");
+        getPackageDetails()
         console.log(response.data.data);
         const shipment = response.data.data;
         setShipments(prevShipments => [...prevShipments, shipment]);
@@ -68,7 +69,7 @@ export default function SaeeShipments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg?.error || "An error occurred.";
+      const errorMessage = error.response?.data?.msg?.error || error.response?.data?.msg || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
@@ -175,6 +176,7 @@ function getOrderData(e) {
       });
       setCities(response.data.data.cities)
       console.log(response.data.data.cities)
+      console.log(response)
     } catch (error) {
       console.error(error);
     }
@@ -353,9 +355,71 @@ function getOrderData(e) {
             target: { name: 'p_streetaddress', value: itemAddress },
           });
         }, [itemAddress]);
-  
+        useEffect(()=>{
+          getPackageDetails()
+        },[])
+        const [packegeDetails,setPackegeDetails]=useState([])
+      async function getPackageDetails() {
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+             
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            });
+            if (response.status === 200) {
+              console.log(response)
+              setPackegeDetails(response.data.data)
+            } else {
+              console.log(response)
+            }
+          } catch (error) {
+            console.log(error);
+            // window.alert('somthing wrong');
+          }
+        }
   return (
     <div className='p-4' id='content'>
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+            <div className="prices-box">
+             <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
+             {packegeDetails.userAvailableOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة بك..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packegeDetails.companies ? (
+              <span>
+                {packegeDetails.companies.map((company) => (
+                  <span >{company === "anwan" ? "gotex" : company} , </span>
+                ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span>{packegeDetails.userAvailableOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
+            <div className='text-center package-poster mb-3 mx-2 '>
+            <div className='p-4'>
+            <p>قم بشراء باقة الأن..
+              <Link to="/packeges">اضغط هنا  </Link>
+            </p>
+            </div>
+            
+          </div>
+          ): null}
       { userData.userData.data.user.rolle === "marketer"?(
            <div className="search-box p-4 mt-2 mb-4 row g-1">
            <div className="col-md-2">
@@ -726,8 +790,15 @@ function getOrderData(e) {
     })}
             </div>
     <div className='pb-3'>
-      <label htmlFor=""> قيمة الشحنة</label>
+    <label htmlFor=""> قيمة الشحنة</label>
       <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      {/* <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      onChange={(e)=>{
+        const shipvalue = e.target.value
+        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      }} 
+      required /> */}
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
