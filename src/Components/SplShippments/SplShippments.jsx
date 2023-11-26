@@ -429,6 +429,7 @@ async function getPackageDetails() {
               
               </div>
               }
+              
           </div>
           ): null}
       { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
