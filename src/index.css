@@ -1425,6 +1425,12 @@ border-radius: 5px;
   font-size: 24px;
   padding: 10px 0px;
 }
+.package-poster p a{
+  color: var(--orange-color);
+  font-weight: 600;
+  font-size: 24px;
+  padding: 10px 0px;
+}
 .package-details h4{
   color: var(--orange-color);
   font-weight: 600;
