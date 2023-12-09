@@ -85,7 +85,7 @@ export default function Navbar({userData ,logout}) {
           async function addDepositToUser() {
             try {
               const response = await axios.post(
-                'https://dashboard.go-tex.net/api/user/add-user-balance',
+                'https://dashboard.go-tex.net/api/user/user-charge',
                 {
                   amount: depositAmount,
                 },
@@ -100,7 +100,7 @@ export default function Navbar({userData ,logout}) {
               console.log(response.data);
               window.alert('يرجى ملئ جميع البيانات التالية ')
               // navigate(response.data.data.order.url);
-              const stickerUrl = `${response.data.data.order.url}`;
+              const stickerUrl = `${response.data.data.transaction.url}`;
            const newTab = window.open();
            newTab.location.href = stickerUrl;
 
