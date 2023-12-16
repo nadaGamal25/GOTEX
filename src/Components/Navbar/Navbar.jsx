@@ -213,7 +213,16 @@ export default function Navbar({userData ,logout}) {
               </Link>
           </li>
             ):null}
-            
+            {/* {userData?.data?.user?.rolle === "marketer"?(
+            <li>
+                <Link to="/packageMarketers">
+                <i class="fa-solid fa-money-bill bx"></i>
+                    <span class="text">شراء باقة لعميل
+               
+                </span>
+                </Link>
+            </li>
+            ):null} */}
             
             {/* {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>

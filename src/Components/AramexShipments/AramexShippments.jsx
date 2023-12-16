@@ -228,6 +228,7 @@ export default function AramexShippments(userData) {
         });
         setCities(response.data.data.Cities)
         console.log(response.data.data.Cities)
+        console.log(response)
       } catch (error) {
         console.error(error);
       }

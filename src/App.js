@@ -80,6 +80,7 @@ import MarketersShipments from './Components/MarketersShipments/MarketersShipmen
 import LayoutMarketers from './Components/LayoutMarketers/LayoutMarketers';
 import PackegesAdmin from './Components/PackegesAdmin/PackegesAdmin';
 import PackageDetails from './Components/PackageDetails/PackageDetails';
+import PackegesMarketers from './Components/PackegesMarketers/PackegesMarketers';
 
 function App() {
   
@@ -173,6 +174,7 @@ function App() {
       {path:'/addClientAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddClientAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/clientsAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/packageDetails',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackageDetails userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/packageMarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesMarketers userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[

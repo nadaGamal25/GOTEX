@@ -746,6 +746,48 @@ export default function ClientsAll() {
             window.removeEventListener('click', handleOutsideClick);
           };
         }, [showCitiesList2]);
+
+        const [showModalDeposit, setShowModalDeposit] = useState(false);
+      const [depositAmountDeposit, setDepositAmountDeposit] = useState('');
+      const [receiptFile, setReceiptFile] = useState(null);
+      const [selectedClientIdDeposit, setSelectedClientIdDeposit] = useState('');
+
+        function handleOpenModal(clientId) {
+          setSelectedClientIdDeposit(clientId);
+          setShowModalDeposit(true);
+        }
+        async function handleDepositSubmit(e) {
+          e.preventDefault();
+          if (!depositAmountDeposit || isNaN(depositAmountDeposit) || !receiptFile) {
+            alert('يرجى ملء جميع الحقول المطلوبة');
+            return;
+          }
+          const depositAmountNumber = Number(depositAmountDeposit);
+          const formData = new FormData();
+          formData.append('deposit', depositAmountNumber);
+          formData.append('recipt', receiptFile);
+          formData.append('clintid', selectedClientIdDeposit);
+        
+          try {
+            const response = await axios.post(
+              'https://dashboard.go-tex.net/api/user/add-clint-deposit',
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                },
+              }
+            );
+        
+            console.log(response.data);
+            window.alert('تم اضافة الرصيد بنجاح')
+            getClientsList()
+            setShowModalDeposit(false);
+          } catch (error) {
+            console.error('Error while adding deposit', error);
+        
+          }
+        }
   return (
     <>
     <div className='p-5' id='content'>
@@ -798,6 +840,7 @@ export default function ClientsAll() {
             <th scope="col">ملاحظات </th> */}
             <th scope="col"></th>            
             <th scope="col"></th>            
+            <th scope="col"></th>            
 
            
           </tr>
@@ -831,10 +874,17 @@ export default function ClientsAll() {
                 {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
                
                  {/* {item.notes?<td>{item.notes}</td>:<td>_</td>} */}
-
                  <td>
                 <button
-                        className='sdd-deposite btn btn-success '
+                        className='sdd-deposite btn btn-success'
+                        onClick={() => handleOpenModal(item._id)}
+                        >
+                        إضافة رصيد
+                      </button>
+              </td>
+                 <td>
+                <button
+                        className='sdd-deposite btn btn-primary '
                         onClick={() => openModal2(item._id)}
                       >
                         إضافة credit 
@@ -1212,7 +1262,52 @@ export default function ClientsAll() {
             </div>
           </div>
         </div>
-      )}     
+      )}  
+      {showModalDeposit && (
+        <div className='add-deposit-modal-overlay' style={{ display: 'block' }}>
+          <div className='add-deposit-modal-dialog'>
+            <div className='add-deposit-modal-content'>
+              <div className='add-deposit-modal-header'>
+                <h2 className='add-deposit-modal-title'>إضافة رصيد</h2>
+                <button
+                  className='close'
+                  onClick={() => setShowModalDeposit(false)}
+                >
+                  &times;
+                </button>
+              </div>
+              <div className='add-deposit-modal-body'>
+                <form onSubmit={handleDepositSubmit}>
+                  <label>الرصيد:</label>
+                  <input
+                    type='number' className='form-control'
+                    value={depositAmountDeposit}
+                    onChange={(e) => setDepositAmountDeposit(Number(e.target.value))}
+                  />
+                  <label>الإيصال:</label> <br/>
+                  <input
+                    type='file'
+                    onChange={(e) => setReceiptFile(e.target.files[0])}
+                  /><br/>
+                  <button
+                    type='submit'
+                    className='add-deposit-btn-primary btn btn-primary m-2'
+                  >
+                إضافة
+                  </button>
+                  <button
+                    type='button'
+                    className='btn btn-secondary m-2'
+                    onClick={() => setShowModalDeposit(false)}
+                  >
+                    إلغاء
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}   
     </>
   )
 }
