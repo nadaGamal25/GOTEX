@@ -217,7 +217,7 @@ export default function Navbar({userData ,logout}) {
             <li>
                 <Link to="/packageMarketers">
                 <i class="fa-solid fa-money-bill bx"></i>
-                    <span class="text">شراء باقة لعميل
+                    <span class="text"> باقات العملاء
                
                 </span>
                 </Link>

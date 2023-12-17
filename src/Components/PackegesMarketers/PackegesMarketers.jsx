@@ -61,9 +61,11 @@ export default function PackegesMarketers() {
     }
   }
   const [packageDetails, setPackageDetails] =useState('')
-  async function getPackageDetails(selectedId) {
+  const [packageName, setPackageName] =useState('')
+  async function getPackageDetails(selectedId,name) {
+    setPackageName(name)
     try {
-      const response = await axios.post(`https://dashboard.go-tex.net/api/package/get-client-package/${selectedId}`,
+      const response = await axios.get(`https://dashboard.go-tex.net/api/package/get-client-package/${selectedId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -72,6 +74,7 @@ export default function PackegesMarketers() {
       if (response.status === 200) {
         console.log(response)
         setPackageDetails(response.data.data)
+        openModalDetails(selectedId)
       } else {
         console.log(response)
       }
@@ -93,7 +96,6 @@ export default function PackegesMarketers() {
   function openModalDetails(clientid){
     setShowModalDetails(true)
     setSelectedUserId(clientid)
-    getPackageDetails(clientid)
   }
   function closeModalDetails(){
     setShowModalDetails(false)
@@ -101,6 +103,13 @@ export default function PackegesMarketers() {
   return (
     <>
     <div className='p-5' id='content'>
+      <div className="gray-table p-2">
+        <p className="email-note">* لا يمكن شراء اكثر من باقة للعميل فى نفس الوقت</p>
+        <p className="email-note">* سوف يتم أخذ قيمة الباقة من محفظة العميل واذا كانت خالية سيتم السحب من محفظة المدخلة</p>
+        <p className="email-note">* عند انتهاء الباقة سيتم السحب من رصيد المحفظة </p>
+        <p className="email-note">* يمكن الغاء الباقة فى حالة عدم استخدامها فقط</p>
+        
+      </div>
     <div className="search-box p-4 mt-2 row g-1">
         <div className="col-md-2">
         <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
@@ -146,7 +155,7 @@ export default function PackegesMarketers() {
                     </button>
                 </td>
                 <td>
-                  <button className="btn btn-success" onClick={()=> openModalDetails(item._id)}>
+                  <button className="btn btn-success" onClick={()=> getPackageDetails(item._id,item.name)}>
                     تفاصيل باقته
                   </button>
                 </td>
@@ -270,7 +279,11 @@ export default function PackegesMarketers() {
           <div className='modal-dialog'>
             <div className='modal-content'>
               <div className='modal-header'>
-                <h5 className='modal-title'> تفاصيل باقة العميل  </h5>
+                <h5 className='modal-title'> تفاصيل باقة 
+                <span className="text-primary px-1">
+                {packageName}  
+                </span>
+                </h5>
                 <button
                   type='button'
                   className='close'
@@ -280,6 +293,35 @@ export default function PackegesMarketers() {
                 </button>
               </div>
               <div className='modal-body'>
+                <div className="package-details">
+                <div className="row">
+          <div className="col-md-6 py-1">
+            <label htmlFor="">سعر الباقة :</label>
+            <span>{packageDetails.price}  ريال</span>
+          </div>
+          <div className="col-md-6 py-1">
+            <label htmlFor="">عدد الشحنات : </label>
+            <span>{packageDetails.numberOfOrders}</span>
+          </div>
+          <div className="col-md-12 py-1">
+            <label htmlFor="">شركات الشحن  : </label>
+            {packageDetails.companies ? (
+          <span>
+            {packageDetails.companies.map((company) => (
+              <span >{company === "anwan" ? "gotex" : company} , </span>
+            ))}
+          </span>
+        ) : (
+          <span>_</span>
+        )}
+          </div>
+          <div className="col-md-12 py-1">
+            <label htmlFor="">الشحنات المتبقة  : </label>
+            <span className='text-danger'>{packageDetails.availableOrders}</span>
+          </div>
+          
+          </div>
+                </div>
             
                 
               </div>
