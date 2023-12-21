@@ -263,6 +263,7 @@ export default function SmsaShippments(userData) {
     "Habounah",
     "Edabi",
     "Shinan",
+    "Baqaa",
     "Namerah",
     "Dhamad",
     "Al Ardah",
