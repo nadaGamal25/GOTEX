@@ -1053,8 +1053,13 @@ export default function AnwanShippments(userData) {
     })}
             </div>
     <div className='pb-3'>
-      <label htmlFor=""> قيمة الشحنة</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+    <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      onChange={(e)=>{
+        const shipvalue = e.target.value
+        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      }} 
+      required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
