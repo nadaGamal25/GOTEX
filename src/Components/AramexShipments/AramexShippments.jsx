@@ -13,6 +13,8 @@ export default function AramexShippments(userData) {
     const [CcellPhone,setCcellPhone] =useState()
     const [p_PhoneNumber,setp_PhoneNumber1Ext] =useState()
     const [c_PhoneNumber,setc_PhoneNumber1Ext] =useState()
+    const [packageCompanies, setPackageCompanies] = useState('');
+    const [packageOrders, setPackageOrders] = useState('');
 
     const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
@@ -35,7 +37,7 @@ export default function AramexShippments(userData) {
     pieces: "",
     p_name: "",
     p_company: "",
-    p_email: "",
+    // p_email: "",
     p_phone: "",
     p_PhoneNumber1Ext: "",
     p_line1: "",
@@ -122,7 +124,8 @@ export default function AramexShippments(userData) {
         p_line1: itemAddress,
         // clintid: itemId,
         daftraid:itemId,
-        p_email:itemEmail};
+        // p_email:itemEmail
+      };
     } else {
       myOrderData = { ...orderData };
     }
@@ -166,7 +169,7 @@ export default function AramexShippments(userData) {
           pieces: Joi.number().required(),
           p_name: Joi.string().required(),
           p_company: Joi.string().required(),
-          p_email: Joi.string().required(),
+          // p_email: Joi.string().required(),
           p_phone: Joi.string().required(),
           p_PhoneNumber1Ext: Joi.allow(null, ''),
           p_line1: Joi.string().required(),
@@ -494,9 +497,12 @@ export default function AramexShippments(userData) {
                            setItemMobile(item.mobile);
                           //  setItemCity(item.city);
                            setItemAddress(item.address);
-                           setItemEmail(item.email);
+                          //  setItemEmail(item.email);
                            setItemId(item.daftraClientId);
                            setPhoneValue(item.mobile)
+                           setPackageCompanies(item.package.companies)
+                           setPackageOrders(item.package.availableOrders)
+
                       //     setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       //     setItemMobile(item.Client.phone1);
                       //  setItemCity(item.Client.city);
@@ -510,7 +516,7 @@ export default function AramexShippments(userData) {
                        document.querySelector('input[name="p_phone"]').value = value;
                       //  document.querySelector('input[name="p_city"]').value = item.city;
                        document.querySelector('input[name="p_line1"]').value = item.address;
-                       document.querySelector('input[name="p_email"]').value = item.email;                    
+                      //  document.querySelector('input[name="p_email"]').value = item.email;                    
                       // document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
                       // document.querySelector('input[name="p_phone"]').value = value;
@@ -544,7 +550,41 @@ export default function AramexShippments(userData) {
            </div>
          </div>
            ): null}
-
+{ userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex" : company} , </span>
+                ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
         <div className="shipmenForm">
         { userData.userData.data.user.rolle === "marketer"?(
             <div className="prices-box text-center">
@@ -582,7 +622,7 @@ export default function AramexShippments(userData) {
       
     })}
             </div>
-            <div className='pb-3'>
+            {/* <div className='pb-3'>
                 <label htmlFor=""> البريد الالكترونى<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_email' onChange={(e) => {
     setItemEmail(e.target.value);
@@ -594,7 +634,7 @@ export default function AramexShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             <div className='pb-3'>
                 <label htmlFor="">
                   رقم الهاتف

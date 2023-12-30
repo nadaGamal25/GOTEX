@@ -829,7 +829,7 @@ export default function ClientsAll() {
             <th scope="col">العميل </th>
             <th scope="col">الشركة </th>
             <th scope="col">الهاتف </th>
-            <th scope="col">الايميل </th>
+            {/* <th scope="col">الايميل </th> */}
             <th scope="col">المدينة </th>
             <th scope="col">العنوان </th>
             <th scope="col">الشارع  </th>
@@ -838,7 +838,7 @@ export default function ClientsAll() {
             <th scope="col"> credit </th>
             {/* <th scope="col">الشحنات </th>
             <th scope="col">ملاحظات </th> */}
-            <th scope="col"></th>            
+            {/* <th scope="col"></th>             */}
             <th scope="col"></th>            
             <th scope="col"></th>            
 
@@ -857,7 +857,7 @@ export default function ClientsAll() {
                 {item.name?<td>{item.name}</td>:<td>_</td>}
                 {item.company?<td>{item.company}</td>:<td>_</td>}
                 {item.mobile?<td>{item.mobile} </td>:<td>_</td>}
-                {item.email?<td>{item.email}</td>:<td>_</td>}
+                {/* {item.email?<td>{item.email}</td>:<td>_</td>} */}
                 {item.city?<td>{item.city}</td>:<td>_</td>}
                 {item.address?<td>{item.address}</td>:<td>_</td>}
                 {item.street?<td>{item.street}</td>:<td>_</td>}
@@ -874,14 +874,14 @@ export default function ClientsAll() {
                 {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
                
                  {/* {item.notes?<td>{item.notes}</td>:<td>_</td>} */}
-                 <td>
+                 {/* <td>
                 <button
                         className='sdd-deposite btn btn-success'
                         onClick={() => handleOpenModal(item._id)}
                         >
                         إضافة رصيد
                       </button>
-              </td>
+              </td> */}
                  <td>
                 <button
                         className='sdd-deposite btn btn-primary '

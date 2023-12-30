@@ -10,6 +10,10 @@ import { atob } from 'js-base64';
 
 export default function ImileShippments(userData) {
     const [value ,setPhoneValue]=useState()
+    const [phone2,setPhone2] =useState()
+    const [packageCompanies, setPackageCompanies] = useState('');
+    const [packageOrders, setPackageOrders] = useState('');
+
     const [errorList, seterrorList]= useState([]); 
 
   const [itemName, setItemName] = useState('');
@@ -38,6 +42,7 @@ export default function ImileShippments(userData) {
     c_company: "",
     p_city:"",
     p_address:"",
+    p_mobile:"",
     c_name: "",
     c_mobile: "",
     c_city: "",
@@ -55,7 +60,7 @@ export default function ImileShippments(userData) {
     daftraid:'',
     shipmentValue:"",
     clintid:"",
-
+    
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -89,14 +94,14 @@ export default function ImileShippments(userData) {
         console.log(shipments)      
     }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data?.msg?.message || "An error occurred.";
+        const errorMessage = response.data?.err?.message || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }
     } catch (error) {
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg?.message || "An error occurred.";
+      const errorMessage = error.response?.data?.err?.message || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
@@ -138,7 +143,12 @@ function getOrderData(e) {
   } else if (e.target.value === "true" || e.target.value === "false") {
     myOrderData[e.target.name] = e.target.value === "true";
   } else {
-    myOrderData[e.target.name] = e.target.value || e.target.innerText;
+    if (e.target.name === "c_mobile" || e.target.name === "p_mobile") {
+      const phoneNumber = e.target.value ? e.target.value.replace(/\+/g, '') : '';
+      myOrderData[e.target.name] = phoneNumber;
+    } else {
+      myOrderData[e.target.name] = e.target.value || e.target.innerText;
+    }
   }
     setOrderData(myOrderData);
     console.log(myOrderData);
@@ -174,6 +184,7 @@ function validateOrderUserForm(){
         markterCode:Joi.string().allow(null, ''),
         p_city:Joi.string().allow(null, ''),
         p_address:Joi.string().allow(null, ''),
+        p_mobile:Joi.string().allow(null, ''),
         // clintid:Joi.string().allow(null, ''),
         daftraid:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
@@ -1026,6 +1037,41 @@ function validateOrderUserForm(){
        </div>
          ): null}
       */}
+      { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex" : company} , </span>
+                ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
       <div className="shipmenForm">
       { userData.userData.data.user.rolle === "marketer"?(
           <div className="prices-box text-center">
@@ -1089,6 +1135,8 @@ function validateOrderUserForm(){
                       setBranches(item.branches)
                       setClientId(item._id)
                       setItemId(item.daftraClientId);
+                      setPackageCompanies(item.package.companies)
+                        setPackageOrders(item.package.availableOrders)
                       const selectedCity = item.company;
                       // setItemCity(selectedCity)
                       getOrderData({ target: { name: 'p_company', value: selectedCity } });
@@ -1145,6 +1193,23 @@ function validateOrderUserForm(){
                 </>
                 )
               }
+              <div className='pb-1'>
+                <label htmlFor=""> رقم أخر للمرسل: (اختيارى) <span className="star-requered"></span></label>
+                {/* <input type="text" className="form-control"/> */}
+                <PhoneInput name='p_mobile' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
+    onChange={(phone2) => {
+      setPhone2(phone2);
+      getOrderData({ target: { name: 'p_mobile', value: phone2 } });
+    }}/>
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='p_mobile'){
+        return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
+      }
+      
+    })}
+      
+            </div>
           <div className='pb-1'>
               <label htmlFor=""> اسم المستلم<span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='c_name'  onChange={(e) => {
@@ -1367,7 +1432,10 @@ function validateOrderUserForm(){
         </div>
           ):null}            */}
           </div>
-          <div className="package-info brdr-grey p-3 my-3 ">
+          
+          </div>
+          <div className="col-md-6">
+          <div className="package-info brdr-grey p-3 mb-3 ">
               <h3>بيانات الشحنة :</h3>
               <div className="row">
               <div className="col-md-6">
@@ -1517,8 +1585,6 @@ function validateOrderUserForm(){
               
               </div>
           </div>
-          </div>
-          <div className="col-md-6">
           <div className="reciever-details brdr-grey p-3">
               <h3>تفاصيل المنتج :</h3>
               {theSkuDetailList.map((piece, index) => (
@@ -1564,8 +1630,8 @@ function validateOrderUserForm(){
       
     ))}
           </div>
-          {errorList && <div className="text-danger m-3">يجب ملئ جميع البيانات</div> }
-          <button type="submit" className="btn btn-orange" disabled={isLoading}>
+          {errorList && <div className="text-danger m-2">يجب ملئ جميع البيانات</div> }
+          <button type="submit" className="btn btn-orange me-3" disabled={isLoading}>
             {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
 
                </button>

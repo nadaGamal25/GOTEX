@@ -293,35 +293,42 @@ export default function PackegesMarketers() {
                 </button>
               </div>
               <div className='modal-body'>
-                <div className="package-details">
-                <div className="row">
-          <div className="col-md-6 py-1">
-            <label htmlFor="">سعر الباقة :</label>
-            <span>{packageDetails.price}  ريال</span>
+              {packageDetails.companies && packageDetails.companies.length === 0?(
+             <div className="package-details">
+             <p className="cancelpackage text-danger">                  
+             هذا العميل ليس لديه باقة حاليا..</p>
+             </div>
+          ): <div className="package-details">
+          <div className="row">
+    <div className="col-md-6 py-1">
+      <label htmlFor="">سعر الباقة :</label>
+      <span>{packageDetails.price}  ريال</span>
+    </div>
+    <div className="col-md-6 py-1">
+      <label htmlFor="">عدد الشحنات : </label>
+      <span>{packageDetails.numberOfOrders}</span>
+    </div>
+    <div className="col-md-12 py-1">
+      <label htmlFor="">شركات الشحن  : </label>
+      {packageDetails.companies ? (
+    <span>
+      {packageDetails.companies.map((company) => (
+        <span >{company === "anwan" ? "gotex" : company} , </span>
+      ))}
+    </span>
+  ) : (
+    <span>_</span>
+  )}
+    </div>
+    <div className="col-md-12 py-1">
+      <label htmlFor="">الشحنات المتبقة  : </label>
+      <span className='text-danger'>{packageDetails.availableOrders}</span>
+    </div>
+    
+    </div>
           </div>
-          <div className="col-md-6 py-1">
-            <label htmlFor="">عدد الشحنات : </label>
-            <span>{packageDetails.numberOfOrders}</span>
-          </div>
-          <div className="col-md-12 py-1">
-            <label htmlFor="">شركات الشحن  : </label>
-            {packageDetails.companies ? (
-          <span>
-            {packageDetails.companies.map((company) => (
-              <span >{company === "anwan" ? "gotex" : company} , </span>
-            ))}
-          </span>
-        ) : (
-          <span>_</span>
-        )}
-          </div>
-          <div className="col-md-12 py-1">
-            <label htmlFor="">الشحنات المتبقة  : </label>
-            <span className='text-danger'>{packageDetails.availableOrders}</span>
-          </div>
-          
-          </div>
-                </div>
+          }
+               
             
                 
               </div>

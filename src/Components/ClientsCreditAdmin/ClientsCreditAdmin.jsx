@@ -98,14 +98,14 @@ export default function ClientsCreditAdmin() {
   return (
     <>
     <div className='p-5' id='content'>
-    <div className="search-box p-4 mt-2 row g-1">
+    {/* <div className="search-box p-4 mt-2 row g-1">
         <div className="col-md-2">
         <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
         </div>
         <div className="col-md-10">
         <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='الإيميل' />
         </div>
-      </div>
+      </div> */}
     <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>

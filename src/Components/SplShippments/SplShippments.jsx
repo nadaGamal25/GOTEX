@@ -11,6 +11,8 @@ export default function SplShippments(userData) {
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
     const [errorList, seterrorList]= useState([]); 
+    const [packageCompanies, setPackageCompanies] = useState('');
+    const [packageOrders, setPackageOrders] = useState('');
 
   const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
@@ -484,6 +486,9 @@ async function getPackageDetails() {
                          setItemAddress(item.address);
                          setItemId(item.daftraClientId);
                          setPhoneValue(item.mobile)
+                         setPackageCompanies(item.package.companies)
+                         setPackageOrders(item.package.availableOrders)
+
                       //   setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       //  setItemMobile(item.Client.phone1);
                       //  setItemCity(item.Client.city);
@@ -529,7 +534,41 @@ async function getPackageDetails() {
          </div>
        </div>
          ): null}
-     
+     { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex" : company} , </span>
+                ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
       <div className="shipmenForm">
       { userData.userData.data.user.rolle === "marketer"?(
           <div className="prices-box text-center">

@@ -228,7 +228,37 @@ const handleNextPage2 = async () => {
     }  
   }
 };
-    
+async function getSearchShipmentsPage() {
+  try {
+    setLoading(true);
+    const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+      params: {
+          page: currentPage2,
+          limit: 30,
+          company: searchCompany,
+          paytype: searchPaytype,
+          billCode: searchBillCode,
+          marktercode:marketerCodeFilter,
+          keyword:clientFilter,
+          startDate:startDate,
+          endDate:endDate,
+        },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      },
+    });
+
+    setShipmentsAdmin(response.data.data);
+    setSecondFilter(true)
+    console.log(response)
+    setCurrentPage2(response.data.pagination.currentPage);
+    setNumberOfPages2(response.data.pagination.numberOfPages);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+  } finally {
+    setLoading(false); 
+  }
+} 
 
 
   return (
@@ -513,7 +543,15 @@ className='mx-1'
         </button>
       </div>
       )}
-      
+      <div>
+<input className=' m-1' type="number" 
+
+placeholder="رقم الصفحة "
+onChange={(e) => setCurrentPage2(e.target.value)} />
+<button className="btn btn-primary m-1" onClick={getSearchShipmentsPage}>
+            بحث برقم الصفحة
+        </button>
+      </div>
      </div>
 
     </div>

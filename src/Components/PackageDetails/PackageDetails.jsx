@@ -1,7 +1,7 @@
 import React ,{ useState ,useEffect } from 'react'
 import axios from 'axios'
 
-export default function PackageDetails() {
+export default function PackageDetails(userData) {
     useEffect(()=>{
         getPackageDetails()
       },[])
@@ -54,8 +54,24 @@ export default function PackageDetails() {
   return (
     <>
     <div className='p-4 admin' id='content'>
-    
-    <div className=" py-3">
+    { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
+            <div className=" py-3">
+            <div className="edit-form package-details">
+              <div className="p-saee p-3">
+                <h4 className="text-center mb-3">تفاصيل باقتك     </h4>
+                
+                <div className="prices-box text-center">
+                  <p className="cancelpackage text-danger">
+                    ليس لديك باقة حاليا...قم بشراء باقة
+                  </p>
+                 
+                </div>
+                </div>
+                
+                    </div>
+                  </div>
+          ): 
+          <div className=" py-3">
       <div className="edit-form package-details">
         <div className="p-saee p-3">
           <h4 className="text-center mb-3">تفاصيل باقتك     </h4>
@@ -99,7 +115,8 @@ export default function PackageDetails() {
           </div>
           
               </div>
-            </div>
+            </div>}
+    
             </div>
     </>
   )

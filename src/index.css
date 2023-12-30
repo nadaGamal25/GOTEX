@@ -24,6 +24,10 @@ a , button ,i{
   cursor: pointer;
   transition: all 0.3s;
 }
+button:hover, a:hover {
+  cursor: pointer !important;
+  transition: all 0.3s;
+}
 ul{
   list-style: none;
 }
@@ -543,9 +547,18 @@ html, body ,
   font-weight: 600;
   white-space: nowrap;
   overflow-x: hidden;
+  cursor: pointer;
 }
 .side-menu li a:focus{
   color: var(--orange-color);
+}
+.gray-box{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
 }
 /* .side-menu li a span{
   padding-right: 15px;

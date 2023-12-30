@@ -184,6 +184,8 @@ export default function Navbar({userData ,logout}) {
                     <span class="text">الشحنات</span>
                 </Link>
             </li>
+            {userData?.data?.user?.rolle === "user"?(
+            <>
             <li>
                 <Link to="#" onClick={openModal}>
                 <i class="fa-solid fa-credit-card bx"></i>
@@ -197,6 +199,9 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
+            </>
+            ):null}
+            
             {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
               <Link  to="/addClientAll">

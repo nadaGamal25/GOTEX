@@ -19,7 +19,7 @@ export default function AddClientAll() {
     company: "",
     first_name: "",
     // last_name: "",
-    email: "",
+    // email: "",
     address: "",
     city: "",
     state: "",
@@ -115,7 +115,7 @@ function getData(e) {
         first_name:Joi.string().required(),
         // last_name:Joi.string().required(),
         company:Joi.string().required(),
-        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).allow(null, ''),
+        // email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).allow(null, ''),
         mobile:Joi.string().required(),
         city:Joi.string().required(),
         address:Joi.string().required(),
@@ -738,7 +738,7 @@ const closeCitiesList = (index) => {
       
     })}
     </div>
-    <div className="col-md-6 pb-3">
+    {/* <div className="col-md-6 pb-3">
         <label htmlFor="email"> الايميل  :<span className="star-requered"> </span></label>
       <input onChange={getData} type="text" className='my-input my-2 form-control' name='email' />
       
@@ -748,7 +748,7 @@ const closeCitiesList = (index) => {
       }
       
     })}
-    </div>
+    </div> */}
     <div className="col-md-6 pb-3">
         <label htmlFor="birth_date">تاريخ الميلاد   :<span className="star-requered"> </span></label>
       <input onChange={getData} type="date" className='my-input my-2 form-control' name='birth_date' />
@@ -853,7 +853,7 @@ const closeCitiesList = (index) => {
       
     })}
     </div> */}
-    <div className="col-md-6 pb-3">
+    {/* <div className="col-md-6 pb-3">
         <label htmlFor="notes">ملاحظات   :<span className="star-requered"> </span></label>
         <textarea className="form-control my-2" name='notes' onChange={getData} cols="70" rows="1"></textarea>
                 {errorList.map((err,index)=>{
@@ -862,7 +862,7 @@ const closeCitiesList = (index) => {
       }
       
     })}
-    </div>
+    </div>  */}
     {Branches.map((branche, index) => (
       <>
        
@@ -942,7 +942,7 @@ const closeCitiesList = (index) => {
   </div>   
     
     <div className="col-md-6 pb-3">
-        <label htmlFor="address">   </label>
+        <label htmlFor="address" className='invisible'>  .</label>
       <input type="text" className='my-input my-2 form-control' name='address' placeholder='عنوان الفرع'
       value={branche.address}
       onChange={e => updateBranche(index, 'address', e.target.value)} />

@@ -27,7 +27,9 @@ export default function AnwanShippments(userData) {
       },[])
       const [value ,setPhoneValue]=useState()
       const [phone2,setPhone2] =useState()
-    
+      const [packageCompanies, setPackageCompanies] = useState('');
+      const [packageOrders, setPackageOrders] = useState('');
+  
       const [errorList, seterrorList]= useState([]); 
       const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
@@ -38,7 +40,7 @@ export default function AnwanShippments(userData) {
     const [orderData,setOrderData] =useState({
       pieces: '',
       description: '',
-      s_email:'',
+      // s_email:'',
       c_email:'',
       weight: '',
       s_address: '',
@@ -124,7 +126,7 @@ export default function AnwanShippments(userData) {
       s_address: itemAddress,
       // clintid: itemId,
       daftraid: itemId,
-      s_email: itemEmail,
+      // s_email: itemEmail,
     };
   } else {
     myOrderData = { ...orderData };
@@ -165,7 +167,7 @@ export default function AnwanShippments(userData) {
             c_address:Joi.string().required(),
             c_phone:Joi.string().required(),
             description:Joi.string().required(),
-            s_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
+            // s_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
             c_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
             // value:Joi.string().required(),
             cod:Joi.required(),
@@ -664,9 +666,12 @@ export default function AnwanShippments(userData) {
                        setItemMobile(item.mobile);
                        setItemCity(item.city);
                        setItemAddress(item.address);
-                       setItemEmail(item.email);
+                      //  setItemEmail(item.email);
                        setItemId(item.daftraClientId);
                        setPhoneValue(item.mobile)
+                       setPackageCompanies(item.package.companies)
+                       setPackageOrders(item.package.availableOrders)
+
                       // setItemName(item.Client.first_name && item.Client.last_name);
                       // setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       //  setItemMobile(item.Client.phone1);
@@ -680,7 +685,7 @@ export default function AnwanShippments(userData) {
                        document.querySelector('input[name="s_phone"]').value = value;
                       //  document.querySelector('input[name="s_city"]').value = item.city;
                        document.querySelector('input[name="s_address"]').value = item.address;
-                       document.querySelector('input[name="s_email"]').value = item.email; 
+                      //  document.querySelector('input[name="s_email"]').value = item.email; 
                       // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name;
                       // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
@@ -714,7 +719,41 @@ export default function AnwanShippments(userData) {
            </div>
          </div>
           ): null}
-
+{ userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex" : company} , </span>
+                ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
         <div className="shipmenForm">
           { userData.userData.data.user.rolle === "marketer"?(
             <div className="prices-box text-center">
@@ -744,7 +783,7 @@ export default function AnwanShippments(userData) {
       
     })}
             </div>
-            <div className='pb-3'>
+            {/* <div className='pb-3'>
                 <label htmlFor=""> الايميل<span className="star-requered">*</span></label>
                 <input type="email" className="form-control" name='s_email' onChange={(e) => {
     setItemEmail(e.target.value);
@@ -756,7 +795,7 @@ export default function AnwanShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             <div className='pb-3'>
                 <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}

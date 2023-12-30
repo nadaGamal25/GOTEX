@@ -83,10 +83,10 @@ const closeModal4 = () => {
             <th scope="col">الاسم </th>
             {/* <th scope="col">الشركة </th> */}
             <th scope="col">الهاتف </th>
-            <th scope="col">الايميل </th>
+            {/* <th scope="col">الايميل </th> */}
             <th scope="col">المدينة </th>
             <th scope="col">العنوان </th>
-
+            <th scope="col">الفروع  </th>
             <th scope="col"> </th>
             
             
@@ -102,9 +102,18 @@ const closeModal4 = () => {
                 {item?<td>{item.name}</td>:<td>_</td>}
                 {/* {item?<td>{item.company}</td>:<td>_</td>} */}
                 {item?<td>{item.mobile}</td>:<td>_</td>}
-                {item.email?<td>{item.email}</td>:<td>_</td>}
+                {/* {item.email?<td>{item.email}</td>:<td>_</td>} */}
                 {item.code?<td>{item.city}</td>:<td>_</td>}
                 {item?<td>{item.address}</td>:<td>_</td>}
+                {item.branches ? (
+          <td>
+            {item.branches.map((branche) => (
+              <span key={branche._id}>{branche.city}  {branche.address} & </span>
+            ))}
+          </td>
+        ) : (
+          <td>_</td>
+        )}
               <td>
               <button className="btn btn-dark"
                 onClick={() => {
