@@ -259,7 +259,99 @@ async function getSearchShipmentsPage() {
     setLoading(false); 
   }
 } 
+const exportToExcel = async () => {
+  try {
+    setLoading(true);
 
+    // Make the search request
+    const response = await axios.get('https://dashboard.go-tex.net/api/companies/orders/all', {
+      params: {
+        page: 1,
+        limit: 5000,
+        company: searchCompany,
+        paytype: searchPaytype,
+        billCode: searchBillCode,
+        marktercode:marketerCodeFilter,
+
+        keyword: clientFilter,
+        startDate: startDate,
+        endDate: endDate,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      },
+    });
+    setShipmentsAdmin(response.data.data);
+    setSecondFilter(true)
+    console.log(response)
+    setCurrentPage2(response.data.pagination.currentPage);
+    setNumberOfPages2(response.data.pagination.numberOfPages);
+    const dataToExport = response.data.data.map((item, index) => {
+      return [
+        item.created_at ? item.created_at.slice(0, 10) : '_',
+        item.user && item.user.name ? item.user.name : '_',
+        item.company === "anwan" ? 'gotex' : item.company || '_',
+        item.data && item.data.awb_no ? item.data.awb_no : (item.data && item.data.data && item.data.data.expressNo ? item.data.data.expressNo : (item.data && item.data.Items && item.data.Items[0]?.Barcode ? item.data.Items[0].Barcode : (item.data && item.data.waybill ? item.data.waybill : (item.data && item.data.data && item.data.data.billCode ? item.data.data.billCode : (item.data && item.data.orderTrackingNumber ? item.data.orderTrackingNumber : (item.data && item.data.Shipments && item.data.Shipments[0]?.ID ? item.data.Shipments[0].ID : (item.data && item.data.sawb ? item.data.sawb : '_'))))))),
+        item.status || '_',
+        item.paytype || '_',
+        item.user && item.user.mobile || '_',
+        item.user && item.user.email || '_',
+        item.price || '_',
+        item.marktercode || '_',
+      ];
+    });
+
+    // Create a worksheet
+    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'العميل', 'شركة الشحن', 'رقم التتبع', 'حالة الشحنة', 'طريقة الدفع', 'الهاتف', 'الايميل', 'السعر','كود المسوقة'], ...dataToExport]);
+
+    // Set column styles
+    ws['!cols'] = [
+      { wch: 18 },{ wch: 18 },{ wch: 18 },
+      { wch: 18 },{ wch: 18 },{ wch: 18 },
+      { wch: 18 },{ wch: 18 },{ wch: 18 },
+       // Set column width to 150 pixels
+      // Add more columns as needed
+    ];
+
+// Log the entire ws array to the console
+// console.log('ws array:', ws);
+// const range = XLSX.utils.decode_range(ws['!ref']);
+
+// for (let row = range.s.r; row <= range.e.r; row++) {
+//   for (let col = range.s.c; col <= range.e.c; col++) {
+//     const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
+//     const cellValue = ws[cellRef]?.v; // Get cell value
+
+//     console.log('Checking cell at row:', row + 1, 'column:', col + 1, 'with value:', cellValue);
+
+//     if (cellValue !== undefined && cellValue !== null) {
+//       const cellText = String(cellValue).toLowerCase(); // Convert to string and lowercase
+
+//       if (cellText === 'canceled') {
+//         console.log('Found "canceled" at row:', row + 1, 'column:', col + 1);
+//         ws[cellRef].s = {
+//           font: { color: { rgb: 'FF0000' } }, // Set text color to red
+//           fill: { fgColor: { rgb: 'FFCACADD' } }, // Set background color
+//         };
+//       }
+//     }
+//   }
+// }
+
+
+
+    // Create a workbook and add the worksheet
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+
+    // Save the workbook to a file
+    XLSX.writeFile(wb, 'orders.xlsx');
+  } catch (error) {
+    console.error('Error exporting to Excel:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
@@ -336,7 +428,10 @@ async function getSearchShipmentsPage() {
         <div className="text-center mt-1">
         <button className="btn btn-dark m-1" onClick={getSearchShipmentsAdmin}>
   بحث
-</button>         </div>
+</button>  
+<button className="btn btn-orange" onClick={exportToExcel}>بحث وتصدير ملف اكسيل</button>         
+
+ </div>
       </div>
     </div>
     <div className="clients-table p-4 my-4">
