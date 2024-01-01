@@ -65,11 +65,11 @@ export default function Packeges() {
 
         </div>
         <hr/>
-        <p className='p-desc'>هذه الباقة توفر لك شحنات فى شركة {
+        <p className='p-desc'>هذه الباقة توفر لك شحنات فى  {
           item.companies ? (
             <b>
               {item.companies.map((company) => (
-                <b><span >{company === "anwan" ? "gotex" : company} 
+                <b><span >{company === "anwan" ? "gotex" :company === "all" ? "جميع الشركات" : company} 
  </span>{item.companies.length > 1 ? "& " : ""}
 </b>
               ))}

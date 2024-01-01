@@ -96,7 +96,7 @@ export default function PackegesAdmin() {
         let schema = Joi.object({
           price: Joi.number().required(),
           numberOfOrders: Joi.number().required(),
-          companies: Joi.array().items(Joi.string()), 
+          companies: Joi.array().items(Joi.string()).required(), 
         });
       
         return schema.validate(newPackege, { abortEarly: false });
@@ -139,7 +139,7 @@ export default function PackegesAdmin() {
       placeholder=' '
       onChange={(e) => updateArrayData(0, 'companies', e.target.value)}
     >
-      <option value="">شركة الشحن</option>
+<option value="">  </option>
 <option value="saee">saee</option>
 <option value="gotex">gotex</option>
 <option value="smsa">smsa</option>
@@ -147,11 +147,22 @@ export default function PackegesAdmin() {
 <option value="imile">imile</option>
 <option value="jt">jt</option>
 <option value="spl">spl</option>
+<option value="all">جميع الشركات </option>
+
+
 </select>
+{errorList.map((err,index)=>{
+      if(err.context.label ==='companies'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
 <div className="text-center">
-    <button className=' btn-addPiece' type="button" onClick={addCompany}>
+<input type="checkbox" className='' onClick={addCompany}/>
+<label for="">  إضافة شركة أخرى</label><br/>
+    {/* <button className=' btn-addPiece' type="button" onClick={addCompany}>
          إضافة شركة أخرى
-      </button>
+      </button> */}
     </div>
     </div>
       </>
@@ -169,7 +180,7 @@ Companies.map((item, index) => (
         value={item}
         onChange={(e) => updateArrayData(index, 'companies', e.target.value)}
       >
-         <option value="">شركة الشحن</option>
+<option value=""></option>
 <option value="saee">saee</option>
 <option value="anwan">gotex</option>
 <option value="smsa">smsa</option>
@@ -177,19 +188,30 @@ Companies.map((item, index) => (
 <option value="imile">imile</option>
 <option value="jt">jt</option>
 <option value="spl">spl</option>
+<option value="all">جميع الشركات </option>
+
 </select>
+{errorList.map((err,index)=>{
+      if(err.context.label ==='companies'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
 <div className="text-center">
-    <button className=' btn-addPiece' type="button" onClick={addCompany}>
+<input type="checkbox" onClick={addCompany}/>
+<label for="">  إضافة شركة أخرى</label><br/>
+    {/* <button className=' btn-addPiece' type="button" onClick={addCompany}>
          إضافة شركة أخرى
-      </button>
-    </div>    </div>
+      </button> */}
+    </div>    
+    </div>
   ))
 )}
 
 
 <div className="text-center">
                     <button className='btn btn-primary mt-3'>
-                    {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة'}
+                    {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة باقة'}
                    </button>
                    </div>
                   </form>
@@ -218,7 +240,7 @@ Companies.map((item, index) => (
                 {item.companies ? (
           <td>
             {item.companies.map((company) => (
-              <span >{company === "anwan" ? "gotex" : company} , </span>
+              <span >{company === "anwan" ? "gotex ," : company === "all" ? "جميع الشركات" : company + ` , `}  </span>
             ))}
           </td>
         ) : (

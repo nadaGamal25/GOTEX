@@ -601,8 +601,8 @@ export default function AnwanShippments(userData) {
                 {packegeDetails.companies ? (
               <span>
                 {packegeDetails.companies.map((company) => (
-                  <span >{company === "anwan" ? "gotex" : company} , </span>
-                ))}
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
               </span>
             ) : (
               <span>_</span>
@@ -733,8 +733,8 @@ export default function AnwanShippments(userData) {
                 {packageCompanies ? (
               <span className='fw-bold text-primary'>
                 {packageCompanies.map((company) => (
-                  <span >{company === "anwan" ? "gotex" : company} , </span>
-                ))}
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
               </span>
             ) : (
               <span>_</span>
