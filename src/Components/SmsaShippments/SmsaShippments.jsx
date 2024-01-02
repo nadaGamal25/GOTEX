@@ -267,6 +267,7 @@ export default function SmsaShippments(userData) {
     "Shinan",
     "Baqaa",
     "Namerah",
+    "Shamli",
     "Dhamad",
     "Al Ardah",
     "Dulay Rasheed",
