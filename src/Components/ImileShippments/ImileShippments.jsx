@@ -21,6 +21,7 @@ export default function ImileShippments(userData) {
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
   const [clientId, setClientId] = useState('');
 
   const [theSkuDetailList, setSkuDetailList] = useState([
@@ -56,7 +57,7 @@ export default function ImileShippments(userData) {
     skuDetailList: theSkuDetailList, 
     markterCode:"",
     cod:false, 
-    // clintid:'',
+    clintid:'',
     daftraid:'',
     shipmentValue:"",
     clintid:"",
@@ -130,7 +131,7 @@ function getOrderData(e) {
         p_city: itemCity,
         // SenderMobileNumber: itemMobile,
         p_address: itemAddress,
-        // // clintid: itemId,
+        clintid: itemClientId,
         daftraid:itemId,
         clintid:clientId,
       };
@@ -185,7 +186,7 @@ function validateOrderUserForm(){
         p_city:Joi.string().allow(null, ''),
         p_address:Joi.string().allow(null, ''),
         p_mobile:Joi.string().allow(null, ''),
-        // clintid:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
         daftraid:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
 
@@ -1135,6 +1136,7 @@ function validateOrderUserForm(){
                       setBranches(item.branches)
                       setClientId(item._id)
                       setItemId(item.daftraClientId);
+                      setItemClientId(item._id);
                       setPackageCompanies(item.package.companies)
                         setPackageOrders(item.package.availableOrders)
                       const selectedCity = item.company;

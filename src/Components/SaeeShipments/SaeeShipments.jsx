@@ -17,6 +17,7 @@ export default function SaeeShipments(userData) {
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
 
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
@@ -33,7 +34,7 @@ export default function SaeeShipments(userData) {
     cod: false,
     shipmentValue:'',
     markterCode:'',
-    // clintid:'',
+    clintid:'',
     daftraid:'',
     description:'',
   })
@@ -100,7 +101,7 @@ function getOrderData(e) {
         p_city: itemCity,
         p_mobile: itemMobile,
         p_streetaddress: itemAddress,
-        // clintid: itemId,
+        clintid: itemClientId,
         daftraid:itemId,
       };
     } else {
@@ -154,7 +155,7 @@ function getOrderData(e) {
         cod:Joi.required(),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
-        // clintid:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
         daftraid:Joi.number().allow(null, ''),
         description:Joi.string().required(),
     });
@@ -463,6 +464,7 @@ function getOrderData(e) {
                           //  setItemCity(item.city);
                            setItemAddress(item.address);
                            setItemId(item.daftraClientId);
+                           setItemClientId(item._id);
                            setPhoneValue(item.mobile)
                            setPackageCompanies(item.package.companies)
                            setPackageOrders(item.package.availableOrders)

@@ -81,6 +81,7 @@ import LayoutMarketers from './Components/LayoutMarketers/LayoutMarketers';
 import PackegesAdmin from './Components/PackegesAdmin/PackegesAdmin';
 import PackageDetails from './Components/PackageDetails/PackageDetails';
 import PackegesMarketers from './Components/PackegesMarketers/PackegesMarketers';
+import ClientOrders from './Components/ClientOrders/ClientOrders';
 
 function App() {
   
@@ -135,6 +136,7 @@ function App() {
     {path:'signupMarketers',element:<SignupMarketers/>},
     {path:'loginMarketers',element:<LoginMarketers saveMarketerData={saveMarketerData}/>},
     // {path:'marketersShipments',element:<MarketersShipments/>},
+    {path:'clientOrders',element:<ErrorBoundary><ClientOrders userData={userData}/></ErrorBoundary>},
     {path:'splSticker',element:<SplSticker/>},
     {path:'splStickerPreview',element:<SplStickerPreview/>},
     {path:'invitedSignUp',element:<InvitedSignUp/>},

@@ -21,6 +21,7 @@ export default function JtShippments(userData) {
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
 
   const [theSkuDetailList, setSkuDetailList] = useState([
     {
@@ -53,7 +54,7 @@ export default function JtShippments(userData) {
     goodsValue: "",
     items: theSkuDetailList, 
     markterCode:"", 
-    // clintid:'',
+    clintid:'',
     cod: false,
     daftraid:'',
     shipmentValue:"",
@@ -125,7 +126,7 @@ function getOrderData(e) {
         s_city: itemCity,
         s_mobile: itemMobile,
         s_address: itemAddress,
-        // clintid: itemId,
+        clintid: itemClientId,
         daftraid:itemId,
       };
     } else {
@@ -174,7 +175,7 @@ function validateOrderUserForm(){
         items: Joi.array().items(pieceSchema),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
-        // clintid:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
         daftraid:Joi.number().allow(null, ''),
 
     });
@@ -1431,6 +1432,7 @@ async function getPackageDetails() {
                         // setItemCity(item.city);
                         setItemAddress(item.address);
                         setItemId(item.daftraClientId);
+                        setItemClientId(item._id)
                         setPhoneValue(item.mobile)
                         setPackageCompanies(item.package.companies)
                         setPackageOrders(item.package.availableOrders)

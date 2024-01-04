@@ -1458,3 +1458,28 @@ border-radius: 5px;
   color: var(--dark--color);
   font-weight: 600;
 }
+/* client-orders-cotainer */
+.client-orders-cotainer{
+  background-color: #f2f2f2;
+}
+.client-orders-cotainer .light-box{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+.client-orders-cotainer .name-box h5,
+.orders-box h5{
+  color: var(--dark--color);
+  font-weight: 600;
+}
+.client-orders-cotainer .name-box h4{
+  color: #1572a0;
+  /* font-weight: 600; */
+}
+.client-orders-cotainer .orders-box h5 span{
+  color: var(--orange-color);
+  font-weight: 900;
+}

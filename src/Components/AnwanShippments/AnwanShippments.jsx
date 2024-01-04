@@ -37,6 +37,8 @@ export default function AnwanShippments(userData) {
   const [itemAddress, setItemAddress] = useState('');
   const [itemEmail, setItemEmail] = useState('');
   const [itemId, setItemId] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
+
     const [orderData,setOrderData] =useState({
       pieces: '',
       description: '',
@@ -54,7 +56,7 @@ export default function AnwanShippments(userData) {
       cod: false,
       shipmentValue:'',
       markterCode:'',
-      // clintid:'',
+      clintid:'',
       daftraid:'',
   
     })
@@ -79,7 +81,7 @@ export default function AnwanShippments(userData) {
           setisLoading(false);
           window.alert("تم تسجيل الشحنة بنجاح");
           getPackageDetails()
-
+          getClientsList()
           console.log(response.data.data);
           const shipment = response.data.data;
           setShipments(prevShipments => [...prevShipments, shipment]);
@@ -124,7 +126,7 @@ export default function AnwanShippments(userData) {
       s_city: itemCity,
       s_phone: itemMobile,
       s_address: itemAddress,
-      // clintid: itemId,
+      clintid: itemClientId,
       daftraid: itemId,
       // s_email: itemEmail,
     };
@@ -173,7 +175,7 @@ export default function AnwanShippments(userData) {
             cod:Joi.required(),
             shipmentValue:Joi.number().allow(null, ''),  
             markterCode:Joi.string().allow(null, ''),
-            // clintid:Joi.string().allow(null, ''),
+            clintid:Joi.string().allow(null, ''),
             daftraid:Joi.string().allow(null, ''),
         });
         return scheme.validate(orderData, {abortEarly:false});
@@ -668,6 +670,7 @@ export default function AnwanShippments(userData) {
                        setItemAddress(item.address);
                       //  setItemEmail(item.email);
                        setItemId(item.daftraClientId);
+                       setItemClientId(item._id);
                        setPhoneValue(item.mobile)
                        setPackageCompanies(item.package.companies)
                        setPackageOrders(item.package.availableOrders)

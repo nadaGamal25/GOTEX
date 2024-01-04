@@ -22,6 +22,7 @@ export default function AramexShippments(userData) {
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
   const [itemEmail, setItemEmail] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
 
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
@@ -49,7 +50,7 @@ export default function AramexShippments(userData) {
     shipmentValue:'',
     markterCode:'',
     description:'',
-    // clintid:'',
+    clintid:'',
     daftraid:'',
 
   })
@@ -122,7 +123,7 @@ export default function AramexShippments(userData) {
         p_city: itemCity,
         p_phone: itemMobile,
         p_line1: itemAddress,
-        // clintid: itemId,
+        clintid: itemClientId,
         daftraid:itemId,
         // p_email:itemEmail
       };
@@ -181,7 +182,7 @@ export default function AramexShippments(userData) {
           shipmentValue:Joi.number().allow(null, ''),      
           markterCode:Joi.string().allow(null, ''),
           description: Joi.string().required(),
-          // clintid:Joi.string().allow(null, ''),
+          clintid:Joi.string().allow(null, ''),
           daftraid:Joi.number().allow(null, ''),
   
       });
@@ -499,6 +500,7 @@ export default function AramexShippments(userData) {
                            setItemAddress(item.address);
                           //  setItemEmail(item.email);
                            setItemId(item.daftraClientId);
+                           setItemClientId(item._id);
                            setPhoneValue(item.mobile)
                            setPackageCompanies(item.package.companies)
                            setPackageOrders(item.package.availableOrders)

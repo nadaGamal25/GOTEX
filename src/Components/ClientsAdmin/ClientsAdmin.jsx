@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef ,createRef } from 'react'
 import axios from 'axios'
 import EditClientModal from '../EditClientModal/EditClientModal';
 import {Modal , Button} from 'react-bootstrap';
-
+import { Link } from 'react-router-dom';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
@@ -41,6 +41,7 @@ export default function ClientsAll() {
           // }
         } catch (error) {
           console.error(error);
+          window.alert(error.response.data.msg)
         }
       }
       const openModal2 = (userId) => {
@@ -788,6 +789,11 @@ export default function ClientsAll() {
         
           }
         }
+
+        const handleClientOrders = (item) => {
+          const OrdersData = encodeURIComponent(JSON.stringify(item));
+          window.open(`/clientOrders?OrdersData=${OrdersData}`);
+        };
   return (
     <>
     <div className='p-5' id='content'>
@@ -841,18 +847,15 @@ export default function ClientsAll() {
             {/* <th scope="col"></th>             */}
             <th scope="col"></th>            
             <th scope="col"></th>            
+            {/* <th scope="col"></th>             */}
 
            
           </tr>
         </thead>
         <tbody>
-          {filteredClients && filteredClients.filter((item)=>{
-          return search === ''? item : item.email.includes(search);
-          }).map((item,index) =>{
+          {filteredClients && filteredClients.map((item,index) =>{
             return(
               <tr key={index}>
-                
-
                 <td>{index+1}</td>
                 {item.name?<td>{item.name}</td>:<td>_</td>}
                 {/* {item.company?<td>{item.company}</td>:<td>_</td>} */}
@@ -873,14 +876,10 @@ export default function ClientsAll() {
                 {item.wallet?<td>{item.wallet}</td>:<td>_</td>}
                 {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
                
-                 {/* {item.notes?<td>{item.notes}</td>:<td>_</td>} */}
-                 {/* <td>
-                <button
-                        className='sdd-deposite btn btn-success'
-                        onClick={() => handleOpenModal(item._id)}
-                        >
-                        إضافة رصيد
-                      </button>
+                 
+              {/* <td>
+                <button className="btn btn-orange"
+                onClick={()=>{handleClientOrders(item)}}>شحنات العميل </button>
               </td> */}
                  <td>
                 <button
@@ -893,6 +892,15 @@ export default function ClientsAll() {
               <td>
   <button className="btn btn-dark" onClick={() => handleEditClick(item)}>تعديل</button>
 </td>
+{/* {item.notes?<td>{item.notes}</td>:<td>_</td>} */}
+                 {/* <td>
+                <button
+                        className='sdd-deposite btn btn-success'
+                        onClick={() => handleOpenModal(item._id)}
+                        >
+                        إضافة رصيد
+                      </button>
+              </td> */}
               </tr>
             )
           }
