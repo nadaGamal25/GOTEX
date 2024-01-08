@@ -82,6 +82,8 @@ import PackegesAdmin from './Components/PackegesAdmin/PackegesAdmin';
 import PackageDetails from './Components/PackageDetails/PackageDetails';
 import PackegesMarketers from './Components/PackegesMarketers/PackegesMarketers';
 import ClientOrders from './Components/ClientOrders/ClientOrders';
+import GenerateLinkPayment from './Components/GenerateLinkPayment/GenerateLinkPayment';
+import FormPayment from './Components/FormPayment/FormPayment';
 
 function App() {
   
@@ -142,6 +144,7 @@ function App() {
     {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'forgetPassword',element:<ForgetPassword/>},
     {path:'updatePassword/:x',element:<UpdatePassword/>},
+    {path:'formPayment/:uId/:cId',element:<FormPayment/>},
     {path:'/packeges',element:<ErrorBoundary><ProtectedRoute userData={userData}><Packeges userData={userData}/></ProtectedRoute></ErrorBoundary>},
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
     {path:'nav',element:<ProtectedRoute><NavAdmin setuserData={setuserData} userData={userData}/></ProtectedRoute>},
@@ -177,6 +180,7 @@ function App() {
       {path:'/clientsAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/packageDetails',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackageDetails userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/packageMarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesMarketers userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/generateLinkPayment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GenerateLinkPayment userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[

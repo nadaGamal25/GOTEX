@@ -228,6 +228,16 @@ export default function Navbar({userData ,logout}) {
                 </Link>
             </li>
             ):null}
+            {/* {userData?.data?.user?.rolle === "marketer"?(
+            <li>
+                <Link to="/generateLinkPayment">
+                <i class="fa-solid fa-link bx"></i>
+                    <span class="text">  إنشاء رابط للرصيد 
+               
+                </span>
+                </Link>
+            </li>
+            ):null} */}
             
             {/* {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>

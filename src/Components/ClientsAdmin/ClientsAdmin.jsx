@@ -847,7 +847,7 @@ export default function ClientsAll() {
             {/* <th scope="col"></th>             */}
             <th scope="col"></th>            
             <th scope="col"></th>            
-            {/* <th scope="col"></th>             */}
+            <th scope="col"></th>            
 
            
           </tr>
@@ -877,10 +877,10 @@ export default function ClientsAll() {
                 {item.credit?<td>{item.credit.limet} <br/> '{item.credit.status}'</td>:<td>_</td>}
                
                  
-              {/* <td>
+              <td>
                 <button className="btn btn-orange"
                 onClick={()=>{handleClientOrders(item)}}>شحنات العميل </button>
-              </td> */}
+              </td>
                  <td>
                 <button
                         className='sdd-deposite btn btn-primary '

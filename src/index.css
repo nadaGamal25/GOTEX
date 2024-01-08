@@ -166,6 +166,14 @@ body{
 .x{
   overflow-x: scroll;
 }
+.bg-light{
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
 /* Modal styles 
 .modal-overlay {
   position: fixed;

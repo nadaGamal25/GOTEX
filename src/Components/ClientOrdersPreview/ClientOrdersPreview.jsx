@@ -44,7 +44,7 @@ export default function ClientOrdersPreview({item}) {
     
   return (
     <>
-    <div className="client-orders-cotainer p-5">
+    <div className="client-orders-cotainer p-5 min-vh-100">
         <div className=" mx-2 p-3 light-box name-box d-flex align-items-center">
             <h5>العميل : </h5>
             <h4> {item.name} </h4>
@@ -75,7 +75,7 @@ export default function ClientOrdersPreview({item}) {
         </div>
             </div>
         </div>
-        <div className="clients-table p-4 my-4">
+        {/* <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
           <tr>
@@ -92,7 +92,7 @@ export default function ClientOrdersPreview({item}) {
                 
 
                 <td>{index+1}</td>
-                {item.company?<td>{item.company}</td>:<td>_</td>}
+                {item.company ==="anwan"?<td>gotex</td>:<td>{item.company}</td>}
                 {item.id?<td>{item.id}</td>:<td>_</td>}
                 <td>
                     <button className="btn btn-orange">تفاصيل الشحنة</button>
@@ -103,7 +103,7 @@ export default function ClientOrdersPreview({item}) {
           )}
         </tbody>
       </table>
-     </div>
+     </div> */}
 
      <div className="p-5"></div>
     </div>
