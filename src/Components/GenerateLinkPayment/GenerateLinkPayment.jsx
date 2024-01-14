@@ -2,9 +2,36 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 export default function GenerateLinkPayment(userData) {
-    const [itemClientId, setItemClientId] = useState('');
-    const [userId, setUserId] = useState('');
-    const [searchClients, setSearchClients]= useState('')
+  const [itemClientId, setItemClientId] = useState('');
+  const [itemClientId2, setItemClientId2] = useState('');
+  const [userId, setUserId] = useState('');
+    const [searchClients, setSearchClients]= useState('');
+    const [isClicked, setIsClicked]= useState(false);
+    const [isClient, setIsClient]= useState(false);
+
+    const [firstPartOfLink, setFirstPartOfLink] = useState('');
+
+  useEffect(() => {
+    // Get the current URL
+    const currentURL = window.location.href;
+
+    // Extract the first part of the link
+    const firstPart = extractFirstPart(currentURL);
+
+    // Set the state with the first part of the link
+    setFirstPartOfLink(firstPart);
+  }, []);
+
+  // Function to extract the first part of the link
+  const extractFirstPart = (url) => {
+    // Use URL constructor to parse the URL
+    const parsedUrl = new URL(url);
+
+    // Get the origin (protocol + hostname) from the parsed URL
+    const firstPart = parsedUrl.origin;
+
+    return firstPart;
+  };
 
   const [showClientsList, setClientsList] = useState(false);
   const openClientsList = () => {
@@ -60,7 +87,7 @@ export default function GenerateLinkPayment(userData) {
   return (
     <>
     <div className="p-5" id='content'>
-      <div className="bg-light">
+      <div className="bg-light pb-4">
     <div className="search-box px-4 py-5 mt-2 mb-3 ">
         <div className="row g-1">
            <div className="col-md-2">
@@ -97,7 +124,7 @@ export default function GenerateLinkPayment(userData) {
                            const selectedCity = e.target.innerText;
                            
                            setItemClientId(item._id);
-                           
+                           setIsClient(true)
                            
                           
                            document.querySelector('input[name="client"]').value = selectedCity;
@@ -126,12 +153,18 @@ export default function GenerateLinkPayment(userData) {
            </div>
            
          </div>
-         <div className="text-center py-5">
-            <button className="btn btn-primary">
+         <div className="text-center py-3 ">
+            <button className="btn btn-primary mb-3" onClick={()=> {setIsClicked(true)
+            setItemClientId2(itemClientId)}}>
             إنشاء رابط للعميل
             </button>
-            <p>http://localhost:3000/formPayment/{userId}/{itemClientId}</p>
+            
            </div>
+           <div className={isClicked?"link-box p-3 d-block text-center":"link-box p-3 text-center "} >
+              {isClient == false ?<p className='text-danger fw-bold'>يجب اختيار عميل أولا..</p>:
+              isClicked?<p className='text-primary'>{firstPartOfLink}/formPayment/{userId}/{itemClientId2}</p>:null}
+            
+            </div>
            </div>
     </div>
     </>

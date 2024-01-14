@@ -1491,3 +1491,18 @@ border-radius: 5px;
   color: var(--orange-color);
   font-weight: 900;
 }
+/* generate link payment */
+.link-box{
+  display: none;
+  margin: 20px;
+  border: solid 2px var(--dark--color);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  word-wrap: break-word;
+}
+.light-box p{
+  word-wrap: break-word;
+}

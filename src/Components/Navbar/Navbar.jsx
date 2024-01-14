@@ -228,7 +228,7 @@ export default function Navbar({userData ,logout}) {
                 </Link>
             </li>
             ):null}
-            {/* {userData?.data?.user?.rolle === "marketer"?(
+            {userData?.data?.user?.rolle === "marketer"?(
             <li>
                 <Link to="/generateLinkPayment">
                 <i class="fa-solid fa-link bx"></i>
@@ -237,7 +237,7 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
-            ):null} */}
+            ):null}
             
             {/* {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
