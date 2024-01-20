@@ -103,6 +103,9 @@ body{
 .marginForm{
   margin: 5px 40px;
 }
+.blue-txt{
+  color: #0076af;
+}
 .star-requered{
   color: rgb(199, 61, 61);
   padding-right: 3px;
@@ -1493,7 +1496,7 @@ border-radius: 5px;
 }
 /* generate link payment */
 .link-box{
-  display: none;
+  /* display: none; */
   margin: 20px;
   border: solid 2px var(--dark--color);
   border-radius: 15px;

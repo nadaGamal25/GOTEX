@@ -23,26 +23,21 @@ export default function PackegesAdmin() {
       const [newPackege,setNewPackage] =useState({
         price :'',
         numberOfOrders :'',
-        companies:[],
+        companies: Companies,
         
       })
+
+      function handleCheckboxChange(event) {
+        const { value, checked } = event.target;
+        if (checked) {
+          setCompanies((prevCompanies) => [...prevCompanies, value]);
+        } else {
+          setCompanies((prevCompanies) => prevCompanies.filter((company) => company !== value));
+        }
+      }
       const [error , setError]= useState('')
       const [isLoading, setisLoading] =useState(false)
-      function addCompany() {
-        setCompanies((prevData) => [...prevData, '']);
-      }
       
-    
-      // function updateArrayData(index, field, value) {
-      //   const updated = [...Companies];
-      //   updated[index][field] = value;
-      //   setCompanies(updated);
-      // }
-      function updateArrayData(index, field, value) {
-        const updated = [...Companies];
-        updated[index] = value;
-        setCompanies(updated);
-      }
       async function sendDataToApi() {
         console.log(localStorage.getItem('userToken'))
         try {
@@ -79,6 +74,10 @@ export default function PackegesAdmin() {
         setisLoading(false)
         seterrorList(validation.error.details)
     
+      }else if (Companies.length === 0) {
+       alert('يجب اختيار شركة')
+       setisLoading(false)
+
       }else{
         sendDataToApi();
       }
@@ -96,6 +95,7 @@ export default function PackegesAdmin() {
         let schema = Joi.object({
           price: Joi.number().required(),
           numberOfOrders: Joi.number().required(),
+          // companies: Joi.required(), 
           companies: Joi.array().items(Joi.string()).required(), 
         });
       
@@ -128,6 +128,42 @@ export default function PackegesAdmin() {
       }
       
     })}
+        <label htmlFor=""> الشركة  :</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="all" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> جميع الشركات</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="saee" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> saee</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="anwan" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> gotex</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="smsa" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> smsa</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="aramex" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> aramex</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="imile" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> imile</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="jt" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> jt</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="spl" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> spl</label><br/>
+        {errorList.map((err,index)=>{
+      if(err.context.label ==='companies'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
+      }
+      
+    })}
+        {/*    ..*/}
+                   <div className="text-center">
+                    <button className='btn btn-primary mt-3'>
+                    {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة باقة'}
+                   </button>
+                   </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+{/* 
+
     {Companies.length === 0 && (
   <>
       <div  key={0}>
@@ -162,7 +198,7 @@ export default function PackegesAdmin() {
 <label for="">  إضافة شركة أخرى</label><br/>
     {/* <button className=' btn-addPiece' type="button" onClick={addCompany}>
          إضافة شركة أخرى
-      </button> */}
+      </button> 
     </div>
     </div>
       </>
@@ -202,22 +238,13 @@ Companies.map((item, index) => (
 <label for="">  إضافة شركة أخرى</label><br/>
     {/* <button className=' btn-addPiece' type="button" onClick={addCompany}>
          إضافة شركة أخرى
-      </button> */}
+      </button> 
     </div>    
     </div>
   ))
 )}
+ */}
 
-
-<div className="text-center">
-                    <button className='btn btn-primary mt-3'>
-                    {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة باقة'}
-                   </button>
-                   </div>
-                  </form>
-                </div>
-              </div>
-            </div>
             <div className="clients-table p-4 my-4">
       <table className="table">
         <thead>
@@ -291,3 +318,20 @@ Companies.map((item, index) => (
     </>
   )
 }
+
+
+// function addCompany() {
+//   setCompanies((prevData) => [...prevData, '']);
+// }
+
+
+// // function updateArrayData(index, field, value) {
+// //   const updated = [...Companies];
+// //   updated[index][field] = value;
+// //   setCompanies(updated);
+// // }
+// function updateArrayData(index, field, value) {
+//   const updated = [...Companies];
+//   updated[index] = value;
+//   setCompanies(updated);
+// }

@@ -144,7 +144,7 @@ function App() {
     {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'forgetPassword',element:<ForgetPassword/>},
     {path:'updatePassword/:x',element:<UpdatePassword/>},
-    {path:'formPayment/:uId/:cId',element:<FormPayment/>},
+    {path:'formPayment/:uId/:cId/:cN',element:<FormPayment/>},
     {path:'/packeges',element:<ErrorBoundary><ProtectedRoute userData={userData}><Packeges userData={userData}/></ProtectedRoute></ErrorBoundary>},
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
     {path:'nav',element:<ProtectedRoute><NavAdmin setuserData={setuserData} userData={userData}/></ProtectedRoute>},

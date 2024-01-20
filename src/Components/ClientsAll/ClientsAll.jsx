@@ -13,7 +13,12 @@ export default function ClientsAll() {
       },[])
 
       
-
+      const [currentPage, setCurrentPage] = useState(Number(1));
+      const [numberOfPages, setNumberOfPages] = useState(1);
+      const [currentPage2, setCurrentPage2] = useState(Number(1));
+      const [numberOfPages2, setNumberOfPages2] = useState(1);
+      const [loading, setLoading] = useState(false);
+      const [secondFilter, setSecondFilter] = useState(false);
       const [showModal, setShowModal] = useState(false);
       const [depositAmount, setDepositAmount] = useState('');
       const [selectedUserId, setSelectedUserId] = useState(null);
@@ -61,17 +66,95 @@ export default function ClientsAll() {
       const[clients,setClients]=useState([])
       async function getClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
+          setLoading(true);
+          // const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/all-clients',
           {
+            params: {
+              page: currentPage,
+              limit: 30,
+             
+              
+            },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
           });
           const List = response.data.data
+          setSecondFilter(false);
           console.log(List)
           setClients(List)
+          console.log(response)
+          setCurrentPage(response.data.pagination.currentPage);
+          setNumberOfPages(response.data.pagination.numberOfPages);
         } catch (error) {
           console.error(error);
+        }finally {
+          setLoading(false); 
+        }
+      }
+      async function getSearchClientsList() {
+        try {
+          setLoading(true);
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/all-clients',
+          {
+            params: {
+              page: 1,
+              limit: 30,
+              company: searchCompany,
+              name: searchName,
+              mobile: searchPhone,
+              city:searchCity,
+              
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const List = response.data.data
+          setSecondFilter(true)
+
+          console.log(List)
+          setClients(List)
+          console.log(response)
+          setCurrentPage2(response.data.pagination.currentPage);
+          setNumberOfPages2(response.data.pagination.numberOfPages);
+        } catch (error) {
+          console.error(error);
+        }finally {
+          setLoading(false); 
+        }
+      }
+      async function getSearchClientsPage() {
+        try {
+          setLoading(true);
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/all-clients',
+          {
+            params: {
+              page: currentPage2,
+              limit: 30,
+              company: searchCompany,
+              name: searchName,
+              mobile: searchPhone,
+              city:searchCity,
+              
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const List = response.data.data
+          setSecondFilter(true)
+
+          console.log(List)
+          setClients(List)
+          console.log(response)
+          setCurrentPage2(response.data.pagination.currentPage);
+          setNumberOfPages2(response.data.pagination.numberOfPages);
+        } catch (error) {
+          console.error(error);
+        }finally {
+          setLoading(false); 
         }
       }
       const [isModalOpen, setIsModalOpen] = useState(false);
@@ -788,6 +871,142 @@ export default function ClientsAll() {
         
           }
         }
+        const handlePreviousPage = async () => {
+          if (currentPage > 1) {
+            setCurrentPage(currentPage - 1); 
+            try {
+              setLoading(true);
+              const response = await axios.get('https://dashboard.go-tex.net/api/clients/all-clients',
+              {
+                params: {
+                  page: currentPage -1,
+                  limit: 30,
+                  company: searchCompany,
+                  name: searchName,
+                  mobile: searchPhone,
+                  city:searchCity,
+                  
+                },
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                },
+              });
+              const List = response.data.data
+              console.log(List)
+              setSecondFilter(false)
+              setClients(List)
+              console.log(response)
+              setCurrentPage(response.data.pagination.currentPage);
+              setNumberOfPages(response.data.pagination.numberOfPages);
+            } catch (error) {
+              console.error(error);
+            }finally {
+              setLoading(false); 
+            }
+          }
+        };
+        const handleNextPage = async () => {
+          if (currentPage < numberOfPages) {
+            setCurrentPage(currentPage + 1);
+            try {
+              setLoading(true);
+              const response = await axios.get('https://dashboard.go-tex.net/api/clients/all-clients',
+              {
+                params: {
+                  page: currentPage +1,
+                  limit: 30,
+                  company: searchCompany,
+                  name: searchName,
+                  mobile: searchPhone,
+                  city:searchCity,
+                  
+                },
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                },
+              });
+              const List = response.data.data
+              setSecondFilter(false)
+              console.log(List)
+              setClients(List)
+              console.log(response)
+              setCurrentPage(response.data.pagination.currentPage);
+              setNumberOfPages(response.data.pagination.numberOfPages);
+            } catch (error) {
+              console.error(error);
+            }finally {
+              setLoading(false); 
+            }
+          }
+        };
+        const handlePreviousPage2 = async () => {
+      if (currentPage2 > 1) {
+        setCurrentPage2(currentPage2 - 1); 
+        try {
+          setLoading(true);
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/all-clients',
+          {
+            params: {
+              page: currentPage2 -1,
+              limit: 30,
+              company: searchCompany,
+              name: searchName,
+              mobile: searchPhone,
+              city:searchCity,
+              
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const List = response.data.data
+          console.log(List)
+          setSecondFilter(true)
+          setClients(List)
+          console.log(response)
+          setCurrentPage2(response.data.pagination.currentPage);
+          setNumberOfPages2(response.data.pagination.numberOfPages);
+        } catch (error) {
+          console.error(error);
+        }finally {
+          setLoading(false); 
+        }
+      }
+    };
+    const handleNextPage2 = async () => {
+      if (currentPage2 < numberOfPages2) {
+        setCurrentPage2(currentPage2 + 1) 
+        try {
+          setLoading(true);
+          const response = await axios.get('https://dashboard.go-tex.net/api/clients/all-clients',
+          {
+            params: {
+              page: currentPage2 + 1,
+              limit: 30,
+              company: searchCompany,
+              name: searchName,
+              mobile: searchPhone,
+              city:searchCity,
+              
+            },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const List = response.data.data
+          setSecondFilter(true)
+          console.log(List)
+          setClients(List)
+          console.log(response)
+          setCurrentPage2(response.data.pagination.currentPage);
+          setNumberOfPages2(response.data.pagination.numberOfPages);
+        } catch (error) {
+          console.error(error);
+        }finally {
+          setLoading(false); 
+        }
+      }
+    };
   return (
     <>
     <div className='p-5' id='content'>
@@ -796,32 +1015,31 @@ export default function ClientsAll() {
         
         <div className="col-md-4">
           <label htmlFor="">اسم العميل:</label>
-          <input className='form-control' type="search" value={searchName} onChange={(e) => setSearchName(e.target.value)} />
+          <input className='form-control' type="search"  onChange={(e) => setSearchName(e.target.value)} />
         </div>
         <div className="col-md-4">
           <label htmlFor="">الشركة :</label>
-          <input className='form-control' type="search" value={searchCompany} onChange={(e) => setSearchCompany(e.target.value)} />
+          <input className='form-control' type="search"  onChange={(e) => setSearchCompany(e.target.value)} />
         </div>
-        <div className="col-md-4">
-          <label htmlFor="">الايميل:</label>
-          <br/><input className='form-control' type="search" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
-        </div>
+       
         <div className="col-md-4">
           <label htmlFor="">الهاتف:</label>
-          <input className='form-control' type="search" value={searchPhone} onChange={(e) => setSearchPhone(e.target.value)} />
+          <input className='form-control' type="search"  onChange={(e) => setSearchPhone(e.target.value)} />
         </div>
         <div className="col-md-4">
           <label htmlFor="">المدينة :</label>
-          <input className='form-control' type="search" value={searchCity} onChange={(e) => setSearchCity(e.target.value)} />
+          <input className='form-control' type="search"  onChange={(e) => setSearchCity(e.target.value)} />
         </div>
         
        
         <div className="text-center mt-3">
-          <button className="btn dark"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+        <button className="btn btn-dark" onClick={getSearchClientsList}><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
         </div>
       </div>
     </div>
     <div className="clients-table p-4 my-4">
+    <button className="btn btn-addPiece m-1" onClick={getClientsList}>عرض جميع الشحنات  </button>
+
       <table className="table">
         <thead>
           <tr>
@@ -846,12 +1064,17 @@ export default function ClientsAll() {
           </tr>
         </thead>
         <tbody>
-          {filteredClients && filteredClients.filter((item)=>{
+          {clients && clients.filter((item)=>{
           return search === ''? item : item.email.includes(search);
           }).map((item,index) =>{
             return(
               <tr key={index}>
-                
+                {loading ? (
+      <td>
+        <i className="fa-solid fa-spinner fa-spin"></i>
+      </td>
+    ) : (
+      <>
 
                 <td>{index+1}</td>
                 {item.name?<td>{item.name}</td>:<td>_</td>}
@@ -893,12 +1116,49 @@ export default function ClientsAll() {
               <td>
   <button className="btn btn-dark" onClick={() => handleEditClick(item)}>تعديل</button>
 </td>
+</>
+    )}
               </tr>
             )
           }
           )}
         </tbody>
       </table>
+      {secondFilter?(
+      <div>
+        <button className="btn btn-dark" onClick={handlePreviousPage2} disabled={currentPage2 === 1}>
+          الصفحة السابقة 
+        </button>
+        <span className='px-1'>
+          Page {currentPage2} of {numberOfPages2}
+        </span>
+        <button className="btn btn-dark" onClick={handleNextPage2} disabled={currentPage2 === numberOfPages2}>
+          الصفحة التالية 
+        </button>
+      </div>
+      ):
+      (
+        <div>
+        <button className="btn btn-dark" onClick={handlePreviousPage} disabled={currentPage === 1}>
+          الصفحة السابقة 
+        </button>
+        <span className='px-1'>
+          Page {currentPage} of {numberOfPages}
+        </span>
+        <button className="btn btn-dark" onClick={handleNextPage} disabled={currentPage === numberOfPages}>
+          الصفحة التالية 
+        </button>
+      </div>
+      )}
+      <div>
+<input className=' m-1' type="number" 
+
+placeholder="رقم الصفحة "
+onChange={(e) => setCurrentPage2(e.target.value)} />
+<button className="btn btn-primary m-1" onClick={getSearchClientsPage}>
+            بحث برقم الصفحة
+        </button>
+      </div>
      </div>
          </div>
          

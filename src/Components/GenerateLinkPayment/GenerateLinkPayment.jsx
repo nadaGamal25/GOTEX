@@ -3,10 +3,11 @@ import axios from 'axios';
 
 export default function GenerateLinkPayment(userData) {
   const [itemClientId, setItemClientId] = useState('');
+  const [itemClientName, setItemClientName] = useState('');
   const [itemClientId2, setItemClientId2] = useState('');
   const [userId, setUserId] = useState('');
     const [searchClients, setSearchClients]= useState('');
-    const [isClicked, setIsClicked]= useState(false);
+    // const [isClicked, setIsClicked]= useState(false);
     const [isClient, setIsClient]= useState(false);
 
     const [firstPartOfLink, setFirstPartOfLink] = useState('');
@@ -124,6 +125,7 @@ export default function GenerateLinkPayment(userData) {
                            const selectedCity = e.target.innerText;
                            
                            setItemClientId(item._id);
+                           setItemClientName(item.name);
                            setIsClient(true)
                            
                           
@@ -153,16 +155,16 @@ export default function GenerateLinkPayment(userData) {
            </div>
            
          </div>
-         <div className="text-center py-3 ">
+         {/* <div className="text-center py-3 ">
             <button className="btn btn-primary mb-3" onClick={()=> {setIsClicked(true)
             setItemClientId2(itemClientId)}}>
             إنشاء رابط للعميل
             </button>
             
-           </div>
-           <div className={isClicked?"link-box p-3 d-block text-center":"link-box p-3 text-center "} >
-              {isClient == false ?<p className='text-danger fw-bold'>يجب اختيار عميل أولا..</p>:
-              isClicked?<p className='text-primary'>{firstPartOfLink}/formPayment/{userId}/{itemClientId2}</p>:null}
+           </div> */}
+           <div className="link-box p-3 text-center" >
+              {isClient == false ?<p className='text-danger fw-bold'>يجب اختيار عميل ..</p>:
+              <p className='text-primary' dir='ltr'>{`${firstPartOfLink}/formPayment/${userId}/${itemClientId}/${itemClientName}`}</p>}
             
             </div>
            </div>

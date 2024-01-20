@@ -372,7 +372,7 @@ const exportToExcel = async () => {
         </div>
         <div className="col-md-4">
           <input className='form-control m-1' 
-          type="search" placeholder="الاسم , الايميل ,الهاتف"
+          type="search" placeholder="اسم المستخدم , الهاتف ,الايميل"
           // value={clientFilter}
           onChange={(e) => setClientFilter(e.target.value)}
           />
@@ -512,7 +512,8 @@ className='mx-1'
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">التاريخ</th>
-                <th scope="col">العميل</th>
+                <th scope="col">المستخدم</th>
+                {/* <th scope="col">المرسل</th> */}
                 <th scope="col">
                   شركة الشحن</th>
                 <th scope="col">
