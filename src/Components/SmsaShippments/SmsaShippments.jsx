@@ -4,9 +4,13 @@ import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
+import { saveAs } from 'file-saver';
+import { atob } from 'js-base64';
+import { Link } from 'react-router-dom';
 
 export default function SmsaShippments(userData) {
   const [companiesDetails,setCompaniesDetails]=useState([])
+
   async function getCompaniesDetailsOrders() {
     try {
       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
@@ -28,6 +32,9 @@ export default function SmsaShippments(userData) {
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [packageCompanies, setPackageCompanies] = useState('');
+  const [packageOrders, setPackageOrders] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
 
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
@@ -51,7 +58,7 @@ export default function SmsaShippments(userData) {
     cod: false,
     shipmentValue:'',
     markterCode:'',
-    // clintid:'',
+    clintid:'',
     daftraid:'',
 
   })
@@ -75,6 +82,7 @@ export default function SmsaShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert(`تم تسجيل الشحنة بنجاح`);
+        getPackageDetails()
         console.log(response.data.data);
         const shipment = response.data.data;
         setShipments(prevShipments => [...prevShipments, shipment]);
@@ -120,7 +128,7 @@ export default function SmsaShippments(userData) {
         p_City: itemCity,
         p_ContactPhoneNumber: itemMobile,
         p_AddressLine1: itemAddress,
-        // clintid: itemId,
+        clintid: itemClientId,
         daftraid:itemId,
       };
     } else {
@@ -173,7 +181,7 @@ export default function SmsaShippments(userData) {
           cod:Joi.required(),
           shipmentValue:Joi.number().allow(null, ''),
           markterCode:Joi.string().allow(null, ''),
-          // clintid:Joi.string().allow(null, ''),
+          clintid:Joi.string().allow(null, ''),
           daftraid:Joi.number().allow(null, ''),
 
   
@@ -251,6 +259,21 @@ export default function SmsaShippments(userData) {
     "Bahrain Causeway",
     "Buqaiq",
     "Dammam",
+    //........
+    "Marat",
+    "Hurayyiq",
+    "Tareeb",
+    "Habounah",
+    "Edabi",
+    "Shinan",
+    "Baqaa",
+    "Namerah",
+    "Shamli",
+    "al hait",
+    "adham",
+    "Dhamad",
+    "Al Ardah",
+    "Dulay Rasheed",
     "Dammam Airport",
     "Dhahran",
     "Jubail",
@@ -422,8 +445,9 @@ export default function SmsaShippments(userData) {
       setCitiesList2(false);
     };
     
-
+    const [stickerUrls , setStickerUrls] =useState([])
     async function getSmsaSticker(orderId) {
+      setStickerUrls('');
       try {
         const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
           headers: {
@@ -431,20 +455,52 @@ export default function SmsaShippments(userData) {
           },
         });
     
-        const stickerUrls = response.data.data;
-    console.log(response.data.data)
-        if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
-          stickerUrls.forEach((stickerUrl) => {
-            const newTab = window.open();
-            newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
-          });
-        } else {
-          console.log("No sticker URLs found in the response.");
-        }
+        const stickers = response.data.data;
+        setStickerUrls(stickers)
+        console.log(stickerUrls)
+    console.log(response)
+        
       } catch (error) {
         console.error(error);
       }
     }
+    // if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
+        //   stickerUrls.forEach((stickerUrl) => {
+        //     const newTab = window.open();
+        //     newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+        //   });
+        // } else {
+        //   console.log("No sticker URLs found in the response.");
+        // }
+    // async function getSmsaSticker(orderId) {
+    //   try {
+    //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+    //       },
+    //     });
+    
+    //     const stickerUrls = response.data.data;
+    
+    //     if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
+    //       stickerUrls.forEach((stickerUrl) => {
+    //         const link = document.createElement("a");
+    //         link.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+    //         link.target = "_blank";
+    //         link.download = "";
+    
+    //         link.dispatchEvent(new MouseEvent("click"));
+    
+    //         link.remove();
+    //       });
+    //     } else {
+    //       console.log("No sticker URLs found in the response.");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
+    
     async function getInvoice(daftraId) {
       try {
         const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
@@ -525,8 +581,106 @@ export default function SmsaShippments(userData) {
         window.removeEventListener('click', handleOutsideClick);
       };
     }, [showClientsList]);
+
+    const[addMarketer,setMarketer]=useState(false);
+
+    
+  function convertBase64ToPDF(base64String, filename) {
+    const byteCharacters = atob(base64String);
+      const byteArray = new Uint8Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArray[i] = byteCharacters.charCodeAt(i);
+    }
+  
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+      saveAs(blob, filename);
+  }
+    const filename = 'sticker.pdf'; 
+  
+    function handleConvertAndDownload(base64String , sawb) {
+      convertBase64ToPDF(base64String, sawb);
+      
+    }
+    const [Branches,setBranches]=useState('')
+    const [isBranches,setIsBranches]=useState(false)
+    
+    useEffect(() => {
+      getOrderData({
+        target: { name: 'p_City', value: itemCity },
+      });
+    }, [itemCity]); 
+    
+    useEffect(() => {
+      getOrderData({
+        target: { name: 'p_AddressLine1', value: itemAddress },
+      });
+    }, [itemAddress]);
+
+    useEffect(()=>{
+      getPackageDetails()
+    },[])
+    const [packegeDetails,setPackegeDetails]=useState([])
+  async function getPackageDetails() {
+      try {
+        const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+         
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        });
+        if (response.status === 200) {
+          console.log(response)
+          setPackegeDetails(response.data.data)
+        } else {
+          console.log(response)
+        }
+      } catch (error) {
+        console.log(error);
+        // window.alert('somthing wrong');
+      }
+    }
   return (
 <div className='p-4' id='content'>
+{ userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+            <div className="prices-box">
+             <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
+             {packegeDetails.userAvailableOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة بك..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packegeDetails.companies ? (
+              <span>
+                {packegeDetails.companies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span>{packegeDetails.userAvailableOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
+            <div className='text-center package-poster mb-3 mx-2 '>
+            <div className='p-4'>
+            <p>قم بشراء باقة الأن..
+              <Link to="/packeges">اضغط هنا  </Link>
+            </p>
+            </div>
+            
+          </div>
+          ): null}
 { userData.userData.data.user.rolle === "marketer"?(
            <div className="search-box p-4 mt-2 mb-4 row g-1">
            <div className="col-md-2">
@@ -575,13 +729,17 @@ export default function SmsaShippments(userData) {
                        //     document.querySelector('input[name="p_ContactPhoneNumber"]').value = value;
                        //     document.querySelector('input[name="p_City"]').value = selectedItem.city;
                        //     document.querySelector('input[name="p_AddressLine1"]').value = selectedItem.address;
-                       
+                       setBranches(item.branches)
                        setItemName(item.name);
                        setItemMobile(item.mobile);
                       //  setItemCity(item.city);
                        setItemAddress(item.address);
                        setItemId(item.daftraClientId);
+                       setItemClientId(item._id);
                        setPhoneValue(item.mobile);
+                       setPackageCompanies(item.package.companies)
+                       setPackageOrders(item.package.availableOrders)
+
                       // setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       // setItemMobile(item.Client.phone1);
                       // setItemCity(item.Client.city);
@@ -626,7 +784,41 @@ export default function SmsaShippments(userData) {
            </div>
          </div>
            ): null}
-
+{ userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
         <div className="shipmenForm">
         { userData.userData.data.user.rolle === "marketer"?(
             <div className="prices-box text-center">
@@ -673,7 +865,7 @@ export default function SmsaShippments(userData) {
       
             </div>  
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
+            <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_City'
                 onChange={(e)=>{ 
                   // setItemCity(e.target.value);
@@ -778,16 +970,53 @@ export default function SmsaShippments(userData) {
     })}
             </div>
             { userData.userData.data.user.rolle === "marketer"?(
-              <div className='pb-3'>
-              <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
-              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='markterCode'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
     }
-    
-  })}
-          </div>
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
+            { userData.userData.data.user.rolle === "marketer"?(
+            <div className='pb-3'>
+              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
+              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
+              </button>
+              {addMarketer && (<div>
+                <label htmlFor=""> كود المسوق 
+             <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
+             
+              </div>) }
+             
+         </div>
             ):null}
             
             {/* <div className="pb-3">
@@ -872,6 +1101,7 @@ export default function SmsaShippments(userData) {
     <div className='pb-3'>
       <label htmlFor=""> قيمة الشحنة</label>
       <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -917,8 +1147,13 @@ export default function SmsaShippments(userData) {
     })}
             </div>
     <div className='pb-3'>
-      <label htmlFor=""> قيمة الشحنة</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+    <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      onChange={(e)=>{
+        const shipvalue = e.target.value
+        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      }} 
+      required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -1104,7 +1339,10 @@ export default function SmsaShippments(userData) {
     })}
             </div>
             
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
+            <button className="btn btn-orange" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
             </div>
             </div>
             </div>
@@ -1112,6 +1350,7 @@ export default function SmsaShippments(userData) {
         
         </div>
         <div className="clients-table p-4 mt-4">
+        
           <table className="table">
             <thead>
               <tr>
@@ -1119,7 +1358,7 @@ export default function SmsaShippments(userData) {
                <th scope="col"> الشركة</th>
                <th scope="col">رقم البوليصة</th>
                <th scope="col">طريقة الدفع</th>
-               <th scope="col">التاريخ </th>
+               <th scope="col">التاريخ .</th>
                <th scope="col">id_الفاتورة</th>                
                <th scope="col"></th>
                <th scope="col"></th>
@@ -1133,18 +1372,58 @@ export default function SmsaShippments(userData) {
         <td>{item.company}</td>
         <td>{item.data.sawb}</td>
         <td>{item.paytype}</td>
-        <td>{item.data.createDate.slice(0, 10)}</td>
+        <td>{item.created_at.slice(0, 10)}</td>
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
         <td>
-                <button
+        <div class="dropdown">
+  <button class="btn btn-success dropdown-toggle"
+  // onClick={() => getSmsaSticker(item._id)} 
+  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    تحميل الاستيكر 
+  </button>
+
+  <ul class="dropdown-menu">
+  {/* 
+  {stickerUrls ?( stickerUrls.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
+        استيكر {index+1}
+      </a>
+    </li>
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+} */}
+  {item.data.waybills ?( item.data.waybills.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item"  onClick={() => {
+        handleConvertAndDownload(sticker.awbFile , item.data.sawb)
+      }}>
+        استيكر {index+1}
+      </a>
+    </li>
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+}
+</ul>
+
+</div>
+                {/* <button
       
       className="smsa-btn btn btn-success"
       onClick={() => getSmsaSticker(item._id)}
     >
       عرض الاستيكر
-    </button>
+    </button> */}
                 </td>
+                  {/* <ul class="dropdown-menu">
+    {stickerUrls.map((sticker,index)=>{
+          <li><a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`}>استيكر </a></li>
+
+    })}
+  </ul> */}
                 {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
@@ -1159,6 +1438,7 @@ export default function SmsaShippments(userData) {
 
 
          </table>
+        
         </div>
         
     </div> 

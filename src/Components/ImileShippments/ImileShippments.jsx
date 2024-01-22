@@ -10,6 +10,10 @@ import { atob } from 'js-base64';
 
 export default function ImileShippments(userData) {
     const [value ,setPhoneValue]=useState()
+    const [phone2,setPhone2] =useState()
+    const [packageCompanies, setPackageCompanies] = useState('');
+    const [packageOrders, setPackageOrders] = useState('');
+
     const [errorList, seterrorList]= useState([]); 
 
   const [itemName, setItemName] = useState('');
@@ -17,6 +21,8 @@ export default function ImileShippments(userData) {
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
+  const [clientId, setClientId] = useState('');
 
   const [theSkuDetailList, setSkuDetailList] = useState([
     {
@@ -35,6 +41,9 @@ export default function ImileShippments(userData) {
   const [orderData,setOrderData] =useState({
     p_company: "",
     c_company: "",
+    p_city:"",
+    p_address:"",
+    p_mobile:"",
     c_name: "",
     c_mobile: "",
     c_city: "",
@@ -48,10 +57,11 @@ export default function ImileShippments(userData) {
     skuDetailList: theSkuDetailList, 
     markterCode:"",
     cod:false, 
-    // clintid:'',
+    clintid:'',
     daftraid:'',
     shipmentValue:"",
-
+    clintid:"",
+    
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -77,6 +87,7 @@ export default function ImileShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert("تم تسجيل الشحنة بنجاح");
+        getPackageDetails()
         console.log(response.data.data);
         console.log(response);
         const shipment = response.data.data;
@@ -84,14 +95,14 @@ export default function ImileShippments(userData) {
         console.log(shipments)      
     }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data?.msg?.message || "An error occurred.";
+        const errorMessage = response.data?.err?.message || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }
     } catch (error) {
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.msg?.message || "An error occurred.";
+      const errorMessage = error.response?.data?.err?.message || "An error occurred.";
       window.alert(`${errorMessage}`);
     }
   }
@@ -117,11 +128,12 @@ function getOrderData(e) {
     if (userData.userData.data.user.rolle === "marketer") {
       myOrderData = { ...orderData,
         //  SenderName: itemName,
-        // pickUpDistrictID: itemCity,
+        p_city: itemCity,
         // SenderMobileNumber: itemMobile,
-        // pickUpAddress1: itemAddress,
-        // // clintid: itemId,
+        p_address: itemAddress,
+        clintid: itemClientId,
         daftraid:itemId,
+        clintid:clientId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -132,7 +144,12 @@ function getOrderData(e) {
   } else if (e.target.value === "true" || e.target.value === "false") {
     myOrderData[e.target.name] = e.target.value === "true";
   } else {
-    myOrderData[e.target.name] = e.target.value || e.target.innerText;
+    if (e.target.name === "c_mobile" || e.target.name === "p_mobile") {
+      const phoneNumber = e.target.value ? e.target.value.replace(/\+/g, '') : '';
+      myOrderData[e.target.name] = phoneNumber;
+    } else {
+      myOrderData[e.target.name] = e.target.value || e.target.innerText;
+    }
   }
     setOrderData(myOrderData);
     console.log(myOrderData);
@@ -166,8 +183,12 @@ function validateOrderUserForm(){
         skuDetailList: Joi.array().items(skuDetailsSchema),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
-        // clintid:Joi.string().allow(null, ''),
+        p_city:Joi.string().allow(null, ''),
+        p_address:Joi.string().allow(null, ''),
+        p_mobile:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
         daftraid:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -198,6 +219,7 @@ function validateOrderUserForm(){
   
   useEffect(()=>{
     // getCities()
+    console.log(cities)
     getCompaniesDetailsOrders()
     getimileClientsList()
     // getClientsList()
@@ -294,9 +316,7 @@ function validateOrderUserForm(){
   
     function handleConvertAndDownload(base64String) {
       convertBase64ToPDF(base64String, filename);
-      // const stickerUrl=filename
-      // const newTab = window.open();
-      // newTab.location.href = stickerUrl;
+      
     } 
     const[imileclients,setimileClients]=useState([])
 
@@ -849,9 +869,88 @@ function validateOrderUserForm(){
             console.error(error);
           }
         }
+
+        const[addMarketer,setMarketer]=useState(false);
+        const [Branches,setBranches]=useState('')
+        const [isBranches,setIsBranches]=useState(false)
+        
+        useEffect(() => {
+          getOrderData({
+            target: { name: 'p_city', value: itemCity },
+          });
+        }, [itemCity]); 
+        
+        useEffect(() => {
+          getOrderData({
+            target: { name: 'p_address', value: itemAddress },
+          });
+        }, [itemAddress]);
+        useEffect(()=>{
+          getPackageDetails()
+        },[])
+        const [packegeDetails,setPackegeDetails]=useState([])
+      async function getPackageDetails() {
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+             
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+              },
+            });
+            if (response.status === 200) {
+              console.log(response)
+              setPackegeDetails(response.data.data)
+            } else {
+              console.log(response)
+            }
+          } catch (error) {
+            console.log(error);
+            // window.alert('somthing wrong');
+          }
+        }
   return (
     <>
      <div className='p-4' id='content'>
+     { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+            <div className="prices-box">
+             <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
+             {packegeDetails.userAvailableOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة بك..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packegeDetails.companies ? (
+              <span>
+                {packegeDetails.companies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span>{packegeDetails.userAvailableOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
+            <div className='text-center package-poster mb-3 mx-2 '>
+            <div className='p-4'>
+            <p>قم بشراء باقة الأن..
+              <Link to="/packeges">اضغط هنا  </Link>
+            </p>
+            </div>
+            
+          </div>
+          ): null}
 {/*         
     { userData.userData.data.user.rolle === "marketer"?(
          <div className="search-box p-4 mt-2 mb-4 row g-1">
@@ -939,6 +1038,41 @@ function validateOrderUserForm(){
        </div>
          ): null}
       */}
+      { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
       <div className="shipmenForm">
       { userData.userData.data.user.rolle === "marketer"?(
           <div className="prices-box text-center">
@@ -974,7 +1108,7 @@ function validateOrderUserForm(){
              <input type="text" className="form-control" name='p_company' placeholder='اسم المرسل'
               onChange={(e)=>{ 
                 // openCitiesList();
-                setItemCity(e.target.value);
+                // setItemCity(e.target.value);
                 const searchValue = e.target.value;
                 setSearch(searchValue);
                 getOrderData(e)
@@ -999,9 +1133,14 @@ function validateOrderUserForm(){
                    return(
                     <li key={index} name='p_company'  
                     onClick={(e)=>{ 
+                      setBranches(item.branches)
+                      setClientId(item._id)
                       setItemId(item.daftraClientId);
+                      setItemClientId(item._id);
+                      setPackageCompanies(item.package.companies)
+                        setPackageOrders(item.package.availableOrders)
                       const selectedCity = item.company;
-                      setItemCity(selectedCity)
+                      // setItemCity(selectedCity)
                       getOrderData({ target: { name: 'p_company', value: selectedCity } });
                       document.querySelector('input[name="p_company"]').value = selectedCity;
                       closeCitiesList();
@@ -1021,6 +1160,58 @@ function validateOrderUserForm(){
     
   })}
           </div>
+          { userData.userData.data.user.rolle === "marketer"?(
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
+    }
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
+              <div className='pb-1'>
+                <label htmlFor=""> رقم أخر للمرسل: (اختيارى) <span className="star-requered"></span></label>
+                {/* <input type="text" className="form-control"/> */}
+                <PhoneInput name='p_mobile' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
+    onChange={(phone2) => {
+      setPhone2(phone2);
+      getOrderData({ target: { name: 'p_mobile', value: phone2 } });
+    }}/>
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='p_mobile'){
+        return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
+      }
+      
+    })}
+      
+            </div>
           <div className='pb-1'>
               <label htmlFor=""> اسم المستلم<span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='c_name'  onChange={(e) => {
@@ -1217,17 +1408,19 @@ function validateOrderUserForm(){
           </div>
           
           { userData.userData.data.user.rolle === "marketer"?(
-            <div className='pb-1'>
-            <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
-            <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
-            {errorList.map((err,index)=>{
-  if(err.context.label ==='markterCode'){
-    return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-  }
-  
-})}
-        </div>
-          ):null}   
+            <div className='py-1'>
+              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
+              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
+              </button>
+              {addMarketer && (<div>
+                <label htmlFor=""> كود المسوق 
+             <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
+             
+              </div>) }
+             
+         </div>
+            ):null}  
           {/* { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
             <label htmlFor=""> id_العميل  </label>
@@ -1241,7 +1434,10 @@ function validateOrderUserForm(){
         </div>
           ):null}            */}
           </div>
-          <div className="package-info brdr-grey p-3 my-3 ">
+          
+          </div>
+          <div className="col-md-6">
+          <div className="package-info brdr-grey p-3 mb-3 ">
               <h3>بيانات الشحنة :</h3>
               <div className="row">
               <div className="col-md-6">
@@ -1359,8 +1555,13 @@ function validateOrderUserForm(){
   })}
           </div>
   <div className='pb-3'>
-    <label htmlFor=""> قيمة الشحنة</label>
-    <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+  <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      onChange={(e)=>{
+        const shipvalue = e.target.value
+        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      }} 
+      required />
     {errorList.map((err, index) => {
       if (err.context.label === 'shipmentValue') {
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -1386,8 +1587,6 @@ function validateOrderUserForm(){
               
               </div>
           </div>
-          </div>
-          <div className="col-md-6">
           <div className="reciever-details brdr-grey p-3">
               <h3>تفاصيل المنتج :</h3>
               {theSkuDetailList.map((piece, index) => (
@@ -1433,8 +1632,12 @@ function validateOrderUserForm(){
       
     ))}
           </div>
-          {errorList && <div className="text-danger m-3">يجب ملئ جميع البيانات</div> }
-          <button type="submit" className="btn btn-orange m-3"> <i className='fa-solid fa-plus'></i> عمل شحنة</button>
+          {errorList && <div className="text-danger m-2">يجب ملئ جميع البيانات</div> }
+          <button type="submit" className="btn btn-orange me-3" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
+          {/* <button type="submit" className="btn btn-orange m-3"> <i className='fa-solid fa-plus'></i> عمل شحنة</button> */}
 
           </div>
           </div>

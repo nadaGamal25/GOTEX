@@ -85,7 +85,7 @@ export default function Navbar({userData ,logout}) {
           async function addDepositToUser() {
             try {
               const response = await axios.post(
-                'https://dashboard.go-tex.net/api/user/add-user-balance',
+                'https://dashboard.go-tex.net/api/user/user-charge',
                 {
                   amount: depositAmount,
                 },
@@ -100,7 +100,7 @@ export default function Navbar({userData ,logout}) {
               console.log(response.data);
               window.alert('يرجى ملئ جميع البيانات التالية ')
               // navigate(response.data.data.order.url);
-              const stickerUrl = `${response.data.data.order.url}`;
+              const stickerUrl = `${response.data.data.transaction.url}`;
            const newTab = window.open();
            newTab.location.href = stickerUrl;
 
@@ -152,6 +152,26 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
+            {userData?.data?.user?.rolle === "user"?(
+            <li>
+                <Link to="/packeges">
+                <i class="fa-solid fa-money-bill bx"></i>
+                    <span class="text">شراء باقة
+               
+                </span>
+                </Link>
+            </li>
+            ):null}
+            {userData?.data?.user?.rolle === "user"?(
+            <li>
+                <Link to="/packageDetails">
+                <i class="fa-solid fa-money-bill bx"></i>
+                    <span class="text"> تفاصيل باقتك
+               
+                </span>
+                </Link>
+            </li>
+            ):null}
             {/* <li>
                 <Link to="/clients">
                     <i class="fa-solid fa-users bx"></i>
@@ -164,6 +184,8 @@ export default function Navbar({userData ,logout}) {
                     <span class="text">الشحنات</span>
                 </Link>
             </li>
+            {userData?.data?.user?.rolle === "user"?(
+            <>
             <li>
                 <Link to="#" onClick={openModal}>
                 <i class="fa-solid fa-credit-card bx"></i>
@@ -177,6 +199,9 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
+            </>
+            ):null}
+            
             {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>
               <Link  to="/addClientAll">
@@ -193,7 +218,26 @@ export default function Navbar({userData ,logout}) {
               </Link>
           </li>
             ):null}
-            
+            {userData?.data?.user?.rolle === "marketer"?(
+            <li>
+                <Link to="/packageMarketers">
+                <i class="fa-solid fa-money-bill bx"></i>
+                    <span class="text"> باقات العملاء
+               
+                </span>
+                </Link>
+            </li>
+            ):null}
+            {userData?.data?.user?.rolle === "marketer"?(
+            <li>
+                <Link to="/generateLinkPayment">
+                <i class="fa-solid fa-link bx"></i>
+                    <span class="text">  إنشاء رابط للرصيد 
+               
+                </span>
+                </Link>
+            </li>
+            ):null}
             
             {/* {userData?.data?.user?.rolle === "marketer"?(
               <li className=''>

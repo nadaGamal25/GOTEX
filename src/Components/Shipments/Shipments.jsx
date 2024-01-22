@@ -158,7 +158,7 @@ export default function Shipments(userData) {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
           });
-               console.log(response.data.data)
+               console.log(response)
           const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
           const newTab = window.open();
           newTab.location.href = stickerUrl;
@@ -214,6 +214,25 @@ export default function Shipments(userData) {
       console.error(error);
     }
   }
+  const [stickerUrls , setStickerUrls] =useState([])
+  async function getSmsaSticker(orderId) {
+    setStickerUrls('');
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+  
+      const stickers = response.data.data;
+      setStickerUrls(stickers)
+      console.log(stickerUrls)
+  console.log(response)
+      
+    } catch (error) {
+      console.error(error);
+    }
+  }
   // async function getSmsaSticker(orderId) {
   //   try {
   //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
@@ -229,28 +248,28 @@ export default function Shipments(userData) {
   //     console.error(error);
   //   }
   // }
-  async function getSmsaSticker(orderId) {
-    try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-        },
-      });
+  // async function getSmsaSticker(orderId) {
+  //   try {
+  //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+  //       },
+  //     });
   
-      const stickerUrls = response.data.data;
-  console.log(response.data.data)
-      if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
-        stickerUrls.forEach((stickerUrl) => {
-          const newTab = window.open();
-          newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
-        });
-      } else {
-        console.log("No sticker URLs found in the response.");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //     const stickerUrls = response.data.data;
+  // console.log(response.data.data)
+  //     if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
+  //       stickerUrls.forEach((stickerUrl) => {
+  //         const newTab = window.open();
+  //         newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+  //       });
+  //     } else {
+  //       console.log("No sticker URLs found in the response.");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
   
   
    async function getUserOrders() {
@@ -375,7 +394,7 @@ export default function Shipments(userData) {
         // Use file-saver to save the Blob as a PDF file
         saveAs(blob, filename);
       }
-        const filename = 'sticker.pdf'; // Replace with your desired filename
+        const filename = 'sticker.pdf'; 
       
         function handleConvertAndDownload(base64String) {
           convertBase64ToPDF(base64String, filename);
@@ -400,6 +419,21 @@ export default function Shipments(userData) {
             console.error(error);
           }
         }
+
+        function convertBase64ToPDFSmsa(base64String, filename) {
+          const byteCharacters = atob(base64String);
+            const byteArray = new Uint8Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteArray[i] = byteCharacters.charCodeAt(i);
+          }
+        
+          const blob = new Blob([byteArray], { type: 'application/pdf' });
+            saveAs(blob, filename);
+        }        
+          function handleConvertAndDownloadSmsa(base64String , sawb) {
+            convertBase64ToPDF(base64String, sawb);
+            
+          }
   return (
     <>
     
@@ -416,13 +450,12 @@ export default function Shipments(userData) {
             <button className="btn"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
             </div>
             <div className="col-md-10">
-            <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder='كود المسوق' />
+            <input className='form-control' name="search" onChange={(e)=> setSearch(e.target.value)} type="search" placeholder=' رقم التتبع أو كود المسوق' />
             </div>
           </div>
           ): null}
       <div className="clients-table p-4 mt-4">
-      { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة gotex</h5>):null}
+        <h5>شركة gotex</h5>
        <table className="table">
          <thead>
            <tr>
@@ -448,7 +481,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.awb_no && item.data.awb_no.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -463,7 +499,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
               <td>
@@ -500,8 +536,7 @@ export default function Shipments(userData) {
       </table>
      </div> 
      <div className="clients-table p-4 my-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة saee</h5>):null}
+        <h5>شركة saee</h5>
       <table className="table">
         <thead>
           <tr>
@@ -528,7 +563,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.waybill && item.data.waybill.includes(search))
+    );
   }).map((item,index) =>{
     // const isCanceled = canceledRows.includes(item._id);
 
@@ -543,7 +581,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {/* <td>{item.data.message}</td> */}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
@@ -575,15 +613,17 @@ export default function Shipments(userData) {
               <td >
                 
                 {item.status=== "canceled" ?
-                <span className='text-center text-danger fw-bold'>Canceled</span>:
+                <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
                 <button
             className="btn btn-danger"
             onClick={() => {
-              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+              // if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
                 const orderId = item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
                 axios
                   .post(`https://dashboard.go-tex.net/api/saee/cancel-order`, 
-                   { orderId },
+                   { orderId ,cancelReason},
                    {
                     headers: {
                       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -616,68 +656,10 @@ export default function Shipments(userData) {
       </table>
      </div> 
 
-     <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة glt</h5>):null}
-       <table className="table">
-         <thead>
-           <tr>
-            <th scope="col">#</th>
-            <th scope="col"> الشركة</th>
-             <th scope="col">رقم الشحنة</th>
-             <th scope="col">رقم التتبع</th>
-             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
-             <th scope="col">طريقة الدفع</th>
-             <th scope="col">التاريخ </th>
-             <th scope="col">id_الفاتورة</th>                
-
-             <th scope="col"></th>
-             <th scope="col"></th>
-           </tr>
-         </thead>
-       <tbody>
-       {gltAllOrders.filter((item) => {
-    if (search === '') {
-      return true;
-    }
-    return item.marktercode && item.marktercode.includes(search);
-  }).map((item,index) =>{
-            return(
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{item.company}</td>
-                <td>{item.ordernumber}</td>
-                <td>{item.data.orderTrackingNumber}</td>
-                {userData.userData.data.user.rolle === "marketer" ? (
-  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
-) : null}
-                <td>{item.paytype}</td>
-                {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
-                {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-
-                <td>
-                <button
-      
-      className="glt-btn btn btn-success"
-      onClick={() => getGltSticker(item._id)}
-    >
-      عرض الاستيكر
-    </button>
-                </td>
-                
-                
-              </tr>
-            )
-          }
-          )}
-           
-        </tbody>
-      </table>
-     </div> 
+     
 
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة aramex</h5>):null}
+        <h5>شركة aramex</h5>
        <table className="table">
          <thead>
            <tr>
@@ -700,7 +682,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.Shipments[0].ID && item.data.Shipments[0].ID.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -713,7 +698,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
               {/* <td>{item.data.orderTrackingNumber}</td> */}
@@ -750,8 +735,7 @@ export default function Shipments(userData) {
       </table>
      </div> 
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة smsa</h5>):null}
+        <h5>شركة smsa</h5>
        <table className="table">
          <thead>
            <tr>
@@ -773,7 +757,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.sawb && item.data.sawb.includes(search))
+    );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -785,10 +772,51 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              <td>{item.data.createDate.slice(0, 10)}</td>
+              <td>{item.created_at.slice(0, 10)}</td>
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-
               <td>
+        <div class="dropdown">
+  <button class="btn btn-success dropdown-toggle"
+  // onClick={() => getSmsaSticker(item._id)} 
+  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    تحميل الاستيكر 
+  </button>
+
+  <ul class="dropdown-menu">
+  {item.data.waybills ?( item.data.waybills.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item"  onClick={() => {
+        handleConvertAndDownloadSmsa(sticker.awbFile , item.data.sawb)
+      }}>
+        استيكر {index+1}
+      </a>
+    </li>
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+}
+  {/* {stickerUrls ?( stickerUrls.map((sticker, index) => (
+    <li key={index}>
+      <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
+        استيكر {index+1}
+      </a>
+    </li>
+  )) ): (<li>
+    <i class="fa-solid fa-spinner fa-spin"></i>
+  </li>)
+} */}
+</ul>
+
+</div>
+                {/* <button
+      
+      className="smsa-btn btn btn-success"
+      onClick={() => getSmsaSticker(item._id)}
+    >
+      عرض الاستيكر
+    </button> */}
+                </td>
+              {/* <td>
               <button
     
     className="smsa-btn btn btn-success"
@@ -796,7 +824,7 @@ export default function Shipments(userData) {
   >
     عرض الاستيكر
   </button>
-              </td>
+              </td> */}
               {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
@@ -814,9 +842,213 @@ export default function Shipments(userData) {
       </table>
      </div> 
     
+    
+
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة spl</h5>):null}
+        <h5>شركة iMile</h5>
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col"> الشركة</th>
+            <th scope="col">رقم الشحنة</th>
+            <th scope="col">السعر </th>
+            <th scope="col">رقم التتبع</th>
+            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+             <th scope="col">طرقة الدفع</th>
+             <th scope="col">التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
+
+             <th scope="col"></th>
+             <th scope="col"></th>
+             <th></th>
+           </tr>
+         </thead>
+       <tbody>
+       {imileAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.data.expressNo && item.data.data.expressNo.includes(search))
+    );
+  }).map((item,index) =>{
+            return(
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
+              <td>{index+1}</td>
+              <td>{item.company}</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.price}</td>
+              <td>{item.data?.data?.expressNo}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
+              <td>{item.paytype}</td>
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              <td>
+        <button className="btn btn-success"  onClick={() => {
+        //  setbase64String(bs)
+        handleConvertAndDownload(item.data.data.imileAwb)
+        // openBase64PDFInNewWindow(item.data.data.imileAwb)
+      }}>تحميل الاستيكر</button>
+      </td>
+      {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
+       <td>
+        {item.status=== "canceled" ? 
+          <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
+        <button
+            className="btn btn-danger"
+            onClick={() => {
+              // if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+                const orderId= item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
+                axios
+                  .post(`https://dashboard.go-tex.net/api/imile/cancel-order`,
+                   { orderId ,cancelReason },
+                  {
+                   headers: {
+                     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                   },
+                 })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      getImileUserOrders();
+                           window.alert(response.data.data.message)
+                           console.log(response)
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    window.alert(error.response.data.msg.message)
+                  });
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button>}
+          </td> 
+              
+              
+            </tr>
+            )
+          }
+          )}
+           
+        </tbody>
+      </table>
+     </div> 
+     <div className="clients-table p-4 mt-4">
+        <h5>شركة J&T</h5>
+       <table className="table">
+         <thead>
+           <tr>
+            <th scope="col">#</th>
+            <th scope="col"> الشركة</th>
+            <th scope="col">رقم الشحنة</th>
+            <th scope="col">السعر </th>
+            <th scope="col">رقم التتبع</th>
+            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+             <th scope="col">طرقة الدفع</th>
+             <th scope="col">التاريخ</th>
+             <th scope="col">id_الفاتورة</th>                
+
+             <th scope="col"></th>
+             <th scope="col"></th>
+             <th scope="col"></th>
+           </tr>
+         </thead>
+       <tbody>
+       {jtAllOrders.filter((item) => {
+    if (search === '') {
+      return true;
+    }
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.data.billCode && item.data.data.billCode.includes(search))
+    );
+  }).map((item,index) =>{
+            return(
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
+              <td>{index+1}</td>
+              <td>{item.company}</td>
+              <td>{item.ordernumber}</td>
+              <td>{item.price}</td>
+              <td>{item.data?.data?.billCode}</td>
+              {userData.userData.data.user.rolle === "marketer" ? (
+  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
+) : null}
+              <td>{item.paytype}</td>
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
+              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              <td>
+        <button className="btn btn-success"  onClick={() => {
+          getJtSticker(item._id)
+      }}>عرض الاستيكر</button>
+      </td>
+      {item.inovicedaftra?.id?(<td><button
+      
+      className="btn btn-orange"
+      onClick={() => getInvoice(item.inovicedaftra.id)}
+    >
+      عرض الفاتورة
+    </button></td>):(<td>_</td>)}
+       <td>
+        {item.status=== "canceled" ? 
+          <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
+        <button
+            className="btn btn-danger"
+            onClick={() => {
+              // if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+                const orderId= item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
+                axios
+                  .post(`https://dashboard.go-tex.net/api/jt/cancel-order`,
+                   { orderId , cancelReason },
+                  {
+                   headers: {
+                     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+                   },
+                 })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      getJtUserOrders();
+                           window.alert(response.data.data.msg)
+                           console.log(response)
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    // window.alert(error.response.data.msg.msg)
+                    alert('لا يمكن الغاء هذه الشحنة')
+                  });
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button>}
+          </td> 
+              
+              
+            </tr>
+            )
+          }
+          )}
+           
+        </tbody>
+      </table>
+     </div> 
+      <div className="clients-table p-4 mt-4">
+        <h5>شركة spl</h5>
        <table className="table">
          <thead>
            <tr>
@@ -839,7 +1071,10 @@ export default function Shipments(userData) {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+    (item.marktercode && item.marktercode.includes(search)) ||
+    (item.data.Items[0].Barcode && item.data.Items[0].Barcode.includes(search))
+  );
   }).map((item,index) =>{
             return(
               <tr key={index}>
@@ -852,7 +1087,7 @@ export default function Shipments(userData) {
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
               <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
+              {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
 
               <td>
@@ -880,118 +1115,18 @@ export default function Shipments(userData) {
         </tbody>
       </table>
      </div> 
-
      <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة iMile</h5>):null}
+        <h5>شركة glt</h5>
        <table className="table">
          <thead>
            <tr>
             <th scope="col">#</th>
             <th scope="col"> الشركة</th>
-            <th scope="col">رقم الشحنة</th>
-            <th scope="col">السعر </th>
-            <th scope="col">رقم التتبع</th>
-            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
-             <th scope="col">طرقة الدفع</th>
-             <th scope="col">التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
-
-             <th scope="col"></th>
-             <th scope="col"></th>
-             <th></th>
-           </tr>
-         </thead>
-       <tbody>
-       {imileAllOrders.filter((item) => {
-    if (search === '') {
-      return true;
-    }
-    return item.marktercode && item.marktercode.includes(search);
-  }).map((item,index) =>{
-            return(
-              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
-              <td>{index+1}</td>
-              <td>{item.company}</td>
-              <td>{item.ordernumber}</td>
-              <td>{item.price}</td>
-              <td>{item.data?.data?.expressNo}</td>
-              {userData.userData.data.user.rolle === "marketer" ? (
-  item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
-) : null}
-              <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-              <td>
-        <button className="btn btn-success"  onClick={() => {
-        //  setbase64String(bs)
-        handleConvertAndDownload(item.data.data.imileAwb)
-        // openBase64PDFInNewWindow(item.data.data.imileAwb)
-      }}>تحميل الاستيكر</button>
-      </td>
-      {item.inovicedaftra?.id?(<td><button
-      
-      className="btn btn-orange"
-      onClick={() => getInvoice(item.inovicedaftra.id)}
-    >
-      عرض الفاتورة
-    </button></td>):(<td>_</td>)}
-       <td>
-        {item.status=== "canceled" ? 
-          <span className='text-center text-danger fw-bold'>Canceled</span>:
-        <button
-            className="btn btn-danger"
-            onClick={() => {
-              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
-                const orderId= item._id;
-                axios
-                  .post(`https://dashboard.go-tex.net/api/imile/cancel-order`, { orderId },
-                  {
-                   headers: {
-                     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-                   },
-                 })
-                  .then((response) => {
-                    if (response.status === 200) {
-                      getImileUserOrders();
-                          //  window.alert(response.data.data.message)
-                           console.log(response)
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                    window.alert(error.response.data.msg.message)
-                  });
-              }
-            }}
-          >
-             الغاء الشحنة
-          </button>}
-          </td> 
-              
-              
-            </tr>
-            )
-          }
-          )}
-           
-        </tbody>
-      </table>
-     </div> 
-     {/* <div className="clients-table p-4 mt-4">
-     { userData.userData.data.user.rolle === "marketer"?(
-        <h5>شركة J&T</h5>):null}
-       <table className="table">
-         <thead>
-           <tr>
-            <th scope="col">#</th>
-            <th scope="col"> الشركة</th>
-            <th scope="col">رقم الشحنة</th>
-            <th scope="col">السعر </th>
-            <th scope="col">رقم التتبع</th>
-            {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
-             <th scope="col">طرقة الدفع</th>
-             <th scope="col">التاريخ</th>
+             <th scope="col">رقم الشحنة</th>
+             <th scope="col">رقم التتبع</th>
+             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
+             <th scope="col">طريقة الدفع</th>
+             <th scope="col">التاريخ </th>
              <th scope="col">id_الفاتورة</th>                
 
              <th scope="col"></th>
@@ -999,72 +1134,40 @@ export default function Shipments(userData) {
            </tr>
          </thead>
        <tbody>
-       {jtAllOrders.filter((item) => {
+       {gltAllOrders.filter((item) => {
     if (search === '') {
       return true;
     }
-    return item.marktercode && item.marktercode.includes(search);
+    return  (
+      (item.marktercode && item.marktercode.includes(search)) ||
+      (item.data.orderTrackingNumber && item.data.orderTrackingNumber.includes(search))
+    );
   }).map((item,index) =>{
             return(
-              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''}>
-              <td>{index+1}</td>
-              <td>{item.company}</td>
-              <td>{item.ordernumber}</td>
-              <td>{item.price}</td>
-              <td>{item.data?.data?.billCode}</td>
-              {userData.userData.data.user.rolle === "marketer" ? (
+              <tr key={index}>
+                <td>{index+1}</td>
+                <td>{item.company}</td>
+                <td>{item.ordernumber}</td>
+                <td>{item.data.orderTrackingNumber}</td>
+                {userData.userData.data.user.rolle === "marketer" ? (
   item.marktercode ? <td>{item.marktercode}</td> : <td>-</td>
 ) : null}
-              <td>{item.paytype}</td>
-              {item.createdate?(<td>{item.createdate.slice(0,15)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-              <td>
-        <button className="btn btn-success"  onClick={() => {
-          getJtSticker(item._id)
-      }}>عرض الاستيكر</button>
-      </td>
-      {item.inovicedaftra?.id?(<td><button
+                <td>{item.paytype}</td>
+                {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
+                {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+
+                <td>
+                <button
       
-      className="btn btn-orange"
-      onClick={() => getInvoice(item.inovicedaftra.id)}
+      className="glt-btn btn btn-success"
+      onClick={() => getGltSticker(item._id)}
     >
-      عرض الفاتورة
-    </button></td>):(<td>_</td>)}
-       <td>
-        {item.status=== "canceled" ? 
-          <span className='text-center text-danger fw-bold'>Canceled</span>:
-        <button
-            className="btn btn-danger"
-            onClick={() => {
-              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
-                const orderId= item._id;
-                axios
-                  .post(`https://dashboard.go-tex.net/api/jt/cancel-order`, { orderId },
-                  {
-                   headers: {
-                     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-                   },
-                 })
-                  .then((response) => {
-                    if (response.status === 200) {
-                      getJtUserOrders();
-                          //  window.alert(response.data.data.message)
-                           console.log(response)
-                    }
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                    window.alert(error.response.data.msg.message)
-                  });
-              }
-            }}
-          >
-             الغاء الشحنة
-          </button>}
-          </td> 
-              
-              
-            </tr>
+      عرض الاستيكر
+    </button>
+                </td>
+                
+                
+              </tr>
             )
           }
           )}
@@ -1072,7 +1175,7 @@ export default function Shipments(userData) {
         </tbody>
       </table>
      </div> 
-     */}
+    
     </div> 
       </>  
   )

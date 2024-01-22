@@ -70,6 +70,20 @@ import PaymentOrders from './Components/PaymentOrders/PaymentOrders';
 import AddClientAll from './Components/AddClientAll/AddClientAll';
 import ClientsAll from './Components/ClientsAll/ClientsAll';
 import EditClientModal from './Components/EditClientModal/EditClientModal';
+import Packeges from './Components/Packeges/Packeges';
+import SignupMarketers from './Components/SignupMarketers/SignupMarketers';
+import MarketersAdmin from './Components/MarketersAdmin/MarketersAdmin';
+import ClientsAmarketers from './Components/Clients&marketers/ClientsAmarketers';
+import AdminSearchShipments from './Components/AdminSearchShipments/AdminSearchShipments';
+import LoginMarketers from './Components/LoginMarketers/LoginMarketers';
+import MarketersShipments from './Components/MarketersShipments/MarketersShipments';
+import LayoutMarketers from './Components/LayoutMarketers/LayoutMarketers';
+import PackegesAdmin from './Components/PackegesAdmin/PackegesAdmin';
+import PackageDetails from './Components/PackageDetails/PackageDetails';
+import PackegesMarketers from './Components/PackegesMarketers/PackegesMarketers';
+import ClientOrders from './Components/ClientOrders/ClientOrders';
+import GenerateLinkPayment from './Components/GenerateLinkPayment/GenerateLinkPayment';
+import FormPayment from './Components/FormPayment/FormPayment';
 
 function App() {
   
@@ -88,16 +102,32 @@ function App() {
     setuserData(decodedToken)
     console.log(userData)
   }
+  const [marketerData, setmarketerData] = useState(null)
+
+  async function saveMarketerData(){
+    let encodedToken =localStorage.getItem('marketerToken')
+    let decodedToken = jwtDecode(encodedToken);
+    console.log(decodedToken);
+    setmarketerData(decodedToken)
+    console.log(marketerData)
+  }
   useEffect(() => {
     const timeout = setTimeout(() => {
       window.alert('الجلسة انتهت..قم بتسجيل الدخول مرة اخرى');
-      localStorage.removeItem('userToken');
-      setuserData(null);
-      window.location.href = '/';
+      
+      // if(localStorage.getItem('userToken') !== null){
+        window.location.href = '/';
+        localStorage.removeItem('userToken');
+        setuserData(null);
+      // }else{
+        // window.location.href = '/loginMarketers';
+        localStorage.removeItem('marketerToken');
+        setmarketerData(null)
+      // }
     }, 60 * 60 * 1000); // 1 hour in milliseconds
 
     return () => clearTimeout(timeout);
-  }, [userData]);
+  }, [userData,marketerData]);
   
  
 
@@ -105,11 +135,17 @@ function App() {
     {index:true,element:<Login saveUserData={saveUserData} setuserData={setuserData} userData={userData}/>},
     {path:'register',element:<RegisterForm setuserData={setuserData} userData={userData} />},
     {path:'marketerSignUp',element:<MarketerSignUp/>},
+    {path:'signupMarketers',element:<SignupMarketers/>},
+    {path:'loginMarketers',element:<LoginMarketers saveMarketerData={saveMarketerData}/>},
+    // {path:'marketersShipments',element:<MarketersShipments/>},
+    {path:'clientOrders',element:<ErrorBoundary><ClientOrders userData={userData}/></ErrorBoundary>},
     {path:'splSticker',element:<SplSticker/>},
     {path:'splStickerPreview',element:<SplStickerPreview/>},
     {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'forgetPassword',element:<ForgetPassword/>},
     {path:'updatePassword/:x',element:<UpdatePassword/>},
+    {path:'formPayment/:uId/:cId/:cN',element:<FormPayment/>},
+    {path:'/packeges',element:<ErrorBoundary><ProtectedRoute userData={userData}><Packeges userData={userData}/></ProtectedRoute></ErrorBoundary>},
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
     {path:'nav',element:<ProtectedRoute><NavAdmin setuserData={setuserData} userData={userData}/></ProtectedRoute>},
     // {path:'admin',element:<ProtectedRoute userData={userData}><Admin/></ProtectedRoute>},
@@ -142,6 +178,9 @@ function App() {
       {path:'/paymentOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><PaymentOrders userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/addClientAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddClientAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/clientsAll',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAll userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/packageDetails',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackageDetails userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/packageMarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesMarketers userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/generateLinkPayment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GenerateLinkPayment userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
@@ -159,9 +198,16 @@ function App() {
     {path:'userListAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><UsersListAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'addDepositAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AddDepositAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'InvitedWaiting',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvitedWaiting/></ProtectedRoute></ErrorBoundary>},
-    {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentsAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'shipmentsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><AdminSearchShipments/></ProtectedRoute></ErrorBoundary>},
     {path:'invocesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><InvocesAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsCreditAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsCreditAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'marketersAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketersAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'clientsAmarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAmarketers/></ProtectedRoute></ErrorBoundary>},
+    {path:'packegesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesAdmin/></ProtectedRoute></ErrorBoundary>},
+   
+    ]},
+    {path:'/',element:<LayoutMarketers setmarketerData={setmarketerData} marketerData={marketerData}/> ,children:[
+      {path:'marketersShipments',element:<ErrorBoundary><MarketersShipments marketerData={marketerData}/></ErrorBoundary>},
    
     ]},
     {path:'*', element:<PageNotFound/>}

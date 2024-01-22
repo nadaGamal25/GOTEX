@@ -4,6 +4,7 @@ import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
+import { Link } from 'react-router-dom';
 
 export default function AramexShippments(userData) {
     const [value ,setPhoneValue]=useState()
@@ -12,6 +13,8 @@ export default function AramexShippments(userData) {
     const [CcellPhone,setCcellPhone] =useState()
     const [p_PhoneNumber,setp_PhoneNumber1Ext] =useState()
     const [c_PhoneNumber,setc_PhoneNumber1Ext] =useState()
+    const [packageCompanies, setPackageCompanies] = useState('');
+    const [packageOrders, setPackageOrders] = useState('');
 
     const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
@@ -19,6 +22,7 @@ export default function AramexShippments(userData) {
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
   const [itemEmail, setItemEmail] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
 
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
@@ -34,7 +38,7 @@ export default function AramexShippments(userData) {
     pieces: "",
     p_name: "",
     p_company: "",
-    p_email: "",
+    // p_email: "",
     p_phone: "",
     p_PhoneNumber1Ext: "",
     p_line1: "",
@@ -46,7 +50,7 @@ export default function AramexShippments(userData) {
     shipmentValue:'',
     markterCode:'',
     description:'',
-    // clintid:'',
+    clintid:'',
     daftraid:'',
 
   })
@@ -71,6 +75,8 @@ export default function AramexShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert(`تم تسجيل الشحنة بنجاح`);
+        getPackageDetails()
+
         console.log(response.data.data);
       //   console.log(response.data.data.Shipments[0].ShipmentLabel.LabelURL);
       //   const stickerUrl = `${response.data.data.Shipments[0].ShipmentLabel.LabelURL}`;
@@ -90,7 +96,7 @@ export default function AramexShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.data.Shipments[0].Notifications[0]?.Message || error.response?.data?.msg || "An error occurred.";
+      const errorMessage = error.response?.data.msg.Shipments[0].Notifications[0]?.Message || error.response?.data?.msg || "An error occurred.";
       window.alert(errorMessage);
     }
   }
@@ -117,9 +123,10 @@ export default function AramexShippments(userData) {
         p_city: itemCity,
         p_phone: itemMobile,
         p_line1: itemAddress,
-        // clintid: itemId,
+        clintid: itemClientId,
         daftraid:itemId,
-        p_email:itemEmail};
+        // p_email:itemEmail
+      };
     } else {
       myOrderData = { ...orderData };
     }
@@ -163,7 +170,7 @@ export default function AramexShippments(userData) {
           pieces: Joi.number().required(),
           p_name: Joi.string().required(),
           p_company: Joi.string().required(),
-          p_email: Joi.string().required(),
+          // p_email: Joi.string().required(),
           p_phone: Joi.string().required(),
           p_PhoneNumber1Ext: Joi.allow(null, ''),
           p_line1: Joi.string().required(),
@@ -175,7 +182,7 @@ export default function AramexShippments(userData) {
           shipmentValue:Joi.number().allow(null, ''),      
           markterCode:Joi.string().allow(null, ''),
           description: Joi.string().required(),
-          // clintid:Joi.string().allow(null, ''),
+          clintid:Joi.string().allow(null, ''),
           daftraid:Joi.number().allow(null, ''),
   
       });
@@ -225,6 +232,7 @@ export default function AramexShippments(userData) {
         });
         setCities(response.data.data.Cities)
         console.log(response.data.data.Cities)
+        console.log(response)
       } catch (error) {
         console.error(error);
       }
@@ -369,8 +377,87 @@ export default function AramexShippments(userData) {
       console.error(error);
     }
   }
+
+  const[addMarketer,setMarketer]=useState(false);
+  const [Branches,setBranches]=useState('')
+    const [isBranches,setIsBranches]=useState(false)
+    
+    useEffect(() => {
+      getOrderData({
+        target: { name: 'p_city', value: itemCity },
+      });
+    }, [itemCity]); 
+    
+    useEffect(() => {
+      getOrderData({
+        target: { name: 'p_line1', value: itemAddress },
+      });
+    }, [itemAddress]);
+    useEffect(()=>{
+      getPackageDetails()
+    },[])
+    const [packegeDetails,setPackegeDetails]=useState([])
+  async function getPackageDetails() {
+      try {
+        const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+         
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        });
+        if (response.status === 200) {
+          console.log(response)
+          setPackegeDetails(response.data.data)
+        } else {
+          console.log(response)
+        }
+      } catch (error) {
+        console.log(error);
+        // window.alert('somthing wrong');
+      }
+    }
   return (
 <div className='p-4' id='content'>
+{ userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+            <div className="prices-box">
+             <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
+             {packegeDetails.userAvailableOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة بك..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packegeDetails.companies ? (
+              <span>
+                {packegeDetails.companies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span>{packegeDetails.userAvailableOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
+            <div className='text-center package-poster mb-3 mx-2 '>
+            <div className='p-4'>
+            <p>قم بشراء باقة الأن..
+              <Link to="/packeges">اضغط هنا  </Link>
+            </p>
+            </div>
+            
+          </div>
+          ): null}
 { userData.userData.data.user.rolle === "marketer"?(
            <div className="search-box p-4 mt-2 mb-4 row g-1">
            <div className="col-md-2">
@@ -404,15 +491,20 @@ export default function AramexShippments(userData) {
                          <>
                          <li key={index} name='' 
                          onClick={(e)=>{ 
-   
+                          setBranches(item.branches)
                            const selectedCity = e.target.innerText;
+
                            setItemName(item.name);
                            setItemMobile(item.mobile);
                           //  setItemCity(item.city);
                            setItemAddress(item.address);
-                           setItemEmail(item.email);
+                          //  setItemEmail(item.email);
                            setItemId(item.daftraClientId);
+                           setItemClientId(item._id);
                            setPhoneValue(item.mobile)
+                           setPackageCompanies(item.package.companies)
+                           setPackageOrders(item.package.availableOrders)
+
                       //     setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       //     setItemMobile(item.Client.phone1);
                       //  setItemCity(item.Client.city);
@@ -426,7 +518,7 @@ export default function AramexShippments(userData) {
                        document.querySelector('input[name="p_phone"]').value = value;
                       //  document.querySelector('input[name="p_city"]').value = item.city;
                        document.querySelector('input[name="p_line1"]').value = item.address;
-                       document.querySelector('input[name="p_email"]').value = item.email;                    
+                      //  document.querySelector('input[name="p_email"]').value = item.email;                    
                       // document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
                       // document.querySelector('input[name="p_phone"]').value = value;
@@ -460,7 +552,41 @@ export default function AramexShippments(userData) {
            </div>
          </div>
            ): null}
-
+{ userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
         <div className="shipmenForm">
         { userData.userData.data.user.rolle === "marketer"?(
             <div className="prices-box text-center">
@@ -498,7 +624,7 @@ export default function AramexShippments(userData) {
       
     })}
             </div>
-            <div className='pb-3'>
+            {/* <div className='pb-3'>
                 <label htmlFor=""> البريد الالكترونى<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_email' onChange={(e) => {
     setItemEmail(e.target.value);
@@ -510,7 +636,7 @@ export default function AramexShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             <div className='pb-3'>
                 <label htmlFor="">
                   رقم الهاتف
@@ -567,7 +693,7 @@ export default function AramexShippments(userData) {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
+                <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_city'
                 onChange={(e)=>{ 
                   // setItemCity(e.target.value);
@@ -651,6 +777,41 @@ export default function AramexShippments(userData) {
       
     })}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
+    }
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
             <div className='pb-3'>
                 <label htmlFor=""> الرمز البريدى<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='p_postCode' onChange={getOrderData}/>
@@ -660,19 +821,21 @@ export default function AramexShippments(userData) {
       }
       
     })}
-    { userData.userData.data.user.rolle === "marketer"?(
-              <div className='py-3'>
-              <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
-              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='markterCode'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-            ):null}
             </div>
+            { userData.userData.data.user.rolle === "marketer"?(
+            <div className='py-1'>
+              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
+              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
+              </button>
+              {addMarketer && (<div>
+                <label htmlFor=""> كود المسوق 
+             <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
+             
+              </div>) }
+             
+         </div>
+            ):null}
             {/* <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:</label>
                     <div className='pe-2'>
@@ -798,8 +961,13 @@ export default function AramexShippments(userData) {
     })}
             </div>
     <div className='pb-3'>
-      <label htmlFor=""> قيمة الشحنة</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+    <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      onChange={(e)=>{
+        const shipvalue = e.target.value
+        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      }} 
+      required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -1003,8 +1171,11 @@ export default function AramexShippments(userData) {
       
     })}
             </div>
-            
-            <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button>
+            <button className="btn btn-orange" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
+            {/* <button className="btn btn-orange"> <i className='fa-solid fa-plus'></i> إضافة مستلم</button> */}
             </div>
             </div>
             </div>

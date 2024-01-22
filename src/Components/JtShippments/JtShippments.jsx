@@ -7,18 +7,21 @@ import Joi from 'joi';
 import PdfViewer from '../PdfViewer/PdfViewer';
 import base64js from 'base64-js';
 import { saveAs } from 'file-saver';
-
+import { Link } from 'react-router-dom';
 
 export default function JtShippments(userData) {
     const [value ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
     const [errorList, seterrorList]= useState([]); 
+    const [packageCompanies, setPackageCompanies] = useState('');
+    const [packageOrders, setPackageOrders] = useState('');
 
   const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
   const [itemCity, setItemCity] = useState('');
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
+  const [itemClientId, setItemClientId] = useState('');
 
   const [theSkuDetailList, setSkuDetailList] = useState([
     {
@@ -51,7 +54,7 @@ export default function JtShippments(userData) {
     goodsValue: "",
     items: theSkuDetailList, 
     markterCode:"", 
-    // clintid:'',
+    clintid:'',
     cod: false,
     daftraid:'',
     shipmentValue:"",
@@ -80,6 +83,7 @@ export default function JtShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert("تم تسجيل الشحنة بنجاح");
+        getPackageDetails()
         console.log(response.data.data);
         console.log(response);
         const shipment = response.data.data;
@@ -122,7 +126,7 @@ function getOrderData(e) {
         s_city: itemCity,
         s_mobile: itemMobile,
         s_address: itemAddress,
-        // clintid: itemId,
+        clintid: itemClientId,
         daftraid:itemId,
       };
     } else {
@@ -171,7 +175,7 @@ function validateOrderUserForm(){
         items: Joi.array().items(pieceSchema),
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
-        // clintid:Joi.string().allow(null, ''),
+        clintid:Joi.string().allow(null, ''),
         daftraid:Joi.number().allow(null, ''),
 
     });
@@ -373,7 +377,7 @@ useEffect(() => {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       });
-           console.log(response.data.data)
+           console.log(response)
       const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
       const newTab = window.open();
       newTab.location.href = stickerUrl;
@@ -1304,10 +1308,88 @@ useEffect(() => {
 
   ]
 
+  const[addMarketer,setMarketer]=useState(false);
+  const [Branches,setBranches]=useState('')
+  const [isBranches,setIsBranches]=useState(false)
   
+  useEffect(() => {
+    getOrderData({
+      target: { name: 's_city', value: itemCity },
+    });
+  }, [itemCity]); 
+  
+  useEffect(() => {
+    getOrderData({
+      target: { name: 's_address', value: itemAddress },
+    });
+  }, [itemAddress]);
+
+  useEffect(()=>{
+    getPackageDetails()
+  },[])
+  const [packegeDetails,setPackegeDetails]=useState([])
+async function getPackageDetails() {
+    try {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+       
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      if (response.status === 200) {
+        console.log(response)
+        setPackegeDetails(response.data.data)
+      } else {
+        console.log(response)
+      }
+    } catch (error) {
+      console.log(error);
+      // window.alert('somthing wrong');
+    }
+  }
   return (
     <>
     <div className='p-4' id='content'>
+    { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+            <div className="prices-box">
+             <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
+             {packegeDetails.userAvailableOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة بك..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packegeDetails.companies ? (
+              <span>
+                {packegeDetails.companies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span>{packegeDetails.userAvailableOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length === 0?(
+            <div className='text-center package-poster mb-3 mx-2 '>
+            <div className='p-4'>
+            <p>قم بشراء باقة الأن..
+              <Link to="/packeges">اضغط هنا  </Link>
+            </p>
+            </div>
+            
+          </div>
+          ): null}
          
    { userData.userData.data.user.rolle === "marketer"?(
         <div className="search-box p-4 mt-2 mb-4 row g-1">
@@ -1342,7 +1424,7 @@ useEffect(() => {
                       <>
                       <li key={index} name='' 
                       onClick={(e)=>{ 
-
+                        setBranches(item.branches)
                         const selectedCity = e.target.innerText;
 
                         setItemName(item.name);
@@ -1350,7 +1432,11 @@ useEffect(() => {
                         // setItemCity(item.city);
                         setItemAddress(item.address);
                         setItemId(item.daftraClientId);
+                        setItemClientId(item._id)
                         setPhoneValue(item.mobile)
+                        setPackageCompanies(item.package.companies)
+                        setPackageOrders(item.package.availableOrders)
+
                     //    setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                     //   setItemMobile(item.Client.phone1);
                     //   setItemCity(item.Client.city);
@@ -1395,7 +1481,41 @@ useEffect(() => {
         </div>
       </div>
         ): null}
-     
+     { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
+            <div className="gray-box p-1 mb-3">
+             <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
+             {packageOrders === 0 ?
+             <p className="text-danger">
+                لقد انتهت الباقة الخاصة به..قم بشراء باقة أخرى او سيتم استخدام الرصيد بالمحفظة
+             </p>
+              : <div className="row">
+          
+              <div className="col-md-6 py-1">
+                <label htmlFor="">شركات الشحن  : </label>
+                {packageCompanies ? (
+              <span className='fw-bold text-primary'>
+                {packageCompanies.map((company) => (
+                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  ))}
+              </span>
+            ) : (
+              <span>_</span>
+            )}
+              </div>
+              <div className="col-md-6 py-1">
+                <label htmlFor="">الشحنات المتبقة  : </label>
+                <span className='text-danger fw-bold px-2'>{packageOrders}</span>
+              </div>
+              
+              </div>}
+          </div>
+          ): null}
+          { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length === 0?(
+           <div className="gray-box text-center p-1 mb-2">
+           <p className="cancelpackage text-danger fw-bold">                  
+           هذا العميل ليس لديه باقة حاليا..</p>
+           </div>
+          ): null}
      <div className="shipmenForm">
      { userData.userData.data.user.rolle === "marketer"?(
          <div className="prices-box text-center">
@@ -1443,7 +1563,7 @@ useEffect(() => {
     
           </div>
           <div className='pb-1 ul-box'>
-              <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
+          <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='s_city' onChange={getOrderData}/> */}
               <input type="text" className="form-control" name='s_city' onClick={openCitiesList}
 
@@ -1517,19 +1637,55 @@ useEffect(() => {
     
   })}
           </div>
-          
           { userData.userData.data.user.rolle === "marketer"?(
-            <div className='pb-1'>
-            <label htmlFor=""> كود المسوق <span className="star-requered">*</span></label>
-            <input type="text" className="form-control" name='markterCode' onChange={getOrderData} required/>
-            {errorList.map((err,index)=>{
-  if(err.context.label ==='markterCode'){
-    return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-  }
-  
-})}
-        </div>
-          ):null}   
+            <div className='pb-3'>
+              <label onClick={()=>{setIsBranches(true)}}>اختيار فرع اخر  <i class="fa-solid fa-sort-down"></i></label>
+            </div>):null}
+              {isBranches && (
+                <>
+                {Branches?(
+                  <>
+<select
+  name="branch"
+  className="form-control mb-1"
+  id=""
+  onChange={(e) => {
+    const selectedBranchIndex = e.target.selectedIndex;
+    if (selectedBranchIndex > 0 && Branches.length > 0) {
+      const selectedBranch = Branches[selectedBranchIndex - 1];
+      setItemAddress(selectedBranch.address);
+      setItemCity(selectedBranch.city);
+    }
+  }}
+>
+  <option>اختر الفرع</option>
+  {Branches &&
+    Branches.map((branch, index) => (
+      <option key={index}>
+        {branch.city}, {branch.address}
+      </option>
+    ))}
+</select>
+                  </>
+                ):<span>لا يوجد فروع أخرى</span>}
+                
+                </>
+                )
+              }
+          { userData.userData.data.user.rolle === "marketer"?(
+            <div className='py-1'>
+              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
+              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
+              </button>
+              {addMarketer && (<div>
+                <label htmlFor=""> كود المسوق 
+             <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
+             
+              </div>) }
+             
+         </div>
+            ):null}   
           
           </div>
           <div className="package-info brdr-grey p-3 my-3 ">
@@ -1655,8 +1811,13 @@ useEffect(() => {
  })}
          </div>
  <div className='pb-3'>
-   <label htmlFor=""> قيمة الشحنة</label>
-   <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+ <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      onChange={(e)=>{
+        const shipvalue = e.target.value
+        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      }} 
+      required />
    {errorList.map((err, index) => {
      if (err.context.label === 'shipmentValue') {
        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -1873,7 +2034,11 @@ useEffect(() => {
    ))}
          </div>
          {errorList && <div className="text-danger mx-3 my-1">يجب ملئ جميع البيانات</div> }
-         <button type="submit" className="btn btn-orange mx-3 my-1"> <i className='fa-solid fa-plus'></i> عمل شحنة</button>
+         <button type="submit" className="btn btn-orange mx-3 my-1" disabled={isLoading}>
+            {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
+
+               </button>
+         {/* <button type="submit" className="btn btn-orange mx-3 my-1"> <i className='fa-solid fa-plus'></i> عمل شحنة</button> */}
 
          </div>
          </div>

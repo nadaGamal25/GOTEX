@@ -11,7 +11,7 @@ export default function PaymentOrders() {
           const [BalanceOrders,setBalanceOrders]=useState('')
           async function getUserBalanceOrders() {
             try {
-              const response = await axios.get('https://dashboard.go-tex.net/api/user/get-all-payment-orders',
+              const response = await axios.get('https://dashboard.go-tex.net/api/user/get-user-payment-orders',
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem('userToken')}`,

@@ -102,6 +102,18 @@ export default function NavAdmin({userData ,logout}) {
                 </Link>
             </li>
             <li>
+                <Link to="/marketersAdmin">
+                <i class="fa-solid fa-users-rays bx"></i>
+                    <span class="text">المسوقات</span>
+                </Link>
+            </li>
+            <li>
+                <Link to="/clientsAmarketers">
+                <i class="fa-solid fa-users-viewfinder bx"></i>
+                    <span class="text">ربط المتاجر بالمسوقات</span>
+                </Link>
+            </li>
+            <li>
                 <Link to="/invocesAdmin">
                 <i class="fa-solid fa-receipt bx"></i>
                 <span class="text">الفواتير</span>
@@ -113,6 +125,14 @@ export default function NavAdmin({userData ,logout}) {
                 <span class="text">الحد الائتمانى(credit)</span>
                 </Link>
             </li>
+            <li>
+                <Link to="/packegesAdmin">
+                <i class="fa-solid fa-money-bill bx"></i>
+                    <span class="text"> الباقات
+               
+                </span>
+                </Link>
+            </li>
             {/* <li>
                 <Link to="/addDepositAdmin">
                 <i class="fa-solid fa-dollar-sign bx"></i>
@@ -120,8 +140,8 @@ export default function NavAdmin({userData ,logout}) {
                 </Link>
             </li> */}
            
-        </ul>
-        <ul class="side-menu">
+        {/* </ul>
+        <ul class="side-menu"> */}
             
         <li>
                 <Link onClick={logout} class="logout" to='/'>
