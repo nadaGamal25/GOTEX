@@ -613,15 +613,17 @@ export default function Shipments(userData) {
               <td >
                 
                 {item.status=== "canceled" ?
-                <span className='text-center text-danger fw-bold'>Canceled</span>:
+                <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
                 <button
             className="btn btn-danger"
             onClick={() => {
-              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+              // if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
                 const orderId = item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
                 axios
                   .post(`https://dashboard.go-tex.net/api/saee/cancel-order`, 
-                   { orderId },
+                   { orderId ,cancelReason},
                    {
                     headers: {
                       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -901,14 +903,17 @@ export default function Shipments(userData) {
     </button></td>):(<td>_</td>)}
        <td>
         {item.status=== "canceled" ? 
-          <span className='text-center text-danger fw-bold'>Canceled</span>:
+          <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
         <button
             className="btn btn-danger"
             onClick={() => {
-              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+              // if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
                 const orderId= item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
                 axios
-                  .post(`https://dashboard.go-tex.net/api/imile/cancel-order`, { orderId },
+                  .post(`https://dashboard.go-tex.net/api/imile/cancel-order`,
+                   { orderId ,cancelReason },
                   {
                    headers: {
                      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -917,7 +922,7 @@ export default function Shipments(userData) {
                   .then((response) => {
                     if (response.status === 200) {
                       getImileUserOrders();
-                          //  window.alert(response.data.data.message)
+                           window.alert(response.data.data.message)
                            console.log(response)
                     }
                   })
@@ -956,6 +961,7 @@ export default function Shipments(userData) {
              <th scope="col">التاريخ</th>
              <th scope="col">id_الفاتورة</th>                
 
+             <th scope="col"></th>
              <th scope="col"></th>
              <th scope="col"></th>
            </tr>
@@ -997,14 +1003,17 @@ export default function Shipments(userData) {
     </button></td>):(<td>_</td>)}
        <td>
         {item.status=== "canceled" ? 
-          <span className='text-center text-danger fw-bold'>Canceled</span>:
+          <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
         <button
             className="btn btn-danger"
             onClick={() => {
-              if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
+              // if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
                 const orderId= item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
                 axios
-                  .post(`https://dashboard.go-tex.net/api/jt/cancel-order`, { orderId },
+                  .post(`https://dashboard.go-tex.net/api/jt/cancel-order`,
+                   { orderId , cancelReason },
                   {
                    headers: {
                      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -1013,13 +1022,14 @@ export default function Shipments(userData) {
                   .then((response) => {
                     if (response.status === 200) {
                       getJtUserOrders();
-                          //  window.alert(response.data.data.message)
+                           window.alert(response.data.data.msg)
                            console.log(response)
                     }
                   })
                   .catch((error) => {
                     console.error(error);
-                    window.alert(error.response.data.msg.message)
+                    // window.alert(error.response.data.msg.msg)
+                    alert('لا يمكن الغاء هذه الشحنة')
                   });
               }
             }}

@@ -298,17 +298,18 @@ const exportToExcel = async () => {
         item.user && item.user.email || '_',
         item.price || '_',
         item.marktercode || '_',
+        item.cancelReason || '_',
       ];
     });
 
     // Create a worksheet
-    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'العميل', 'شركة الشحن', 'رقم التتبع', 'حالة الشحنة', 'طريقة الدفع', 'الهاتف', 'الايميل', 'السعر','كود المسوقة'], ...dataToExport]);
+    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'العميل', 'شركة الشحن', 'رقم التتبع', 'حالة الشحنة', 'طريقة الدفع', 'الهاتف', 'الايميل', 'السعر','كود المسوقة','سبب الغاء الشحنة'], ...dataToExport]);
 
     // Set column styles
     ws['!cols'] = [
       { wch: 18 },{ wch: 18 },{ wch: 18 },
       { wch: 18 },{ wch: 18 },{ wch: 18 },
-      { wch: 18 },{ wch: 18 },{ wch: 18 },
+      { wch: 18 },{ wch: 18 },{ wch: 18 },,{ wch: 18 },
        // Set column width to 150 pixels
       // Add more columns as needed
     ];
@@ -531,7 +532,7 @@ className='mx-1'
                 <th scope="col">
                   كود المسوق</th>
                 <th scope="col">id_الفاتورة</th>  
-                <th scope="col"></th>              
+                <th scope="col"> سبب الإلغاء</th>              
               </tr>
             </thead>
             <tbody>
@@ -583,7 +584,7 @@ className='mx-1'
                 {item.marktercode?<td>{item.marktercode}</td>:<td>_</td>}
                 
         {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
-        {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'> x </span> </td> : <td></td>}
+        {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'> {item.cancelReason} </span> </td> : <td></td>}
             
       </>
     )}

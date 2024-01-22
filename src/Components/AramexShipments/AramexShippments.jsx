@@ -96,7 +96,7 @@ export default function AramexShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response?.data?.data.Shipments[0].Notifications[0]?.Message || error.response?.data?.msg || "An error occurred.";
+      const errorMessage = error.response?.data.msg.Shipments[0].Notifications[0]?.Message || error.response?.data?.msg || "An error occurred.";
       window.alert(errorMessage);
     }
   }
