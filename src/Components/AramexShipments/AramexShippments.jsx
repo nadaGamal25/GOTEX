@@ -28,7 +28,7 @@ export default function AramexShippments(userData) {
   const [orderData,setOrderData] =useState({
     c_name: "",
     c_company: "",
-    c_email: "",
+    // c_email: "",
     c_phone: "",
     c_CellPhone: "",
     // c_PhoneNumber1Ext: "",
@@ -160,7 +160,7 @@ export default function AramexShippments(userData) {
       let scheme= Joi.object({
           c_name: Joi.string().required(),
           c_company: Joi.string().required(),
-          c_email: Joi.string().required(),
+          // c_email: Joi.string().required(),
           c_phone: Joi.string().required(),
           c_CellPhone: Joi.string().required(),
         //   c_PhoneNumber1Ext: Joi.string(),
@@ -1023,7 +1023,7 @@ export default function AramexShippments(userData) {
     })}
        
             </div>
-            <div className='pb-3'>
+           {/* <div className='pb-3'>
                 <label htmlFor=""> البريد الالكترونى<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_email' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
@@ -1032,7 +1032,7 @@ export default function AramexShippments(userData) {
       }
       
     })}
-            </div>
+  </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control"/> */}
