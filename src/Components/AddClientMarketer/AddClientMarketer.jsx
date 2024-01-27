@@ -27,7 +27,7 @@ export default function AddClientMarketer(userData) {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "https://dashboard.go-tex.net/api/user/add-new-clint",
+        "http://83.136.219.95/test/user/add-new-clint",
         clientData,
         {
           headers: {

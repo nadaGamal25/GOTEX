@@ -72,7 +72,7 @@ export default function ImileShippments(userData) {
 
     try {
       const response = await axios.post(
-        "https://dashboard.go-tex.net/api/imile/create-user-order",
+        "http://83.136.219.95/test/imile/create-user-order",
         {
             ...orderData,
             skuDetailList: theSkuDetailList
@@ -265,7 +265,7 @@ function validateOrderUserForm(){
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
+      const response = await axios.get('http://83.136.219.95/test/daftra/get-markter-clints',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -283,7 +283,7 @@ function validateOrderUserForm(){
     const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
@@ -297,7 +297,7 @@ function validateOrderUserForm(){
 
     const pdfUrl = URL.createObjectURL(blob);
     // window.open(pdfUrl);
-    const stickerUrl = `https://dashboard.go-tex.net/api/${pdfUrl}`;
+    const stickerUrl = `http://83.136.219.95/test/${pdfUrl}`;
       const newTab = window.open();
       newTab.location.href = stickerUrl;
   }
@@ -323,7 +323,7 @@ function validateOrderUserForm(){
 
       async function getimileClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
+          const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -856,7 +856,7 @@ function validateOrderUserForm(){
         }, [showCitiesList2]);
         async function getInvoice(daftraId) {
           try {
-            const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+            const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
               },
@@ -891,7 +891,7 @@ function validateOrderUserForm(){
         const [packegeDetails,setPackegeDetails]=useState([])
       async function getPackageDetails() {
           try {
-            const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+            const response = await axios.get(`http://83.136.219.95/test/package/user-get-package`,
              
             {
               headers: {

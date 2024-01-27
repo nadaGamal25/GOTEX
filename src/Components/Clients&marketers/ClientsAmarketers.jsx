@@ -8,7 +8,7 @@ export default function ClientsAmarketers() {
      
     async function getMarketerssAdmin() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/admin/get-all-clients',
+          const response = await axios.get('http://83.136.219.95/test/admin/get-all-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -25,7 +25,7 @@ export default function ClientsAmarketers() {
       async function connectMarketerWithClient() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/clients/add-client-code',
+            'http://83.136.219.95/test/clients/add-client-code',
             {
                 clientId: clientid,
                 marketerCode: marketerid,

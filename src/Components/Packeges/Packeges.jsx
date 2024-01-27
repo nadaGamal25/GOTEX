@@ -9,7 +9,7 @@ export default function Packeges() {
   const [packeges,setPackeges]=useState([])
   async function getPackeges() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/package');
+      const response = await axios.get('http://83.136.219.95/test/package');
       console.log(response)
       setPackeges(response.data.data)
       
@@ -19,7 +19,7 @@ export default function Packeges() {
   }
   async function buyPackage(packageId) {
     try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-buy-package/${packageId}`,
+      const response = await axios.get(`http://83.136.219.95/test/package/user-buy-package/${packageId}`,
        
       {
         headers: {

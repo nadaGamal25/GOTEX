@@ -20,7 +20,7 @@ export default function GltEdit() {
   async function sendGltPricesToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const {data} = await axios.post(`https://dashboard.go-tex.net/api/glt/edit`, Prices,
+      const {data} = await axios.post(`http://83.136.219.95/test/glt/edit`, Prices,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -82,7 +82,7 @@ function submitGltPricesForm(e){
   const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)

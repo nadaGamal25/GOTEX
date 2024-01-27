@@ -16,7 +16,7 @@ export default function FormPayment() {
     async function sendDataToApi() {
         try {
           const response = await axios.post(
-            `https://dashboard.go-tex.net/api/markter/genrate-cc-link/${allparams.uId}/${allparams.cId}`,
+            `http://83.136.219.95/test/markter/genrate-cc-link/${allparams.uId}/${allparams.cId}`,
             {
               amount: theUser.amount,
             }

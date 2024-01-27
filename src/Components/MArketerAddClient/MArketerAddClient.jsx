@@ -29,7 +29,7 @@ export default function MArketerAddClient() {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "https://dashboard.go-tex.net/api/daftra/add-new-client",
+        "http://83.136.219.95/test/daftra/add-new-client",
         clientData,
         {
           headers: {

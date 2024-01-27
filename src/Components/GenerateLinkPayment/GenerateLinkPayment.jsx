@@ -49,7 +49,7 @@ export default function GenerateLinkPayment(userData) {
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
+      const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,

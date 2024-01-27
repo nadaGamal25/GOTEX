@@ -9,7 +9,7 @@ export default function DaftraStaff() {
     async function getDaftraStaff() {
         console.log(localStorage.getItem('userToken'))
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/daftra/staff-get-all',
+          const response = await axios.get('http://83.136.219.95/test/daftra/staff-get-all',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,

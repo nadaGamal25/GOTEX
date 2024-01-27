@@ -42,7 +42,7 @@ export default function InviteLink() {
   async function sendRegisterDataToApi() {
     try {
       const response = await axios.post(
-        'https://dashboard.go-tex.net/api/invatation/create-invitation',
+        'http://83.136.219.95/test/invatation/create-invitation',
         formData,
         {
           headers: {

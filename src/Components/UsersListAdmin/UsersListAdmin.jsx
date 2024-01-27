@@ -22,7 +22,7 @@ const [marketerid, setMarketerid] = useState('');
     
       async function getUsersListsAdmin() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/admin/get-all-users',
+          const response = await axios.get('http://83.136.219.95/test/admin/get-all-users',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -39,7 +39,7 @@ const [marketerid, setMarketerid] = useState('');
       async function addDepositToUser() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/admin/add-deposit-to-user',
+            'http://83.136.219.95/test/admin/add-deposit-to-user',
             {
               id: selectedUserId,
               deposit: depositAmount,
@@ -64,7 +64,7 @@ const [marketerid, setMarketerid] = useState('');
       async function proofCR() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/admin/proof-user-cr',
+            'http://83.136.219.95/test/admin/proof-user-cr',
             {
               email: emailCR,
             },
@@ -89,7 +89,7 @@ const [marketerid, setMarketerid] = useState('');
       async function proofCR3() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/admin/un-proof-user-cr',
+            'http://83.136.219.95/test/admin/un-proof-user-cr',
             {
               email: emailCR3,
             },
@@ -114,7 +114,7 @@ const [marketerid, setMarketerid] = useState('');
       async function connectMarketerWithDaftra() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/daftra/connect-markter-with-daftra',
+            'http://83.136.219.95/test/daftra/connect-markter-with-daftra',
             {
               daftraid: daftraid,
               marketerid: marketerid,
@@ -246,7 +246,7 @@ const closeModal4 = () => {
                 {item.email?<td>{item.email}</td>:<td>_</td>}
                 {item.address?<td>{item.address}</td>:<td>_</td>}
                 {item.cr && item.cr[0] ? (
-        <td><a className='text-danger' href={item.cr[0].replace('public', 'https://dashboard.go-tex.net/api')} target='_blank'>ملف التوثيق</a>
+        <td><a className='text-danger' href={item.cr[0].replace('public', 'http://83.136.219.95/test')} target='_blank'>ملف التوثيق</a>
           </td>
       ) : (
         <td>_</td>

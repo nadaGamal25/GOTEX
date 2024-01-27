@@ -9,7 +9,7 @@ export default function GltOrdersShipment(userData) {
   const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
@@ -29,7 +29,7 @@ export default function GltOrdersShipment(userData) {
     async function getCities() {
         console.log(localStorage.getItem('userToken'))
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
+          const response = await axios.get('http://83.136.219.95/test/glt/cities',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -72,7 +72,7 @@ export default function GltOrdersShipment(userData) {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "https://dashboard.go-tex.net/api/glt/create-user-order",
+        "http://83.136.219.95/test/glt/create-user-order",
         orderData,
         {
           headers: {
@@ -188,13 +188,13 @@ export default function GltOrdersShipment(userData) {
   };
   async function getGltSticker(orderId) {
     try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`, {
+      const response = await axios.get(`http://83.136.219.95/test/glt/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       });
            console.log(response.data.data)
-      const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+      const stickerUrl = `http://83.136.219.95/test${response.data.data}`;
       const newTab = window.open();
       newTab.location.href = stickerUrl;
     } catch (error) {

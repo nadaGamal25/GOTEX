@@ -42,7 +42,7 @@ export default function Shipments(userData) {
   }
   async function getJtUserOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/jt/get-all-orders',
+      const response = await axios.get('http://83.136.219.95/test/jt/get-all-orders',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -57,7 +57,7 @@ export default function Shipments(userData) {
   }
   async function getImileUserOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/imile/get-all-orders',
+      const response = await axios.get('http://83.136.219.95/test/imile/get-all-orders',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -72,7 +72,7 @@ export default function Shipments(userData) {
   }
   async function getSplUserOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/spl/get-all-orders',
+      const response = await axios.get('http://83.136.219.95/test/spl/get-all-orders',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -89,7 +89,7 @@ export default function Shipments(userData) {
 
   async function getGotexUserOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/anwan/get-all-orders',
+      const response = await axios.get('http://83.136.219.95/test/anwan/get-all-orders',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -105,7 +105,7 @@ export default function Shipments(userData) {
   }
       async function getGltUserOrders() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/glt/get-all-orders',
+          const response = await axios.get('http://83.136.219.95/test/glt/get-all-orders',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -121,7 +121,7 @@ export default function Shipments(userData) {
       }
       async function getSmsaUserOrders() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/smsa/get-all-orders',
+          const response = await axios.get('http://83.136.219.95/test/smsa/get-all-orders',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -137,7 +137,7 @@ export default function Shipments(userData) {
 
       async function getAramexUserOrders() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/aramex/get-all-orders',
+          const response = await axios.get('http://83.136.219.95/test/aramex/get-all-orders',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -153,13 +153,13 @@ export default function Shipments(userData) {
       }
       async function getJtSticker(orderId) {
         try {
-          const response = await axios.get(`https://dashboard.go-tex.net/api/jt/print-sticker/${orderId}`, {
+          const response = await axios.get(`http://83.136.219.95/test/jt/print-sticker/${orderId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
           });
                console.log(response)
-          const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+          const stickerUrl = `http://83.136.219.95/test${response.data.data}`;
           const newTab = window.open();
           newTab.location.href = stickerUrl;
         } catch (error) {
@@ -169,7 +169,7 @@ export default function Shipments(userData) {
       
       async function getGotexSticker(orderId) {
         try {
-          const response = await axios.get(`https://dashboard.go-tex.net/api/anwan/print-sticker/${orderId}`, {
+          const response = await axios.get(`http://83.136.219.95/test/anwan/print-sticker/${orderId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
@@ -185,13 +185,13 @@ export default function Shipments(userData) {
 
   async function getGltSticker(orderId) {
     try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`, {
+      const response = await axios.get(`http://83.136.219.95/test/glt/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       });
            console.log(response.data.data)
-      const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+      const stickerUrl = `http://83.136.219.95/test${response.data.data}`;
       const newTab = window.open();
       newTab.location.href = stickerUrl;
     } catch (error) {
@@ -201,7 +201,7 @@ export default function Shipments(userData) {
 
   async function getAramexSticker(orderId) {
     try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/aramex/print-sticker/${orderId}`, {
+      const response = await axios.get(`http://83.136.219.95/test/aramex/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -218,7 +218,7 @@ export default function Shipments(userData) {
   async function getSmsaSticker(orderId) {
     setStickerUrls('');
     try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+      const response = await axios.get(`http://83.136.219.95/test/smsa/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -235,13 +235,13 @@ export default function Shipments(userData) {
   }
   // async function getSmsaSticker(orderId) {
   //   try {
-  //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+  //     const response = await axios.get(`http://83.136.219.95/test/smsa/print-sticker/${orderId}`, {
   //       headers: {
   //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
   //       },
   //     });
   //          console.log(response.data.data)
-  //          const stickerUrl = `https://dashboard.go-tex.net/api${response.data.data}`;
+  //          const stickerUrl = `http://83.136.219.95/test${response.data.data}`;
   //          const newTab = window.open();
   //          newTab.location.href = stickerUrl;
   //   } catch (error) {
@@ -250,7 +250,7 @@ export default function Shipments(userData) {
   // }
   // async function getSmsaSticker(orderId) {
   //   try {
-  //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+  //     const response = await axios.get(`http://83.136.219.95/test/smsa/print-sticker/${orderId}`, {
   //       headers: {
   //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
   //       },
@@ -261,7 +261,7 @@ export default function Shipments(userData) {
   //     if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
   //       stickerUrls.forEach((stickerUrl) => {
   //         const newTab = window.open();
-  //         newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+  //         newTab.location.href = `http://83.136.219.95/test${stickerUrl}`;
   //       });
   //     } else {
   //       console.log("No sticker URLs found in the response.");
@@ -275,7 +275,7 @@ export default function Shipments(userData) {
    async function getUserOrders() {
         console.log(localStorage.getItem('userToken'))
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/saee/get-all-orders',
+          const response = await axios.get('http://83.136.219.95/test/saee/get-all-orders',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -293,7 +293,7 @@ export default function Shipments(userData) {
   async function getOrderSticker(orderId) {
     try {
       const response = await axios.get(
-        `https://dashboard.go-tex.net/api/saee/print-sticker/${orderId}`,
+        `http://83.136.219.95/test/saee/print-sticker/${orderId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -314,7 +314,7 @@ export default function Shipments(userData) {
    async function trackOrder(orderId) {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/saee/track-order-by-number',
+            'http://83.136.219.95/test/saee/track-order-by-number',
             {
               orderId: orderId,
             },
@@ -406,7 +406,7 @@ export default function Shipments(userData) {
 
         async function getInvoice(daftraId) {
           try {
-            const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+            const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
               },
@@ -622,7 +622,7 @@ export default function Shipments(userData) {
                 const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
                 if (cancelReason !== null) {
                 axios
-                  .post(`https://dashboard.go-tex.net/api/saee/cancel-order`, 
+                  .post(`http://83.136.219.95/test/saee/cancel-order`, 
                    { orderId ,cancelReason},
                    {
                     headers: {
@@ -797,7 +797,7 @@ export default function Shipments(userData) {
 }
   {/* {stickerUrls ?( stickerUrls.map((sticker, index) => (
     <li key={index}>
-      <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
+      <a class="dropdown-item" href={`http://83.136.219.95/test${sticker}`} target='_blank'>
         استيكر {index+1}
       </a>
     </li>
@@ -912,7 +912,7 @@ export default function Shipments(userData) {
                 const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
                 if (cancelReason !== null) {
                 axios
-                  .post(`https://dashboard.go-tex.net/api/imile/cancel-order`,
+                  .post(`http://83.136.219.95/test/imile/cancel-order`,
                    { orderId ,cancelReason },
                   {
                    headers: {
@@ -1012,7 +1012,7 @@ export default function Shipments(userData) {
                 const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
                 if (cancelReason !== null) {
                 axios
-                  .post(`https://dashboard.go-tex.net/api/jt/cancel-order`,
+                  .post(`http://83.136.219.95/test/jt/cancel-order`,
                    { orderId , cancelReason },
                   {
                    headers: {
@@ -1214,7 +1214,7 @@ export default function Shipments(userData) {
 
       // async function getOrderSticker(orderId) {
       //   try {
-      //     const response = await axios.get(`https://dashboard.go-tex.net/api/saee/print-sticker/${orderId}`, {
+      //     const response = await axios.get(`http://83.136.219.95/test/saee/print-sticker/${orderId}`, {
       //       headers: {
       //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
       //       },
@@ -1232,7 +1232,7 @@ export default function Shipments(userData) {
 
       // async function getOrderSticker(orderId) {      
       //   try {
-      //     const response = await axios.get(`https://dashboard.go-tex.net/api/saee/print-sticker/${orderId}`,
+      //     const response = await axios.get(`http://83.136.219.95/test/saee/print-sticker/${orderId}`,
       //     {
       //           headers: {
       //             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -1351,7 +1351,7 @@ export default function Shipments(userData) {
       // async function trackOrder(orderId) {
       //   try {
       //     const response = await axios.post(
-      //       'https://dashboard.go-tex.net/api/saee/track-order-by-number',
+      //       'http://83.136.219.95/test/saee/track-order-by-number',
       //       {
       //         orderId: orderId,
       //       },
@@ -1412,7 +1412,7 @@ export default function Shipments(userData) {
       // async function getUserOrders() {
       //   console.log(localStorage.getItem('userToken'))
       //   try {
-      //     const response = await axios.get('https://dashboard.go-tex.net/api/saee/get-all-orders',
+      //     const response = await axios.get('http://83.136.219.95/test/saee/get-all-orders',
       //     {
       //       headers: {
       //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -1431,7 +1431,7 @@ export default function Shipments(userData) {
 
       // async function getGltSticker(orderId) {      
       //   try {
-      //     const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`,
+      //     const response = await axios.get(`http://83.136.219.95/test/glt/print-sticker/${orderId}`,
       //     {
       //           headers: {
       //             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -1452,7 +1452,7 @@ export default function Shipments(userData) {
       // async function getGltSticker(orderId) {
       //   try {
       //     const response = await axios.get(
-      //       `https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`,
+      //       `http://83.136.219.95/test/glt/print-sticker/${orderId}`,
       //       {
       //         headers: {
       //           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -1479,7 +1479,7 @@ export default function Shipments(userData) {
       // async function getGltSticker(orderId) {
       //   try {
       //     const response = await axios.get(
-      //       `https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`,
+      //       `http://83.136.219.95/test/glt/print-sticker/${orderId}`,
       //       {
       //         headers: {
       //           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -1504,7 +1504,7 @@ export default function Shipments(userData) {
       //;;;;;;;;;;;;;;;;;;;;;;;;;;;
   //     async function getGltUserOrders() {
   //       try {
-  //         const response = await axios.get('https://dashboard.go-tex.net/api/glt/get-all-orders',
+  //         const response = await axios.get('http://83.136.219.95/test/glt/get-all-orders',
   //         {
   //           headers: {
   //             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -1521,7 +1521,7 @@ export default function Shipments(userData) {
 
   // async function getGltSticker(orderId) {
   //   try {
-  //     const response = await axios.get(`https://dashboard.go-tex.net/api/glt/print-sticker/${orderId}`, {
+  //     const response = await axios.get(`http://83.136.219.95/test/glt/print-sticker/${orderId}`, {
   //       responseType: 'arraybuffer',
   //       headers: {
   //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,

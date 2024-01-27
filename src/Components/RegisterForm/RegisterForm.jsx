@@ -75,7 +75,7 @@ export default function RegisterForm() {
   
   
 //   async function sendRegisterDataToApi(){
-//   let response= await axios.post(`https://dashboard.go-tex.net/api/user/signup`,theUser);
+//   let response= await axios.post(`http://83.136.219.95/test/user/signup`,theUser);
 //   if(response.data.msg == 'ok'){
 //     setisLoading(false)
 //     console.log(response.data)

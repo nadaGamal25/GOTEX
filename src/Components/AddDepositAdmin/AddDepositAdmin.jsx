@@ -16,7 +16,7 @@ export default function AddDepositAdmin() {
     async function sendDepositsAdminToApi() {
       console.log(localStorage.getItem('userToken'))
       try {
-        const {data} = await axios.post(`https://dashboard.go-tex.net/api/admin/add-deposit-to-user`, depositsAdmin,
+        const {data} = await axios.post(`http://83.136.219.95/test/admin/add-deposit-to-user`, depositsAdmin,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,

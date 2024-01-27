@@ -38,7 +38,7 @@ export default function CompaniesAdmin() {
 
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)

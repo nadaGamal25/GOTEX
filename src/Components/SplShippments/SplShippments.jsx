@@ -59,7 +59,7 @@ export default function SplShippments(userData) {
 
     try {
       const response = await axios.post(
-        "https://dashboard.go-tex.net/api/spl/crete-new-order",
+        "http://83.136.219.95/test/spl/crete-new-order",
         {
             ...orderData,
             Pieces: pieces
@@ -192,7 +192,7 @@ function validateOrderUserForm(){
   async function getCities() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/spl/get-cities',
+      const response = await axios.get('http://83.136.219.95/test/spl/get-cities',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -239,7 +239,7 @@ function validateOrderUserForm(){
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
+      const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -255,7 +255,7 @@ function validateOrderUserForm(){
 
   async function getInvoice(daftraId) {
     try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+      const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -279,7 +279,7 @@ function validateOrderUserForm(){
     const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
@@ -384,7 +384,7 @@ useEffect(() => {
   const [packegeDetails,setPackegeDetails]=useState([])
 async function getPackageDetails() {
     try {
-      const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+      const response = await axios.get(`http://83.136.219.95/test/package/user-get-package`,
        
       {
         headers: {

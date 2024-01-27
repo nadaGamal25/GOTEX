@@ -21,7 +21,7 @@ export default function AnwanEdit() {
   async function sendPricesToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const {data} = await axios.post(`https://dashboard.go-tex.net/api/anwan/edit`, Prices,
+      const {data} = await axios.post(`http://83.136.219.95/test/anwan/edit`, Prices,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -95,7 +95,7 @@ function getPrices(e) {
   const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)

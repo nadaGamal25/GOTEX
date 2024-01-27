@@ -25,7 +25,7 @@ export default function SaeeSticker() {
 //     },[])
 //     async function getUserOrders() {
 //         try {
-//           const response = await axios.get('https://dashboard.go-tex.net/api/saee/get-all-orders', {
+//           const response = await axios.get('http://83.136.219.95/test/saee/get-all-orders', {
 //             headers: {
 //               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
 //             },
@@ -40,7 +40,7 @@ export default function SaeeSticker() {
 //             const orderId = orders[0]._id;
 //              // Assuming you want to get the sticker for the first order
 //              console.log(orderId)
-//             const stickerResponse = await axios.get(`https://dashboard.go-tex.net/api/saee/print-sticker/${orderId}`, {
+//             const stickerResponse = await axios.get(`http://83.136.219.95/test/saee/print-sticker/${orderId}`, {
 //               headers: {
 //                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
 //               },
@@ -57,7 +57,7 @@ export default function SaeeSticker() {
 //     // async function getUserOrders() {
 //     //     console.log(localStorage.getItem('userToken'))
 //     //     try {
-//     //       const response = await axios.get('https://dashboard.go-tex.net/api/saee/get-all-orders',
+//     //       const response = await axios.get('http://83.136.219.95/test/saee/get-all-orders',
 //     //       {
 //     //         headers: {
 //     //           Authorization: `Bearer ${localStorage.getItem('userToken')}`,

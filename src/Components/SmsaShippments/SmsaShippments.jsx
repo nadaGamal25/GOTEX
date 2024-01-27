@@ -13,7 +13,7 @@ export default function SmsaShippments(userData) {
 
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
@@ -70,7 +70,7 @@ export default function SmsaShippments(userData) {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "https://dashboard.go-tex.net/api/smsa/create-user-order",
+        "http://83.136.219.95/test/smsa/create-user-order",
         orderData,
         {
           headers: {
@@ -207,7 +207,7 @@ export default function SmsaShippments(userData) {
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/clients/get-all-clients',
+      const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -224,7 +224,7 @@ export default function SmsaShippments(userData) {
     // async function getCities() {
     //   console.log(localStorage.getItem('userToken'))
     //   try {
-    //     const response = await axios.get('https://dashboard.go-tex.net/api/glt/cities',
+    //     const response = await axios.get('http://83.136.219.95/test/glt/cities',
     //     {
     //       headers: {
     //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -449,7 +449,7 @@ export default function SmsaShippments(userData) {
     async function getSmsaSticker(orderId) {
       setStickerUrls('');
       try {
-        const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+        const response = await axios.get(`http://83.136.219.95/test/smsa/print-sticker/${orderId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
           },
@@ -467,14 +467,14 @@ export default function SmsaShippments(userData) {
     // if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
         //   stickerUrls.forEach((stickerUrl) => {
         //     const newTab = window.open();
-        //     newTab.location.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+        //     newTab.location.href = `http://83.136.219.95/test${stickerUrl}`;
         //   });
         // } else {
         //   console.log("No sticker URLs found in the response.");
         // }
     // async function getSmsaSticker(orderId) {
     //   try {
-    //     const response = await axios.get(`https://dashboard.go-tex.net/api/smsa/print-sticker/${orderId}`, {
+    //     const response = await axios.get(`http://83.136.219.95/test/smsa/print-sticker/${orderId}`, {
     //       headers: {
     //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
     //       },
@@ -485,7 +485,7 @@ export default function SmsaShippments(userData) {
     //     if (Array.isArray(stickerUrls) && stickerUrls.length > 0) {
     //       stickerUrls.forEach((stickerUrl) => {
     //         const link = document.createElement("a");
-    //         link.href = `https://dashboard.go-tex.net/api${stickerUrl}`;
+    //         link.href = `http://83.136.219.95/test${stickerUrl}`;
     //         link.target = "_blank";
     //         link.download = "";
     
@@ -503,7 +503,7 @@ export default function SmsaShippments(userData) {
     
     async function getInvoice(daftraId) {
       try {
-        const response = await axios.get(`https://dashboard.go-tex.net/api/daftra/get-invoice/${daftraId}`, {
+        const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
           },
@@ -622,7 +622,7 @@ export default function SmsaShippments(userData) {
     const [packegeDetails,setPackegeDetails]=useState([])
   async function getPackageDetails() {
       try {
-        const response = await axios.get(`https://dashboard.go-tex.net/api/package/user-get-package`,
+        const response = await axios.get(`http://83.136.219.95/test/package/user-get-package`,
          
         {
           headers: {
@@ -1387,7 +1387,7 @@ export default function SmsaShippments(userData) {
   {/* 
   {stickerUrls ?( stickerUrls.map((sticker, index) => (
     <li key={index}>
-      <a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`} target='_blank'>
+      <a class="dropdown-item" href={`http://83.136.219.95/test${sticker}`} target='_blank'>
         استيكر {index+1}
       </a>
     </li>
@@ -1420,7 +1420,7 @@ export default function SmsaShippments(userData) {
                 </td>
                   {/* <ul class="dropdown-menu">
     {stickerUrls.map((sticker,index)=>{
-          <li><a class="dropdown-item" href={`https://dashboard.go-tex.net/api${sticker}`}>استيكر </a></li>
+          <li><a class="dropdown-item" href={`http://83.136.219.95/test${sticker}`}>استيكر </a></li>
 
     })}
   </ul> */}

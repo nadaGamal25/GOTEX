@@ -11,7 +11,7 @@ export default function MarketerClients() {
 
       async function getClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/daftra/get-markter-clints',
+          const response = await axios.get('http://83.136.219.95/test/daftra/get-markter-clints',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -31,7 +31,7 @@ export default function MarketerClients() {
       async function addDepositToUser() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/daftra/markter-add-credit-for-client',
+            'http://83.136.219.95/test/daftra/markter-add-credit-for-client',
             {
               client_id: selectedUserId,
               credit_limit: depositAmount,

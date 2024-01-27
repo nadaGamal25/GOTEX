@@ -12,7 +12,7 @@ export default function Payment() {
       const [userBalance,setUserBalance]=useState('')
       async function getUserBalance() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/user/get-user-balance',
+          const response = await axios.get('http://83.136.219.95/test/user/get-user-balance',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,

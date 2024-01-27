@@ -21,7 +21,7 @@ export default function UpdatePassword() {
     async function sendDataToApi() {
         try {
           const response = await axios.post(
-            'https://dashboard.go-tex.net/api/user/update-password',
+            'http://83.136.219.95/test/user/update-password',
             {
               password: theUser.password,
               code: allparams.x,
@@ -48,7 +48,7 @@ export default function UpdatePassword() {
     
 //   async function sendDataToApi(){
 //     try {
-//           const response = await axios.post('https://dashboard.go-tex.net/api/user/update-password', theUser,
+//           const response = await axios.post('http://83.136.219.95/test/user/update-password', theUser,
 //           {
 //             body: {code: `${allparams.x}`},
 //           });

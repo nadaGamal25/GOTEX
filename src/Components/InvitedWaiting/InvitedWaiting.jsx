@@ -34,7 +34,7 @@ export default function InvitedWaiting() {
   }, [searchTerm, searchOption]); 
         async function accept(orderId) {
         try {
-          const response = await axios.get(`https://dashboard.go-tex.net/api/invatation/accept-invitation/${orderId}`,
+          const response = await axios.get(`http://83.136.219.95/test/invatation/accept-invitation/${orderId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -52,7 +52,7 @@ export default function InvitedWaiting() {
   async function getWaitingListsAdmin() {
     try {
       const response = await axios.get(
-        'https://dashboard.go-tex.net/api/invatation/get-invitations-wait',
+        'http://83.136.219.95/test/invatation/get-invitations-wait',
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,

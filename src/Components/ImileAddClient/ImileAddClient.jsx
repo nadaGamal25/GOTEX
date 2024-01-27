@@ -28,7 +28,7 @@ async function sendDataToApi() {
   console.log(localStorage.getItem('userToken'))
   try {
     const response = await axios.post(
-      "https://dashboard.go-tex.net/api/imile/add-client",
+      "http://83.136.219.95/test/imile/add-client",
       clientData,
       {
         headers: {

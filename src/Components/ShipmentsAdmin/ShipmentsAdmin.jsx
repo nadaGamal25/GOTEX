@@ -23,7 +23,7 @@ export default function ShipmentsAdmin() {
   },[])
   async function getShipmentsAdmin() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all-orders', {
+      const response = await axios.get('http://83.136.219.95/test/companies/get-all-orders', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -281,7 +281,7 @@ export default function ShipmentsAdmin() {
 
 // async function getShipmentsAdmin() {
 //   try {
-//     const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all-orders',
+//     const response = await axios.get('http://83.136.219.95/test/companies/get-all-orders',
 //     {
 //       headers: {
 //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,

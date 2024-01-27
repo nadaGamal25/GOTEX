@@ -32,7 +32,7 @@ export default function ShipmentForms({userData}) {
     console.log(localStorage.getItem('userToken'))
     // try {
     //   const response = await axios.post(
-    //     "https://dashboard.go-tex.net/api/saee/create-user-order",
+    //     "http://83.136.219.95/test/saee/create-user-order",
     //     orderData,
     //     {
     //       headers: {
@@ -63,7 +63,7 @@ export default function ShipmentForms({userData}) {
   
 // async function sendOrderDataToApi(){
 //       console.log(localStorage.getItem('userToken'))
-//   let response= await axios.post(`https://dashboard.go-tex.net/api/saee/create-user-order`,orderData,
+//   let response= await axios.post(`http://83.136.219.95/test/saee/create-user-order`,orderData,
 //   {
 //     headers: {
 //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
