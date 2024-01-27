@@ -45,7 +45,7 @@ export default function RegisterForm() {
     }
   
     try {
-      const response = await axios.post('http://83.136.219.95/test/user/signup', formData
+      const response = await axios.post('https://83.136.219.95/test/user/signup', formData
       // , {
       //   headers: {
       //     'Content-Type': 'multipart/form-data'

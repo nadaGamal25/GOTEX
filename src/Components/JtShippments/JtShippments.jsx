@@ -91,7 +91,7 @@ export default function JtShippments(userData) {
         console.log(shipments)      
     }else if (response.status === 400) {
         setisLoading(false);
-        const errorMessage = response.data?.data?.Message || "An error occurred.";
+        const errorMessage = response.data?.data?.Message ||response.data?.msg || "An error occurred.";
         window.alert(`${errorMessage}`);
         console.log(response.data);
       }

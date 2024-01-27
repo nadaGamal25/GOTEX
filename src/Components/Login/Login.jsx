@@ -75,7 +75,7 @@ export default function Login({saveUserData}) {
   }
   async function sendLoginDataToApi(){
     try {
-      const {data} = await axios.post(`http://83.136.219.95/test/user/login`, theUser);
+      const {data} = await axios.post(`https://83.136.219.95/test/user/login`, theUser);
       if (data.msg === 'ok') {
         navigate('/companies');
         localStorage.setItem('userToken', data.token);
@@ -122,7 +122,7 @@ export default function Login({saveUserData}) {
 
     async function sendLoginAdminToApi(){
       try {
-            const {data} = await axios.post('http://83.136.219.95/test/admin/login', theUser);
+            const {data} = await axios.post('https://83.136.219.95/test/admin/login', theUser);
             if (data.msg === 'ok') {
               navigate('/companiesAdmin');
               console.log(data.token)
