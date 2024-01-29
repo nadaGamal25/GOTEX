@@ -75,7 +75,7 @@ export default function Login({saveUserData}) {
   }
   async function sendLoginDataToApi(){
     try {
-      const {data} = await axios.post(`https://83.136.219.95/test/user/login`, theUser);
+      const {data} = await axios.post(`https://dashboard.go-tex.net/test/user/login`, theUser);
       if (data.msg === 'ok') {
         navigate('/companies');
         localStorage.setItem('userToken', data.token);
