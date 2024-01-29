@@ -30,7 +30,7 @@ export default function MarketerEditClient() {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "http://83.136.219.95/test/daftra/edit-client-info",
+        "https://dashboard.go-tex.net/test/daftra/edit-client-info",
         clientData,
         {
           headers: {

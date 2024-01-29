@@ -46,7 +46,7 @@ export default function SaeeShipments(userData) {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "http://83.136.219.95/test/saee/create-user-order",
+        "https://dashboard.go-tex.net/test/saee/create-user-order",
         orderData,
         {
           headers: {
@@ -171,7 +171,7 @@ function getOrderData(e) {
   async function getCities() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const response = await axios.get('http://83.136.219.95/test/saee/get-cities',
+      const response = await axios.get('https://dashboard.go-tex.net/test/saee/get-cities',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -187,7 +187,7 @@ function getOrderData(e) {
   const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
+      const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
@@ -218,7 +218,7 @@ function getOrderData(e) {
   async function getOrderSticker(orderId) {
     try {
       const response = await axios.get(
-        `http://83.136.219.95/test/saee/print-sticker/${orderId}`,
+        `https://dashboard.go-tex.net/test/saee/print-sticker/${orderId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -238,7 +238,7 @@ function getOrderData(e) {
   }
   async function getInvoice(daftraId) {
     try {
-      const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
+      const response = await axios.get(`https://dashboard.go-tex.net/test/daftra/get-invoice/${daftraId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -264,7 +264,7 @@ function getOrderData(e) {
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
+      const response = await axios.get('https://dashboard.go-tex.net/test/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -364,7 +364,7 @@ function getOrderData(e) {
         const [packegeDetails,setPackegeDetails]=useState([])
       async function getPackageDetails() {
           try {
-            const response = await axios.get(`http://83.136.219.95/test/package/user-get-package`,
+            const response = await axios.get(`https://dashboard.go-tex.net/test/package/user-get-package`,
              
             {
               headers: {

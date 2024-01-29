@@ -9,7 +9,7 @@ export default function PackegesAdmin() {
       const [packeges,setPackeges]=useState([])
       async function getPackeges() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/package');
+          const response = await axios.get('https://dashboard.go-tex.net/test/package');
           console.log(response)
           setPackeges(response.data.data)
           
@@ -41,7 +41,7 @@ export default function PackegesAdmin() {
       async function sendDataToApi() {
         console.log(localStorage.getItem('userToken'))
         try {
-          const response = await axios.post(`http://83.136.219.95/test/package`,
+          const response = await axios.post(`https://dashboard.go-tex.net/test/package`,
            {...newPackege,
           companies:Companies},
           {
@@ -280,7 +280,7 @@ Companies.map((item, index) => (
               if (window.confirm('هل انت بالتأكيد تريد حذف هذه الباقة ؟')) {
                 const orderId = item._id;
                 axios
-                  .delete(`http://83.136.219.95/test/package/${ orderId }`, 
+                  .delete(`https://dashboard.go-tex.net/test/package/${ orderId }`, 
                    {
                     headers: {
                       Authorization: `Bearer ${localStorage.getItem('userToken')}`,

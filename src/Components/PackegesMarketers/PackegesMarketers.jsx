@@ -12,7 +12,7 @@ export default function PackegesMarketers() {
       const[clients,setClients]=useState([])
       async function getClientsList() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/get-all-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -28,7 +28,7 @@ export default function PackegesMarketers() {
       const [packeges,setPackeges]=useState([])
   async function getPackeges() {
     try {
-      const response = await axios.get('http://83.136.219.95/test/package');
+      const response = await axios.get('https://dashboard.go-tex.net/test/package');
       console.log(response)
       setPackeges(response.data.data)
       
@@ -39,7 +39,7 @@ export default function PackegesMarketers() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   async function buyPackage(packageId ,selectedId) {
     try {
-      const response = await axios.post(`http://83.136.219.95/test/package/buy-client-package/${packageId}`,
+      const response = await axios.post(`https://dashboard.go-tex.net/test/package/buy-client-package/${packageId}`,
       {
         clientId : selectedId,
       },
@@ -65,7 +65,7 @@ export default function PackegesMarketers() {
   async function getPackageDetails(selectedId,name) {
     setPackageName(name)
     try {
-      const response = await axios.get(`http://83.136.219.95/test/package/get-client-package/${selectedId}`,
+      const response = await axios.get(`https://dashboard.go-tex.net/test/package/get-client-package/${selectedId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -166,7 +166,7 @@ export default function PackegesMarketers() {
               if (window.confirm('هل انت بالتأكيد تريد حذف هذه الباقة ؟')) {
                 const clientId = item._id;
                 axios
-                  .get(`http://83.136.219.95/test/package/cancel-client-package/${clientId}`, 
+                  .get(`https://dashboard.go-tex.net/test/package/cancel-client-package/${clientId}`, 
                    {
                     headers: {
                       Authorization: `Bearer ${localStorage.getItem('userToken')}`,

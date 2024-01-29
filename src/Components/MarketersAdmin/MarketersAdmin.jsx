@@ -9,7 +9,7 @@ export default function MarketersAdmin() {
      
     async function getMarketerssAdmin() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/markter/get-all-markter',
+          const response = await axios.get('https://dashboard.go-tex.net/test/markter/get-all-markter',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,

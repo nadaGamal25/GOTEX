@@ -68,7 +68,7 @@ export default function JtShippments(userData) {
 
     try {
       const response = await axios.post(
-        "http://83.136.219.95/test/jt/create-user-order",
+        "https://dashboard.go-tex.net/test/jt/create-user-order",
         {
             ...orderData,
             items: theSkuDetailList
@@ -260,7 +260,7 @@ function validateOrderUserForm(){
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
+      const response = await axios.get('https://dashboard.go-tex.net/test/clients/get-all-clients',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -277,7 +277,7 @@ function validateOrderUserForm(){
     const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('http://83.136.219.95/test/companies/get-all');
+      const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
       const companiesPrices = response.data.data;
       console.log(companiesPrices)
       setCompaniesDetails(companiesPrices)
@@ -353,7 +353,7 @@ useEffect(() => {
  
 // async function getSticker(orderId) {
 //     try {
-//       const response = await axios.get(`http://83.136.219.95/test/jt/print-sticker/${orderId}`, {
+//       const response = await axios.get(`https://dashboard.go-tex.net/test/jt/print-sticker/${orderId}`, {
 //         headers: {
 //           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
 //         },
@@ -372,13 +372,13 @@ useEffect(() => {
 
   async function getSticker(orderId) {
     try {
-      const response = await axios.get(`http://83.136.219.95/test/jt/print-sticker/${orderId}`, {
+      const response = await axios.get(`https://dashboard.go-tex.net/test/jt/print-sticker/${orderId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       });
            console.log(response)
-      const stickerUrl = `http://83.136.219.95/test${response.data.data}`;
+      const stickerUrl = `https://dashboard.go-tex.net/test${response.data.data}`;
       const newTab = window.open();
       newTab.location.href = stickerUrl;
     } catch (error) {
@@ -387,7 +387,7 @@ useEffect(() => {
   }
   async function getInvoice(daftraId) {
     try {
-      const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
+      const response = await axios.get(`https://dashboard.go-tex.net/test/daftra/get-invoice/${daftraId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -1330,7 +1330,7 @@ useEffect(() => {
   const [packegeDetails,setPackegeDetails]=useState([])
 async function getPackageDetails() {
     try {
-      const response = await axios.get(`http://83.136.219.95/test/package/user-get-package`,
+      const response = await axios.get(`https://dashboard.go-tex.net/test/package/user-get-package`,
        
       {
         headers: {

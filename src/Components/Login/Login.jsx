@@ -101,7 +101,7 @@ export default function Login({saveUserData}) {
   
 // async function sendLoginDataToApi(){
 //   try {
-//         const {data} = await axios.post('http://83.136.219.95/test/user/login', theUser);
+//         const {data} = await axios.post('https://dashboard.go-tex.net/test/user/login', theUser);
 //         if (data.msg === 'ok') {
 //           await navigate('/companies');
 //           console.log(data.token)
@@ -122,7 +122,7 @@ export default function Login({saveUserData}) {
 
     async function sendLoginAdminToApi(){
       try {
-            const {data} = await axios.post('https://83.136.219.95/test/admin/login', theUser);
+            const {data} = await axios.post('https://dashboard.go-tex.net/test/admin/login', theUser);
             if (data.msg === 'ok') {
               navigate('/companiesAdmin');
               console.log(data.token)
@@ -230,7 +230,7 @@ export default function Login({saveUserData}) {
 
   // async function sendLoginDataToApi() {
   //   try {
-  //     const { data } = await axios.post('http://83.136.219.95:5000/user/signup', theUser);
+  //     const { data } = await axios.post('https://dashboard.go-tex.net:5000/user/signup', theUser);
   //     if (data.msg === 'ok') {
   //       setisLoading(false);
   //       navigate('/companies');
@@ -245,7 +245,7 @@ export default function Login({saveUserData}) {
   // }
 
   
-//   let {data}= await axios.post(`http://83.136.219.95/test/user/login`,theUser);
+//   let {data}= await axios.post(`https://dashboard.go-tex.net/test/user/login`,theUser);
 //   if(data.msg == 'ok'){
 //     console.log(data.token)
 //     setisLoading(false)

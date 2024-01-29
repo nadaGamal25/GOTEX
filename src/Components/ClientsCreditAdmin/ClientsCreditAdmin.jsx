@@ -9,7 +9,7 @@ export default function ClientsCreditAdmin() {
       const[clients,setClients]=useState([])
       async function getClientsList() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/clients/clients-with-credit',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/clients-with-credit',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -27,7 +27,7 @@ export default function ClientsCreditAdmin() {
       // async function credit() {
       //   try {
       //     const response = await axios.post(
-      //       'http://83.136.219.95/test/daftra/change-credit-order-status',
+      //       'https://dashboard.go-tex.net/test/daftra/change-credit-order-status',
       //       {
       //         orderid: selectedId,
       //         status: theStatus,
@@ -58,7 +58,7 @@ export default function ClientsCreditAdmin() {
     
         try {
           const response = await axios.post(
-            'http://83.136.219.95/test/admin/change-credit-status',
+            'https://dashboard.go-tex.net/test/admin/change-credit-status',
             {
               clientid: clientid,
               status: status,

@@ -33,7 +33,7 @@ const [dateFilter, setDateFilter] = useState(false);
     async function getShipmentsAdmin() {
         try {
           setLoading(true);
-          const response = await axios.get(`http://83.136.219.95/test/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/test/companies/orders/all`, {
             params: {
                 page: currentPage,
                 limit: 30,
@@ -60,7 +60,7 @@ const [dateFilter, setDateFilter] = useState(false);
       async function getSearchShipmentsAdmin() {
         try {
           setLoading(true);
-          const response = await axios.get(`http://83.136.219.95/test/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/test/companies/orders/all`, {
             params: {
                 page: currentPage2,
                 limit: 30,
@@ -101,7 +101,7 @@ const [dateFilter, setDateFilter] = useState(false);
         setCurrentPage(currentPage - 1); 
         try {
           setLoading(true);
-          const response = await axios.get(`http://83.136.219.95/test/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/test/companies/orders/all`, {
             params: {
                 page: currentPage -1,
                 limit: 30,
@@ -131,7 +131,7 @@ const [dateFilter, setDateFilter] = useState(false);
         setCurrentPage(currentPage + 1);
         try {
           setLoading(true);
-          const response = await axios.get(`http://83.136.219.95/test/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/test/companies/orders/all`, {
             params: {
                 page: currentPage +1,
                 limit: 30,
@@ -161,7 +161,7 @@ const [dateFilter, setDateFilter] = useState(false);
     setCurrentPage2(currentPage2 - 1); 
     try {
       setLoading(true);
-      const response = await axios.get(`http://83.136.219.95/test/companies/orders/all`, {
+      const response = await axios.get(`https://dashboard.go-tex.net/test/companies/orders/all`, {
         params: {
             page: currentPage2 -1,
             limit: 30,
@@ -197,7 +197,7 @@ const handleNextPage2 = async () => {
     setCurrentPage2(currentPage2 + 1) 
     try {
       setLoading(true);
-      const response = await axios.get(`http://83.136.219.95/test/companies/orders/all`, {
+      const response = await axios.get(`https://dashboard.go-tex.net/test/companies/orders/all`, {
         params: {
             page: currentPage2 +1,
             limit: 30,
@@ -231,7 +231,7 @@ const handleNextPage2 = async () => {
 async function getSearchShipmentsPage() {
   try {
     setLoading(true);
-    const response = await axios.get(`http://83.136.219.95/test/companies/orders/all`, {
+    const response = await axios.get(`https://dashboard.go-tex.net/test/companies/orders/all`, {
       params: {
           page: currentPage2,
           limit: 30,
@@ -264,7 +264,7 @@ const exportToExcel = async () => {
     setLoading(true);
 
     // Make the search request
-    const response = await axios.get('http://83.136.219.95/test/companies/orders/all', {
+    const response = await axios.get('https://dashboard.go-tex.net/test/companies/orders/all', {
       params: {
         page: 1,
         limit: 5000,
@@ -661,7 +661,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //   try {
 //     setLoading(true);
 //     const response = await axios.get(
-//       `http://83.136.219.95/test/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
+//       `https://dashboard.go-tex.net/test/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
 //       {
 //           params: { page: currentPage2, limit: 30 },
 //         headers: {
@@ -690,7 +690,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //     try {
 //       setLoading(true);
 //       const response = await axios.get(
-//         `http://83.136.219.95/test/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
+//         `https://dashboard.go-tex.net/test/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
 //         {
 //           params: { page: currentPage2 -1 , limit: 30 },
 //           headers: {
@@ -721,7 +721,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //     try {
 //       setLoading(true);
 //       const response = await axios.get(
-//         `http://83.136.219.95/test/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
+//         `https://dashboard.go-tex.net/test/companies/orders/filter-by-client-data?keyword=${clientFilter}`,
 //         {
 //           params: { page: currentPage2 +1 , limit: 30 },
 //           headers: {
@@ -750,7 +750,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //   try {
 //     setLoading(true);
 //     const response = await axios.get(
-//       `http://83.136.219.95/test/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
+//       `https://dashboard.go-tex.net/test/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
 //       {
 //           params: { page: currentPage3, limit: 30 },
 //         headers: {
@@ -777,7 +777,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //     try {
 //       setLoading(true);
 //       const response = await axios.get(
-//           `http://83.136.219.95/test/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
+//           `https://dashboard.go-tex.net/test/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
 //           {
 //           params: { page: currentPage3 -1 , limit: 30 },
 //           headers: {
@@ -808,7 +808,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //     try {
 //       setLoading(true);
 //       const response = await axios.get(
-//           `http://83.136.219.95/test/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
+//           `https://dashboard.go-tex.net/test/companies/orders/filter-by-marketercode?marktercode=${marketerCodeFilter}`,
 //           {
 //           params: { page: currentPage3 +1 , limit: 30 },
 //           headers: {
@@ -836,7 +836,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //   try {
 //     setLoading(true);
 //     const response = await axios.get(
-//       `http://83.136.219.95/test/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
+//       `https://dashboard.go-tex.net/test/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
 //       {
 //           params: { page: currentPage4, limit: 30 },
 //         headers: {
@@ -865,7 +865,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //     try {
 //       setLoading(true);
 //       const response = await axios.get(
-//         `http://83.136.219.95/test/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
+//         `https://dashboard.go-tex.net/test/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
 //         {
 //             params: { page: currentPage4 -1 , limit: 30 },
 //           headers: {
@@ -895,7 +895,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //     try {
 //       setLoading(true);
 //       const response = await axios.get(
-//         `http://83.136.219.95/test/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
+//         `https://dashboard.go-tex.net/test/companies/orders/filter-by-date?startDate=${startDate}&endDate=${endDate}`,
 //         {
 //             params: { page: currentPage4 +1 , limit: 30 },
 //           headers: {

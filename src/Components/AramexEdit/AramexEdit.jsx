@@ -21,7 +21,7 @@ export default function AramexEdit() {
     async function sendPricesToApi() {
       console.log(localStorage.getItem('userToken'))
       try {
-        const {data} = await axios.post(`http://83.136.219.95/test/aramex/edit`, Prices,
+        const {data} = await axios.post(`https://dashboard.go-tex.net/test/aramex/edit`, Prices,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -83,7 +83,7 @@ export default function AramexEdit() {
     const [companiesDetails,setCompaniesDetails]=useState([])
     async function getCompaniesDetailsOrders() {
       try {
-        const response = await axios.get('http://83.136.219.95/test/companies/get-all');
+        const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
         const companiesPrices = response.data.data;
         console.log(companiesPrices)
         setCompaniesDetails(companiesPrices)

@@ -9,7 +9,7 @@ export default function InvocesMarkter() {
     
       async function getInvoces() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/daftra/get-all-markter-invoices',
+          const response = await axios.get('https://dashboard.go-tex.net/test/daftra/get-all-markter-invoices',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,

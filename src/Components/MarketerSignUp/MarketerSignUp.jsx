@@ -24,7 +24,7 @@ export default function MarketerSignUp() {
     location: ""
   })
   async function sendRegisterDataToApi(){
-  let response= await axios.post(`http://83.136.219.95/test/user/marketer-signup`,theUser);
+  let response= await axios.post(`https://dashboard.go-tex.net/test/user/marketer-signup`,theUser);
   if(response.data.msg == 'ok'){
     setisLoading(false)
     console.log(response.data)

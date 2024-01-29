@@ -15,7 +15,7 @@ export default function DisplayClientsMarkter() {
 
       async function getClientsList() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/user/all-markter-clint',
+          const response = await axios.get('https://dashboard.go-tex.net/test/user/all-markter-clint',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -49,7 +49,7 @@ export default function DisplayClientsMarkter() {
       
         try {
           const response = await axios.post(
-            'http://83.136.219.95/test/user/add-clint-deposit',
+            'https://dashboard.go-tex.net/test/user/add-clint-deposit',
             formData,
             {
               headers: {

@@ -41,7 +41,7 @@ export default function MarketersShipments() {
       async function getSaeeOrders() {
         console.log(localStorage.getItem('marketerToken'))
         try {
-          const response = await axios.get(`http://83.136.219.95/test/markter/saee-orders?`,
+          const response = await axios.get(`https://dashboard.go-tex.net/test/markter/saee-orders?`,
           {
             params: { page: currentPageSaee},
             headers: {
@@ -60,7 +60,7 @@ export default function MarketersShipments() {
       async function getSaeeSticker(orderId) {
         try {
           const response = await axios.get(
-            `http://83.136.219.95/test/saee/print-sticker/${orderId}`,
+            `https://dashboard.go-tex.net/test/saee/print-sticker/${orderId}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('marketerToken')}`,
@@ -81,7 +81,7 @@ export default function MarketersShipments() {
        async function trackOrder(orderId) {
             try {
               const response = await axios.post(
-                'http://83.136.219.95/test/saee/track-order-by-number',
+                'https://dashboard.go-tex.net/test/saee/track-order-by-number',
                 {
                   orderId: orderId,
                 },
@@ -139,7 +139,7 @@ export default function MarketersShipments() {
           }
           async function getSmsaUserOrders() {
             try {
-              const response = await axios.get('http://83.136.219.95/test/markter/smsa-orders?',
+              const response = await axios.get('https://dashboard.go-tex.net/test/markter/smsa-orders?',
               {
                 params: { page: currentPageSmsa},
                 headers: {
@@ -158,7 +158,7 @@ export default function MarketersShipments() {
     
           async function getAramexUserOrders() {
             try {
-              const response = await axios.get('http://83.136.219.95/test/markter/armex-orders?',
+              const response = await axios.get('https://dashboard.go-tex.net/test/markter/armex-orders?',
               {
                 params: { page: currentPageAramex},
                 headers: {
@@ -176,7 +176,7 @@ export default function MarketersShipments() {
           }
           async function getJtUserOrders() {
             try {
-              const response = await axios.get('http://83.136.219.95/test/markter/jt-orders?',
+              const response = await axios.get('https://dashboard.go-tex.net/test/markter/jt-orders?',
               {
                 params: { page: currentPageJT},
                 headers: {
@@ -194,7 +194,7 @@ export default function MarketersShipments() {
           }
           async function getImileUserOrders() {
             try {
-              const response = await axios.get('http://83.136.219.95/test/markter/imile-orders?',
+              const response = await axios.get('https://dashboard.go-tex.net/test/markter/imile-orders?',
               {
                 params: { page: currentPageImile},
                 headers: {
@@ -212,7 +212,7 @@ export default function MarketersShipments() {
           }
           async function getAramexSticker(orderId) {
             try {
-              const response = await axios.get(`http://83.136.219.95/test/aramex/print-sticker/${orderId}`, {
+              const response = await axios.get(`https://dashboard.go-tex.net/test/aramex/print-sticker/${orderId}`, {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem('marketerToken')}`,
                 },
@@ -229,7 +229,7 @@ export default function MarketersShipments() {
           async function getSmsaSticker(orderId) {
             setStickerUrls('');
             try {
-              const response = await axios.get(`http://83.136.219.95/test/smsa/print-sticker/${orderId}`, {
+              const response = await axios.get(`https://dashboard.go-tex.net/test/smsa/print-sticker/${orderId}`, {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem('marketerToken')}`,
                 },
@@ -246,13 +246,13 @@ export default function MarketersShipments() {
           }
           async function getJtSticker(orderId) {
             try {
-              const response = await axios.get(`http://83.136.219.95/test/jt/print-sticker/${orderId}`, {
+              const response = await axios.get(`https://dashboard.go-tex.net/test/jt/print-sticker/${orderId}`, {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem('marketerToken')}`,
                 },
               });
                    console.log(response)
-              const stickerUrl = `http://83.136.219.95/test${response.data.data}`;
+              const stickerUrl = `https://dashboard.go-tex.net/test${response.data.data}`;
               const newTab = window.open();
               newTab.location.href = stickerUrl;
             } catch (error) {
@@ -284,7 +284,7 @@ export default function MarketersShipments() {
             } 
             async function getInvoice(daftraId) {
                 try {
-                  const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
+                  const response = await axios.get(`https://dashboard.go-tex.net/test/daftra/get-invoice/${daftraId}`, {
                     headers: {
                       Authorization: `Bearer ${localStorage.getItem('marketerToken')}`,
                     },
@@ -303,7 +303,7 @@ export default function MarketersShipments() {
                 if (currentPageSaee > 1) {
                   setCurrentPageSaee(currentPageSaee - 1);
                   try {
-                    const response = await axios.get(`http://83.136.219.95/test/markter/saee-orders?`,
+                    const response = await axios.get(`https://dashboard.go-tex.net/test/markter/saee-orders?`,
                     {
                       params: { page: currentPageSaee -1 },
                       headers: {
@@ -325,7 +325,7 @@ export default function MarketersShipments() {
                 if (currentPageSaee < numberPageSaee) {
                   setCurrentPageSaee(currentPageSaee + 1);
                   try {
-                    const response = await axios.get(`http://83.136.219.95/test/markter/saee-orders?`,
+                    const response = await axios.get(`https://dashboard.go-tex.net/test/markter/saee-orders?`,
                     {
                       params: { page: currentPageSaee +1 },
                       headers: {
@@ -346,7 +346,7 @@ export default function MarketersShipments() {
                 if (currentPageSmsa > 1) {
                   setCurrentPageSmsa(currentPageSmsa - 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/smsa-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/smsa-orders?',
                     {
                       params: { page: currentPageSmsa -1 },
                       headers: {
@@ -368,7 +368,7 @@ export default function MarketersShipments() {
                 if (currentPageSmsa < numberPageSmsa) {
                   setCurrentPageSmsa(currentPageSmsa + 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/smsa-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/smsa-orders?',
                     {
                       params: { page: currentPageSmsa +1 },
                       headers: {
@@ -390,7 +390,7 @@ export default function MarketersShipments() {
                 if (currentPageAramex > 1) {
                   setCurrentPageAramex(currentPageAramex - 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/armex-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/armex-orders?',
                     {
                       params: { page: currentPageAramex -1 },
                       headers: {
@@ -412,7 +412,7 @@ export default function MarketersShipments() {
                 if (currentPageAramex < numberPageAramex) {
                   setCurrentPageAramex(currentPageAramex + 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/armex-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/armex-orders?',
                     {
                       params: { page: currentPageAramex +1 },
                       headers: {
@@ -434,7 +434,7 @@ export default function MarketersShipments() {
                 if (currentPageJT > 1) {
                   setCurrentPageJT(currentPageJT - 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/jt-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/jt-orders?',
                     {
                       params: { page: currentPageJT -1 },
                       headers: {
@@ -456,7 +456,7 @@ export default function MarketersShipments() {
                 if (currentPageJT < numberPageJT) {
                   setCurrentPageJT(currentPageJT + 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/jt-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/jt-orders?',
                     {
                       params: { page: currentPageJT +1 },
                       headers: {
@@ -478,7 +478,7 @@ export default function MarketersShipments() {
                 if (currentPageImile > 1) {
                   setCurrentPageImile(currentPageImile - 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/imile-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/imile-orders?',
                     {
                       params: { page: currentPageImile -1 },
                       headers: {
@@ -500,7 +500,7 @@ export default function MarketersShipments() {
                 if (currentPageImile < numberPageImile) {
                   setCurrentPageImile(currentPageImile + 1);
                   try {
-                    const response = await axios.get('http://83.136.219.95/test/markter/imile-orders?',
+                    const response = await axios.get('https://dashboard.go-tex.net/test/markter/imile-orders?',
                     {
                       params: { page: currentPageImile +1 },
                       headers: {
@@ -593,7 +593,7 @@ export default function MarketersShipments() {
               if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
                 const orderId = item._id;
                 axios
-                  .post(`http://83.136.219.95/test/saee/cancel-order`, 
+                  .post(`https://dashboard.go-tex.net/test/saee/cancel-order`, 
                    { orderId },
                    {
                     headers: {
@@ -746,7 +746,7 @@ export default function MarketersShipments() {
   <ul class="dropdown-menu">
   {stickerUrls ?( stickerUrls.map((sticker, index) => (
     <li key={index}>
-      <a class="dropdown-item" href={`http://83.136.219.95/test${sticker}`} target='_blank'>
+      <a class="dropdown-item" href={`https://dashboard.go-tex.net/test${sticker}`} target='_blank'>
         استيكر {index+1}
       </a>
     </li>
@@ -842,7 +842,7 @@ export default function MarketersShipments() {
               if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
                 const orderId= item._id;
                 axios
-                  .post(`http://83.136.219.95/test/imile/cancel-order`, { orderId },
+                  .post(`https://dashboard.go-tex.net/test/imile/cancel-order`, { orderId },
                   {
                    headers: {
                      Authorization: `Bearer ${localStorage.getItem('marketerToken')}`,
@@ -938,7 +938,7 @@ export default function MarketersShipments() {
               if (window.confirm('هل انت بالتأكيد تريد الغاء هذا الشحنة ؟')) {
                 const orderId= item._id;
                 axios
-                  .post(`http://83.136.219.95/test/jt/cancel-order`, { orderId },
+                  .post(`https://dashboard.go-tex.net/test/jt/cancel-order`, { orderId },
                   {
                    headers: {
                      Authorization: `Bearer ${localStorage.getItem('userToken')}`,

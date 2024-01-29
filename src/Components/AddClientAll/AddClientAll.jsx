@@ -37,7 +37,7 @@ export default function AddClientAll() {
     console.log(localStorage.getItem('userToken'))
     try {
       const response = await axios.post(
-        "http://83.136.219.95/test/clients/add-new-client",
+        "https://dashboard.go-tex.net/test/clients/add-new-client",
         {
           ...clientData,
           branches:Branches

@@ -6,7 +6,7 @@ import axios from 'axios';
 export default function VerifyUser() {
     async function verifytUserAgain() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/user/resend-activate-code',
+          const response = await axios.get('https://dashboard.go-tex.net/test/user/resend-activate-code',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,

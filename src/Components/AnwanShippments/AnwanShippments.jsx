@@ -10,7 +10,7 @@ export default function AnwanShippments(userData) {
     const [companiesDetails,setCompaniesDetails]=useState([])
     async function getCompaniesDetailsOrders() {
       try {
-        const response = await axios.get('http://83.136.219.95/test/companies/get-all');
+        const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
         const companiesPrices = response.data.data;
         console.log(companiesPrices)
         setCompaniesDetails(companiesPrices)
@@ -68,7 +68,7 @@ export default function AnwanShippments(userData) {
       console.log(localStorage.getItem('userToken'))
       try {
         const response = await axios.post(
-          "http://83.136.219.95/test/anwan/create-user-order",
+          "https://dashboard.go-tex.net/test/anwan/create-user-order",
           orderData,
           {
             headers: {
@@ -184,7 +184,7 @@ export default function AnwanShippments(userData) {
       async function getCities() {
         console.log(localStorage.getItem('userToken'))
         try {
-          const response = await axios.get('http://83.136.219.95/test/anwan/cities',
+          const response = await axios.get('https://dashboard.go-tex.net/test/anwan/cities',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -229,7 +229,7 @@ export default function AnwanShippments(userData) {
       const[clients,setClients]=useState([])
       async function getClientsList() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/get-all-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -455,7 +455,7 @@ export default function AnwanShippments(userData) {
 
         async function getGotexSticker(orderId) {
           try {
-            const response = await axios.get(`http://83.136.219.95/test/anwan/print-sticker/${orderId}`, {
+            const response = await axios.get(`https://dashboard.go-tex.net/test/anwan/print-sticker/${orderId}`, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
               },
@@ -470,7 +470,7 @@ export default function AnwanShippments(userData) {
         }
         async function getInvoice(daftraId) {
           try {
-            const response = await axios.get(`http://83.136.219.95/test/daftra/get-invoice/${daftraId}`, {
+            const response = await axios.get(`https://dashboard.go-tex.net/test/daftra/get-invoice/${daftraId}`, {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
               },
@@ -568,7 +568,7 @@ export default function AnwanShippments(userData) {
         const [packegeDetails,setPackegeDetails]=useState([])
       async function getPackageDetails() {
           try {
-            const response = await axios.get(`http://83.136.219.95/test/package/user-get-package`,
+            const response = await axios.get(`https://dashboard.go-tex.net/test/package/user-get-package`,
              
             {
               headers: {

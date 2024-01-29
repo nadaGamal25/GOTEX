@@ -18,7 +18,7 @@ export default function LoginMarketers({saveMarketerData}) {
 
   async function sendLoginDataToApi(){
     try {
-      const {data} = await axios.post('http://83.136.219.95/test/markter/login', theUser);
+      const {data} = await axios.post('https://dashboard.go-tex.net/test/markter/login', theUser);
       if (data.msg === 'ok') {
         navigate('/marketersShipments');
         localStorage.setItem('marketerToken', data.token);

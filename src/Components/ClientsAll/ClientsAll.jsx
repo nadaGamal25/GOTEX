@@ -25,7 +25,7 @@ export default function ClientsAll() {
       async function addDepositToUser() {
         try {
           const response = await axios.post(
-            'http://83.136.219.95/test/user/add-credit-to-client',
+            'https://dashboard.go-tex.net/test/user/add-credit-to-client',
             {
               clientid : selectedUserId,
               cartid_limit: depositAmount,
@@ -67,8 +67,8 @@ export default function ClientsAll() {
       async function getClientsList() {
         try {
           setLoading(true);
-          // const response = await axios.get('http://83.136.219.95/test/clients/get-all-clients',
-          const response = await axios.get('http://83.136.219.95/test/clients/all-clients',
+          // const response = await axios.get('https://dashboard.go-tex.net/test/clients/get-all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/all-clients',
           {
             params: {
               page: currentPage,
@@ -96,7 +96,7 @@ export default function ClientsAll() {
       async function getSearchClientsList() {
         try {
           setLoading(true);
-          const response = await axios.get('http://83.136.219.95/test/clients/all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/all-clients',
           {
             params: {
               page: 1,
@@ -128,7 +128,7 @@ export default function ClientsAll() {
       async function getSearchClientsPage() {
         try {
           setLoading(true);
-          const response = await axios.get('http://83.136.219.95/test/clients/all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/all-clients',
           {
             params: {
               page: currentPage2,
@@ -270,7 +270,7 @@ export default function ClientsAll() {
         event.preventDefault();
         try {
           const response = await axios.post(
-            `http://83.136.219.95/test/clients/edit-client/${eClient._id}`,
+            `https://dashboard.go-tex.net/test/clients/edit-client/${eClient._id}`,
             {...editedClient,
               branches: editedClient.branches.length > 0 ? editedClient.branches : Branches,
             },
@@ -853,7 +853,7 @@ export default function ClientsAll() {
         
           try {
             const response = await axios.post(
-              'http://83.136.219.95/test/user/add-clint-deposit',
+              'https://dashboard.go-tex.net/test/user/add-clint-deposit',
               formData,
               {
                 headers: {
@@ -876,7 +876,7 @@ export default function ClientsAll() {
             setCurrentPage(currentPage - 1); 
             try {
               setLoading(true);
-              const response = await axios.get('http://83.136.219.95/test/clients/all-clients',
+              const response = await axios.get('https://dashboard.go-tex.net/test/clients/all-clients',
               {
                 params: {
                   page: currentPage -1,
@@ -910,7 +910,7 @@ export default function ClientsAll() {
             setCurrentPage(currentPage + 1);
             try {
               setLoading(true);
-              const response = await axios.get('http://83.136.219.95/test/clients/all-clients',
+              const response = await axios.get('https://dashboard.go-tex.net/test/clients/all-clients',
               {
                 params: {
                   page: currentPage +1,
@@ -944,7 +944,7 @@ export default function ClientsAll() {
         setCurrentPage2(currentPage2 - 1); 
         try {
           setLoading(true);
-          const response = await axios.get('http://83.136.219.95/test/clients/all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/all-clients',
           {
             params: {
               page: currentPage2 -1,
@@ -978,7 +978,7 @@ export default function ClientsAll() {
         setCurrentPage2(currentPage2 + 1) 
         try {
           setLoading(true);
-          const response = await axios.get('http://83.136.219.95/test/clients/all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/clients/all-clients',
           {
             params: {
               page: currentPage2 + 1,

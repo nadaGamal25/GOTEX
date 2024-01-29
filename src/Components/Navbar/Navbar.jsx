@@ -38,7 +38,7 @@ export default function Navbar({userData ,logout}) {
       const [userBalance,setUserBalance]=useState('')
       async function getUserBalance() {
         try {
-          const response = await axios.get('http://83.136.219.95/test/user/get-user-balance',
+          const response = await axios.get('https://dashboard.go-tex.net/test/user/get-user-balance',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -85,7 +85,7 @@ export default function Navbar({userData ,logout}) {
           async function addDepositToUser() {
             try {
               const response = await axios.post(
-                'http://83.136.219.95/test/user/user-charge',
+                'https://dashboard.go-tex.net/test/user/user-charge',
                 {
                   amount: depositAmount,
                 },

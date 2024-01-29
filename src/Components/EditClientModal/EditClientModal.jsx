@@ -21,7 +21,7 @@ const EditClientModal = ({item}) => {
     //     event.preventDefault();
     //     try {
     //       const response = await axios.post(
-    //         `http://83.136.219.95/test/clients/edit-client/:${client._id}`,
+    //         `https://dashboard.go-tex.net/test/clients/edit-client/:${client._id}`,
     //         formData,
     //         {
     //           headers: {

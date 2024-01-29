@@ -12,7 +12,7 @@ export default function InvocesAdmin() {
       async function getInvocesAdmin() {
         try {
           setLoading(true);
-          const response = await axios.get('http://83.136.219.95/test/daftra/all-invoices',
+          const response = await axios.get('https://dashboard.go-tex.net/test/daftra/all-invoices',
           {
             params: {
               page: currentPage,
@@ -39,7 +39,7 @@ export default function InvocesAdmin() {
           setCurrentPage(currentPage - 1); 
           try {
             setLoading(true);
-            const response = await axios.get(`http://83.136.219.95/test/daftra/all-invoices`, {
+            const response = await axios.get(`https://dashboard.go-tex.net/test/daftra/all-invoices`, {
               params: {
                   page: currentPage -1,
                   
@@ -65,7 +65,7 @@ export default function InvocesAdmin() {
           setCurrentPage(currentPage + 1);
           try {
             setLoading(true);
-            const response = await axios.get(`http://83.136.219.95/test/daftra/all-invoices`, {
+            const response = await axios.get(`https://dashboard.go-tex.net/test/daftra/all-invoices`, {
               params: {
                   page: currentPage +1,
                   

@@ -8,7 +8,7 @@ export default function PackageDetails(userData) {
       const [packegeDetails,setPackegeDetails]=useState([])
     async function getPackageDetails() {
         try {
-          const response = await axios.get(`http://83.136.219.95/test/package/user-get-package`,
+          const response = await axios.get(`https://dashboard.go-tex.net/test/package/user-get-package`,
            
           {
             headers: {
@@ -31,7 +31,7 @@ export default function PackageDetails(userData) {
       }
       async function cancelPackage() {
         try {
-          const response = await axios.get(`http://83.136.219.95/test/package/user-cancel-package`,
+          const response = await axios.get(`https://dashboard.go-tex.net/test/package/user-cancel-package`,
            
           {
             headers: {

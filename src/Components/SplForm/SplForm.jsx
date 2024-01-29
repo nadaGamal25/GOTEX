@@ -84,7 +84,7 @@ const handleAddPiece = () => {
   async function sendOrderDataToApi(updatedOrderData) {
     console.log(localStorage.getItem('userToken'));
     try {
-        const url = "http://83.136.219.95/test/spl/crete-new-order"; // Your API endpoint
+        const url = "https://dashboard.go-tex.net/test/spl/crete-new-order"; // Your API endpoint
     
         const payload = {
           ...orderData,
@@ -122,7 +122,7 @@ const handleAddPiece = () => {
 //   async function sendOrderDataToApi() {
 //     console.log(localStorage.getItem('userToken'))
 //    try {
-//     const url = "http://83.136.219.95/test/spl/crete-new-order"; // Your API endpoint
+//     const url = "https://dashboard.go-tex.net/test/spl/crete-new-order"; // Your API endpoint
 
 //     // Update the orderData with the pieces array
 //     const updatedOrderData = { ...orderData, Pieces: pieces };
@@ -154,7 +154,7 @@ const handleAddPiece = () => {
 //   }
 //     // try {
 //     //   const response = await axios.post(
-//     //     "http://83.136.219.95/test/spl/crete-new-order",
+//     //     "https://dashboard.go-tex.net/test/spl/crete-new-order",
 //     //     orderData,
 //     //     {
 //     //       headers: {
@@ -282,7 +282,7 @@ function getOrderData(e) {
   async function getCities() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const response = await axios.get('http://83.136.219.95/test/spl/get-cities',
+      const response = await axios.get('https://dashboard.go-tex.net/test/spl/get-cities',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -297,7 +297,7 @@ function getOrderData(e) {
 //   const [companiesDetails,setCompaniesDetails]=useState([])
 //   async function getCompaniesDetailsOrders() {
 //     try {
-//       const response = await axios.get('http://83.136.219.95/test/companies/get-all');
+//       const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
 //       const companiesPrices = response.data.data;
 //       console.log(companiesPrices)
 //       setCompaniesDetails(companiesPrices)
@@ -338,7 +338,7 @@ function getOrderData(e) {
   const[clients,setClients]=useState([])
   async function getClientsList() {
     try {
-      const response = await axios.get('http://83.136.219.95/test/user/all-markter-clint',
+      const response = await axios.get('https://dashboard.go-tex.net/test/user/all-markter-clint',
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,

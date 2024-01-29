@@ -14,7 +14,7 @@ export default function ForgetPassword() {
  
   async function sendDataToApi(){
     try {
-          const response = await axios.post('http://83.136.219.95/test/user/send-email-update-password', theUser);
+          const response = await axios.post('https://dashboard.go-tex.net/test/user/send-email-update-password', theUser);
           if (response.status === 200) {
             console.log(response.data)
             setisLoading(false)
