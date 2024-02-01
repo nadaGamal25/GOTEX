@@ -167,7 +167,7 @@ body{
 }
 
 .x{
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .bg-light{
   background-color: #f9f9f9;
@@ -1022,7 +1022,7 @@ nav form .form-input button{
 .clients-table{
   background-color: #f9f9f9;
   border-radius: 15px;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .gray-table{
   background-color: #f9f9f9;
@@ -1335,7 +1335,7 @@ h3{
   /* display: none; */
 }
 .ll{
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .toggle-button {
   background-color: #fff;

@@ -272,10 +272,14 @@ export default function ClientsAll() {
         console.log(editedClient)
         event.preventDefault();
         try {
+          const filteredBranches = editedClient.branches.filter(branch => branch.city.trim() !== '' || branch.address.trim() !== '');
+          const filteredBranches2 = Branches.filter(branch => branch.city.trim() !== '' && branch.address.trim() !== '');
+         
           const response = await axios.post(
             `https://dashboard.go-tex.net/api/clients/edit-client/${eClient._id}`,
             {...editedClient,
-              branches: editedClient.branches.length > 0 ? editedClient.branches : Branches,
+              branches: filteredBranches.length > 0 ? filteredBranches : filteredBranches2,
+              // branches: editedClient.branches.length > 0 ? editedClient.branches : Branches,
             },
             {
               headers: {
@@ -1041,7 +1045,7 @@ export default function ClientsAll() {
       </div>
     </div>
     <div className="clients-table p-4 my-4">
-    <button className="btn btn-addPiece m-1" onClick={getClientsList}>عرض جميع الشحنات  </button>
+    <button className="btn btn-addPiece m-1" onClick={getClientsList}>عرض جميع العملاء  </button>
 
       <table className="table">
         <thead>

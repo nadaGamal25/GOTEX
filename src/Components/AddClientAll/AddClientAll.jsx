@@ -36,11 +36,12 @@ export default function AddClientAll() {
   async function sendDataToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
+      const filteredBranches = Branches.filter(branch => branch.city.trim() !== '' && branch.address.trim() !== '');
       const response = await axios.post(
         "https://dashboard.go-tex.net/api/clients/add-new-client",
         {
           ...clientData,
-          branches:Branches
+          branches:filteredBranches
         },
         {
           headers: {
