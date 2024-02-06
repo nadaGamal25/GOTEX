@@ -197,7 +197,7 @@ export default function ClientsAll() {
         state: client?.state || '', // optional
         address: client?.address || '',
         mobile: client?.mobile || '',
-        email: client?.email || '', // optional
+        // email: client?.email || '', // optional
         notes: client?.notes || '', // optional
         category: client?.category || '', // optional
         birth_date: client?.birth_date || '', // optional
@@ -1223,12 +1223,12 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
                
     
     {/* </div> */}
-    <div className="col-md-6 pb-1">
+    {/* <div className="col-md-6 pb-1">
         <label htmlFor="email"> الايميل  :</label>
       <input onChange={handleInputChange} value={editedClient.email} type="email" className='my-input my-2 form-control' name='email' />
       
       
-    </div>
+    </div> */}
     <div className='col-md-6 pb-1 ul-box'>
                 <label htmlFor=""> المدينة (الفرع الرئيسى)</label>
 
@@ -1288,7 +1288,7 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
       <input onChange={handleInputChange} value={editedClient.street} type="text" className='my-input my-2 form-control' name='street' />
       
     </div>
-    <div className="col-md-6 pb-1">
+    <div className="col-md-12 pb-1">
         <label htmlFor="category">الفئة   :</label>
       <input onChange={handleInputChange} value={editedClient.category} type="text" className='my-input my-2 form-control' name='category' />
       
