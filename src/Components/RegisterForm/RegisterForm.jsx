@@ -255,12 +255,12 @@ function submitRegisterForm(e){
 }
 
  // async function sendRegisterDataToApi(theUser) {
-  //   axios.post("http://83.136.219.95:5000/user/signup", theUser)
+  //   axios.post("https://dashboard.go-tex.net:5000/user/signup", theUser)
   //     .then(response => console.log(response.data))
   //     .catch(error => console.error(error));
   
   //   try {
-  //     const {data} = await axios.post('http://83.136.219.95:5000/user/signup', theUser);
+  //     const {data} = await axios.post('https://dashboard.go-tex.net:5000/user/signup', theUser);
   //     if (data.msg === 'ok') {
   //       console.log(data.user)
   //       window.alert('تم التسجيل');

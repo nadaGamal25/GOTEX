@@ -230,7 +230,7 @@ export default function Login({saveUserData}) {
 
   // async function sendLoginDataToApi() {
   //   try {
-  //     const { data } = await axios.post('http://83.136.219.95:5000/user/signup', theUser);
+  //     const { data } = await axios.post('https://dashboard.go-tex.net:5000/user/signup', theUser);
   //     if (data.msg === 'ok') {
   //       setisLoading(false);
   //       navigate('/companies');

@@ -27,7 +27,7 @@ export default function Register() {
   const [value ,setPhoneValue]=useState()
 
   async function sendRegisterDataToApi(){
-    let {data}= await axios.post(`http://83.136.219.95:5000/user/signup`,user);
+    let {data}= await axios.post(`https://dashboard.go-tex.net:5000/user/signup`,user);
     if(data.message == 'success'){
       setisLoading(false)
       console.log(data)
