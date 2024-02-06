@@ -148,7 +148,7 @@ export default function Navbar({userData ,logout}) {
                 <Link to="/payment">
                 <i class="fa-solid fa-sack-dollar bx"></i>
                 <span class="text">المحفظة
-                ({userBalance} ر.س)
+                {/* ({userBalance} ر.س) */}
                 </span>
                 </Link>
             </li>

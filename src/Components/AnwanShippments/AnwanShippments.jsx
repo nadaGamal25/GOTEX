@@ -18,11 +18,27 @@ export default function AnwanShippments(userData) {
         console.error(error);
       }
     }
-
+    const [userBalance,setUserBalance]=useState('')
+    async function getUserBalance() {
+      try {
+        const response = await axios.get('https://dashboard.go-tex.net/test/user/get-user-balance',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        });
+        const balance = response.data.data;
+        console.log(balance)
+        setUserBalance(balance)
+      } catch (error) {
+        console.error(error);
+      }
+    }
       useEffect(()=>{
           getCompaniesDetailsOrders()
           getClientsList()
           console.log(cities)
+          getUserBalance()
           // getCities()
       },[])
       const [value ,setPhoneValue]=useState()
@@ -80,6 +96,7 @@ export default function AnwanShippments(userData) {
         if (response.status === 200) {
           setisLoading(false);
           window.alert("تم تسجيل الشحنة بنجاح");
+          getUserBalance()
           getPackageDetails()
           getClientsList()
           console.log(response.data.data);
@@ -588,7 +605,12 @@ export default function AnwanShippments(userData) {
           }
         }
   return (
-<div className='p-4' id='content'>
+<div className='px-4 pt-2 pb-4' id='content'>
+<div className=" px-3 pt-4 pb-2 mb-2" dir='ltr'>
+      <span class="wallet-box">الرصيد الحالى
+                (<span className='txt-blue'> {userBalance}</span> ر.س)
+                </span>
+      </div>
 { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
             <div className="prices-box">
              <h4 className="text-center p-text">الباقة الخاصة بك      </h4>

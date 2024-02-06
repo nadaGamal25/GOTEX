@@ -5,8 +5,24 @@ export default function PackegesMarketers() {
     useEffect(()=>{
         getClientsList()
         getPackeges()
+        getUserBalance()
       },[])
-
+      const [userBalance,setUserBalance]=useState('')
+      async function getUserBalance() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/test/user/get-user-balance',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const balance = response.data.data;
+          console.log(balance)
+          setUserBalance(balance)
+        } catch (error) {
+          console.error(error);
+        }
+      }
       const [search, setSearch]= useState('')
 
       const[clients,setClients]=useState([])
@@ -50,6 +66,7 @@ export default function PackegesMarketers() {
       });
       if (response.status === 200) {
         console.log(response)
+        getUserBalance()
         window.alert("تم شراء الباقة بنجاح");
       } else {
         console.log(response)
@@ -102,7 +119,12 @@ export default function PackegesMarketers() {
   }
   return (
     <>
-    <div className='p-5' id='content'>
+    <div className='px-4 pt-2 pb-4' id='content'>
+    <div className=" px-3 pt-4 pb-2 mb-2" dir='ltr'>
+      <span class="wallet-box">الرصيد الحالى
+                (<span className='txt-blue'> {userBalance}</span> ر.س)
+                </span>
+      </div>
       <div className="gray-table p-2">
         <p className="email-note">* لا يمكن شراء اكثر من باقة للعميل فى نفس الوقت</p>
         <p className="email-note">* سوف يتم أخذ قيمة الباقة من محفظة العميل واذا كانت خالية سيتم السحب من محفظة المدخلة</p>
@@ -175,6 +197,7 @@ export default function PackegesMarketers() {
                   .then((response) => {
                     if (response.status === 200) {
                       console.log(response)
+                      getUserBalance()
                       alert('تم الغاء الباقة بنجاح وتم استرجاع المال')
 
                     }
