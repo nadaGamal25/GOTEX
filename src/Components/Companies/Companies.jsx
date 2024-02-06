@@ -19,8 +19,25 @@ export default function Companies(userData) {
   useEffect(()=>{
     getCompaniesDetailsOrders()
     console.log(userData)
+    getUserBalance()
     // console.log(userData.data.user.rolle)
   },[])
+  const [userBalance,setUserBalance]=useState('')
+      async function getUserBalance() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/user/get-user-balance',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const balance = response.data.data;
+          console.log(balance)
+          setUserBalance(balance)
+        } catch (error) {
+          console.error(error);
+        }
+      }
   const [companiesDetails,setCompaniesDetails]=useState([])
   const num =0;
 
@@ -46,7 +63,13 @@ export default function Companies(userData) {
 
   return (
     <>
-    <div className='paddingCompanies' id='content'>
+    <div className='' id='content'>
+      <div className=" px-3 pt-4 pb-2" dir='ltr'>
+      <span class="wallet-box">الرصيد الحالى
+                (<span className='txt-blue'> {userBalance}</span> ر.س)
+                </span>
+      </div>
+      <div className='paddingCompanies' >
       <div className="container">
       {/* <div className="clients-table p-4 my-4">
       <table className="table">
@@ -404,6 +427,7 @@ export default function Companies(userData) {
           </div>
           
         </div>
+      </div>
       </div>
     </div>
     <Modal show={showModal} onHide={closeModal}>

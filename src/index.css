@@ -37,6 +37,7 @@ a{
 body{
   background-color: #fff !important;
 }
+
 .btn-orange{
   background-color: var(--orange-color) !important;
   color: #fff !important;
@@ -424,11 +425,11 @@ label{
 
 }
 .paddingCompanies{
-  padding: 35px;
+  padding: 15px 35px;
 }
 @media only screen and (max-width: 768px){
   .paddingCompanies{
-    padding: 35px 10px;
+    padding: 15px 10px;
   }
   .login-box,
   .register-box{
@@ -1509,3 +1510,19 @@ border-radius: 5px;
 .light-box p{
   word-wrap: break-word;
 }
+/* wallet-box */
+.wallet-box {
+  padding: 8px 15px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  color: var(--dark--color);
+  font-weight: 600;
+}
+.txt-blue{
+  color: #1e75a1;
+}
+

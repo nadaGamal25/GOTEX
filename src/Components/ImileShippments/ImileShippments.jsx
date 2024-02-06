@@ -87,6 +87,7 @@ export default function ImileShippments(userData) {
       if (response.status === 200) {
         setisLoading(false);
         window.alert("تم تسجيل الشحنة بنجاح");
+        getUserBalance()
         getPackageDetails()
         console.log(response.data.data);
         console.log(response);
@@ -223,7 +224,24 @@ function validateOrderUserForm(){
     getCompaniesDetailsOrders()
     getimileClientsList()
     // getClientsList()
+    getUserBalance()
   },[])
+  const [userBalance,setUserBalance]=useState('')
+      async function getUserBalance() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/user/get-user-balance',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const balance = response.data.data;
+          console.log(balance)
+          setUserBalance(balance)
+        } catch (error) {
+          console.error(error);
+        }
+      }
 //   const [cities,setCities]=useState()
 //   async function getCities() {
 //     console.log(localStorage.getItem('userToken'))
@@ -911,7 +929,12 @@ function validateOrderUserForm(){
         }
   return (
     <>
-     <div className='p-4' id='content'>
+     <div className='px-4 pt-2 pb-4' id='content'>
+     <div className=" px-3 pt-4 pb-2 mb-2" dir='ltr'>
+      <span class="wallet-box">الرصيد الحالى
+                (<span className='txt-blue'> {userBalance}</span> ر.س)
+                </span>
+      </div>
      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
             <div className="prices-box">
              <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
@@ -1086,7 +1109,7 @@ function validateOrderUserForm(){
           <div className="row">
           <div className="col-md-6">
           <div className="shipper-details brdr-grey p-3">
-              <h3> </h3>
+              <h3>بيانات المرسل </h3>
               
               <div className='pb-1 ul-box'>
               <label htmlFor="">  المرسل<span className="star-requered">*</span></label>
@@ -1212,6 +1235,178 @@ function validateOrderUserForm(){
     })}
       
             </div>
+            
+          { userData.userData.data.user.rolle === "marketer"?(
+            <div className='py-2'>
+              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
+              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
+              </button>
+              {addMarketer && (<div>
+                <label htmlFor=""> كود المسوق 
+             <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
+             
+              </div>) }
+             
+         </div>
+            ):null} 
+            </div>
+          <div className="package-info brdr-grey p-3 mt-3 mb-3 ">
+              <h3>بيانات الشحنة :</h3>
+              <div className="row">
+              <div className="col-md-6">
+              <div className='pb-1'>
+              <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
+              <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='weight'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              </div>
+              <div className="col-md-6">
+              <div className='pb-1'>
+              <label htmlFor=""> القيمة<span className="star-requered">*</span></label>
+              <input type="number" step="0.001" className="form-control" name='goodsValue' onChange={getOrderData}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='goodsValue'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              </div>
+
+              <div className="">
+              <div className='pb-1'>
+              <label htmlFor=""> اسم المنتج<span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='skuName' onChange={getOrderData}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='skuName'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              </div>
+              <div className='pb-1'>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
+                <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="2"></textarea>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='description'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
+            {userData.userData.data.user.rolle === "user"?(
+            <>
+            <div className="pb-3">
+            <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
+                    <div className='pe-2'>
+                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                    </div>
+                    <div className='pe-2'>
+                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                    </div>
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='cod'){
+        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+      }
+      
+    })}
+            </div>
+            {orderData.cod === true && (
+  <div className='pb-3'>
+    <label htmlFor=""> قيمة الشحنة</label>
+    <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+    {errorList.map((err, index) => {
+      if (err.context.label === 'shipmentValue') {
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
+      }
+    })}
+  </div>
+            )}
+            {orderData.cod === false && (
+              <div></div>
+            )}
+             
+            </>
+ 
+          ):userData.userData.data.user.rolle === "marketer"?(
+            <>
+            <div className="pb-3">
+            <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
+                    <div className='pe-2'>
+                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
+                    </div>
+                    <div className='pe-2'>
+                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
+                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
+                    </div>
+                    {errorList.map((err,index)=>{
+      if(err.context.label ==='cod'){
+        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
+      }
+      
+    })}
+            </div>
+            {orderData.cod !== false && (
+              <>
+              <div className='pb-3'>
+              <label htmlFor=""> قيمة الشحن (cod)</label>
+              <input type="number" step="0.001" className="form-control" name='cod' onChange={getOrderData} required/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='cod'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+  <div className='pb-3'>
+  <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      onChange={(e)=>{
+        const shipvalue = e.target.value
+        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      }} 
+      required />
+    {errorList.map((err, index) => {
+      if (err.context.label === 'shipmentValue') {
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
+      }
+    })}
+  </div>
+  </>
+            )}
+            
+             
+            </>
+                    ):
+                 <h4></h4>}
+
+<div className='d-flex align-items-center pb-3'>
+                <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
+                <label className='label-cod' htmlFor="">طلب المندوب</label>
+                </div>
+                 
+      
+           
+           
+              
+              </div>
+          </div>
+          </div>
+          <div className="col-md-6">
+          <div className="shipper-details brdr-grey p-3">
+              <h3>بيانات المستلم </h3>
+              
+              
           <div className='pb-1'>
               <label htmlFor=""> اسم المستلم<span className="star-requered">*</span></label>
               <input type="text" className="form-control" name='c_name'  onChange={(e) => {
@@ -1406,21 +1601,7 @@ function validateOrderUserForm(){
     
   })}
           </div>
-          
-          { userData.userData.data.user.rolle === "marketer"?(
-            <div className='py-1'>
-              <button type='button' className="btn btn-red" onClick={()=> {setMarketer(true)}}>
-              إذا العميل لم يتم إضافته من قبل,اضغط هنا لإضافة كود المسوق
-              </button>
-              {addMarketer && (<div>
-                <label htmlFor=""> كود المسوق 
-             <span className="star-requered">*</span></label>
-              <input type="text" className="form-control" name='markterCode' onChange={getOrderData} />
-             
-              </div>) }
-             
-         </div>
-            ):null}  
+           
           {/* { userData.userData.data.user.rolle === "marketer"?(
             <div className='pb-3'>
             <label htmlFor=""> id_العميل  </label>
@@ -1434,160 +1615,7 @@ function validateOrderUserForm(){
         </div>
           ):null}            */}
           </div>
-          
-          </div>
-          <div className="col-md-6">
-          <div className="package-info brdr-grey p-3 mb-3 ">
-              <h3>بيانات الشحنة :</h3>
-              <div className="row">
-              <div className="col-md-6">
-              <div className='pb-1'>
-              <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='weight'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-              </div>
-              <div className="col-md-6">
-              <div className='pb-1'>
-              <label htmlFor=""> القيمة<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='goodsValue' onChange={getOrderData}/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='goodsValue'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-              </div>
-
-              <div className="">
-              <div className='pb-1'>
-              <label htmlFor=""> اسم المنتج<span className="star-requered">*</span></label>
-              <input type="text" className="form-control" name='skuName' onChange={getOrderData}/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='skuName'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-              </div>
-              <div className='pb-1'>
-                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
-                <textarea className="form-control" name='description' onChange={getOrderData} cols="30" rows="2"></textarea>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='description'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div>
-            {userData.userData.data.user.rolle === "user"?(
-            <>
-            <div className="pb-3">
-            <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
-                    <div className='pe-2'>
-                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
-                    <div className='pe-2'>
-                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
-                    </div>
-                    {errorList.map((err,index)=>{
-      if(err.context.label ==='cod'){
-        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
-      }
-      
-    })}
-            </div>
-            {orderData.cod === true && (
-  <div className='pb-3'>
-    <label htmlFor=""> قيمة الشحنة</label>
-    <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
-    {errorList.map((err, index) => {
-      if (err.context.label === 'shipmentValue') {
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
-      }
-    })}
-  </div>
-            )}
-            {orderData.cod === false && (
-              <div></div>
-            )}
-             
-            </>
- 
-          ):userData.userData.data.user.rolle === "marketer"?(
-            <>
-            <div className="pb-3">
-            <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
-                    <div className='pe-2'>
-                    <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
-                    <div className='pe-2'>
-                    <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
-                    <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
-                    </div>
-                    {errorList.map((err,index)=>{
-      if(err.context.label ==='cod'){
-        return <div key={index} className="alert alert-danger my-2">يجب اختيار طريقة الدفع </div>
-      }
-      
-    })}
-            </div>
-            {orderData.cod !== false && (
-              <>
-              <div className='pb-3'>
-              <label htmlFor=""> قيمة الشحن (cod)</label>
-              <input type="number" step="0.001" className="form-control" name='cod' onChange={getOrderData} required/>
-              {errorList.map((err,index)=>{
-    if(err.context.label ==='cod'){
-      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-    }
-    
-  })}
-          </div>
-  <div className='pb-3'>
-  <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
-      onChange={(e)=>{
-        const shipvalue = e.target.value
-        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
-      }} 
-      required />
-    {errorList.map((err, index) => {
-      if (err.context.label === 'shipmentValue') {
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
-      }
-    })}
-  </div>
-  </>
-            )}
-            
-             
-            </>
-                    ):
-                 <h4></h4>}
-
-<div className='d-flex align-items-center pb-3'>
-                <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
-                <label className='label-cod' htmlFor="">طلب المندوب</label>
-                </div>
-                 
-      
-           
-           
-              
-              </div>
-          </div>
-          <div className="reciever-details brdr-grey p-3">
+          <div className="reciever-details brdr-grey mt-3 p-3">
               <h3>تفاصيل المنتج :</h3>
               {theSkuDetailList.map((piece, index) => (
       <div className='my-1' key={index}>
