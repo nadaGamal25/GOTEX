@@ -41,8 +41,9 @@ export default function AnwanShippments(userData) {
           getUserBalance()
           // getCities()
       },[])
-      const [value ,setPhoneValue]=useState()
+      const [phoneValue ,setPhoneValue]=useState()
       const [phone2,setPhone2] =useState()
+      const [phone3,setPhone3] =useState()
       const [packageCompanies, setPackageCompanies] = useState('');
       const [packageOrders, setPackageOrders] = useState('');
   
@@ -59,7 +60,7 @@ export default function AnwanShippments(userData) {
       pieces: '',
       description: '',
       // s_email:'',
-      c_email:'',
+      // c_email:'',
       weight: '',
       s_address: '',
       s_city: '',
@@ -187,7 +188,7 @@ export default function AnwanShippments(userData) {
             c_phone:Joi.string().required(),
             description:Joi.string().required(),
             // s_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
-            c_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
+            // c_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
             // value:Joi.string().required(),
             cod:Joi.required(),
             shipmentValue:Joi.number().allow(null, ''),  
@@ -604,6 +605,18 @@ export default function AnwanShippments(userData) {
             // window.alert('somthing wrong');
           }
         }
+        const [isChecked, setIsChecked] = useState(false);
+        const handleCheckBoxChange = (event) => {
+          const isChecked = event.target.checked;
+          setIsChecked(isChecked);
+          
+          if (isChecked) {
+            setPhone3('')
+          } else {
+            const value = phoneValue
+            getOrderData({ target: { name: 's_phone', value } });
+          }
+        };
   return (
 <div className='px-4 pt-2 pb-4' id='content'>
 <div className=" px-3 pt-4 pb-2 mb-2" dir='ltr'>
@@ -707,9 +720,14 @@ export default function AnwanShippments(userData) {
                       //  setPhoneValue(item.Client.phone1)
                          
                        document.querySelector('input[name="s_name"]').value = item.name;
-                       document.querySelector('input[name="s_phone"]').value = value;
+                       document.querySelector('input[name="s_phone"]').value = phoneValue;
                       //  document.querySelector('input[name="s_city"]').value = item.city;
                        document.querySelector('input[name="s_address"]').value = item.address;
+
+                       document.querySelector('input[name="s_name"]').readOnly = true;
+                       document.querySelector('input[name="s_phone"]').readOnly = true;
+                       document.querySelector('input[name="s_address"]').readOnly = true;
+                     
                       //  document.querySelector('input[name="s_email"]').value = item.email; 
                       // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name;
                       // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
@@ -821,15 +839,17 @@ export default function AnwanShippments(userData) {
       
     })}
             </div> */}
-            <div className='pb-3'>
+            { userData.userData.data.user.rolle === "marketer"?(
+              <>
+            <div className={`pb-3 main-box ${isChecked ? 'opacity-50' : ''}`}>
                 <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='s_phone' 
-    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
-    onChange={(value) => {
-      setItemMobile(value);
-      setPhoneValue(value);
-      getOrderData({ target: { name: 's_phone', value } });
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+    onChange={(phoneValue) => {
+      setItemMobile(phoneValue);
+      setPhoneValue(phoneValue);
+      getOrderData({ target: { name: 's_phone', value: phoneValue } });
     }}/>
     {errorList.map((err,index)=>{
       if(err.context.label ==='s_phone'){
@@ -837,8 +857,46 @@ export default function AnwanShippments(userData) {
       }
       
     })}
-      
             </div>
+            <div className="pb-3">
+            <input type="checkbox" name="" id="checkBoxPhone" checked={isChecked}
+          onChange={handleCheckBoxChange} />
+            <label htmlFor="" className='txt-blue'>إضافة رقم هاتف آخر </label>
+            <div className={`phone-checkBox ${isChecked ? '' : 'd-none'}`}>
+            
+    <PhoneInput name='s_phone' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone3}
+    onChange={(phone3) => {
+      setPhone3(phone3);
+      getOrderData({ target: { name: 's_phone', value: phone3} });
+    }}/>
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='s_phone'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+    })}
+            </div>
+            </div>
+            </>
+            ):
+            <div className='pb-3'>
+            <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
+            {/* <input type="text" className="form-control" /> */}
+            <PhoneInput name='s_phone' 
+labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+onChange={(phoneValue) => {
+  setItemMobile(phoneValue);
+  setPhoneValue(phoneValue);
+  getOrderData({ target: { name: 's_phone', value: phoneValue } });
+}}/>
+{errorList.map((err,index)=>{
+  if(err.context.label ==='s_phone'){
+    return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+  }
+  
+})}
+  
+        </div>}
             <div className='pb-3 ul-box'>
             <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='s_city'
@@ -1117,12 +1175,13 @@ export default function AnwanShippments(userData) {
     })}
             </div>
     <div className='pb-3'>
-    <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
-      onChange={(e)=>{
-        const shipvalue = e.target.value
-        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
-      }} 
+    <label htmlFor="">قيمة الشحنة  </label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue'
+      onChange={getOrderData} 
+      // onChange={(e)=>{
+      //   const shipvalue = e.target.value
+      //   getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      // }} 
       required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
@@ -1198,7 +1257,7 @@ export default function AnwanShippments(userData) {
       
     })}
             </div>
-            <div className='pb-3'>
+            {/* <div className='pb-3'>
                 <label htmlFor=""> الايميل<span className="star-requered">*</span></label>
                 <input type="email" className="form-control" name='c_email' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
@@ -1207,7 +1266,7 @@ export default function AnwanShippments(userData) {
       }
       
     })}
-            </div>
+            </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control"/> */}
