@@ -10,8 +10,9 @@ import { saveAs } from 'file-saver';
 import { Link } from 'react-router-dom';
 
 export default function JtShippments(userData) {
-    const [value ,setPhoneValue]=useState()
+    const [phoneValue ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
+    const [phone3,setPhone3] =useState()
     const [errorList, seterrorList]= useState([]); 
     const [packageCompanies, setPackageCompanies] = useState('');
     const [packageOrders, setPackageOrders] = useState('');
@@ -1366,6 +1367,18 @@ async function getPackageDetails() {
       // window.alert('somthing wrong');
     }
   }
+  const [isChecked, setIsChecked] = useState(false);
+        const handleCheckBoxChange = (event) => {
+          const isChecked = event.target.checked;
+          setIsChecked(isChecked);
+          
+          if (isChecked) {
+            setPhone3('')
+          } else {
+            const value = phoneValue
+            getOrderData({ target: { name: 's_mobile', value } });
+          }
+        };
   return (
     <>
     <div className='px-4 pt-2 pb-4' id='content'>
@@ -1469,9 +1482,14 @@ async function getPackageDetails() {
                     //   setPhoneValue(item.Client.phone1)
                        
                         document.querySelector('input[name="s_name"]').value = item.name;
-                        document.querySelector('input[name="s_mobile"]').value = value;
+                        document.querySelector('input[name="s_mobile"]').value = phoneValue;
                         // document.querySelector('input[name="s_city"]').value = item.city;
                         document.querySelector('input[name="s_address"]').value = item.address;
+
+                        document.querySelector('input[name="s_name"]').readOnly = true;
+                        document.querySelector('input[name="s_mobile"]').readOnly = true;
+                        document.querySelector('input[name="s_address"]').readOnly = true;
+                     
                       //  document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
                       //  document.querySelector('input[name="s_mobile"]').value = value;
@@ -1567,15 +1585,17 @@ async function getPackageDetails() {
     
   })}
           </div>
-          <div className='pb-1'>
+          { userData.userData.data.user.rolle === "marketer"?(
+            <>
+          <div className={`pb-1 main-box ${isChecked ? 'opacity-50' : ''}`}>
               <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" /> */}
               <PhoneInput name='s_mobile' 
-  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
-  onChange={(value) => {
-    setItemMobile(value);
-    setPhoneValue(value);
-    getOrderData({ target: { name: 's_mobile', value } });
+  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+  onChange={(phoneValue) => {
+    setItemMobile(phoneValue);
+    setPhoneValue(phoneValue);
+    getOrderData({ target: { name: 's_mobile', value : phoneValue } });
   }}/>
   {errorList.map((err,index)=>{
     if(err.context.label ==='s_mobile'){
@@ -1585,6 +1605,45 @@ async function getPackageDetails() {
   })}
     
           </div>
+          <div className="pb-1">
+            <input type="checkbox" name="" id="checkBoxPhone" checked={isChecked}
+          onChange={handleCheckBoxChange} />
+            <label htmlFor="" className='txt-blue'>إضافة رقم هاتف آخر </label>
+            <div className={`phone-checkBox ${isChecked ? '' : 'd-none'}`}>
+            
+    <PhoneInput name='s_mobile' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone3}
+    onChange={(phone3) => {
+      setPhone3(phone3);
+      getOrderData({ target: { name: 's_mobile', value: phone3} });
+    }}/>
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='s_mobile'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+    })}
+            </div>
+            </div> 
+          </>):(
+            <div className='pb-1'>
+            <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
+            {/* <input type="text" className="form-control" /> */}
+            <PhoneInput name='s_mobile' 
+labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+onChange={(phoneValue) => {
+  setItemMobile(phoneValue);
+  setPhoneValue(phoneValue);
+  getOrderData({ target: { name: 's_mobile', value : phoneValue } });
+}}/>
+{errorList.map((err,index)=>{
+  if(err.context.label ==='s_mobile'){
+    return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+  }
+  
+})}
+  
+        </div>
+          )}
           <div className='pb-1 ul-box'>
           <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='s_city' onChange={getOrderData}/> */}
@@ -1834,12 +1893,13 @@ async function getPackageDetails() {
  })}
          </div>
  <div className='pb-3'>
- <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
-      onChange={(e)=>{
-        const shipvalue = e.target.value
-        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
-      }} 
+ <label htmlFor="">قيمة الشحنة  </label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue'
+      onChange={getOrderData} 
+      // onChange={(e)=>{
+      //   const shipvalue = e.target.value
+      //   getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      // }} 
       required />
    {errorList.map((err, index) => {
      if (err.context.label === 'shipmentValue') {

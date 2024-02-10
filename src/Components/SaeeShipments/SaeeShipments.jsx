@@ -7,8 +7,9 @@ import Joi from 'joi';
 import { Link } from 'react-router-dom';
 
 export default function SaeeShipments(userData) {
-    const [value ,setPhoneValue]=useState()
+    const [phoneValue ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
+    const [phone3,setPhone3] =useState()
     const [packageCompanies, setPackageCompanies] = useState('');
     const [packageOrders, setPackageOrders] = useState('');
 
@@ -400,6 +401,18 @@ function getOrderData(e) {
             // window.alert('somthing wrong');
           }
         }
+        const [isChecked, setIsChecked] = useState(false);
+        const handleCheckBoxChange = (event) => {
+          const isChecked = event.target.checked;
+          setIsChecked(isChecked);
+          
+          if (isChecked) {
+            setPhone3('')
+          } else {
+            const value = phoneValue
+            getOrderData({ target: { name: 'p_mobile', value } });
+          }
+        };
   return (
     <div className='px-4 pt-2 pb-4' id='content'>
       <div className=" px-3 pt-4 pb-2 mb-2" dir='ltr'>
@@ -483,7 +496,7 @@ function getOrderData(e) {
                            const selectedCity = e.target.innerText;
                            setBranches(item.branches)
                            setItemName(item.name);
-                           setItemMobile(item.mobile);
+                           setItemMobile(`+${item.mobile}`);
                           //  setItemCity(item.city);
                            setItemAddress(item.address);
                            setItemId(item.daftraClientId);
@@ -501,10 +514,13 @@ function getOrderData(e) {
                           //  setPhoneValue(item.Client.phone1)
                            
                            document.querySelector('input[name="p_name"]').value = item.name;
-                           document.querySelector('input[name="p_mobile"]').value = value;
+                           document.querySelector('input[name="p_mobile"]').value = phoneValue;
                           //  document.querySelector('input[name="p_city"]').value = item.city;
                            document.querySelector('input[name="p_streetaddress"]').value = item.address;
        
+                           document.querySelector('input[name="p_name"]').readOnly = true;
+                           document.querySelector('input[name="p_mobile"]').readOnly = true;
+                           document.querySelector('input[name="p_streetaddress"]').readOnly = true;
                           //  document.querySelector('input[name="p_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
                           //  document.querySelector('input[name="p_mobile"]').value = value;
                           //  document.querySelector('input[name="p_city"]').value = item.Client.city;
@@ -601,17 +617,58 @@ function getOrderData(e) {
       
     })}
             </div>
-            <div className='pb-3'>
+            { userData.userData.data.user.rolle === "marketer"?(
+              <>
+            <div className={`pb-3 main-box ${isChecked ? 'opacity-50' : ''}`}>
+                <label htmlFor="">رقم الهاتف
+                <span className="star-requered">*</span></label>
+                <PhoneInput name='p_mobile' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput mainPhone' 
+    value={phoneValue}
+    onChange={(phoneValue) => {
+      // setItemMobile(e.target.value);
+      setItemMobile(phoneValue);
+      setPhoneValue(phoneValue);
+      getOrderData({ target: { name: 'p_mobile', value:phoneValue } });
+    }}/>
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='p_mobile'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+    })}
+            </div>
+          <div className="pb-3">
+            <input type="checkbox" name="" id="checkBoxPhone" checked={isChecked}
+          onChange={handleCheckBoxChange} />
+            <label htmlFor="" className='txt-blue'>إضافة رقم هاتف آخر </label>
+            <div className={`phone-checkBox ${isChecked ? '' : 'd-none'}`}>
+            
+    <PhoneInput name='p_mobile' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone3}
+    onChange={(phone3) => {
+      setPhone3(phone3);
+      getOrderData({ target: { name: 'p_mobile', value: phone3} });
+    }}/>
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='p_mobile'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+    })}
+            </div>
+            </div>  
+            </>
+            ):(
+          <div className='pb-3'>
                 <label htmlFor="">رقم الهاتف
                 <span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
                 <PhoneInput name='p_mobile' 
-    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
-    onChange={(value) => {
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+    onChange={(phoneValue) => {
       // setItemMobile(e.target.value);
-      setItemMobile(value);
-      setPhoneValue(value);
-      getOrderData({ target: { name: 'p_mobile', value } });
+      setItemMobile(phoneValue);
+      setPhoneValue(phoneValue);
+      getOrderData({ target: { name: 'p_mobile', value: phoneValue } });
     }}/>
     {errorList.map((err,index)=>{
       if(err.context.label ==='p_mobile'){
@@ -621,6 +678,7 @@ function getOrderData(e) {
     })}
       
             </div>
+            )}
             <div className='pb-3 ul-box'>
             <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
 
@@ -856,12 +914,13 @@ function getOrderData(e) {
     <div className='pb-3'>
     {/* <label htmlFor=""> قيمة الشحنة</label> */}
       {/* <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required /> */}
-      <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
-      onChange={(e)=>{
-        const shipvalue = e.target.value
-        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
-      }} 
+      <label htmlFor="">قيمة الشحنة  </label>
+      <input type="number" step="0.001" className="form-control" name='shipmentValue'
+      onChange={getOrderData} 
+      // onChange={(e)=>{
+      //   const shipvalue = e.target.value
+      //   getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      // }} 
       required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {

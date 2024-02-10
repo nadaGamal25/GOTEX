@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom';
 import SplSticker from '../SplSticker/SplSticker';
 
 export default function SplShippments(userData) {
-    const [value ,setPhoneValue]=useState()
+    const [phoneValue ,setPhoneValue]=useState()
     const [phone2,setPhone2] =useState()
+    const [phone3,setPhone3] =useState()
     const [errorList, seterrorList]= useState([]); 
     const [packageCompanies, setPackageCompanies] = useState('');
     const [packageOrders, setPackageOrders] = useState('');
@@ -420,6 +421,19 @@ async function getPackageDetails() {
       // window.alert('somthing wrong');
     }
   }
+
+  const [isChecked, setIsChecked] = useState(false);
+        const handleCheckBoxChange = (event) => {
+          const isChecked = event.target.checked;
+          setIsChecked(isChecked);
+          
+          if (isChecked) {
+            setPhone3('')
+          } else {
+            const value = phoneValue
+            getOrderData({ target: { name: 'SenderMobileNumber', value } });
+          }
+        };
   return (
     <div className='px-4 pt-2 pb-4' id='content'>
       <div className=" px-3 pt-4 pb-2 mb-2" dir='ltr'>
@@ -523,10 +537,15 @@ async function getPackageDetails() {
                       //  setPhoneValue(item.Client.phone1)
                         
                          document.querySelector('input[name="SenderName"]').value = item.name;
-                         document.querySelector('input[name="SenderMobileNumber"]').value = value;
+                         document.querySelector('input[name="SenderMobileNumber"]').value = phoneValue;
                         //  document.querySelector('input[name="pickUpDistrictID"]').value = item.city;
                          document.querySelector('input[name="pickUpAddress1"]').value = item.address;
-                        // document.querySelector('input[name="SenderName"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+                        
+                         document.querySelector('input[name="SenderName"]').readOnly = true;
+                         document.querySelector('input[name="SenderMobileNumber"]').readOnly = true;
+                         document.querySelector('input[name="pickUpAddress1"]').readOnly = true;
+                       
+                         // document.querySelector('input[name="SenderName"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
                         // document.querySelector('input[name="SenderMobileNumber"]').value = value;
                         // document.querySelector('input[name="pickUpDistrictID"]').value = item.Client.city;
@@ -622,15 +641,17 @@ async function getPackageDetails() {
     
   })}
           </div>
-          <div className='pb-3'>
+          { userData.userData.data.user.rolle === "marketer"?(
+            <>
+          <div className={`pb-3 main-box ${isChecked ? 'opacity-50' : ''}`}>
               <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" /> */}
               <PhoneInput name='SenderMobileNumber' 
-  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={value}
-  onChange={(value) => {
-    setItemMobile(value);
-    setPhoneValue(value);
-    getOrderData({ target: { name: 'SenderMobileNumber', value } });
+  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+  onChange={(phoneValue) => {
+    setItemMobile(phoneValue);
+    setPhoneValue(phoneValue);
+    getOrderData({ target: { name: 'SenderMobileNumber', value: phoneValue } });
   }}/>
   {errorList.map((err,index)=>{
     if(err.context.label ==='SenderMobileNumber'){
@@ -640,6 +661,45 @@ async function getPackageDetails() {
   })}
     
           </div>
+          <div className="pb-3">
+            <input type="checkbox" name="" id="checkBoxPhone" checked={isChecked}
+          onChange={handleCheckBoxChange} />
+            <label htmlFor="" className='txt-blue'>إضافة رقم هاتف آخر </label>
+            <div className={`phone-checkBox ${isChecked ? '' : 'd-none'}`}>
+            
+    <PhoneInput name='SenderMobileNumber' 
+    labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone3}
+    onChange={(phone3) => {
+      setPhone3(phone3);
+      getOrderData({ target: { name: 'SenderMobileNumber', value: phone3} });
+    }}/>
+    {errorList.map((err,index)=>{
+      if(err.context.label ==='SenderMobileNumber'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+      }
+    })}
+            </div>
+            </div>
+          </>):(
+            <div className='pb-3'>
+              <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
+              {/* <input type="text" className="form-control" /> */}
+              <PhoneInput name='SenderMobileNumber' 
+  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+  onChange={(phoneValue) => {
+    setItemMobile(phoneValue);
+    setPhoneValue(phoneValue);
+    getOrderData({ target: { name: 'SenderMobileNumber', value: phoneValue } });
+  }}/>
+  {errorList.map((err,index)=>{
+    if(err.context.label ==='SenderMobileNumber'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
+    }
+    
+  })}
+    
+          </div>
+          )}
           <div className='pb-3 ul-box'>
           <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
               {/* <input type="text" className="form-control" name='pickUpDistrictID' onChange={getOrderData}/> */}
@@ -850,12 +910,13 @@ async function getPackageDetails() {
   })}
           </div>
   <div className='pb-3'>
-  <label htmlFor="">قيمة الشحنة +الشحن (cod)</label>
+  <label htmlFor="">قيمة الشحنة  </label>
       <input type="number" step="0.001" className="form-control" name='shipmentValue' 
-      onChange={(e)=>{
-        const shipvalue = e.target.value
-        getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
-      }} 
+      onChange={getOrderData}
+      // onChange={(e)=>{
+      //   const shipvalue = e.target.value
+      //   getOrderData({ target: { name: 'shipmentValue', value: shipvalue - orderData.cod } })
+      // }} 
       required />
     {errorList.map((err, index) => {
       if (err.context.label === 'shipmentValue') {
