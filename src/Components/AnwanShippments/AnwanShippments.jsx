@@ -87,6 +87,7 @@ export default function AnwanShippments(userData) {
         const response = await axios.post(
           "https://dashboard.go-tex.net/api/anwan/create-user-order",
           orderData,
+          // {...orderData, shipmentValue: orderData.shipmentValue - orderData.cod},
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -95,6 +96,7 @@ export default function AnwanShippments(userData) {
         );
     
         if (response.status === 200) {
+          console.log(orderData.shipmentValue)
           setisLoading(false);
           window.alert("تم تسجيل الشحنة بنجاح");
           getUserBalance()

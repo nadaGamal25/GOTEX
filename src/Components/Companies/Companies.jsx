@@ -327,11 +327,22 @@ export default function Companies(userData) {
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "imile" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
-                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
-                    <h4></h4>}
+                  <div key={index} className="">
+                    {userData.userData.data.user.rolle === "user"?
+                    (
+                      <div className="d-flex pt-4 justify-content-center">
+                    <p className="soon-word"> قريباً  ...</p>
+                    </div>
+                    // <h4>SAR {item.userprice}</h4>
+                    ):
+                    <>
+                 <div className="d-flex pt-4 justify-content-between">
+                    <h4></h4>
+                    <Link to="/imileShippments" className="btn btn-choose">أختر</Link>
+                    </div>
+</>
+                    }
                 {/* <Link className="btn btn-choose" onClick={openModal}>أختر</Link> */}
-                <Link to="/imileShippments" className="btn btn-choose">أختر</Link>
 
                   </div>
                 ) : null
