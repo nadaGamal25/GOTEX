@@ -162,7 +162,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.number().allow(null, ''),
+        daftraid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -864,7 +864,9 @@ async function getPackageDetails() {
             {orderData.cod === true && (
   <div className='pb-3'>
     <label htmlFor=""> قيمة الشحنة</label>
-    <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+    <input
+    //  type="number" step="0.001"
+     className="form-control" name='shipmentValue' onChange={getOrderData} required />
     {errorList.map((err, index) => {
       if (err.context.label === 'shipmentValue') {
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -901,7 +903,11 @@ async function getPackageDetails() {
               <>
               <div className='pb-3'>
               <label htmlFor=""> قيمة الشحن (cod)</label>
-              <input type="number" step="0.001" className="form-control" name='cod' onChange={getOrderData} required/>
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='cod' 
+              onChange={(e)=>{getOrderData({target:{name:'cod',value:Number(e.target.value)}});
+            }}               required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='cod'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -911,7 +917,9 @@ async function getPackageDetails() {
           </div>
   <div className='pb-3'>
   <label htmlFor="">قيمة الشحنة  </label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      <input 
+      // type="number" step="0.001" 
+      className="form-control" name='shipmentValue' 
       onChange={getOrderData}
       // onChange={(e)=>{
       //   const shipvalue = e.target.value
@@ -940,7 +948,9 @@ async function getPackageDetails() {
                 <div className="">
               <div className='pb-1'>
               <label htmlFor=""> السعر<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='ContentPrice' onChange={getOrderData}/>
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='ContentPrice' onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='ContentPrice'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -953,7 +963,9 @@ async function getPackageDetails() {
                 <div className="">
               <div className='pb-1'>
               <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='Weight' placeholder="وزن القطعة " onChange={getOrderData}/>
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='Weight' placeholder="وزن القطعة " onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='Weight'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -981,7 +993,7 @@ async function getPackageDetails() {
       {pieces.map((piece, index) => (
       <div className='my-1' key={index}>
         <input
-          type="number"
+          // type="number"
           name="PieceWeight"
           placeholder="وزن القطعة "
           value={piece.PieceWeight}

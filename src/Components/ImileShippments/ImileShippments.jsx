@@ -1257,7 +1257,9 @@ function validateOrderUserForm(){
               <div className="col-md-6">
               <div className='pb-1'>
               <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='weight' onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='weight'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1269,7 +1271,9 @@ function validateOrderUserForm(){
               <div className="col-md-6">
               <div className='pb-1'>
               <label htmlFor=""> القيمة<span className="star-requered">*</span></label>
-              <input type="number" step="0.001" className="form-control" name='goodsValue' onChange={getOrderData}/>
+              <input
+              //  type="number" step="0.001" 
+               className="form-control" name='goodsValue' onChange={getOrderData}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='goodsValue'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1323,7 +1327,9 @@ function validateOrderUserForm(){
             {orderData.cod === true && (
   <div className='pb-3'>
     <label htmlFor=""> قيمة الشحنة</label>
-    <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+    <input 
+    // type="number" step="0.001" 
+    className="form-control" name='shipmentValue' onChange={getOrderData} required />
     {errorList.map((err, index) => {
       if (err.context.label === 'shipmentValue') {
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -1360,7 +1366,11 @@ function validateOrderUserForm(){
               <>
               <div className='pb-3'>
               <label htmlFor=""> قيمة الشحن (cod)</label>
-              <input type="number" step="0.001" className="form-control" name='cod' onChange={getOrderData} required/>
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='cod' 
+              onChange={(e)=>{getOrderData({target:{name:'cod',value:Number(e.target.value)}});
+            }}              required/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='cod'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1370,7 +1380,9 @@ function validateOrderUserForm(){
           </div>
   <div className='pb-3'>
   <label htmlFor="">قيمة الشحنة  </label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' 
+      <input 
+      // type="number" step="0.001" 
+      className="form-control" name='shipmentValue' 
       onChange={getOrderData}
       // onChange={(e)=>{
       //   const shipvalue = e.target.value
@@ -1638,10 +1650,11 @@ function validateOrderUserForm(){
         />
         
         <input
-          type="number"
+          // type="number"
           name="skuGoodsValue"
           className='form-control mb-2'
-          placeholder="قيمة المنتج " step="0.001"
+          placeholder="قيمة المنتج " 
+          // step="0.001"
           value={piece.skuGoodsValue}
           onChange={e => updateSku(index, 'skuGoodsValue', e.target.value)}
         />
