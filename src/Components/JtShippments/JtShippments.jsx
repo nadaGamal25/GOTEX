@@ -178,7 +178,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.number().allow(null, ''),
+        daftraid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -1776,7 +1776,9 @@ onChange={(phoneValue) => {
              <div className="col-md-6">
              <div className='pb-1'>
              <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
-             <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
+             <input 
+            //  type="number" step="0.001" 
+             className="form-control" name='weight' onChange={getOrderData}/>
              {errorList.map((err,index)=>{
    if(err.context.label ==='weight'){
      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1788,7 +1790,9 @@ onChange={(phoneValue) => {
              <div className="col-md-6">
              <div className='pb-1'>
              <label htmlFor=""> القيمة<span className="star-requered">*</span></label>
-             <input type="number" step="0.001" className="form-control" name='goodsValue' onChange={getOrderData}/>
+             <input 
+            //  type="number" step="0.001" 
+             className="form-control" name='goodsValue' onChange={getOrderData}/>
              {errorList.map((err,index)=>{
    if(err.context.label ==='goodsValue'){
      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1847,7 +1851,9 @@ onChange={(phoneValue) => {
            {orderData.cod === true && (
  <div className='pb-3'>
    <label htmlFor=""> قيمة الشحنة</label>
-   <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+   <input 
+  //  type="number" step="0.001" 
+   className="form-control" name='shipmentValue' onChange={getOrderData} required />
    {errorList.map((err, index) => {
      if (err.context.label === 'shipmentValue') {
        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -1884,7 +1890,11 @@ onChange={(phoneValue) => {
              <>
              <div className='pb-3'>
              <label htmlFor=""> قيمة الشحن (cod)</label>
-             <input type="number" step="0.001" className="form-control" name='cod' onChange={getOrderData} required/>
+             <input 
+            //  type="number" step="0.001" 
+             className="form-control" name='cod' 
+             onChange={(e)=>{getOrderData({target:{name:'cod',value:Number(e.target.value)}});
+            }}             required/>
              {errorList.map((err,index)=>{
    if(err.context.label ==='cod'){
      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1894,7 +1904,9 @@ onChange={(phoneValue) => {
          </div>
  <div className='pb-3'>
  <label htmlFor="">قيمة الشحنة  </label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue'
+      <input 
+      // type="number" step="0.001" 
+      className="form-control" name='shipmentValue'
       onChange={getOrderData} 
       // onChange={(e)=>{
       //   const shipvalue = e.target.value
@@ -2074,7 +2086,7 @@ onChange={(phoneValue) => {
        <select name="itemType" id=""  className="form-control mb-2" 
        value={piece.itemType}
        onChange={e => updateSku(index, 'itemType', e.target.value)}>
-                <option value="" >نوع النتج</option>
+                <option value="" >نوع المنتج</option>
                 <option value="ITN1">ملابس</option>
                 <option value="ITN2">مستندات /وثائق</option>
                 <option value="ITN3">أطعمة</option>
@@ -2093,10 +2105,11 @@ onChange={(phoneValue) => {
        />
        
        <input
-         type="number"
+        //  type="number"
          name="itemValue"
          className='form-control mb-2'
-         placeholder="قيمة المنتج " step="0.001"
+         placeholder="قيمة المنتج " 
+        //  step="0.001"
          value={piece.itemValue}
          onChange={e => updateSku(index, 'itemValue', e.target.value)}
        />

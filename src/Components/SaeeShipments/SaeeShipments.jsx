@@ -12,7 +12,10 @@ export default function SaeeShipments(userData) {
     const [phone3,setPhone3] =useState()
     const [packageCompanies, setPackageCompanies] = useState('');
     const [packageOrders, setPackageOrders] = useState('');
-
+    const [clientWallet, setClientWallet] = useState('');
+    const [clientCredit, setClientCredit] = useState('');
+    const [clientCreditStatus, setClientCreditStatus] = useState('');
+    const [isWallet,setIsWallet]=useState(false);
   const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
   const [itemCity, setItemCity] = useState('');
@@ -158,7 +161,7 @@ function getOrderData(e) {
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.number().allow(null, ''),
+        daftraid:Joi.string().allow(null, ''),
         description:Joi.string().required(),
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -504,7 +507,19 @@ function getOrderData(e) {
                            setPhoneValue(item.mobile)
                            setPackageCompanies(item.package.companies)
                            setPackageOrders(item.package.availableOrders)
-
+                           setIsWallet(true)
+                           setClientWallet(item.wallet)
+                           {item.credit ? (
+                            <>
+                              {setClientCredit(item.credit.limet)}
+                              {setClientCreditStatus(item.credit.status)}
+                            </>
+                          ):(
+                             <>
+                             {setClientCredit(0)}
+                             </>
+                          )}
+                          
                           //  setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                           //  setItemMobile(item.Client.phone1);
                           //  setItemCity(item.Client.city);
@@ -551,6 +566,27 @@ function getOrderData(e) {
            </div>
          </div>
            ): null}
+
+      {/*
+       { userData.userData.data.user.rolle === "marketer" &&  isWallet  ?(
+                    <div className="gray-box p-2 mb-3">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label htmlFor="">محفظة العميل : </label>
+                          <span className='fw-bold text-primary px-1'>{clientWallet}</span>
+                        </div>
+                        <div className="col-md-6">
+                          <label htmlFor="">credit_العميل : </label>
+                          {clientCreditStatus && clientCreditStatus == 'accepted'?
+                          <span className='fw-bold text-primary px-1'>{clientCredit}</span>:
+                          <span className='fw-bold text-primary px-1'>0</span>}
+                        </div>
+                      </div>
+                    </div>
+                    ):
+                    null}
+       */}
+
         { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
             <div className="gray-box p-1 mb-3">
              <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
@@ -819,7 +855,9 @@ function getOrderData(e) {
                 <div className='pb-3'>
                 <label htmlFor=""> الوزن
                 <span className="star-requered">*</span></label>
-                <input type="number" step="0.001" className="form-control" name='weight' onChange={getOrderData}/>
+                <input
+                //  type="number" step="0.001"
+                  className="form-control" name='weight' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -833,7 +871,9 @@ function getOrderData(e) {
                 <div className='pb-3'>
                 <label htmlFor=""> عدد القطع
                 <span className="star-requered">*</span></label>
-                <input type="number" className="form-control" name='quantity' onChange={getOrderData}/>
+                <input 
+                // type="number" 
+                className="form-control" name='quantity' onChange={getOrderData}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='quantity'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -865,7 +905,9 @@ function getOrderData(e) {
               {orderData.cod === true && (
     <div className='pb-3'>
       <label htmlFor=""> قيمة الشحنة</label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required />
+      <input 
+      // type="number" step="0.001" 
+      className="form-control" name='shipmentValue' onChange={getOrderData} required />
       {errorList.map((err, index) => {
         if (err.context.label === 'shipmentValue') {
           return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة</div>
@@ -903,7 +945,12 @@ function getOrderData(e) {
                 <>
                 <div className='pb-3'>
                 <label htmlFor=""> قيمة الشحن (cod)</label>
-                <input type="number" step="0.001" className="form-control" name='cod' onChange={getOrderData} required/>
+                <input 
+                // type="number" step="0.001" 
+                className="form-control" name='cod' 
+                onChange={(e)=>{getOrderData({target:{name:'cod',value:Number(e.target.value)}});
+                }} 
+                required/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='cod'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -915,7 +962,9 @@ function getOrderData(e) {
     {/* <label htmlFor=""> قيمة الشحنة</label> */}
       {/* <input type="number" step="0.001" className="form-control" name='shipmentValue' onChange={getOrderData} required /> */}
       <label htmlFor="">قيمة الشحنة  </label>
-      <input type="number" step="0.001" className="form-control" name='shipmentValue'
+      <input 
+      // type="number" step="0.001" 
+      className="form-control" name='shipmentValue'
       onChange={getOrderData} 
       // onChange={(e)=>{
       //   const shipvalue = e.target.value
