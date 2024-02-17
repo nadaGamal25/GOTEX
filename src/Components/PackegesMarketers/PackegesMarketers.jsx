@@ -148,6 +148,7 @@ export default function PackegesMarketers() {
             <th scope="col">العميل </th>
             <th scope="col">العنوان </th>
             <th scope="col">المحفظة </th>
+            <th scope="col">الcredit </th>
             {/* <th scope="col">الشحنات </th>
             <th scope="col">ملاحظات </th> */}
             <th scope="col"></th>            
@@ -170,6 +171,8 @@ export default function PackegesMarketers() {
                 {item.address?<td>{item.address}</td>:<td>_</td>}
                 
                 {item.wallet?<td>{item.wallet}</td>:<td>0</td>}
+                {item.credit?<td>{item.credit.limet} <br/>
+                {item.credit.status}</td>:<td>0</td>}
                 <td>
                     <button className="btn btn-orange" onClick={()=>{
                         openModal(item._id)}}>

@@ -16,7 +16,14 @@ export default function JtShippments(userData) {
     const [errorList, seterrorList]= useState([]); 
     const [packageCompanies, setPackageCompanies] = useState('');
     const [packageOrders, setPackageOrders] = useState('');
-
+    const [clientWallet, setClientWallet] = useState('');
+    const [clientCredit, setClientCredit] = useState('');
+    const [clientCreditStatus, setClientCreditStatus] = useState('');
+    const [isWallet,setIsWallet]=useState(false);
+    const [isClient,setIsClient]=useState(false);
+    const [companyKgPrice, setCompanyKgPrice]=useState('');
+    const [companyMarketerPrice, setCompanyMarketerPrice]=useState('');
+    
   const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
   const [itemCity, setItemCity] = useState('');
@@ -86,6 +93,18 @@ export default function JtShippments(userData) {
         window.alert("تم تسجيل الشحنة بنجاح");
         getUserBalance()
         getPackageDetails()
+        setPackageOrders(response.data.clientData.package.availableOrders)
+        setClientWallet(response.data.clientData.wallet)
+        {response.data.clientData.credit.limet && response.data.clientData.credit.status== 'accepted' ? (
+                            <>
+                              {setClientCredit(response.data.clientData.credit.limet)}
+                              {setClientCreditStatus(response.data.clientData.credit.status)}
+                            </>
+                          ):(
+                             <>
+                             {setClientCredit(0)}
+                             </>
+                          )}
         console.log(response.data.data);
         console.log(response);
         const shipment = response.data.data;
@@ -105,20 +124,65 @@ export default function JtShippments(userData) {
     }
   }
   
-function submitOrderUserForm(e){
-  e.preventDefault();
-  setisLoading(true)
-  let validation = validateOrderUserForm();
-  console.log(validation);
-  if(validation.error){
-    setisLoading(false)
-    seterrorList(validation.error.details)
+  function submitOrderUserForm(e) {
+    e.preventDefault();
+    setisLoading(true);
+    let validation = validateOrderUserForm();
+    console.log(validation);
+    const weightPrice = orderData.weight <= 15 ? 0 : (orderData.weight - 15) * companyKgPrice;
+    const shipPrice =companyMarketerPrice
+    console.log(clientCredit);
+    console.log(shipPrice);
+    console.log(weightPrice)
+    if (userData.userData.data.user.rolle === "user") {
+      if (validation.error) {
+        setisLoading(false);
+        seterrorList(validation.error.details);
+      } else {
+        sendOrderDataToApi();
+      }
+    } else if (userData.userData.data.user.rolle === "marketer") {
+      if (validation.error) {
+        setisLoading(false);
+        seterrorList(validation.error.details);
+      } else if(isClient === false){
+        sendOrderDataToApi();
+      } else if(isClient === true && (packageCompanies.includes('jt')||packageCompanies.includes('all') && packageOrders > 0)){
+        if(window.confirm('سوف يتم عمل الشحنة من باقة العميل')){
+          sendOrderDataToApi()
+        }else{
+          setisLoading(false)
+        }
+      }else if(isClient === true && orderData.cod !== false){
+        sendOrderDataToApi()
+      }else if(isClient === true && orderData.cod === false && (clientWallet > (shipPrice + weightPrice)) ){
+        if(window.confirm('سوف يتم عمل الشحنة من محفظة العميل')){
+          sendOrderDataToApi()
+        }else{
+          setisLoading(false)
+        }
+      }else if(isClient === true && orderData.cod === false && (clientCredit > (shipPrice + weightPrice)) ){
+        if(window.confirm('سوف يتم عمل الشحنة من كرديت (رصيد الحد الائتمانى) للعميل')){
+          sendOrderDataToApi()
+        }else{
+          setisLoading(false)
+        }
+      }else{
+        if(window.confirm(' رصيد العميل لا يكفى لعمل الشحنة سوف يتم عمل الشحنة من محفظتك')){
+          sendOrderDataToApi()
+        }else{
+          setisLoading(false)
+        } 
+      }
 
-  }else{
-    sendOrderDataToApi();
+    }
   }
-
-}
+  
+// } else if(isClient == "false"){
+//   sendOrderDataToApi();
+// } else if(isClient == "true" && (packageCompanies.contains('jt')||packageCompanies.contains('all') && packageOrders > 0)){
+//   sendOrderDataToApi()
+// }
 
 function getOrderData(e) {
   let myOrderData;
@@ -297,9 +361,19 @@ function validateOrderUserForm(){
   async function getCompaniesDetailsOrders() {
     try {
       const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
-      const companiesPrices = response.data.data;
-      console.log(companiesPrices)
-      setCompaniesDetails(companiesPrices)
+      const companies = response.data.data;
+      console.log(companies)
+      setCompaniesDetails(companies)
+      const filteredCompanies = companies.find(company => company.name === 'jt');
+
+    if (filteredCompanies) {
+      const KgPrice = filteredCompanies.kgprice;
+      const MarketerPrice = filteredCompanies.marketerprice;
+      setCompanyKgPrice(KgPrice);
+      setCompanyMarketerPrice(MarketerPrice);
+    } else {
+      console.error('Company with name not found.');
+    }
     } catch (error) {
       console.error(error);
     }
@@ -1472,6 +1546,19 @@ async function getPackageDetails() {
                         setPhoneValue(item.mobile)
                         setPackageCompanies(item.package.companies)
                         setPackageOrders(item.package.availableOrders)
+                        setIsClient(true)
+                        setIsWallet(true)
+                        setClientWallet(item.wallet)
+                           {item.credit && item.credit.status== 'accepted'? (
+                            <>
+                              {setClientCredit(item.credit.limet)}
+                              {setClientCreditStatus(item.credit.status)}
+                            </>
+                          ):(
+                             <>
+                             {setClientCredit(0)}
+                             </>
+                          )}
 
                     //    setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                     //   setItemMobile(item.Client.phone1);
@@ -1502,7 +1589,7 @@ async function getPackageDetails() {
                         closeClientsList();
                     }}
                       >
-                        {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
+                        {item.name} , {item.company}  , {item.mobile} , {item.city} , {item.address}
                         {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
 
                      </li>
@@ -1522,6 +1609,23 @@ async function getPackageDetails() {
         </div>
       </div>
         ): null}
+        { userData.userData.data.user.rolle === "marketer" &&  isWallet  ?(
+                    <div className="gray-box p-2 mb-3">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label htmlFor="">محفظة العميل : </label>
+                          <span className='fw-bold text-primary px-1'>{clientWallet}</span>
+                        </div>
+                        <div className="col-md-6">
+                          <label htmlFor="">credit_العميل : </label>
+                          {clientCreditStatus && clientCreditStatus == 'accepted'?
+                          <span className='fw-bold text-primary px-1'>{clientCredit}</span>:
+                          <span className='fw-bold text-primary px-1'>0</span>}
+                        </div>
+                      </div>
+                    </div>
+                    ):
+                    null}
      { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
             <div className="gray-box p-1 mb-3">
              <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>

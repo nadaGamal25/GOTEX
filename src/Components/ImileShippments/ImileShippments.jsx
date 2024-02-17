@@ -13,7 +13,14 @@ export default function ImileShippments(userData) {
     const [phone2,setPhone2] =useState()
     const [packageCompanies, setPackageCompanies] = useState('');
     const [packageOrders, setPackageOrders] = useState('');
-
+    const [clientWallet, setClientWallet] = useState('');
+    const [clientCredit, setClientCredit] = useState('');
+    const [clientCreditStatus, setClientCreditStatus] = useState('');
+    const [isWallet,setIsWallet]=useState(false);
+    const [isClient,setIsClient]=useState(false);
+    const [companyKgPrice, setCompanyKgPrice]=useState('');
+    const [companyMarketerPrice, setCompanyMarketerPrice]=useState('');
+    
     const [errorList, seterrorList]= useState([]); 
 
   const [itemName, setItemName] = useState('');
@@ -89,6 +96,18 @@ export default function ImileShippments(userData) {
         window.alert("تم تسجيل الشحنة بنجاح");
         getUserBalance()
         getPackageDetails()
+        setPackageOrders(response.data.clientData.package.availableOrders)
+        setClientWallet(response.data.clientData.wallet)
+        {response.data.clientData.credit.limet && response.data.clientData.credit.status== 'accepted' ? (
+                            <>
+                              {setClientCredit(response.data.clientData.credit.limet)}
+                              {setClientCreditStatus(response.data.clientData.credit.status)}
+                            </>
+                          ):(
+                             <>
+                             {setClientCredit(0)}
+                             </>
+                          )}
         console.log(response.data.data);
         console.log(response);
         const shipment = response.data.data;
@@ -108,19 +127,72 @@ export default function ImileShippments(userData) {
     }
   }
   
-function submitOrderUserForm(e){
+// function submitOrderUserForm(e){
+//   e.preventDefault();
+//   setisLoading(true)
+//   let validation = validateOrderUserForm();
+//   console.log(validation);
+//   if(validation.error){
+//     setisLoading(false)
+//     seterrorList(validation.error.details)
+
+//   }else{
+//     sendOrderDataToApi();
+//   }
+// }
+
+function submitOrderUserForm(e) {
   e.preventDefault();
-  setisLoading(true)
+  setisLoading(true);
   let validation = validateOrderUserForm();
   console.log(validation);
-  if(validation.error){
-    setisLoading(false)
-    seterrorList(validation.error.details)
+  const weightPrice = orderData.weight <= 15 ? 0 : (orderData.weight - 15) * companyKgPrice;
+  const shipPrice =companyMarketerPrice
+  console.log(clientCredit);
+  console.log(shipPrice);
+  console.log(weightPrice)
+  if (userData.userData.data.user.rolle === "user") {
+    if (validation.error) {
+      setisLoading(false);
+      seterrorList(validation.error.details);
+    } else {
+      sendOrderDataToApi();
+    }
+  } else if (userData.userData.data.user.rolle === "marketer") {
+    if (validation.error) {
+      setisLoading(false);
+      seterrorList(validation.error.details);
+    } else if(isClient === false){
+      sendOrderDataToApi();
+    } else if(isClient === true && (packageCompanies.includes('imile')||packageCompanies.includes('all') && packageOrders > 0)){
+      if(window.confirm('سوف يتم عمل الشحنة من باقة العميل')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      }
+    }else if(isClient === true && orderData.cod !== false){
+      sendOrderDataToApi()
+    }else if(isClient === true && orderData.cod === false && (clientWallet > (shipPrice + weightPrice)) ){
+      if(window.confirm('سوف يتم عمل الشحنة من محفظة العميل')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      }
+    }else if(isClient === true && orderData.cod === false && (clientCredit > (shipPrice + weightPrice)) ){
+      if(window.confirm('سوف يتم عمل الشحنة من كرديت (رصيد الحد الائتمانى) للعميل')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      }
+    }else{
+      if(window.confirm(' رصيد العميل لا يكفى لعمل الشحنة سوف يتم عمل الشحنة من محفظتك')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      } 
+    }
 
-  }else{
-    sendOrderDataToApi();
   }
-
 }
 
 function getOrderData(e) {
@@ -301,10 +373,20 @@ function validateOrderUserForm(){
     const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
-      const companiesPrices = response.data.data;
-      console.log(companiesPrices)
-      setCompaniesDetails(companiesPrices)
+      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const companies = response.data.data;
+      console.log(companies)
+      setCompaniesDetails(companies)
+      const filteredCompanies = companies.find(company => company.name === 'imile');
+
+    if (filteredCompanies) {
+      const KgPrice = filteredCompanies.kgprice;
+      const MarketerPrice = filteredCompanies.marketerprice;
+      setCompanyKgPrice(KgPrice);
+      setCompanyMarketerPrice(MarketerPrice);
+    } else {
+      console.error('Company with name not found.');
+    }
     } catch (error) {
       console.error(error);
     }
@@ -1096,6 +1178,23 @@ function validateOrderUserForm(){
            هذا العميل ليس لديه باقة حاليا..</p>
            </div>
           ): null}
+          { userData.userData.data.user.rolle === "marketer" &&  isWallet  ?(
+                    <div className="gray-box p-2 mb-3">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label htmlFor="">محفظة العميل : </label>
+                          <span className='fw-bold text-primary px-1'>{clientWallet}</span>
+                        </div>
+                        <div className="col-md-6">
+                          <label htmlFor="">credit_العميل : </label>
+                          {clientCreditStatus && clientCreditStatus == 'accepted'?
+                          <span className='fw-bold text-primary px-1'>{clientCredit}</span>:
+                          <span className='fw-bold text-primary px-1'>0</span>}
+                        </div>
+                      </div>
+                    </div>
+                    ):
+                    null}
       <div className="shipmenForm">
       { userData.userData.data.user.rolle === "marketer"?(
           <div className="prices-box text-center">
@@ -1162,6 +1261,19 @@ function validateOrderUserForm(){
                       setItemClientId(item._id);
                       setPackageCompanies(item.package.companies)
                         setPackageOrders(item.package.availableOrders)
+                        setIsClient(true)
+                        setIsWallet(true)
+                        setClientWallet(item.wallet)
+                           {item.credit && item.credit.status== 'accepted'? (
+                            <>
+                              {setClientCredit(item.credit.limet)}
+                              {setClientCreditStatus(item.credit.status)}
+                            </>
+                          ):(
+                             <>
+                             {setClientCredit(0)}
+                             </>
+                          )}
                       const selectedCity = item.company;
                       // setItemCity(selectedCity)
                       getOrderData({ target: { name: 'p_company', value: selectedCity } });
