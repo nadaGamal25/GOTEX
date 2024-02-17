@@ -96,18 +96,19 @@ export default function ImileShippments(userData) {
         window.alert("تم تسجيل الشحنة بنجاح");
         getUserBalance()
         getPackageDetails()
-        setPackageOrders(response.data.clientData.package.availableOrders)
-        setClientWallet(response.data.clientData.wallet)
-        {response.data.clientData.credit.limet && response.data.clientData.credit.status== 'accepted' ? (
-                            <>
-                              {setClientCredit(response.data.clientData.credit.limet)}
-                              {setClientCreditStatus(response.data.clientData.credit.status)}
-                            </>
-                          ):(
-                             <>
-                             {setClientCredit(0)}
-                             </>
-                          )}
+        if (response.data.clientData && response.data.clientData.package && response.data.clientData.package.availableOrders) {
+          setPackageOrders(response.data.clientData.package.availableOrders);
+        } else {
+          setPackageOrders('');
+        }
+        if (response.data.clientData.credit && response.data.clientData.credit.limet && response.data.clientData.credit.status === 'accepted') {
+          setClientCredit(response.data.clientData.credit.limet);
+          setClientCreditStatus(response.data.clientData.credit.status);
+        } else {
+          setClientCredit(0);
+        }
+            setClientWallet(response.data.clientData.wallet)
+        
         console.log(response.data.data);
         console.log(response);
         const shipment = response.data.data;
@@ -373,7 +374,7 @@ function validateOrderUserForm(){
     const [companiesDetails,setCompaniesDetails]=useState([])
   async function getCompaniesDetailsOrders() {
     try {
-      const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
+      const response = await axios.get('https://dashboard.go-tex.net/test/companies/get-all');
       const companies = response.data.data;
       console.log(companies)
       setCompaniesDetails(companies)

@@ -85,19 +85,20 @@ export default function AramexShippments(userData) {
         window.alert(`تم تسجيل الشحنة بنجاح`);
         getUserBalance()
         getPackageDetails()
-        setPackageOrders(response.data.clientData.package.availableOrders)
-        setClientWallet(response.data.clientData.wallet)
-        {response.data.clientData.credit.limet && response.data.clientData.credit.status== 'accepted' ? (
-                            <>
-                              {setClientCredit(response.data.clientData.credit.limet)}
-                              {setClientCreditStatus(response.data.clientData.credit.status)}
-                            </>
-                          ):(
-                             <>
-                             {setClientCredit(0)}
-                             </>
-                          )}
-        console.log(response.data.data);
+        if (response.data.clientData && response.data.clientData.package && response.data.clientData.package.availableOrders) {
+          setPackageOrders(response.data.clientData.package.availableOrders);
+        } else {
+          setPackageOrders('');
+        }
+        if (response.data.clientData.credit && response.data.clientData.credit.limet && response.data.clientData.credit.status === 'accepted') {
+          setClientCredit(response.data.clientData.credit.limet);
+          setClientCreditStatus(response.data.clientData.credit.status);
+        } else {
+          setClientCredit(0);
+        }
+            setClientWallet(response.data.clientData.wallet)
+        
+        console.log(response);
       //   console.log(response.data.data.Shipments[0].ShipmentLabel.LabelURL);
       //   const stickerUrl = `${response.data.data.Shipments[0].ShipmentLabel.LabelURL}`;
       // const newTab = window.open();

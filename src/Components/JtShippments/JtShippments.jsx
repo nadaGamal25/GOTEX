@@ -93,18 +93,19 @@ export default function JtShippments(userData) {
         window.alert("تم تسجيل الشحنة بنجاح");
         getUserBalance()
         getPackageDetails()
-        setPackageOrders(response.data.clientData.package.availableOrders)
-        setClientWallet(response.data.clientData.wallet)
-        {response.data.clientData.credit.limet && response.data.clientData.credit.status== 'accepted' ? (
-                            <>
-                              {setClientCredit(response.data.clientData.credit.limet)}
-                              {setClientCreditStatus(response.data.clientData.credit.status)}
-                            </>
-                          ):(
-                             <>
-                             {setClientCredit(0)}
-                             </>
-                          )}
+        if (response.data.clientData && response.data.clientData.package && response.data.clientData.package.availableOrders) {
+          setPackageOrders(response.data.clientData.package.availableOrders);
+        } else {
+          setPackageOrders('');
+        }
+        if (response.data.clientData.credit && response.data.clientData.credit.limet && response.data.clientData.credit.status === 'accepted') {
+          setClientCredit(response.data.clientData.credit.limet);
+          setClientCreditStatus(response.data.clientData.credit.status);
+        } else {
+          setClientCredit(0);
+        }
+            setClientWallet(response.data.clientData.wallet)
+        
         console.log(response.data.data);
         console.log(response);
         const shipment = response.data.data;
