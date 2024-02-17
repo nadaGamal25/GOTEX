@@ -16,6 +16,10 @@ export default function SaeeShipments(userData) {
     const [clientCredit, setClientCredit] = useState('');
     const [clientCreditStatus, setClientCreditStatus] = useState('');
     const [isWallet,setIsWallet]=useState(false);
+    const [isClient,setIsClient]=useState(false);
+    const [companyKgPrice, setCompanyKgPrice]=useState('');
+    const [companyMarketerPrice, setCompanyMarketerPrice]=useState('');
+ 
   const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
   const [itemCity, setItemCity] = useState('');
@@ -64,7 +68,19 @@ export default function SaeeShipments(userData) {
         window.alert("تم تسجيل الشحنة بنجاح");
         getUserBalance()
         getPackageDetails()
-        console.log(response.data.data);
+        setPackageOrders(response.data.clientData.package.availableOrders)
+        setClientWallet(response.data.clientData.wallet)
+        {response.data.clientData.credit.limet && response.data.clientData.credit.status== 'accepted' ? (
+                            <>
+                              {setClientCredit(response.data.clientData.credit.limet)}
+                              {setClientCreditStatus(response.data.clientData.credit.status)}
+                            </>
+                          ):(
+                             <>
+                             {setClientCredit(0)}
+                             </>
+                          )}
+        console.log(response);
         const shipment = response.data.data;
         setShipments(prevShipments => [...prevShipments, shipment]);
         console.log(shipments)      }else if (response.status === 400) {
@@ -82,21 +98,73 @@ export default function SaeeShipments(userData) {
     }
   }
   
-function submitOrderUserForm(e){
+// function submitOrderUserForm(e){
+//   e.preventDefault();
+//   setisLoading(true)
+//   let validation = validateOrderUserForm();
+//   console.log(validation);
+//   if(validation.error){
+//     setisLoading(false)
+//     seterrorList(validation.error.details)
+
+//   }else{
+//     sendOrderDataToApi();
+//   }
+// }
+
+function submitOrderUserForm(e) {
   e.preventDefault();
-  setisLoading(true)
+  setisLoading(true);
   let validation = validateOrderUserForm();
   console.log(validation);
-  if(validation.error){
-    setisLoading(false)
-    seterrorList(validation.error.details)
+  const weightPrice = orderData.weight <= 15 ? 0 : (orderData.weight - 15) * companyKgPrice;
+  const shipPrice =companyMarketerPrice
+  console.log(clientCredit);
+  console.log(shipPrice);
+  console.log(weightPrice)
+  if (userData.userData.data.user.rolle === "user") {
+    if (validation.error) {
+      setisLoading(false);
+      seterrorList(validation.error.details);
+    } else {
+      sendOrderDataToApi();
+    }
+  } else if (userData.userData.data.user.rolle === "marketer") {
+    if (validation.error) {
+      setisLoading(false);
+      seterrorList(validation.error.details);
+    } else if(isClient === false){
+      sendOrderDataToApi();
+    } else if(isClient === true && (packageCompanies.includes('saee')||packageCompanies.includes('all') && packageOrders > 0)){
+      if(window.confirm('سوف يتم عمل الشحنة من باقة العميل')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      }
+    }else if(isClient === true && orderData.cod !== false){
+      sendOrderDataToApi()
+    }else if(isClient === true && orderData.cod === false && (clientWallet > (shipPrice + weightPrice)) ){
+      if(window.confirm('سوف يتم عمل الشحنة من محفظة العميل')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      }
+    }else if(isClient === true && orderData.cod === false && (clientCredit > (shipPrice + weightPrice)) ){
+      if(window.confirm('سوف يتم عمل الشحنة من كرديت (رصيد الحد الائتمانى) للعميل')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      }
+    }else{
+      if(window.confirm(' رصيد العميل لا يكفى لعمل الشحنة سوف يتم عمل الشحنة من محفظتك')){
+        sendOrderDataToApi()
+      }else{
+        setisLoading(false)
+      } 
+    }
 
-  }else{
-    sendOrderDataToApi();
   }
-
 }
-
 
 function getOrderData(e) {
   let myOrderData;
@@ -210,9 +278,19 @@ function getOrderData(e) {
   async function getCompaniesDetailsOrders() {
     try {
       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
-      const companiesPrices = response.data.data;
-      console.log(companiesPrices)
-      setCompaniesDetails(companiesPrices)
+      const companies = response.data.data;
+      console.log(companies)
+      setCompaniesDetails(companies)
+      const filteredCompanies = companies.find(company => company.name === 'saee');
+
+    if (filteredCompanies) {
+      const KgPrice = filteredCompanies.kgprice;
+      const MarketerPrice = filteredCompanies.marketerprice;
+      setCompanyKgPrice(KgPrice);
+      setCompanyMarketerPrice(MarketerPrice);
+    } else {
+      console.error('Company with name  not found.');
+    }
     } catch (error) {
       console.error(error);
     }
@@ -507,9 +585,10 @@ function getOrderData(e) {
                            setPhoneValue(item.mobile)
                            setPackageCompanies(item.package.companies)
                            setPackageOrders(item.package.availableOrders)
-                           setIsWallet(true)
-                           setClientWallet(item.wallet)
-                           {item.credit ? (
+                           setIsClient(true)
+                        setIsWallet(true)
+                        setClientWallet(item.wallet)
+                           {item.credit && item.credit.status== 'accepted'? (
                             <>
                               {setClientCredit(item.credit.limet)}
                               {setClientCreditStatus(item.credit.status)}
@@ -546,7 +625,7 @@ function getOrderData(e) {
                            closeClientsList();
                        }}
                          >
-                           {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
+                           {item.name} , {item.company}  , {item.mobile} , {item.city} , {item.address}
                            {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
                         </li>
                         </>
@@ -567,7 +646,7 @@ function getOrderData(e) {
          </div>
            ): null}
 
-      {/*
+      
        { userData.userData.data.user.rolle === "marketer" &&  isWallet  ?(
                     <div className="gray-box p-2 mb-3">
                       <div className="row">
@@ -585,7 +664,7 @@ function getOrderData(e) {
                     </div>
                     ):
                     null}
-       */}
+       
 
         { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
             <div className="gray-box p-1 mb-3">

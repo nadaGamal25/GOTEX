@@ -14,9 +14,19 @@ export default function SmsaShippments(userData) {
   async function getCompaniesDetailsOrders() {
     try {
       const response = await axios.get('https://dashboard.go-tex.net/api/companies/get-all');
-      const companiesPrices = response.data.data;
-      console.log(companiesPrices)
-      setCompaniesDetails(companiesPrices)
+      const companies = response.data.data;
+      console.log(companies)
+      setCompaniesDetails(companies)
+      const filteredCompanies = companies.find(company => company.name === 'smsa');
+
+    if (filteredCompanies) {
+      const KgPrice = filteredCompanies.kgprice;
+      const MarketerPrice = filteredCompanies.marketerprice;
+      setCompanyKgPrice(KgPrice);
+      setCompanyMarketerPrice(MarketerPrice);
+    } else {
+      console.error('Company with name not found.');
+    }
     } catch (error) {
       console.error(error);
     }
@@ -36,7 +46,14 @@ export default function SmsaShippments(userData) {
   const [packageCompanies, setPackageCompanies] = useState('');
   const [packageOrders, setPackageOrders] = useState('');
   const [itemClientId, setItemClientId] = useState('');
-
+  const [clientWallet, setClientWallet] = useState('');
+  const [clientCredit, setClientCredit] = useState('');
+  const [clientCreditStatus, setClientCreditStatus] = useState('');
+  const [isWallet,setIsWallet]=useState(false);
+  const [isClient,setIsClient]=useState(false);
+  const [companyKgPrice, setCompanyKgPrice]=useState('');
+  const [companyMarketerPrice, setCompanyMarketerPrice]=useState('');
+  
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
     c_name: "",
@@ -85,7 +102,19 @@ export default function SmsaShippments(userData) {
         window.alert(`تم تسجيل الشحنة بنجاح`);
         getUserBalance()
         getPackageDetails()
-        console.log(response.data.data);
+        setPackageOrders(response.data.clientData.package.availableOrders)
+        setClientWallet(response.data.clientData.wallet)
+        {response.data.clientData.credit.limet && response.data.clientData.credit.status== 'accepted' ? (
+                            <>
+                              {setClientCredit(response.data.clientData.credit.limet)}
+                              {setClientCreditStatus(response.data.clientData.credit.status)}
+                            </>
+                          ):(
+                             <>
+                             {setClientCredit(0)}
+                             </>
+                          )}
+        console.log(response);
         const shipment = response.data.data;
         setShipments(prevShipments => [...prevShipments, shipment]);
         console.log(shipments)
@@ -103,24 +132,106 @@ export default function SmsaShippments(userData) {
       window.alert(errorMessage);
     }
   }
-  function submitOrderUserForm(e){
+  // function submitOrderUserForm(e){
+  //   e.preventDefault();
+  //   setisLoading(true)
+  //   let validation = validateOrderUserForm();
+  //   console.log(validation);
+  //   if(validation.error){
+  //     setisLoading(false)
+  //     seterrorList(validation.error.details)
+  
+  //   }else{
+  //     if(userData.userData.data.user.iscrproofed === false){
+  //       window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+  //     }else{
+  //       sendOrderDataToApi();
+  //     }
+  //   }
+  // }
+  
+  function submitOrderUserForm(e) {
     e.preventDefault();
-    setisLoading(true)
+    setisLoading(true);
     let validation = validateOrderUserForm();
     console.log(validation);
-    if(validation.error){
-      setisLoading(false)
-      seterrorList(validation.error.details)
-  
-    }else{
-      if(userData.userData.data.user.iscrproofed === false){
-        window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+    const weightPrice = orderData.weight <= 15 ? 0 : (orderData.weight - 15) * companyKgPrice;
+    const shipPrice =companyMarketerPrice
+    console.log(clientCredit);
+    console.log(shipPrice);
+    console.log(weightPrice)
+    if (userData.userData.data.user.rolle === "user") {
+      if (validation.error) {
+        setisLoading(false);
+        seterrorList(validation.error.details);
+      } else {
+        if(userData.userData.data.user.iscrproofed === false){
+          window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+        }else{
+          sendOrderDataToApi();
+        }
+            }
+    } else if (userData.userData.data.user.rolle === "marketer") {
+      if (validation.error) {
+        setisLoading(false);
+        seterrorList(validation.error.details);
+      } else if(isClient === false){
+        if(userData.userData.data.user.iscrproofed === false){
+          window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+        }else{
+          sendOrderDataToApi();
+        }
+      } else if(isClient === true && (packageCompanies.includes('smsa')||packageCompanies.includes('all') && packageOrders > 0)){
+        if(window.confirm('سوف يتم عمل الشحنة من باقة العميل')){
+          if(userData.userData.data.user.iscrproofed === false){
+            window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+          }else{
+            sendOrderDataToApi();
+          }
+        }else{
+          setisLoading(false)
+        }
+      }else if(isClient === true && orderData.cod !== false){
+        if(userData.userData.data.user.iscrproofed === false){
+          window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+        }else{
+          sendOrderDataToApi();
+        }
+      }else if(isClient === true && orderData.cod === false && (clientWallet > (shipPrice + weightPrice)) ){
+        if(window.confirm('سوف يتم عمل الشحنة من محفظة العميل')){
+          if(userData.userData.data.user.iscrproofed === false){
+            window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+          }else{
+            sendOrderDataToApi();
+          }
+        }else{
+          setisLoading(false)
+        }
+      }else if(isClient === true && orderData.cod === false && (clientCredit > (shipPrice + weightPrice)) ){
+        if(window.confirm('سوف يتم عمل الشحنة من كرديت (رصيد الحد الائتمانى) للعميل')){
+          if(userData.userData.data.user.iscrproofed === false){
+            window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+          }else{
+            sendOrderDataToApi();
+          }
+        }else{
+          setisLoading(false)
+        }
       }else{
-        sendOrderDataToApi();
+        if(window.confirm(' رصيد العميل لا يكفى لعمل الشحنة سوف يتم عمل الشحنة من محفظتك')){
+          if(userData.userData.data.user.iscrproofed === false){
+            window.alert('يجب توثيق السجل التجاري لتتمكن من عمل الشحنة')
+          }else{
+            sendOrderDataToApi();
+          }
+        }else{
+          setisLoading(false)
+        } 
       }
+
     }
-  
   }
+  
 
   function getOrderData(e) {
     let myOrderData;
@@ -777,7 +888,19 @@ export default function SmsaShippments(userData) {
                        setPhoneValue(item.mobile);
                        setPackageCompanies(item.package.companies)
                        setPackageOrders(item.package.availableOrders)
-
+                       setIsClient(true)
+                       setIsWallet(true)
+                       setClientWallet(item.wallet)
+                          {item.credit && item.credit.status== 'accepted'? (
+                           <>
+                             {setClientCredit(item.credit.limet)}
+                             {setClientCreditStatus(item.credit.status)}
+                           </>
+                         ):(
+                            <>
+                            {setClientCredit(0)}
+                            </>
+                         )}
                       // setItemName(item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '');
                       // setItemMobile(item.Client.phone1);
                       // setItemCity(item.Client.city);
@@ -805,7 +928,7 @@ export default function SmsaShippments(userData) {
                            closeClientsList();
                        }}
                          >
-                           {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
+                           {item.name} , {item.company} , {item.mobile} , {item.city} , {item.address}
 
                            {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
                         </li>
@@ -826,6 +949,23 @@ export default function SmsaShippments(userData) {
            </div>
          </div>
            ): null}
+           { userData.userData.data.user.rolle === "marketer" &&  isWallet  ?(
+                    <div className="gray-box p-2 mb-3">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label htmlFor="">محفظة العميل : </label>
+                          <span className='fw-bold text-primary px-1'>{clientWallet}</span>
+                        </div>
+                        <div className="col-md-6">
+                          <label htmlFor="">credit_العميل : </label>
+                          {clientCreditStatus && clientCreditStatus == 'accepted'?
+                          <span className='fw-bold text-primary px-1'>{clientCredit}</span>:
+                          <span className='fw-bold text-primary px-1'>0</span>}
+                        </div>
+                      </div>
+                    </div>
+                    ):
+                    null}
 { userData.userData.data.user.rolle === "marketer" && packageCompanies && packageCompanies.length !== 0?(
             <div className="gray-box p-1 mb-3">
              <label className="pe-2">الباقة الخاصة بهذا العميل   :   </label>
