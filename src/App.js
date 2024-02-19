@@ -84,6 +84,7 @@ import PackegesMarketers from './Components/PackegesMarketers/PackegesMarketers'
 import ClientOrders from './Components/ClientOrders/ClientOrders';
 import GenerateLinkPayment from './Components/GenerateLinkPayment/GenerateLinkPayment';
 import FormPayment from './Components/FormPayment/FormPayment';
+import ActivateUser from './Components/ActivateUser/ActivateUser';
 
 function App() {
   
@@ -144,6 +145,7 @@ function App() {
     {path:'invitedSignUp',element:<InvitedSignUp/>},
     {path:'forgetPassword',element:<ForgetPassword/>},
     {path:'updatePassword/:x',element:<UpdatePassword/>},
+    {path:'user/activate-user/:code/:id',element:<ActivateUser/>},
     {path:'formPayment/:uId/:cId/:cN',element:<FormPayment/>},
     {path:'/packeges',element:<ErrorBoundary><ProtectedRoute userData={userData}><Packeges userData={userData}/></ProtectedRoute></ErrorBoundary>},
     {path:'verifyUser',element:<ErrorBoundary><VerifyUser/></ErrorBoundary>},
