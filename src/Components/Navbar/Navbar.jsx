@@ -202,22 +202,22 @@ export default function Navbar({userData ,logout}) {
             </>
             ):null}
             
-            {userData?.data?.user?.rolle === "marketer"?(
+            {/* {userData?.data?.user?.rolle === "marketer"?( */}
               <li className=''>
               <Link  to="/addClientAll">
               <i class="fa-solid fa-user-plus bx"></i>
                   <span class="text">إضافة عميل </span>
               </Link>
           </li>
-            ):null}
-            {userData?.data?.user?.rolle === "marketer"?(
+            {/* ):null} */}
+            {/* {userData?.data?.user?.rolle === "marketer"?( */}
               <li className=''>
               <Link  to="/clientsAll">
               <i class="fa-solid fa-users bx"></i>
                   <span class="text"> العملاء </span>
               </Link>
           </li>
-            ):null}
+            {/* ):null} */}
             {userData?.data?.user?.rolle === "marketer"?(
             <li>
                 <Link to="/packageMarketers">

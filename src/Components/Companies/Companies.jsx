@@ -330,10 +330,13 @@ export default function Companies(userData) {
                   <div key={index} className="">
                     {userData.userData.data.user.rolle === "user"?
                     (
-                      <div className="d-flex pt-4 justify-content-center">
-                    <p className="soon-word"> قريباً  ...</p>
-                    </div>
-                    // <h4>SAR {item.userprice}</h4>
+                    //   <div className="d-flex pt-4 justify-content-center">
+                    // <p className="soon-word"> قريباً  ...</p>
+                    // </div>
+                    <div className="d-flex pt-4 justify-content-between">
+                    <h4>SAR {item.userprice}</h4>
+                   <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
+                   </div>
                     ):
                     <>
                  <div className="d-flex pt-4 justify-content-between">
@@ -342,7 +345,6 @@ export default function Companies(userData) {
                     </div>
 </>
                     }
-                {/* <Link className="btn btn-choose" onClick={openModal}>أختر</Link> */}
 
                   </div>
                 ) : null
@@ -448,8 +450,8 @@ export default function Companies(userData) {
         </Modal.Header>
         <Modal.Body>
           {/* Your content inside the modal */}
-          <div>
-          <Link to="/imileAddClient" className="btn btn-dark m-2">إضافة عميل</Link>
+          <div className='text-center'>
+          <Link to="/addClientAll" className="btn btn-dark m-2">إضافة عميل</Link>
           <Link to="/imileShippments" className="btn btn-orange m-2">عمل شحنة </Link>            
           </div>
         </Modal.Body>
