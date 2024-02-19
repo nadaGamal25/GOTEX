@@ -286,10 +286,10 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i> */}
               </div>
-              <div className="d-flex pt-4 justify-content-center">
+              {/* <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
-              </div>
-              {/* {companiesDetails.map((item, index) => (
+              </div> */}
+              {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "spl" ? (
                   <div key={index} className="d-flex pt-4 justify-content-center">
@@ -302,7 +302,7 @@ export default function Companies(userData) {
                     <Link to="/splShipment" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null
-                ))} */}
+                ))}
               
               
             </div>
@@ -330,8 +330,8 @@ export default function Companies(userData) {
                   <div key={index} className="d-flex pt-4 justify-content-between">
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
-                {/* <Link className="btn btn-choose" onClick={openModal}>أختر</Link> */}
-                <Link to="/imileShippments" className="btn btn-choose">أختر</Link>
+                <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
+                {/* <Link to="/imileShippments" className="btn btn-choose">أختر</Link> */}
 
                   </div>
                 ) : null
@@ -437,8 +437,8 @@ export default function Companies(userData) {
         </Modal.Header>
         <Modal.Body>
           {/* Your content inside the modal */}
-          <div>
-          <Link to="/imileAddClient" className="btn btn-dark m-2">إضافة عميل</Link>
+          <div className='text-center'>
+          <Link to="/addClientAll" className="btn btn-dark m-2">إضافة عميل</Link>
           <Link to="/imileShippments" className="btn btn-orange m-2">عمل شحنة </Link>            
           </div>
         </Modal.Body>

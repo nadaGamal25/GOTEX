@@ -7,7 +7,7 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
 
-export default function ClientsAll() {
+export default function ClientsAll(userData) {
     useEffect(()=>{
         getClientsList()
       },[])
@@ -1108,6 +1108,7 @@ export default function ClientsAll() {
                         إضافة رصيد
                       </button>
               </td> */}
+              {userData?.data?.user?.rolle === "marketer"?(
                  <td>
                 <button
                         className='sdd-deposite btn btn-primary '
@@ -1115,7 +1116,7 @@ export default function ClientsAll() {
                       >
                         إضافة credit 
                       </button>
-              </td>
+              </td>):null}
               <td>
   <button className="btn btn-dark" onClick={() => handleEditClick(item)}>تعديل</button>
 </td>
