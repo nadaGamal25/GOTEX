@@ -7,9 +7,9 @@ import logo from '../../assets/logo.png'
 import { Link } from 'react-router-dom'
 
 export default function ActivateUser() {
-    let navigate= useNavigate(); //hoke
+    let navigate= useNavigate();
     let allparams= useParams()
-    const [responseMsg, setResponseMsg]=useState('')
+    const [responseMsg, setResponseMsg]=useState(true)
 
     useEffect(()=>{
         sendDataToApi();
@@ -18,18 +18,20 @@ export default function ActivateUser() {
     async function sendDataToApi() {
         try {
           const response = await axios.get(
-            `https://dashboard.go-tex.net/api//user/activate-user/:${allparams.code}/:${allparams.id}`);
+            `https://dashboard.go-tex.net/api/user/activate-user/${allparams.code}/${allparams.id}`);
       
           if (response.status === 200) {
             console.log(response);
-            window.alert('تم  بنجاح');
-            setResponseMsg(response.data.msg)
+            window.alert('تم توثيق الايميل بنجاح');
+            navigate('/');
+            setResponseMsg(true)
           } else {
             console.log(response.data.msg);
           }
         } catch (error) {
           console.log(error);
           window.alert(error.response.data.msg);
+          setResponseMsg(false)
         }
       }
       async function verifytUserAgain() {
@@ -54,7 +56,7 @@ export default function ActivateUser() {
           <img className='m-auto logo' src={logo} alt="logo" />
         </div>
         <p className='py-3'>
-            {responseMsg? {responseMsg}:'لم يتم توثيق الايميل قم بتوثيقه مرة اخرى..'}
+            {responseMsg == true? 'تم توثيق الايميل بنجاح':'لم يتم توثيق الايميل قم بتوثيقه مرة اخرى..'}
         </p>
         <div className="btns d-flex justify-content-between align-items-center">
             <button className="verify-btn btn" onClick={verifytUserAgain}>توثيق الايميل مرة أخرى</button>
