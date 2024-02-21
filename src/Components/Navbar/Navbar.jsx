@@ -152,7 +152,7 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
-            {userData?.data?.user?.rolle === "user"?(
+            {/* {userData?.data?.user?.rolle === "user"?(
             <li>
                 <Link to="/packeges">
                 <i class="fa-solid fa-money-bill bx"></i>
@@ -171,7 +171,7 @@ export default function Navbar({userData ,logout}) {
                 </span>
                 </Link>
             </li>
-            ):null}
+            ):null} */}
             {/* <li>
                 <Link to="/clients">
                     <i class="fa-solid fa-users bx"></i>

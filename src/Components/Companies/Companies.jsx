@@ -101,7 +101,7 @@ export default function Companies(userData) {
       </table>
      </div> */}
         <div className="row g-4">
-          <div className="col-md-12 ">
+          {/* <div className="col-md-12 ">
           { userData.userData.data.user.rolle === "user"?
             <div className='text-center package-poster '>
               <div className='p-4'>
@@ -111,7 +111,7 @@ export default function Companies(userData) {
               </div>
               
             </div>:null}
-          </div>
+          </div> */}
             <div className="col-md-12  position-relative">
             <div className="company-main company area position-relative">
             <ul class="circles">
@@ -129,12 +129,12 @@ export default function Companies(userData) {
               <div className="text-center">
               <img src={logo} className='bg-white' alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-3 mb-5">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div className=" pt-4"></div>):
@@ -160,7 +160,7 @@ export default function Companies(userData) {
         <div className="col-md-6">
             <div className="company saee">
               <div className="text-center h-80">
-              {/* <img src={sae} alt="company" /> */}
+              <img src={sae} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -190,7 +190,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company jt">
               <div className="text-center h-80">
-              {/* <img src={jt} alt="company" /> */}
+              <img src={jt} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -221,7 +221,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company aramex">
               <div className="text-center h-80">
-              {/* <img src={armx} alt="company" /> */}
+              <img src={armx} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -249,7 +249,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company smsa">
               <div className="text-center h-80">
-              {/* <img src={sms} alt="company" /> */}
+              <img src={sms} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -277,7 +277,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company spl">
               <div className="text-center h-80">
-              {/* <img src={spl} alt="company" /> */}
+              <img src={spl} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -311,7 +311,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company imile">
               <div className="text-center h-80">
-              {/* <img src={imile} alt="company" /> */}
+              <img src={imile} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -358,7 +358,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company dhl">
               <div className="text-center h-80">
-              {/* <img src={dhl} alt="company" /> */}
+              <img src={dhl} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -375,7 +375,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company jonex">
               <div className="text-center h-80">
-              {/* <img src={jonex} alt="company" /> */}
+              <img src={jonex} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -393,7 +393,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company aymkan">
               <div className="text-center h-80">
-              {/* <img src={mkan} alt="company" /> */}
+              <img src={mkan} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>
@@ -411,7 +411,7 @@ export default function Companies(userData) {
           <div className="col-md-6">
             <div className="company glt">
               <div className="text-center h-80">
-              {/* <img src={glt} alt="company" /> */}
+              <img src={glt} alt="company" />
               </div>
               <div className="stars text-center mt-3">
               {/* <i class="fa-solid fa-star"></i>

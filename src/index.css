@@ -9,8 +9,9 @@
 :root{
   --orange-color:#fa4c03;
   --bg-color:#f2f2f2;
-  --dark--color:#08354c;
+  /* --dark--color:#08354c; */
   /* --dark--color: #1d7253; */
+  --dark--color: #4e382d;
 
 }
 .checkbox{
@@ -37,7 +38,9 @@ a{
 body{
   background-color: #fff !important;
 }
-
+input{
+  background-color: transparent !important;
+}
 .btn-orange{
   background-color: var(--orange-color) !important;
   color: #fff !important;
@@ -327,27 +330,31 @@ body{
 /* start login & register */
 .login-container,
 .register-container{
-  background-color: var(--bg-color);
-  /* background-image: url(../src/assets/93.jpg);
-  background-size: 100% 100%; */
+  /* background-color: var(--bg-color); */
+  background-image: url(../src/assets/founding1.jpg);
+  background-size: 100% 100%;
 }
 .login-box,
 .register-box{
-  border: 2px solid var(--dark--color);
+  /* border: 2px solid var(--dark--color); */
   /* border: 2px solid #1d7253; */
   border-radius: 10px;
-  background-color: #fff;
-  /* background-color: rgba(255, 255, 255, 0.6); */
-  box-shadow: 5px 5px 10px #8ca0aa;
-  width: 75%;
+  /*background-color: #fff;
+  */background-color: rgba(255, 255, 255, 0.5);
+  /* box-shadow: 5px 5px 10px #8ca0aa; */
+  width: 50%;
   padding: 50px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 input:focus{
   box-shadow: none !important;
 }
 .login-box .btn-login{
-  background-color: var(--orange-color) !important;
-  /* background-color: #1d7253 !important; */
+  /* background-color: var(--orange-color) !important; */
+  background-color: #e76a58 !important;
   color: #fff !important;
   margin-top: 10px;
   box-shadow: 5px 5px 5px #ec9873;
@@ -369,8 +376,8 @@ input:focus{
 }
 .login-box .btn-login:hover,
 .btn-signup:hover{
-  background-color: #dc4606 !important;
-  /* background-color: #16563e !important; */
+  /* background-color: #dc4606 !important; */
+  background-color: #e76a58 !important;
   color: #fff !important;
   border: none !important;
 
@@ -469,9 +476,11 @@ html, body ,
   bottom: 0;
   width: 280px;
   height: 100vh !important;
-  background: #f2f2f2;
+  /* background: #f2f2f2; */
   /* background: rgba(8, 204, 132, 0.4) ; */
   /* background:#D0F2CB */
+  /* background: #6bc983; */
+  background: #efeae4;
 ;
   z-index: 999;
   transition: all 0.3s ease;
@@ -682,8 +691,10 @@ left: 0px;
 /* start navbar */
 #navb{
   height: 56px;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
   /* background-color: #D0F2CB; */
+  background:#efeae4;
+   /* #6bc983; */
   padding: 0 20px;
   grid-gap: 24px;
   z-index: 99;
@@ -760,8 +771,11 @@ nav form .form-input button{
 /* end navbar */
 /* start companies */
 .company{
-  background-color: var(--dark--color);
-  /* background-color: #1d7253; */
+  /*background-color: var(--dark--color);
+  *//*background-color: #1d7253;
+  */
+  background-image: url(../src/assets/founding1.jpg);
+  opacity: 0.9;
   padding: 15px;
   border-radius: 15px;
   box-shadow: 8px 8px 10px #adb6ba;
@@ -770,7 +784,8 @@ nav form .form-input button{
 .h-80{
   height: 110px;
 }
-.saee{
+
+/* .saee{
   background-image: url(../src/assets/saee2.jpg);
 }
 .smsa{
@@ -799,7 +814,7 @@ nav form .form-input button{
 }
 .aymkan{
   background-image: url(../src/assets/aymkan2.jpg);
-}
+} */
 .company img{
   width: 160px;
   height: 80px;
@@ -813,7 +828,10 @@ nav form .form-input button{
 }
 
 .area{
-  background:#dfe0e5  ;  
+  /* background:#dfe0e5  ;   */
+  background-image: url(../src/assets/founding1.jpg);
+  opacity: 0.9;
+  background-size: 100% 100%;
   /* background: #1d7253;   */
   width: 100%;
   
@@ -1437,7 +1455,8 @@ border-radius: 5px;
 
 }
 .package-poster{
-  background-image: url(../src/assets/package2.jpg);
+  /* background-image: url(../src/assets/package2.jpg); */
+    background:#f6f5f3  ;  
   background-size: 100% 100%;
   border-radius: 15px;
 }
@@ -1513,7 +1532,8 @@ border-radius: 5px;
 /* wallet-box */
 .wallet-box {
   padding: 8px 15px;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
+  background-color: #f6f5f3;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
