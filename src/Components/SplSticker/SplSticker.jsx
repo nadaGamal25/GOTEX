@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import spl from '../../assets/spl.jpg'
 import Barcode from 'react-barcode';
+import axios from 'axios';
 
 export default function SplSticker({item}) {
     console.log(item)
     const itemPieces = item.data.Items[0].ItemPiecesResponse;
     const [isZoomed, setIsZoomed] = useState(false);
-
+    const [senderCityName, setSenderCityName] =useState(null)
+    const [senderGovernoretName, setSenderGovernoretName] =useState(null)
+    const [recieverCityName, setRecieverCityName] =useState(null)
+    const [recieverGovernoretName, setRecieverGovernoretName] =useState(null)
   useEffect(() => {
     const handleResize = () => {
       setIsZoomed(window.innerWidth < 768);
@@ -19,7 +23,54 @@ export default function SplSticker({item}) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  useEffect(() => {
+    getCities()
+  }, []);
+  const [cities,setCities]=useState()
+  async function getCities() {
+    console.log(localStorage.getItem('userToken'))
+    try {
+      const response = await axios.get('https://dashboard.go-tex.net/test/spl/get-cities',
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      });
+      const citiesData=response.data.data.Cities
+      setCities(response.data.data.Cities)
+      console.log(response.data.data.Cities)
+      console.log(response)
+      const filteredSender = citiesData.find(city => city.Id === item.sender.city);
+      if (filteredSender) {
+        setSenderCityName(filteredSender.Name);
+        setSenderGovernoretName(filteredSender.GovernorateName);
+      } else {
+        console.error('city with name not found.');
+      }
+
+      const filteredReciever = citiesData.find(city => city.Id === item.receiver.city);
+      if (filteredReciever) {
+        setRecieverCityName(filteredReciever.Name);
+        setRecieverGovernoretName(filteredReciever.GovernorateName);
+      } else {
+        console.error('city with name not found.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
+    <div>
+    {senderCityName === null || senderGovernoretName === null || recieverCityName ===null || recieverGovernoretName ===null ? (
+      <div className="d-flex min-vh-100 login-container px-3">
+                <div className='m-auto w-50 text-center' >
+                  <span>
+                <i className="fa-solid fa-spinner fa-spin d-block fw-bold fs-1"></i>
+                </span>
+        <h5 className='p-3'> <b>Loading...</b></h5>
+         </div>
+         </div>
+    ):(
     <div >
 
     <div className='ms-4'>
@@ -46,16 +97,17 @@ export default function SplSticker({item}) {
             </td>
           </tr>
           <tr>
-          <td className='p-3' style={{ border: '1px solid black' }} colSpan="2">PieceWieght: <b>{item.weight}</b>  
+          <td colSpan="2" className='p-2' style={{ border: '1px solid black' }}>PieceWieght: <b>{item.weight}</b>  
            </td>
-           <td colSpan="3">  PieceDescription: <b> {item.desc} </b></td>
+           <td colSpan="3" className='p-2'>  PieceDescription: <b> {item.desc} </b></td>
                </tr>
           <tr>
-            <td rowSpan="2" style={{ border: '1px solid black' }}>
-              <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '5px' }}><b></b></h1>
-              <h4 style={{ fontSize: '10px', fontWeight: 'bold', marginLeft: '5px' }}>{item.reciver.city}</h4>
+          
+            <td colSpan="1"  style={{ border: '1px solid black' }}>
+              <h3 style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '5px' }}><b>Zone :  </b></h3>
+              <p style={{ fontSize: '14px',fontWeight: 'bold', marginLeft: '5px' }}><b>{recieverGovernoretName}</b></p>
             </td>
-            <td colSpan="2" style={{ border: '1px solid black' }}>
+            <td colSpan="2" rowSpan="1" style={{ border: '1px solid black' }}>
               <p style={{ marginLeft: '5px', fontSize: '16px' }}>
                 {item.marktercode?(<><span>marktercode: </span><b>{item.marktercode}</b></>):''}
                 <br />
@@ -66,10 +118,6 @@ export default function SplSticker({item}) {
 
                 {/* <b>0 SAR</b> */}
               </p>
-            </td>
-            <td colSpan="1" rowSpan="1" style={{ border: '1px solid black' }}>
-              <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '5px' }}><b>Zone </b></h1>
-              <p style={{ fontSize: '14px', marginLeft: '5px' }}>{item.reciver.city}</p>
             </td>
           </tr>
           {/* <tr>
@@ -83,9 +131,9 @@ export default function SplSticker({item}) {
           <tr>
             <td colSpan="4"  style={{ border: '1px solid black' }}>
               <p className='ms-1' style={{ color: '#000'  }}>
-                {/* Services: */}
-                {item.createdate?(<><span>Date: </span>{item.createdate.slice(0,15)}</>):''}
-              </p>
+                {/* Services: */}<b>
+                {item.created_at?(<><span>Date: </span>{item.created_at.slice(0,10)}</>):''}
+                </b> </p>
             </td>
           </tr>
           <tr style={{borderBottom:'solid 1px black'}}>
@@ -125,9 +173,9 @@ export default function SplSticker({item}) {
           <tr>
             <td colSpan="4" style={{ border: '1px solid black' }}>
               <p style={{ margin: '5px 0 0 10px' }}>
-                <b>From : </b><br/>
+                <b>From : </b>
                 {item.sender.name}<br />
-              <b>  {item.sender.city}</b> , {item.sender.AddressLine1} <br/>
+              <b>  {senderGovernoretName}</b>,<b>{senderCityName}</b> <br/> {item.sender.AddressLine1} <br/>
               {item.sender.AddressLine2?(<p>{item.sender.AddressLine2}</p>):null}
               </p>
               <hr style={{ margin: '2px 10px' }} />
@@ -136,35 +184,20 @@ export default function SplSticker({item}) {
           </tr>
           <tr>
             <td colSpan="4" style={{ border: '1px solid black' }}>
-              <table width="100%" border="0" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td colSpan="2"><p style={{ marginLeft: '10px' }}>
-                  <b>To : </b><br/>
-                    {item.reciver.name}</p></td>
-                </tr>
-                <tr>
-                  <td colSpan="2"><p style={{ marginLeft: '10px' }}><b>{item.reciver.city}</b> , {item.reciver.AddressLine1}<br/>
-                  {item.reciver.AddressLine2?(<p>{item.reciver.AddressLine2}</p>):null}</p></td>
-                </tr>
-                {/* <tr>
-                  <td colSpan="2"><p style={{ marginLeft: '10px' }}></p></td>
-                </tr>
-                <tr>
-                  <td colSpan="4">
-                    <p style={{ marginLeft: '10px' }}>{item.reciver.city}</p>
-                  </td>
-                </tr> */}
-                <tr>
-                  <td width="30%"><p style={{ margin: '0px 0 0px 10px' }}>{item.reciver.mobile}</p></td>
-                  {/* <td width="30%" valign="top"></td> */}
-                </tr>
+            <p style={{ margin: '5px 0 0 10px' }}>
+                <b>To : </b>
+                {item.receiver.name}<br />
+              <b>  {recieverGovernoretName}</b>,<b>{recieverCityName}</b> <br/> {item.receiver.AddressLine1} <br/>
+              {item.receiver.AddressLine2?(<p>{item.receiver.AddressLine2}</p>):null}
+              </p>
+              <hr style={{ margin: '2px 10px' }} />
+              <p style={{ margin: '0 0 5px 10px' }}>{item.receiver.mobile}</p>
                 <tr 
                 style={{ borderTop: '1px solid black' }}
                 >
-                  <td width="40%"><p style={{ margin: '0px 0 5px 5px' }}>ReferenceId:</p><strong style={{ marginLeft: '5px' }}>{item.data.Items[0].ReferenceId}</strong></td>
+                  <td width="20%"><p style={{ margin: '0px 0 1px 2px' }}>ReferenceId:</p><strong style={{ marginLeft: '5px' }}>{item.data.Items[0].ReferenceId}</strong></td>
                   {/* <td width="40%" valign="top">Consignee Ref:</td> */}
                 </tr>
-              </table>
             </td>
           </tr>
           <tr>
@@ -329,5 +362,7 @@ export default function SplSticker({item}) {
   </div>
 
   </div>
+    )}
+    </div>
   )
 }
