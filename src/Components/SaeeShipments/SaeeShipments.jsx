@@ -512,7 +512,7 @@ function getOrderData(e) {
                 (<span className='txt-blue'> {userBalance}</span> ر.س)
                 </span>
       </div>
-      {/* { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+      { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
             <div className="prices-box">
              <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
              {packegeDetails.userAvailableOrders === 0 ?
@@ -550,7 +550,7 @@ function getOrderData(e) {
             </div>
             
           </div>
-          ): null} */}
+          ): null}
       { userData.userData.data.user.rolle === "marketer"?(
            <div className="search-box p-4 mt-2 mb-3 row g-1">
            <div className="col-md-2">
