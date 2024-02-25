@@ -53,7 +53,12 @@ export default function SmsaShippments(userData) {
   const [isClient,setIsClient]=useState(false);
   const [companyKgPrice, setCompanyKgPrice]=useState('');
   const [companyMarketerPrice, setCompanyMarketerPrice]=useState('');
-  
+  const [itemName2, setItemName2] = useState('');
+  const [itemMobile2, setItemMobile2] = useState('');
+  const [itemAddress2, setItemAddress2] = useState('');
+  const [itemName0, setItemName0] = useState('');
+  const [itemMobile0, setItemMobile0] = useState('');
+  const [itemAddress0, setItemAddress0] = useState('');
     const [errorList, seterrorList]= useState([]); 
   const [orderData,setOrderData] =useState({
     c_name: "",
@@ -242,6 +247,9 @@ export default function SmsaShippments(userData) {
         p_City: itemCity,
         p_ContactPhoneNumber: itemMobile,
         p_AddressLine1: itemAddress,
+        c_name: itemName2,
+        c_ContactPhoneNumber: itemMobile2,
+        c_AddressLine1: itemAddress2,
         clintid: itemClientId,
         daftraid:itemId,
       };
@@ -793,6 +801,7 @@ export default function SmsaShippments(userData) {
                 (<span className='txt-blue'> {userBalance}</span> ر.س)
                 </span>
       </div>
+{/*       
 { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
             <div className="prices-box">
              <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
@@ -831,7 +840,7 @@ export default function SmsaShippments(userData) {
             </div>
             
           </div>
-          ): null}
+          ): null} */}
 { userData.userData.data.user.rolle === "marketer"?(
            <div className="search-box p-4 mt-2 mb-4 row g-1">
            <div className="col-md-2">
@@ -885,6 +894,9 @@ export default function SmsaShippments(userData) {
                        setItemMobile(item.mobile);
                       //  setItemCity(item.city);
                        setItemAddress(item.address);
+                       setItemName0(item.name);
+                           setItemMobile0(item.mobile);
+                           setItemAddress0(item.address);
                        setItemId(item.daftraClientId);
                        setItemClientId(item._id);
                        setPhoneValue(item.mobile);
@@ -1005,12 +1017,62 @@ export default function SmsaShippments(userData) {
           ): null}
         <div className="shipmenForm">
         { userData.userData.data.user.rolle === "marketer"?(
+          <>
             <div className="prices-box text-center">
             {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.name === "smsa" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
                 null))}
           </div>
+          <div className="text-center">
+          <button className="btn btn-secondary mb-3 text-white"
+          onClick={(e)=>{ 
+            // setClients("")
+            setBranches('')
+            setItemName("");
+            setItemMobile("");
+            setItemAddress("");
+            setPhoneValue("")
+            setItemName2(itemName0);
+            setItemMobile2(itemMobile0);
+            setItemAddress2(itemAddress0);
+            setItemId("");
+            setItemClientId("");
+            setPhone2(itemMobile0)
+            setPackageCompanies('')
+            setPackageOrders('')
+            setIsClient(false)
+         setIsWallet(false)
+         setClientWallet("")
+         setClientCredit("")
+          //   {item.credit && item.credit.status== 'accepted'? (
+          //    <>
+          //      {setClientCredit(item.credit.limet)}
+          //      {setClientCreditStatus(item.credit.status)}
+          //    </>
+          //  ):(
+          //     <>
+          //     {setClientCredit(0)}
+          //     </>
+          //  )}
+
+          document.querySelector('input[name="c_name"]').value = itemName0;
+            document.querySelector('input[name="c_ContactPhoneNumber"]').value = itemMobile0;
+            document.querySelector('input[name="c_AddressLine1"]').value =itemAddress0;
+           
+            document.querySelector('input[name="p_name"]').value = '';
+            document.querySelector('input[name="p_ContactPhoneNumber"]').value = '';
+           //  document.querySelector('input[name="p_city"]').value = item.city;
+            document.querySelector('input[name="p_AddressLine1"]').value = '';
+
+            document.querySelector('input[name="p_name"]').readOnly = false;
+            document.querySelector('input[name="p_ContactPhoneNumber"]').readOnly = false;
+            document.querySelector('input[name="p_AddressLine1"]').readOnly = false;
+           
+        }}
+          >تبديل العميل لمستلم</button>
+          </div>
+          </>
           ): null}
         <form onSubmit={submitOrderUserForm} className='' action="">
             <div className="row">
@@ -1440,7 +1502,10 @@ export default function SmsaShippments(userData) {
         </div> */}
         <div className='pb-3'>
                 <label htmlFor=""> اسم المستلم<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_name' onChange={(e)=>{
+                  setItemName2(e.target.value)
+                  getOrderData(e)
+                }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_name'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1455,6 +1520,7 @@ export default function SmsaShippments(userData) {
                 <PhoneInput name='c_ContactPhoneNumber' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
     onChange={(phone2) => {
+      setItemMobile2(phone2)
       setPhone2(phone2);
       getOrderData({ target: { name: 'c_ContactPhoneNumber', value: phone2 } });
     }}/>
@@ -1549,7 +1615,10 @@ export default function SmsaShippments(userData) {
             </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> المنطقة<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_District' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_District' onChange={(e)=>{
+                  setItemAddress2(e.target.value)
+                  getOrderData(e)
+                }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_District'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>

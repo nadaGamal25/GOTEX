@@ -330,6 +330,12 @@ body{
   /* background-image: url(../src/assets/93.jpg);
   background-size: 100% 100%; */
 }
+
+.login-container input,
+.register-container input{
+  background-color: transparent !important;
+  border-color: var(--dark--color) !important;
+}
 .login-box,
 .register-box{
   border: 2px solid var(--dark--color);
@@ -1284,7 +1290,7 @@ h3{
   border: 2px solid #08354c;
   border-radius: 5px;
   padding: 10px;
-  margin: 15px 5px 30px 5px !important;
+  margin: 15px 5px 10px 5px !important;
 }
 .prices-box p{
   margin: 0;

@@ -63,7 +63,12 @@ export default function AnwanShippments(userData) {
       const [isClient,setIsClient]=useState(false);
       const [companyKgPrice, setCompanyKgPrice]=useState('');
       const [companyMarketerPrice, setCompanyMarketerPrice]=useState('');
-      
+      const [itemName2, setItemName2] = useState('');
+  const [itemMobile2, setItemMobile2] = useState('');
+  const [itemAddress2, setItemAddress2] = useState('');
+  const [itemName0, setItemName0] = useState('');
+  const [itemMobile0, setItemMobile0] = useState('');
+  const [itemAddress0, setItemAddress0] = useState('');
       const [errorList, seterrorList]= useState([]); 
       const [itemName, setItemName] = useState('');
   const [itemMobile, setItemMobile] = useState('');
@@ -229,6 +234,9 @@ export default function AnwanShippments(userData) {
       s_city: itemCity,
       s_phone: itemMobile,
       s_address: itemAddress,
+      c_name: itemName2,
+      c_phone: itemMobile2,
+      c_address: itemAddress2,
       clintid: itemClientId,
       daftraid: itemId,
       // s_email: itemEmail,
@@ -709,6 +717,7 @@ export default function AnwanShippments(userData) {
                 (<span className='txt-blue'> {userBalance}</span> ر.س)
                 </span>
       </div>
+{/*       
 { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
             <div className="prices-box">
              <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
@@ -748,7 +757,7 @@ export default function AnwanShippments(userData) {
             </div>
             
           </div>
-          ): null}
+          ): null} */}
 { userData.userData.data.user.rolle === "marketer"?(
            <div className="search-box p-4 mt-2 mb-4 row g-1">
            <div className="col-md-2">
@@ -788,6 +797,9 @@ export default function AnwanShippments(userData) {
                        setItemMobile(item.mobile);
                        setItemCity(item.city);
                        setItemAddress(item.address);
+                       setItemName0(item.name);
+                           setItemMobile0(item.mobile);
+                           setItemAddress0(item.address);
                       //  setItemEmail(item.email);
                        setItemId(item.daftraClientId);
                        setItemClientId(item._id);
@@ -913,12 +925,62 @@ export default function AnwanShippments(userData) {
           ): null}
         <div className="shipmenForm">
           { userData.userData.data.user.rolle === "marketer"?(
+            <>
             <div className="prices-box text-center">
             {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.name === "anwan" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
                 null))}
           </div>
+          <div className="text-center">
+          <button className="btn btn-secondary mb-3 text-white"
+          onClick={(e)=>{ 
+            // setClients("")
+            setBranches('')
+            setItemName("");
+            setItemMobile("");
+            setItemAddress("");
+            setPhoneValue("")
+            setItemName2(itemName0);
+            setItemMobile2(itemMobile0);
+            setItemAddress2(itemAddress0);
+            setItemId("");
+            setItemClientId("");
+            setPhone2(itemMobile0)
+            setPackageCompanies('')
+            setPackageOrders('')
+            setIsClient(false)
+         setIsWallet(false)
+         setClientWallet("")
+         setClientCredit("")
+          //   {item.credit && item.credit.status== 'accepted'? (
+          //    <>
+          //      {setClientCredit(item.credit.limet)}
+          //      {setClientCreditStatus(item.credit.status)}
+          //    </>
+          //  ):(
+          //     <>
+          //     {setClientCredit(0)}
+          //     </>
+          //  )}
+
+          document.querySelector('input[name="c_name"]').value = itemName0;
+            document.querySelector('input[name="c_phone"]').value = itemMobile0;
+            document.querySelector('input[name="c_address"]').value =itemAddress0;
+           
+            document.querySelector('input[name="s_name"]').value = '';
+            document.querySelector('input[name="s_phone"]').value = '';
+           //  document.querySelector('input[name="p_city"]').value = item.city;
+            document.querySelector('input[name="s_address"]').value = '';
+
+            document.querySelector('input[name="s_name"]').readOnly = false;
+            document.querySelector('input[name="s_phone"]').readOnly = false;
+            document.querySelector('input[name="s_address"]').readOnly = false;
+           
+        }}
+          >تبديل العميل لمستلم</button>
+          </div>
+          </>
           ): null}
           
         <form onSubmit={submitOrderUserForm} className='' action="">
@@ -1375,7 +1437,10 @@ onChange={(phoneValue) => {
                 
         <div className='pb-3'>
                 <label htmlFor=""> الاسم<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_name' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_name' onChange={(e)=>{
+                  setItemName2(e.target.value)
+                  getOrderData(e)
+                }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_name'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1399,6 +1464,7 @@ onChange={(phoneValue) => {
                 <PhoneInput name='c_phone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
     onChange={(phone2) => {
+      setItemMobile2(phone2)
       setPhone2(phone2);
       getOrderData({ target: { name: 'c_phone', value: phone2 } });
     }}/>
@@ -1480,7 +1546,10 @@ onChange={(phoneValue) => {
             </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_address' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_address' onChange={(e)=>{
+                  setItemAddress2(e.target.value)
+                  getOrderData(e)
+                }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_address'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
