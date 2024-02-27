@@ -33,7 +33,10 @@ export default function SplShippments(userData) {
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
   const [itemClientId, setItemClientId] = useState('');
-
+  const [senderCityName, setSenderCityName] =useState(null)
+  const [senderGovernoretName, setSenderGovernoretName] =useState(null)
+  const [recieverCityName, setRecieverCityName] =useState(null)
+  const [recieverGovernoretName, setRecieverGovernoretName] =useState(null)
   const [pieces, setPieces] = useState([
     // {
     //   PieceWeight: '',
@@ -66,6 +69,10 @@ export default function SplShippments(userData) {
     clintid:'',
     daftraid:'',
     shipmentValue:"",
+    pickUpDistrict:"",
+    deliveryDistrict:"",
+    pickUpGovernorate:"",
+    deliveryGovernorate:"",
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -210,6 +217,10 @@ function getOrderData(e) {
         deliveryAddress1: itemAddress2,
         clintid: itemClientId,
         daftraid:itemId,
+        pickUpDistrict:senderCityName,
+        pickUpGovernorate:senderGovernoretName,
+        deliveryDistrict:recieverCityName,
+        deliveryGovernorate:recieverGovernoretName,
       };
     } else {
       myOrderData = { ...orderData };
@@ -255,6 +266,10 @@ function validateOrderUserForm(){
         markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
         daftraid:Joi.string().allow(null, ''),
+        pickUpDistrict:Joi.string().required(),
+        deliveryDistrict:Joi.string().required(),
+        pickUpGovernorate:Joi.string().required(),
+        deliveryGovernorate:Joi.string().required(),
         
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -917,8 +932,15 @@ async function getPackageDetails() {
                     onClick={(e)=>{ 
                       // const selectedCity = e.target.innerText;
                       const selectedCity = item.Id;
+                      const cityName=item.Name;
+                      const governorate =item.GovernorateName;
                       setItemCity(selectedCity)
+                      setSenderCityName(cityName)
+                      setSenderGovernoretName(governorate)
                       getOrderData({ target: { name: 'pickUpDistrictID', value: selectedCity } });
+                      // getOrderData({ target: { name: 'pickUpGovernorate', value: governorate } });
+                      // getOrderData({ target: { name: 'pickUpDistrict', value: cityName } });
+                      
                       document.querySelector('input[name="pickUpDistrictID"]').value = item.Name;
                       closeCitiesList();
                   }}
@@ -1339,6 +1361,12 @@ async function getPackageDetails() {
                     onClick={(e)=>{ 
                       // const selectedCity = e.target.innerText;
                       const selectedCity =item.Id
+                      const cityName=item.Name;
+                      const governorate =item.GovernorateName;
+                      setRecieverCityName(cityName)
+                      setRecieverGovernoretName(governorate)
+                      // getOrderData({ target: { name: 'deliveryDistrict', value: cityName } });
+                      // getOrderData({ target: { name: 'deliveryGovernorate', value: governorate } });
                       getOrderData({ target: { name: 'deliveryDistrictID', value: selectedCity } });
                       document.querySelector('input[name="deliveryDistrictID"]').value = item.Name;
                       closeCitiesList2();
