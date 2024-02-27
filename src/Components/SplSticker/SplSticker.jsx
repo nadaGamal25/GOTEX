@@ -23,9 +23,9 @@ export default function SplSticker({item}) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  useEffect(() => {
-    getCities()
-  }, []);
+  // useEffect(() => {
+  //   getCities()
+  // }, []);
   const [cities,setCities]=useState()
   async function getCities() {
     console.log(localStorage.getItem('userToken'))
@@ -61,7 +61,7 @@ export default function SplSticker({item}) {
   }
   return (
     <div>
-    {senderCityName === null || senderGovernoretName === null || recieverCityName ===null || recieverGovernoretName ===null ? (
+    {/* {senderCityName === null || senderGovernoretName === null || recieverCityName ===null || recieverGovernoretName ===null ? (
       <div className="d-flex min-vh-100 login-container px-3">
                 <div className='m-auto w-50 text-center' >
                   <span>
@@ -70,8 +70,7 @@ export default function SplSticker({item}) {
         <h5 className='p-3'> <b>Loading...</b></h5>
          </div>
          </div>
-    ):(
-    <div >
+    ):( */}
 
     <div className='ms-4'>
     <style>
@@ -105,7 +104,7 @@ export default function SplSticker({item}) {
           
             <td colSpan="1"  style={{ border: '1px solid black' }}>
               <h3 style={{ fontSize: '24px', fontWeight: 'bold', marginLeft: '5px' }}><b>Zone :  </b></h3>
-              <p style={{ fontSize: '14px',fontWeight: 'bold', marginLeft: '5px' }}><b>{recieverGovernoretName}</b></p>
+              <p style={{ fontSize: '14px',fontWeight: 'bold', marginLeft: '5px' }}><b>{item.receiver.governorate? item.receiver.governorate:"_"}</b></p>
             </td>
             <td colSpan="2" rowSpan="1" style={{ border: '1px solid black' }}>
               <p style={{ marginLeft: '5px', fontSize: '16px' }}>
@@ -175,7 +174,7 @@ export default function SplSticker({item}) {
               <p style={{ margin: '5px 0 0 10px' }}>
                 <b>From : </b>
                 {item.sender.name}<br />
-              <b>  {senderGovernoretName}</b>,<b>{senderCityName}</b> <br/> {item.sender.AddressLine1} <br/>
+              <b>  {item.sender.governorate? <b>{item.sender.governorate}</b>:"_"}</b>,<b>{item.sender.city? <b>{item.sender.city}</b>:"_"}</b> <br/> {item.sender.AddressLine1} <br/>
               {item.sender.AddressLine2?(<p>{item.sender.AddressLine2}</p>):null}
               </p>
               <hr style={{ margin: '2px 10px' }} />
@@ -187,7 +186,7 @@ export default function SplSticker({item}) {
             <p style={{ margin: '5px 0 0 10px' }}>
                 <b>To : </b>
                 {item.receiver.name}<br />
-              <b>  {recieverGovernoretName}</b>,<b>{recieverCityName}</b> <br/> {item.receiver.AddressLine1} <br/>
+              <b>  {item.receiver.governorate? item.receiver.governorate:"_"}</b>,<b>{item.receiver.city? item.receiver.city:"_"}</b> <br/> {item.receiver.AddressLine1} <br/>
               {item.receiver.AddressLine2?(<p>{item.receiver.AddressLine2}</p>):null}
               </p>
               <hr style={{ margin: '2px 10px' }} />
@@ -361,8 +360,7 @@ export default function SplSticker({item}) {
           */}
   </div>
 
-  </div>
-    )}
+     {/* )} */}
     </div>
   )
 }

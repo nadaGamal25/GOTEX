@@ -1616,7 +1616,6 @@ export default function SmsaShippments(userData) {
             <div className='pb-3'>
                 <label htmlFor=""> المنطقة<span className="star-requered">*</span></label>
                 <input type="text" className="form-control" name='c_District' onChange={(e)=>{
-                  setItemAddress2(e.target.value)
                   getOrderData(e)
                 }}/>
                 {errorList.map((err,index)=>{
@@ -1629,7 +1628,10 @@ export default function SmsaShippments(userData) {
             
             <div className='pb-3'>
                 <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_AddressLine1' onChange={getOrderData}/>
+                <input type="text" className="form-control" name='c_AddressLine1' onChange={(e)=>{
+                                    setItemAddress2(e.target.value)
+                                    getOrderData(e)
+                }}/>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='c_AddressLine1'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
