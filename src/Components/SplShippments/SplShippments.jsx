@@ -33,10 +33,11 @@ export default function SplShippments(userData) {
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
   const [itemClientId, setItemClientId] = useState('');
-  const [senderCityName, setSenderCityName] =useState(null)
-  const [senderGovernoretName, setSenderGovernoretName] =useState(null)
-  const [recieverCityName, setRecieverCityName] =useState(null)
-  const [recieverGovernoretName, setRecieverGovernoretName] =useState(null)
+  const [senderCityName, setSenderCityName] =useState('')
+  const [senderGovernoretName, setSenderGovernoretName] =useState('')
+  const [recieverCityName, setRecieverCityName] =useState('')
+  const [recieverCityId, setRecieverCityId] =useState('')
+  const [recieverGovernoretName, setRecieverGovernoretName] =useState('')
   const [pieces, setPieces] = useState([
     // {
     //   PieceWeight: '',
@@ -151,6 +152,7 @@ export default function SplShippments(userData) {
 function submitOrderUserForm(e) {
   e.preventDefault();
   setisLoading(true);
+  // getOrderData({ target: { name: 'deliveryDistrict', value: recieverCityName } });
   let validation = validateOrderUserForm();
   console.log(validation);
   console.log(pieces)
@@ -217,6 +219,7 @@ function getOrderData(e) {
         deliveryAddress1: itemAddress2,
         clintid: itemClientId,
         daftraid:itemId,
+        deliveryDistrictID:recieverCityId,
         pickUpDistrict:senderCityName,
         pickUpGovernorate:senderGovernoretName,
         deliveryDistrict:recieverCityName,
@@ -237,6 +240,7 @@ function getOrderData(e) {
     console.log(myOrderData);
   console.log(myOrderData.cod);
 }
+
 function validateOrderUserForm(){
     const pieceSchema = Joi.object({
         PieceWeight: Joi.number().allow(null, ''),
@@ -689,7 +693,7 @@ async function getPackageDetails() {
                          closeClientsList();
                      }}
                        >
-                         {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
+                         {item.name} , {item.company} , {item.mobile} , {item.city} , {item.address}
                          {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
 
                       </li>
@@ -1055,10 +1059,10 @@ async function getPackageDetails() {
             <>
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
-                    <div className='pe-2'>
+                    {/* <div className='pe-2'>
                     <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
+                    </div> */}
                     <div className='pe-2'>
                     <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
@@ -1093,10 +1097,10 @@ async function getPackageDetails() {
             <>
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
-                    <div className='pe-2'>
+                    {/* <div className='pe-2'>
                     <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
+                    </div> */}
                     <div className='pe-2'>
                     <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
@@ -1357,17 +1361,18 @@ async function getPackageDetails() {
                   return search2 === ''? item : item.Name.toLowerCase().includes(search2.toLowerCase());
                   }).map((item,index) =>{
                    return(
-                    <li key={index} name='deliveryDistrictID' 
+                    <li key={index} name='deliveryDistrictID'  
                     onClick={(e)=>{ 
                       // const selectedCity = e.target.innerText;
-                      const selectedCity =item.Id
                       const cityName=item.Name;
                       const governorate =item.GovernorateName;
+                      const selectedCity =item.Id
                       setRecieverCityName(cityName)
                       setRecieverGovernoretName(governorate)
+                      setRecieverCityId(selectedCity)
+                      getOrderData({ target: { name: 'deliveryDistrictID', value: selectedCity } });
                       // getOrderData({ target: { name: 'deliveryDistrict', value: cityName } });
                       // getOrderData({ target: { name: 'deliveryGovernorate', value: governorate } });
-                      getOrderData({ target: { name: 'deliveryDistrictID', value: selectedCity } });
                       document.querySelector('input[name="deliveryDistrictID"]').value = item.Name;
                       closeCitiesList2();
                   }}
