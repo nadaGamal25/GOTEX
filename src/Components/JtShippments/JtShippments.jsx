@@ -2221,7 +2221,7 @@ onChange={(phoneValue) => {
          </div>
          <div className='pb-1'>
              <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
-             <input type="text" className="form-control" name='re_address'  oonChange={(e)=>{
+             <input type="text" className="form-control" name='re_address'  onChange={(e)=>{
                   setItemAddress2(e.target.value)
                   getOrderData(e)
                 }}/>
@@ -2296,7 +2296,7 @@ onChange={(phoneValue) => {
      
    ))}
          </div>
-         {errorList && <div className="text-danger mx-3 my-1">يجب ملئ جميع البيانات</div> }
+         {errorList && <div className="text-muted mx-3 my-1">يجب ملئ جميع البيانات</div> }
          <button type="submit" className="btn btn-orange mx-3 my-1" disabled={isLoading}>
             {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
 
