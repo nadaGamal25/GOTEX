@@ -1843,7 +1843,7 @@ function validateOrderUserForm(){
       
     ))}
           </div>
-          {errorList && <div className="text-danger m-2">يجب ملئ جميع البيانات</div> }
+          {errorList && <div className="text-muted m-2">يجب ملئ جميع البيانات</div> }
           <button type="submit" className="btn btn-orange me-3" disabled={isLoading}>
             {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'إضافة شحنة'}
 
