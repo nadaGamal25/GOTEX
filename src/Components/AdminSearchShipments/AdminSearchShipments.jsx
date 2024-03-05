@@ -289,27 +289,34 @@ const exportToExcel = async () => {
     const dataToExport = response.data.data.map((item, index) => {
       return [
         item.created_at ? item.created_at.slice(0, 10) : '_',
-        item.user && item.user.name ? item.user.name : '_',
+        item.sender && item.sender.name? item.sender.name :'_',
+        item.sender && item.sender.mobile? item.sender.mobile :'_',
+        item.receiver && item.receiver.name? item.receiver.name :'_',
+        item.receiver && item.receiver.mobile? item.receiver.mobile :'_',
         item.company === "anwan" ? 'gotex' : item.company || '_',
         item.data && item.data.awb_no ? item.data.awb_no : (item.data && item.data.data && item.data.data.expressNo ? item.data.data.expressNo : (item.data && item.data.Items && item.data.Items[0]?.Barcode ? item.data.Items[0].Barcode : (item.data && item.data.waybill ? item.data.waybill : (item.data && item.data.data && item.data.data.billCode ? item.data.data.billCode : (item.data && item.data.orderTrackingNumber ? item.data.orderTrackingNumber : (item.data && item.data.Shipments && item.data.Shipments[0]?.ID ? item.data.Shipments[0].ID : (item.data && item.data.sawb ? item.data.sawb : '_'))))))),
-        item.status || '_',
         item.paytype || '_',
-        item.user && item.user.mobile || '_',
-        item.user && item.user.email || '_',
         item.price || '_',
+        item.codPrice || '_',
+        item.weight || '_',
+        item.status || '_',
         item.marktercode || '_',
         item.cancelReason || '_',
+        item.user && item.user.name ? item.user.name : '_',
+
       ];
     });
 
     // Create a worksheet
-    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'العميل', 'شركة الشحن', 'رقم التتبع', 'حالة الشحنة', 'طريقة الدفع', 'الهاتف', 'الايميل', 'السعر','كود المسوقة','سبب الغاء الشحنة'], ...dataToExport]);
+    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'اسم المرسل','جوال المرسل','اسم المستلم','جوال المستلم', 'شركة الشحن', 'رقم الشحنة', 'طريقة الدفع', 'المبلغ', 'مبلغCOD', 'الوزن','حالة الشحنة','كود المسوقة','(الملاحظات(سبب الالغاء ','المدخل'], ...dataToExport]);
 
     // Set column styles
     ws['!cols'] = [
-      { wch: 18 },{ wch: 18 },{ wch: 18 },
-      { wch: 18 },{ wch: 18 },{ wch: 18 },
-      { wch: 18 },{ wch: 18 },{ wch: 18 },,{ wch: 18 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
        // Set column width to 150 pixels
       // Add more columns as needed
     ];
@@ -373,7 +380,7 @@ const exportToExcel = async () => {
         </div>
         <div className="col-md-4">
           <input className='form-control m-1' 
-          type="search" placeholder="اسم المستخدم , الهاتف ,الايميل"
+          type="search" placeholder="اسم المدخل , الهاتف ,الايميل"
           // value={clientFilter}
           onChange={(e) => setClientFilter(e.target.value)}
           />
@@ -513,26 +520,29 @@ className='mx-1'
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">التاريخ</th>
-                <th scope="col">المستخدم</th>
-                {/* <th scope="col">المرسل</th> */}
+                <th scope="col">اسم المرسل</th>
+                <th scope="col">جوال المرسل</th>
+                <th scope="col">اسم المستلم</th>
+                <th scope="col">جوال المستلم</th>
                 <th scope="col">
                   شركة الشحن</th>
                 <th scope="col">
-                  رقم التتبع</th>
+                  رقم الشحنة</th>
+                  <th scope="col">
+                  طريقة الدفع</th>
+                
                 <th scope="col">
+                  المبلغ</th>
+                  <th scope="col">
+                  مبلغCOD</th>
+                  <th scope="col">
+                  الوزن</th>
+                  <th scope="col">
                   حالة الشحنة </th>
                 <th scope="col">
-                  طريقة الدفع</th>
-                <th scope="col">
-                  الهاتف</th>
-                <th scope="col">
-                  الايميل</th>
-                <th scope="col">
-                  السعر</th>
-                <th scope="col">
-                  كود المسوق</th>
-                <th scope="col">id_الفاتورة</th>  
-                <th scope="col"> سبب الإلغاء</th>              
+                  كود المسوقة</th>
+                <th scope="col">الملاحظات(سبب الإلغاء)</th>  
+                <th scope="col"> المدخل </th>              
               </tr>
             </thead>
             <tbody>
@@ -549,7 +559,11 @@ className='mx-1'
 ) : item.data && item.data.createDate ? (
   <td>{item.data.createDate.slice(0, 10)}</td>): item.created_at ? (
     <td>{item.created_at.slice(0, 10)}</td>) : (<td>_</td>)}
-                {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
+                    {item.sender && item.sender.name ? <td>{item.sender.name}</td> : <td>_</td>}
+                    {item.sender && item.sender.mobile ? <td>{item.sender.mobile}</td> : <td>_</td>}
+                    {item.receiver && item.receiver.name ? <td>{item.receiver.name}</td> : <td>_</td>}
+                    {item.receiver && item.receiver.mobile ? <td>{item.receiver.mobile}</td> : <td>_</td>}
+
                 {item.company ==="anwan"?<td>gotex</td>:<td>{item.company}</td>}
                 {/* {item.company?<td>{item.company}</td>:<td>_</td>} */}
                 {item.data && item.data.awb_no ? (
@@ -572,20 +586,18 @@ className='mx-1'
 ) : (
   <td>_</td>
 )}
-               {item.status?<td className={item.status=== "canceled" ?'text-center text-danger fw-bold':''}>{item.status}</td>:<td>_</td>}
                 {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
-
-                {item.user && item.user.mobile?<td>{item.user.mobile}</td>:<td>_</td>}
-                {item.user && item.user.email?<td>{item.user.email}</td>:<td>_</td>}
                 {item.price?<td>{item.price}</td>:<td>_</td>}
-                
+                {item.codPrice?<td>{item.codPrice}</td>:<td>_</td>}
+                {item.weight?<td>{item.weight}</td>:<td>_</td>}
 
+               {item.status?<td className={item.status=== "canceled" ?'text-center text-danger fw-bold':''}>{item.status}</td>:<td>_</td>}
 
                 {item.marktercode?<td>{item.marktercode}</td>:<td>_</td>}
                 
-        {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
         {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'> {item.cancelReason} </span> </td> : <td></td>}
-            
+        {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
+
       </>
     )}
   </tr>
@@ -920,6 +932,3 @@ onChange={(e) => setCurrentPage2(e.target.value)} />
 //   }
 
 // };
-
-
-
