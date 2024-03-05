@@ -380,7 +380,7 @@ const exportToExcel = async () => {
         </div>
         <div className="col-md-4">
           <input className='form-control m-1' 
-          type="search" placeholder="اسم المستخدم , الهاتف ,الايميل"
+          type="search" placeholder="اسم المدخل , الهاتف ,الايميل"
           // value={clientFilter}
           onChange={(e) => setClientFilter(e.target.value)}
           />
