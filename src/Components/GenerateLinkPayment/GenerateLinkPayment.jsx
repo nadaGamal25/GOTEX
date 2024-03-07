@@ -125,7 +125,7 @@ export default function GenerateLinkPayment(userData) {
                            const selectedCity = e.target.innerText;
                            
                            setItemClientId(item._id);
-                           setItemClientName(item.name);
+                           setItemClientName(item.name.replace(/\s/g, ''));
                            setIsClient(true)
                            
                           
