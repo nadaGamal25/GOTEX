@@ -85,6 +85,9 @@ import ClientOrders from './Components/ClientOrders/ClientOrders';
 import GenerateLinkPayment from './Components/GenerateLinkPayment/GenerateLinkPayment';
 import FormPayment from './Components/FormPayment/FormPayment';
 import ActivateUser from './Components/ActivateUser/ActivateUser';
+import MarketersClients from './Components/MarketersClients/MarketersClients';
+import MarketerGenerateLink from './Components/MarketerGenerateLink/MarketerGenerateLink';
+import RegisterClient from './Components/RegisterClient/RegisterClient';
 
 function App() {
   
@@ -138,6 +141,7 @@ function App() {
     {path:'marketerSignUp',element:<MarketerSignUp/>},
     {path:'signupMarketers',element:<SignupMarketers/>},
     {path:'loginMarketers',element:<LoginMarketers saveMarketerData={saveMarketerData}/>},
+    {path:'registerClient/:mCode',element:<RegisterClient/>},
     // {path:'marketersShipments',element:<MarketersShipments/>},
     {path:'clientOrders',element:<ErrorBoundary><ClientOrders userData={userData}/></ErrorBoundary>},
     {path:'splSticker',element:<SplSticker/>},
@@ -210,6 +214,8 @@ function App() {
     ]},
     {path:'/',element:<LayoutMarketers setmarketerData={setmarketerData} marketerData={marketerData}/> ,children:[
       {path:'marketersShipments',element:<ErrorBoundary><MarketersShipments marketerData={marketerData}/></ErrorBoundary>},
+      {path:'marketersClients',element:<ErrorBoundary><MarketersClients marketerData={marketerData}/></ErrorBoundary>},
+      {path:'marketerGenerateLink',element:<ErrorBoundary><MarketerGenerateLink marketerData={marketerData}/></ErrorBoundary>},
    
     ]},
     {path:'*', element:<PageNotFound/>}

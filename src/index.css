@@ -436,6 +436,9 @@ label{
     width: 100%;
     padding: 20px;
 }
+.register-client-box{
+  width:100% ;
+}
   .email-box{
     width: 80% !important;
     padding: 20px !important;
@@ -1524,4 +1527,26 @@ border-radius: 5px;
 }
 .txt-blue{
   color: #1e75a1;
+}
+/*register client*/
+.register-client-container{
+  background-color: var(--bg-color);
+  background-size: 100% 100%;
+}
+.register-client-box input{
+  border-color: #0c5276;
+}
+.register-client-box{
+  /* border: 2px solid var(--dark--color); */
+  /* border: 2px solid #1d7253; */
+  border-radius: 10px;
+  background-color: #fff;
+ /* background-color: rgba(255, 255, 255, 0.5); */
+  box-shadow: 5px 5px 10px #8ca0aa;
+  width: 80%;
+  padding: 30px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
