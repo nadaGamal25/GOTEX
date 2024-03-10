@@ -11,7 +11,7 @@ export default function MarketersClients() {
 
       async function getClientsList() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/markter/get-marketer-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/test/markter/get-marketer-clients',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('marketerToken')}`,

@@ -37,7 +37,7 @@ export default function RegisterClient() {
     try {
       const filteredBranches = Branches.filter(branch => branch.city.trim() !== '' && branch.address.trim() !== '');
       const response = await axios.post(
-        `https://dashboard.go-tex.net/api/clients/register-client/${allparams.mCode}`,
+        `https://dashboard.go-tex.net/test/clients/register-client/${allparams.mCode}`,
         {
           ...clientData,
           branches:filteredBranches
