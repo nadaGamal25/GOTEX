@@ -48,7 +48,20 @@ export default function NavMarketers({marketerData ,logout}) {
                     <span class="text">الشحنات </span>
                 </Link>
             </li>
-            
+            <li>
+                <Link to="/marketersClients">
+                    <i class="fa-solid fa-users bx"></i>
+                    <span class="text">العملاء</span>
+                </Link>
+            </li>
+            <li>
+                <Link to="/marketerGenerateLink">
+                <i class="fa-solid fa-link bx"></i>
+                    <span class="text">   رابط التسجيل للعميل 
+               
+                </span>
+                </Link>
+            </li>
             
            
         </ul>
@@ -60,6 +73,7 @@ export default function NavMarketers({marketerData ,logout}) {
                     <span class="text">تسجيل الخروج</span>
                 </Link>
             </li>
+            
         </ul>
     </section>
     
