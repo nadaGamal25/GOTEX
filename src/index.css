@@ -9,9 +9,9 @@
 :root{
   --orange-color:#fa4c03;
   --bg-color:#f2f2f2;
-  /* --dark--color:#08354c; */
+  --dark--color:#08354c;
   /* --dark--color: #1d7253; */
-  --dark--color: #4e382d;
+  /* --dark--color: #4e382d; */
 
 }
 .checkbox{
@@ -326,10 +326,11 @@ body{
   background-color: rgba(255, 202, 202, 0.785) !important;
 }
 /* start login & register */
+
 .login-container,
 .register-container{
   /* background-color: var(--bg-color); */
-  background-image: url(../src/assets/founding1.jpg);
+  background-image: url(../src/assets/ramdan-kareem.jpg);
   background-size: 100% 100%;
 }
 
@@ -344,9 +345,9 @@ body{
   /* border: 2px solid #1d7253; */
   border-radius: 10px;
   /*background-color: #fff;
-  */background-color: rgba(255, 255, 255, 0.5);
+  */background-color: rgba(255, 255, 255, 0.6);
   /* box-shadow: 5px 5px 10px #8ca0aa; */
-  width: 50%;
+  width: 40%;
   padding: 50px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -358,10 +359,10 @@ input:focus{
 }
 .login-box .btn-login{
   /* background-color: var(--orange-color) !important; */
-  background-color: #e76a58 !important;
+  background-color: #cd9644 !important;
   color: #fff !important;
   margin-top: 10px;
-  box-shadow: 5px 5px 5px #ec9873;
+  box-shadow: 5px 5px 5px #e8cea7;
   /* box-shadow: 5px 5px 5px #1d7253; */
   border: none !important;
 }
@@ -381,7 +382,7 @@ input:focus{
 .login-box .btn-login:hover,
 .btn-signup:hover{
   /* background-color: #dc4606 !important; */
-  background-color: #e76a58 !important;
+  background-color: #d4a45b !important;
   color: #fff !important;
   border: none !important;
 
@@ -487,7 +488,8 @@ html, body ,
   /* background: rgba(8, 204, 132, 0.4) ; */
   /* background:#D0F2CB */
   /* background: #6bc983; */
-  background: #efeae4;
+  /* background: #efeae4; bige */
+  background: #ede5e0;
 ;
   z-index: 999;
   transition: all 0.3s ease;
@@ -700,7 +702,8 @@ left: 0px;
   height: 56px;
   /* background-color: #f2f2f2; */
   /* background-color: #D0F2CB; */
-  background:#efeae4;
+  /* background:#efeae4;big */
+  background: #ede5e0;
    /* #6bc983; */
   padding: 0 20px;
   grid-gap: 24px;
@@ -781,7 +784,7 @@ nav form .form-input button{
   /*background-color: var(--dark--color);
   *//*background-color: #1d7253;
   */
-  background-image: url(../src/assets/founding1.jpg);
+  background-image: url(../src/assets/ramdan-kareem.jpg);
   opacity: 0.9;
   padding: 15px;
   border-radius: 15px;
@@ -836,7 +839,7 @@ nav form .form-input button{
 
 .area{
   /* background:#dfe0e5  ;   */
-  background-image: url(../src/assets/founding1.jpg);
+  background-image: url(../src/assets/ramdan-kareem.jpg);
   opacity: 0.9;
   background-size: 100% 100%;
   /* background: #1d7253;   */

@@ -148,6 +148,8 @@ function submitRegisterForm(e){
     
     {/* {error.length >0 ?<div className='alert alert-danger my-2'>{error}</div>:''} */}
     <form onSubmit={submitRegisterForm} className='my-3' action="">
+      <div className="row">
+      <div className="col-md-6">
       <label htmlFor="name">الاسم :</label>
       <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='name' id='name' />
       {errorList.map((err,index)=>{
@@ -156,6 +158,8 @@ function submitRegisterForm(e){
       }
       
     })}
+    </div>
+    <div className="col-md-6">
     <label htmlFor="email">البريد الالكترونى :</label>
       <input onChange={getUserData} type="email" className='my-input my-2 form-control' name='email' id='email' />
       {errorList.map((err,index)=>{
@@ -164,9 +168,11 @@ function submitRegisterForm(e){
       }
       
     })}
+    </div>
+
     {/* <div id='alerto'></div> */}
     {/* {alertMsg === "exist" && <p id="alerto" className="alert alert-danger my-2">هذا البريد الالكترونى موجود بالفعل</p>} */}
-
+    <div className="col-md-6">
       <label htmlFor="password">كلمة المرور :</label>
       <div className='pass-box'>
       <input onChange={getUserData} type={visible? "text" :"password"} className='my-input my-2 form-control' name='password' id='password' />
@@ -180,6 +186,8 @@ function submitRegisterForm(e){
       
     })}
     </div>
+    </div>
+    <div className="col-md-6">
       <label htmlFor="passwordconfirm">تأكيد كلمة المرور :</label>
       <div className='pass-box'>
       <input onChange={getUserData} type={visible? "text" :"password"} className='my-input my-2 form-control' name='passwordconfirm' id='passwordconfirm' />
@@ -192,7 +200,8 @@ function submitRegisterForm(e){
       
     })}
     </div>
-     
+     </div>
+     <div className="col-md-6">
     <label htmlFor="mobile">رقم الهاتف :</label>    
     <PhoneInput name='mobile' value={value} 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' onChange={(value) => {
@@ -207,7 +216,8 @@ function submitRegisterForm(e){
       }
       
     })}
-      
+      </div>
+      <div className="col-md-6">
       
       <label htmlFor="address">العنوان :</label>
       <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='address' id='address' />
@@ -217,7 +227,9 @@ function submitRegisterForm(e){
       }
       
     })}
-      <label htmlFor="location">الموقع(المدينة-المحافظة) :</label>
+    </div>
+    <div className="col-md-6">
+      <label htmlFor="location">الموقع(المدينة) :</label>
       <input onChange={getUserData} type="text" className='my-input my-2 form-control' name='location' id='location' />
       {errorList.map((err,index)=>{
       if(err.context.label ==='location'){
@@ -225,7 +237,9 @@ function submitRegisterForm(e){
       }
       
     })}
-      <label htmlFor="cr">توثيق النشاط التجارى :</label><br/>
+    </div>
+    <div className="col-md-6">
+      <label className='mb-2' htmlFor="cr">توثيق النشاط التجارى :</label><br/>
       {/* <input onChange={getUserData} type="file" className=' my-2' name='cr' id='cr' /> */}
       <input
         type="file"
@@ -238,7 +252,8 @@ function submitRegisterForm(e){
         }}
     
       />
-      
+      </div>
+      </div>
       <p className="email-note">* يرجى عدم التسجيل بنفس الايميل أكثر من مرة</p>
       <button className='btn btn-signup'>
         {isLoading == true?<i class="fa-solid fa-spinner fa-spin"></i>:'انشاء حساب'}

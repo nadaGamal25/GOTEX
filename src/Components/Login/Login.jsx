@@ -178,6 +178,7 @@ export default function Login({saveUserData}) {
         {/* {sessionExpired && showAlertAndRedirect()} */}
 
     <div className="d-flex min-vh-100 login-container px-3">
+
     <div className="login-box m-auto">
         <div className="text-center">
     <img className='m-auto' src={logo} alt="logo" />
@@ -221,6 +222,7 @@ export default function Login({saveUserData}) {
       <p className='mb-0 p-footer'> للإنضمام للعمل مع فريق جوتكس : <Link className='sign-link' to='/marketerSignUp'>قم بالتسجيل هنا  ..</Link> </p>
      </div>
      </div>
+
      </div>
     </>
   )
