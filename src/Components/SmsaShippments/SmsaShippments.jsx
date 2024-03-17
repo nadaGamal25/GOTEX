@@ -399,6 +399,7 @@ export default function SmsaShippments(userData) {
     "Buqaiq",
     "Dammam",
     //........
+    "Tumair",
     "Wadayne",
     "birk",
     "Marat",
