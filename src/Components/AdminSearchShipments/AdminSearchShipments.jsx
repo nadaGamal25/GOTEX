@@ -33,7 +33,7 @@ const [dateFilter, setDateFilter] = useState(false);
     async function getShipmentsAdmin() {
         try {
           setLoading(true);
-          const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/api/orders`, {
             params: {
                 page: currentPage,
                 limit: 30,
@@ -60,7 +60,7 @@ const [dateFilter, setDateFilter] = useState(false);
       async function getSearchShipmentsAdmin() {
         try {
           setLoading(true);
-          const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/api/orders`, {
             params: {
                 page: currentPage2,
                 limit: 30,
@@ -101,7 +101,7 @@ const [dateFilter, setDateFilter] = useState(false);
         setCurrentPage(currentPage - 1); 
         try {
           setLoading(true);
-          const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/api/orders`, {
             params: {
                 page: currentPage -1,
                 limit: 30,
@@ -131,7 +131,7 @@ const [dateFilter, setDateFilter] = useState(false);
         setCurrentPage(currentPage + 1);
         try {
           setLoading(true);
-          const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+          const response = await axios.get(`https://dashboard.go-tex.net/api/orders`, {
             params: {
                 page: currentPage +1,
                 limit: 30,
@@ -161,7 +161,7 @@ const [dateFilter, setDateFilter] = useState(false);
     setCurrentPage2(currentPage2 - 1); 
     try {
       setLoading(true);
-      const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/orders`, {
         params: {
             page: currentPage2 -1,
             limit: 30,
@@ -197,7 +197,7 @@ const handleNextPage2 = async () => {
     setCurrentPage2(currentPage2 + 1) 
     try {
       setLoading(true);
-      const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+      const response = await axios.get(`https://dashboard.go-tex.net/api/orders`, {
         params: {
             page: currentPage2 +1,
             limit: 30,
@@ -231,7 +231,7 @@ const handleNextPage2 = async () => {
 async function getSearchShipmentsPage() {
   try {
     setLoading(true);
-    const response = await axios.get(`https://dashboard.go-tex.net/api/companies/orders/all`, {
+    const response = await axios.get(`https://dashboard.go-tex.net/api/orders`, {
       params: {
           page: currentPage2,
           limit: 30,
@@ -264,7 +264,7 @@ const exportToExcel = async () => {
     setLoading(true);
 
     // Make the search request
-    const response = await axios.get('https://dashboard.go-tex.net/api/companies/orders/all', {
+    const response = await axios.get('https://dashboard.go-tex.net/api/orders', {
       params: {
         page: 1,
         limit: 5000,
@@ -300,15 +300,15 @@ const exportToExcel = async () => {
         item.codPrice || '_',
         item.weight || '_',
         item.status || '_',
-        item.marktercode || '_',
+        item.marketer && item.marketer.length > 0 && item.marketer[0].name ? item.marketer[0].name : '_',
         item.cancelReason || '_',
-        item.user && item.user.name ? item.user.name : '_',
+        item.user && item.user.length > 0  && item.user[0].name ? item.user[0].name : '_',
 
       ];
     });
 
     // Create a worksheet
-    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'اسم المرسل','جوال المرسل','اسم المستلم','جوال المستلم', 'شركة الشحن', 'رقم الشحنة', 'طريقة الدفع', 'المبلغ', 'مبلغCOD', 'الوزن','حالة الشحنة','كود المسوقة','(الملاحظات(سبب الالغاء ','المدخل'], ...dataToExport]);
+    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'اسم المرسل','جوال المرسل','اسم المستلم','جوال المستلم', 'شركة الشحن', 'رقم الشحنة', 'طريقة الدفع', 'المبلغ', 'مبلغCOD', 'الوزن','حالة الشحنة',' المسوقة','(الملاحظات(سبب الالغاء ','المدخل'], ...dataToExport]);
 
     // Set column styles
     ws['!cols'] = [
@@ -540,7 +540,7 @@ className='mx-1'
                   <th scope="col">
                   حالة الشحنة </th>
                 <th scope="col">
-                  كود المسوقة</th>
+                   المسوقة</th>
                 <th scope="col">الملاحظات(سبب الإلغاء)</th>  
                 <th scope="col"> المدخل </th>              
               </tr>
@@ -593,10 +593,10 @@ className='mx-1'
 
                {item.status?<td className={item.status=== "canceled" ?'text-center text-danger fw-bold':''}>{item.status}</td>:<td>_</td>}
 
-                {item.marktercode?<td>{item.marktercode}</td>:<td>_</td>}
+               {item.marketer && item.marketer.length > 0 && item.marketer[0]?<td>{item.marketer[0].name}</td>:<td>_</td>}
                 
         {item.status=== "canceled" ?<td><span className='text-center text-danger fw-bold'> {item.cancelReason} </span> </td> : <td></td>}
-        {item.user && item.user.name ? <td>{item.user.name}</td> : <td>_</td>}
+        {item.user && item.user.length > 0 && item.user[0].name ? <td>{item.user[0].name}</td> : <td>_</td>}
 
       </>
     )}
