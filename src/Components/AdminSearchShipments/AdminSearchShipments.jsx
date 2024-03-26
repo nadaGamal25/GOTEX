@@ -28,7 +28,7 @@ const [dateFilter, setDateFilter] = useState(false);
   const [maxPriceFilter, setMaxPriceFilter] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-
+  const [Dcompany, setDCompany] = useState('');
 
     async function getShipmentsAdmin() {
         try {
@@ -47,7 +47,7 @@ const [dateFilter, setDateFilter] = useState(false);
           setShipmentsAdmin(response.data.data);
           setSecondFilter(false)
           // setMarketerFilter(false)
-          // setDateFilter(false)
+          setDateFilter(false)
           console.log(response)
           setCurrentPage(response.data.pagination.currentPage);
           setNumberOfPages(response.data.pagination.numberOfPages);
@@ -69,8 +69,7 @@ const [dateFilter, setDateFilter] = useState(false);
                 billCode: searchBillCode,
                 marktercode:marketerCodeFilter,
                 keyword:clientFilter,
-                startDate:startDate,
-                endDate:endDate,
+                
               },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -80,7 +79,7 @@ const [dateFilter, setDateFilter] = useState(false);
           setShipmentsAdmin(response.data.data);
           setSecondFilter(true)
           // setMarketerFilter(false)
-          // setDateFilter(false)
+          setDateFilter(false)
           console.log(response)
           setCurrentPage2(response.data.pagination.currentPage);
           setNumberOfPages2(response.data.pagination.numberOfPages);
@@ -115,7 +114,7 @@ const [dateFilter, setDateFilter] = useState(false);
           setShipmentsAdmin(response.data.data);
           setSecondFilter(false)
           // setMarketerFilter(false)
-          // setDateFilter(false)
+          setDateFilter(false)
           console.log(response)
           setCurrentPage(response.data.pagination.currentPage);
           setNumberOfPages(response.data.pagination.numberOfPages);
@@ -145,7 +144,7 @@ const [dateFilter, setDateFilter] = useState(false);
           setShipmentsAdmin(response.data.data);
           setSecondFilter(false)
           // setMarketerFilter(false)
-          // setDateFilter(false)
+          setDateFilter(false)
           console.log(response)
           setCurrentPage(response.data.pagination.currentPage);
           setNumberOfPages(response.data.pagination.numberOfPages);
@@ -170,8 +169,7 @@ const [dateFilter, setDateFilter] = useState(false);
             billCode: searchBillCode,
             marktercode:marketerCodeFilter,
             keyword:clientFilter,
-            startDate:startDate,
-            endDate:endDate,
+            
           },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -181,7 +179,7 @@ const [dateFilter, setDateFilter] = useState(false);
       setShipmentsAdmin(response.data.data);
       setSecondFilter(true)
       // setMarketerFilter(false)
-      // setDateFilter(false)
+      setDateFilter(false)
       console.log(response)
       setCurrentPage2(response.data.pagination.currentPage);
       setNumberOfPages2(response.data.pagination.numberOfPages);
@@ -206,8 +204,7 @@ const handleNextPage2 = async () => {
             billCode: searchBillCode,
             marktercode:marketerCodeFilter,
             keyword:clientFilter,
-            startDate:startDate,
-            endDate:endDate,
+            
           },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -217,7 +214,7 @@ const handleNextPage2 = async () => {
       setShipmentsAdmin(response.data.data);
       setSecondFilter(true)
       // setMarketerFilter(false)
-      // setDateFilter(false)
+      setDateFilter(false)
       console.log(response)
       setCurrentPage2(response.data.pagination.currentPage);
       setNumberOfPages2(response.data.pagination.numberOfPages);
@@ -240,8 +237,7 @@ async function getSearchShipmentsPage() {
           billCode: searchBillCode,
           marktercode:marketerCodeFilter,
           keyword:clientFilter,
-          startDate:startDate,
-          endDate:endDate,
+          
         },
       headers: {
         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -272,10 +268,8 @@ const exportToExcel = async () => {
         paytype: searchPaytype,
         billCode: searchBillCode,
         marktercode:marketerCodeFilter,
-
         keyword: clientFilter,
-        startDate: startDate,
-        endDate: endDate,
+        
       },
       headers: {
         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -283,6 +277,7 @@ const exportToExcel = async () => {
     });
     setShipmentsAdmin(response.data.data);
     setSecondFilter(true)
+    setDateFilter(false)
     console.log(response)
     setCurrentPage2(response.data.pagination.currentPage);
     setNumberOfPages2(response.data.pagination.numberOfPages);
@@ -361,6 +356,186 @@ const exportToExcel = async () => {
   }
 };
 
+const dateExportToExcel = async () => {
+  try {
+    setLoading(true);
+
+    // Make the search request
+    const response = await axios.get(
+      `https://dashboard.go-tex.net/api/orders/filter-by-date`,
+      {
+          params: { 
+          page: currentPage4,
+          limit: 5000,
+          company:Dcompany,
+          startDate:startDate,
+          endDate:endDate,
+     },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      }
+    );
+
+    setShipmentsAdmin(response.data.data);
+    setSecondFilter(false)
+    setDateFilter(true)
+    
+    setCurrentPage4(response.data.pagination.currentPage);
+setNumberOfPages4(response.data.pagination.numberOfPages);
+    console.log(response)
+  
+    const dataToExport = response.data.data.map((item, index) => {
+      return [
+        item.created_at ? item.created_at.slice(0, 10) : '_',
+        item.sender && item.sender.name? item.sender.name :'_',
+        item.sender && item.sender.mobile? item.sender.mobile :'_',
+        item.receiver && item.receiver.name? item.receiver.name :'_',
+        item.receiver && item.receiver.mobile? item.receiver.mobile :'_',
+        item.company === "anwan" ? 'gotex' : item.company || '_',
+        item.data && item.data.awb_no ? item.data.awb_no : (item.data && item.data.data && item.data.data.expressNo ? item.data.data.expressNo : (item.data && item.data.Items && item.data.Items[0]?.Barcode ? item.data.Items[0].Barcode : (item.data && item.data.waybill ? item.data.waybill : (item.data && item.data.data && item.data.data.billCode ? item.data.data.billCode : (item.data && item.data.orderTrackingNumber ? item.data.orderTrackingNumber : (item.data && item.data.Shipments && item.data.Shipments[0]?.ID ? item.data.Shipments[0].ID : (item.data && item.data.sawb ? item.data.sawb : '_'))))))),
+        item.paytype || '_',
+        item.price || '_',
+        item.codPrice || '_',
+        item.weight || '_',
+        item.status || '_',
+        item.marketer && item.marketer.length > 0 && item.marketer[0].name ? item.marketer[0].name : '_',
+        item.cancelReason || '_',
+        item.user && item.user.length > 0  && item.user[0].name ? item.user[0].name : '_',
+
+      ];
+    });
+
+    // Create a worksheet
+    const ws = XLSX.utils.aoa_to_sheet([[ 'التاريخ', 'اسم المرسل','جوال المرسل','اسم المستلم','جوال المستلم', 'شركة الشحن', 'رقم الشحنة', 'طريقة الدفع', 'المبلغ', 'مبلغCOD', 'الوزن','حالة الشحنة',' المسوقة','(الملاحظات(سبب الالغاء ','المدخل'], ...dataToExport]);
+
+    // Set column styles
+    ws['!cols'] = [
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+      { wch: 15 },{ wch: 15 },{ wch: 15 },
+       // Set column width to 150 pixels
+      // Add more columns as needed
+    ];
+
+
+    // Create a workbook and add the worksheet
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+
+    // Save the workbook to a file
+    XLSX.writeFile(wb, 'orders-by-date.xlsx');
+  } catch (error) {
+    console.error('Error exporting to Excel:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+async function filterByDate() {
+  try {
+    setLoading(true);
+    const response = await axios.get(
+      `https://dashboard.go-tex.net/api/orders/filter-by-date`,
+      {
+          params: { 
+          page: currentPage4,
+          limit: 30,
+          company:Dcompany,
+          startDate:startDate,
+          endDate:endDate,
+     },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      }
+    );
+
+    setShipmentsAdmin(response.data.data);
+    setSecondFilter(false)
+    setDateFilter(true)
+    
+    setCurrentPage4(response.data.pagination.currentPage);
+setNumberOfPages4(response.data.pagination.numberOfPages);
+    console.log(response)
+  } catch (error) {
+    console.error('Error filtering by client data:', error);
+  } finally {
+    setLoading(false);
+  }
+}
+const handlePreviousPage4 = async () => {
+  if (currentPage4 > 1) {
+    setCurrentPage4(currentPage4 - 1); 
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://dashboard.go-tex.net/api/orders/filter-by-date`,
+        {
+            params: { 
+            page: currentPage4 -1,
+            limit: 30,
+            company:Dcompany,
+            startDate:startDate,
+            endDate:endDate,
+       },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
+  
+      setShipmentsAdmin(response.data.data);
+      setSecondFilter(false)
+      setDateFilter(true)
+      
+      setCurrentPage4(response.data.pagination.currentPage);
+  setNumberOfPages4(response.data.pagination.numberOfPages);
+      console.log(response)
+    } catch (error) {
+      console.error('Error filtering by client data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+};
+const handleNextPage4 = async () => {
+  if (currentPage4 < numberOfPages4) {
+    setCurrentPage4(currentPage4 + 1);
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://dashboard.go-tex.net/api/orders/filter-by-date`,
+        {
+            params: { 
+            page: currentPage4 + 1,
+            limit: 30,
+            company:Dcompany,
+            startDate:startDate,
+            endDate:endDate,
+       },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
+      );
+  
+      setShipmentsAdmin(response.data.data);
+      setSecondFilter(false)
+      setDateFilter(true)
+      
+      setCurrentPage4(response.data.pagination.currentPage);
+  setNumberOfPages4(response.data.pagination.numberOfPages);
+      console.log(response)
+    } catch (error) {
+      console.error('Error filtering by client data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+};
   return (
     <>
     <div className='p-5' id='content'>
@@ -412,7 +587,51 @@ const exportToExcel = async () => {
           placeholder="رقم الصفحة "
           onChange={(e) => setCurrentPage2(e.target.value)} />
         </div> */}
-        <div className="col-md-8 p-1">
+        {/* <div className="col-md-8 p-1">
+          <label>
+  التاريخ من:
+  <input
+    type="date"
+    // value={startDate}
+    onChange={(e) => setStartDate(e.target.value)}
+    max={endDate || undefined}
+  />
+</label>
+<label>
+  الى:
+  <input
+    type="date"
+    // value={endDate}
+    onChange={(e) => setEndDate(e.target.value)}
+    min={startDate || undefined}
+  />
+</label>
+
+        </div> */}
+        <div className="text-center mt-1">
+        <button className="btn btn-dark m-1" onClick={getSearchShipmentsAdmin}>
+  بحث
+</button>  
+<button className="btn btn-orange" onClick={exportToExcel}>بحث وتصدير ملف اكسيل</button>         
+
+ </div>
+      </div>
+    </div>
+    <div className="gray-table py-4 px-2 mb-4">
+      <div className="row">
+      <div className="col-md-4">
+        <select className='form-control m-1' name="" id="" onChange={(e) => setDCompany(e.target.value)}>
+<option value="">شركة الشحن</option>
+<option value="saee">saee</option>
+<option value="anwan">gotex</option>
+<option value="smsa">smsa</option>
+<option value="aramex">aramex</option>
+<option value="imile">imile</option>
+<option value="jt">jt</option>
+<option value="spl">spl</option>
+</select>          
+        </div>
+      <div className="col-md-8 p-1 ">
           <label>
   التاريخ من:
   <input
@@ -433,13 +652,13 @@ const exportToExcel = async () => {
 </label>
 
         </div>
-        <div className="text-center mt-1">
-        <button className="btn btn-dark m-1" onClick={getSearchShipmentsAdmin}>
-  بحث
-</button>  
-<button className="btn btn-orange" onClick={exportToExcel}>بحث وتصدير ملف اكسيل</button>         
+      </div>
+      <div className="text-center mt-1">
+      <button className="btn btn-dark m-1" 
+      onClick={filterByDate}
+      >بحث بالتاريخ </button> 
+<button className="btn btn-orange ة-1" onClick={dateExportToExcel}> تصدير اكسيل(التاريخ) </button>         
 
- </div>
       </div>
     </div>
     <div className="clients-table p-4 my-4">
@@ -628,17 +847,17 @@ className='mx-1'
       //     الصفحة التالية 
       //   </button>
       // </div>):
-      // dateFilter?(<div>
-      //   <button className="btn btn-dark" onClick={handlePreviousPage4} disabled={currentPage4 === 1}>
-      //     الصفحة السابقة 
-      //   </button>
-      //   <span className='px-1'>
-      //     Page {currentPage4} of {numberOfPages4}
-      //   </span>
-      //   <button className="btn btn-dark" onClick={handleNextPage4} disabled={currentPage4 === numberOfPages4}>
-      //     الصفحة التالية 
-      //   </button>
-      // </div>):
+      dateFilter?(<div>
+        <button className="btn btn-dark" onClick={handlePreviousPage4} disabled={currentPage4 === 1}>
+          الصفحة السابقة 
+        </button>
+        <span className='px-1'>
+          Page {currentPage4} of {numberOfPages4}
+        </span>
+        <button className="btn btn-dark" onClick={handleNextPage4} disabled={currentPage4 === numberOfPages4}>
+          الصفحة التالية 
+        </button>
+      </div>):
       (
         <div>
         <button className="btn btn-dark" onClick={handlePreviousPage} disabled={currentPage === 1}>

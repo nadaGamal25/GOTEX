@@ -286,10 +286,10 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i> */}
               </div>
-              <div className="d-flex pt-4 justify-content-center">
+              {/* <div className="d-flex pt-4 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
-              </div>
-              {/* {companiesDetails.map((item, index) => (
+              </div> */}
+              {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "spl" ? (
                   <div key={index} className="d-flex pt-4 justify-content-center">
@@ -302,7 +302,7 @@ export default function Companies(userData) {
                     <Link to="/splShipment" className="btn btn-choose">أختر</Link>
                   </div>
                 ) : null
-                ))} */}
+                ))}
               
               
             </div>

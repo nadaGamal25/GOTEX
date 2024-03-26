@@ -33,7 +33,11 @@ export default function SplShippments(userData) {
   const [itemAddress, setItemAddress] = useState('');
   const [itemId, setItemId] = useState('');
   const [itemClientId, setItemClientId] = useState('');
-
+  const [senderCityName, setSenderCityName] =useState('')
+  const [senderGovernoretName, setSenderGovernoretName] =useState('')
+  const [recieverCityName, setRecieverCityName] =useState('')
+  const [recieverCityId, setRecieverCityId] =useState('')
+  const [recieverGovernoretName, setRecieverGovernoretName] =useState('')
   const [pieces, setPieces] = useState([
     // {
     //   PieceWeight: '',
@@ -50,7 +54,11 @@ export default function SplShippments(userData) {
     cod: false,
     ContentPrice: "",
     ContentDescription: "",
-    Weight: "",
+    weight: "",
+    BoxLength: "",
+    BoxWidth: "",
+    BoxHeight: "",
+    description: "",
     pickUpDistrictID: "",
     pickUpAddress1: "",
     pickUpAddress2: "",
@@ -62,6 +70,10 @@ export default function SplShippments(userData) {
     clintid:'',
     daftraid:'',
     shipmentValue:"",
+    pickUpDistrict:"",
+    deliveryDistrict:"",
+    pickUpGovernorate:"",
+    deliveryGovernorate:"",
   })
   const [error , setError]= useState('')
   const [isLoading, setisLoading] =useState(false)
@@ -116,6 +128,7 @@ export default function SplShippments(userData) {
     } catch (error) {
       // Handle error
       console.error(error);
+      console.log(orderData)
       setisLoading(false);
       const errorMessage = error.response?.data?.data?.Message || "An error occurred.";
       window.alert(`${errorMessage}`);
@@ -139,8 +152,10 @@ export default function SplShippments(userData) {
 function submitOrderUserForm(e) {
   e.preventDefault();
   setisLoading(true);
+  // getOrderData({ target: { name: 'deliveryDistrict', value: recieverCityName } });
   let validation = validateOrderUserForm();
   console.log(validation);
+  console.log(pieces)
   const weightPrice = orderData.weight <= 15 ? 0 : (orderData.weight - 15) * companyKgPrice;
   const shipPrice =companyMarketerPrice
   console.log(clientCredit);
@@ -204,6 +219,11 @@ function getOrderData(e) {
         deliveryAddress1: itemAddress2,
         clintid: itemClientId,
         daftraid:itemId,
+        deliveryDistrictID:recieverCityId,
+        pickUpDistrict:senderCityName,
+        pickUpGovernorate:senderGovernoretName,
+        deliveryDistrict:recieverCityName,
+        deliveryGovernorate:recieverGovernoretName,
       };
     } else {
       myOrderData = { ...orderData };
@@ -220,6 +240,7 @@ function getOrderData(e) {
     console.log(myOrderData);
   console.log(myOrderData.cod);
 }
+
 function validateOrderUserForm(){
     const pieceSchema = Joi.object({
         PieceWeight: Joi.number().allow(null, ''),
@@ -231,7 +252,11 @@ function validateOrderUserForm(){
         SenderMobileNumber:Joi.string().required(),
         pickUpAddress1:Joi.string().required(),
         pickUpAddress2:Joi.string().required(),
-        Weight:Joi.number().required(),  
+        weight:Joi.number().required(), 
+        BoxLength:Joi.number().required(),
+        BoxWidth: Joi.number().required(),
+        BoxHeight: Joi.number().required(),
+        description:Joi.string().required(), 
         ContentPrice:Joi.number().required(),
         ContentDescription:Joi.string().required(),
         reciverName:Joi.string().required(),
@@ -245,7 +270,11 @@ function validateOrderUserForm(){
         markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
         daftraid:Joi.string().allow(null, ''),
-
+        pickUpDistrict:Joi.string().required(),
+        deliveryDistrict:Joi.string().required(),
+        pickUpGovernorate:Joi.string().required(),
+        deliveryGovernorate:Joi.string().required(),
+        
     });
     return scheme.validate(orderData, {abortEarly:false});
   }
@@ -533,7 +562,7 @@ async function getPackageDetails() {
                 (<span className='txt-blue'> {userBalance}</span> ر.س)
                 </span>
       </div>
-      {/* { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
+       { userData.userData.data.user.rolle === "user" && packegeDetails.companies && packegeDetails.companies.length !== 0?(
             <div className="prices-box">
              <h4 className="text-center p-text">الباقة الخاصة بك      </h4>
              {packegeDetails.userAvailableOrders === 0 ?
@@ -573,7 +602,7 @@ async function getPackageDetails() {
             </div>
             
           </div>
-          ): null} */}
+          ): null}
     { userData.userData.data.user.rolle === "marketer"?(
          <div className="search-box p-4 mt-2 mb-4 row g-1">
          <div className="col-md-2">
@@ -664,7 +693,7 @@ async function getPackageDetails() {
                          closeClientsList();
                      }}
                        >
-                         {item.name} , {item.company}  , {item.email} , {item.mobile} , {item.city} , {item.address}
+                         {item.name} , {item.company} , {item.mobile} , {item.city} , {item.address}
                          {/* {item.Client.first_name} {item.Client.last_name}, {item.Client.email} , {item.Client.phone1} , {item.Client.city} , {item.Client.address1} */}
 
                       </li>
@@ -857,9 +886,11 @@ async function getPackageDetails() {
           </>):(
             <div className='pb-3'>
               <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
-              {/* <input type="text" className="form-control" /> */}
+              {/* <input className="form-control" name='SenderMobileNumber' placeholder='Ex: 0565011313' onChange={getOrderData}/> */}
               <PhoneInput name='SenderMobileNumber' 
-  labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
+  labels={ar}
+   defaultCountry='SA' 
+   dir='ltr' className='phoneInput' value={phoneValue}
   onChange={(phoneValue) => {
     setItemMobile(phoneValue);
     setPhoneValue(phoneValue);
@@ -903,10 +934,18 @@ async function getPackageDetails() {
                    return(
                     <li key={index} name='pickUpDistrictID' 
                     onClick={(e)=>{ 
-                      const selectedCity = e.target.innerText;
+                      // const selectedCity = e.target.innerText;
+                      const selectedCity = item.Id;
+                      const cityName=item.Name;
+                      const governorate =item.GovernorateName;
                       setItemCity(selectedCity)
+                      setSenderCityName(cityName)
+                      setSenderGovernoretName(governorate)
                       getOrderData({ target: { name: 'pickUpDistrictID', value: selectedCity } });
-                      document.querySelector('input[name="pickUpDistrictID"]').value = selectedCity;
+                      // getOrderData({ target: { name: 'pickUpGovernorate', value: governorate } });
+                      // getOrderData({ target: { name: 'pickUpDistrict', value: cityName } });
+                      
+                      document.querySelector('input[name="pickUpDistrictID"]').value = item.Name;
                       closeCitiesList();
                   }}
                     >
@@ -1020,10 +1059,10 @@ async function getPackageDetails() {
             <>
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
-                    <div className='pe-2'>
+                    {/* <div className='pe-2'>
                     <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
+                    </div> */}
                     <div className='pe-2'>
                     <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
@@ -1058,10 +1097,10 @@ async function getPackageDetails() {
             <>
             <div className="pb-3">
             <label htmlFor="" className='d-block'>طريقة الدفع:<span className="star-requered">*</span></label>
-                    <div className='pe-2'>
+                    {/* <div className='pe-2'>
                     <input  type="radio" value={true} name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod"  >الدفع عند الاستلام(COD)</label>
-                    </div>
+                    </div> */}
                     <div className='pe-2'>
                     <input type="radio" value={false}  name='cod' onChange={getOrderData}/>
                     <label className='label-cod' htmlFor="cod">الدفع اونلاين </label>
@@ -1119,12 +1158,13 @@ async function getPackageDetails() {
                 <div className="checkbox" onClick={()=>{alert('سوف يكون متاح قريباً ')}}></div>
                 <label className='label-cod' htmlFor="">طلب المندوب</label>
                 </div>
-                <div className="">
+                <div className="row">
               <div className='pb-1'>
               <label htmlFor=""> السعر<span className="star-requered">*</span></label>
               <input 
               // type="number" step="0.001" 
-              className="form-control" name='ContentPrice' onChange={getOrderData}/>
+              className="form-control" name='ContentPrice' 
+              onChange={(e)=>{getOrderData({target:{name:'ContentPrice',value:Number(e.target.value)}})}}/>
               {errorList.map((err,index)=>{
     if(err.context.label ==='ContentPrice'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1132,26 +1172,74 @@ async function getPackageDetails() {
     
   })}
           </div>
-              </div>
+          <div className='pb-1'>
+                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
+                <textarea className="form-control" name='description' placeholder=" " onChange={getOrderData} cols="30" rows="2"></textarea>
+                {errorList.map((err,index)=>{
+      if(err.context.label ==='description'){
+        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+      }
+      
+    })}
+            </div>
                <h6 className='text-blue text-center pt-2'>{'<<'}  القطعة الرئيسية   {'>>'}</h6>
-                <div className="">
-              <div className='pb-1'>
-              <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
+              <div className='pb-1 col-md-6'>
+              {/* <label htmlFor=""> الوزن<span className="star-requered">*</span></label> */}
               <input 
               // type="number" step="0.001" 
-              className="form-control" name='Weight' placeholder="وزن القطعة " onChange={getOrderData}/>
+              className="form-control" name='weight' placeholder="وزن القطعة " 
+              onChange={(e)=>{getOrderData({target:{name:'weight',value:Number(e.target.value)}})}}/>
               {errorList.map((err,index)=>{
-    if(err.context.label ==='Weight'){
+    if(err.context.label ==='weight'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              <div className='pb-1 col-md-6'>
+              {/* <label htmlFor=""> ارتفاع الصندوق<span className="star-requered">*</span></label> */}
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='BoxLength' placeholder=" ارتفاع الصندوق " 
+              onChange={(e)=>{getOrderData({target:{name:'BoxLength',value:Number(e.target.value)}})}}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='BoxLength'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              
+              <div className='pb-1 col-md-6'>
+              {/* <label htmlFor=""> عرض الصندوق<span className="star-requered">*</span></label> */}
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='BoxWidth' placeholder=" عرض الصندوق " 
+              onChange={(e)=>{getOrderData({target:{name:'BoxWidth',value:Number(e.target.value)}})}}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='BoxWidth'){
+      return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+    }
+    
+  })}
+          </div>
+              <div className='pb-1 col-md-6'>
+              {/* <label htmlFor=""> امتداد الصندوق<span className="star-requered">*</span></label> */}
+              <input 
+              // type="number" step="0.001" 
+              className="form-control" name='BoxHeight' placeholder=" امتداد الصندوق " 
+              onChange={(e)=>{getOrderData({target:{name:'BoxHeight',value:Number(e.target.value)}})}}/>
+              {errorList.map((err,index)=>{
+    if(err.context.label ==='BoxHeight'){
       return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
     }
     
   })}
           </div>
               </div>
-              
               <div className='pb-1'>
-                <label htmlFor=""> الوصف <span className="star-requered">*</span></label>
-                <textarea className="form-control" name='ContentDescription' placeholder="وصف القطعة" onChange={getOrderData} cols="30" rows="2"></textarea>
+                {/* <label htmlFor=""> وصف القطعة <span className="star-requered">*</span></label> */}
+                <textarea className="form-control" name='ContentDescription' placeholder="وصف القطعة" onChange={getOrderData} cols="30" rows="1"></textarea>
                 {errorList.map((err,index)=>{
       if(err.context.label ==='ContentDescription'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1159,6 +1247,7 @@ async function getPackageDetails() {
       
     })}
             </div>
+           
             <div className="text-center">
               <button type='button' className="m-2 btn-gray" onClick={addingPiece}>  إضافة قطع اخرى </button>
             </div>
@@ -1171,7 +1260,7 @@ async function getPackageDetails() {
           name="PieceWeight"
           placeholder="وزن القطعة "
           value={piece.PieceWeight}
-          onChange={e => updatePiece(index, 'PieceWeight', e.target.value)}
+          onChange={e => updatePiece(index, 'PieceWeight', Number(e.target.value))}
         /> <br/>
         <input
           type="text"
@@ -1228,6 +1317,8 @@ async function getPackageDetails() {
           </div>
           <div className='pb-3'>
               <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
+              {/* <input name='reciverMobile'  className='form-control' placeholder='Ex: 0565011313'
+              onChange={getOrderData}/> */}
               <PhoneInput name='reciverMobile' 
   labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
   onChange={(phone2) => {
@@ -1270,11 +1361,19 @@ async function getPackageDetails() {
                   return search2 === ''? item : item.Name.toLowerCase().includes(search2.toLowerCase());
                   }).map((item,index) =>{
                    return(
-                    <li key={index} name='deliveryDistrictID' 
+                    <li key={index} name='deliveryDistrictID'  
                     onClick={(e)=>{ 
-                      const selectedCity = e.target.innerText;
+                      // const selectedCity = e.target.innerText;
+                      const cityName=item.Name;
+                      const governorate =item.GovernorateName;
+                      const selectedCity =item.Id
+                      setRecieverCityName(cityName)
+                      setRecieverGovernoretName(governorate)
+                      setRecieverCityId(selectedCity)
                       getOrderData({ target: { name: 'deliveryDistrictID', value: selectedCity } });
-                      document.querySelector('input[name="deliveryDistrictID"]').value = selectedCity;
+                      // getOrderData({ target: { name: 'deliveryDistrict', value: cityName } });
+                      // getOrderData({ target: { name: 'deliveryGovernorate', value: governorate } });
+                      document.querySelector('input[name="deliveryDistrictID"]').value = item.Name;
                       closeCitiesList2();
                   }}
                     >
