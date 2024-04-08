@@ -53,6 +53,10 @@ export default function PackegesMarketers() {
     }
   }
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUserWallet, setSelectedUserWallet] = useState(null);
+  const [selectedUserCredit, setSelectedUserCredit] = useState(null);
+  const [selectedUserCreditStatus, setSelectedUserCreditStatus] = useState(null);
+  // const [PackagePrice, setPackagePrice] = useState(null);
   async function buyPackage(packageId ,selectedId) {
     try {
       const response = await axios.post(`https://dashboard.go-tex.net/test/package/buy-client-package/${packageId}`,
@@ -68,6 +72,7 @@ export default function PackegesMarketers() {
         console.log(response)
         getUserBalance()
         window.alert("تم شراء الباقة بنجاح");
+        getClientsList()
       } else {
         console.log(response)
       }
@@ -75,6 +80,21 @@ export default function PackegesMarketers() {
       console.log(error);
       // window.alert('somthing wrong');
       alert(error.response.data.msg)
+    }
+  }
+  async function confirmBuyPackage(packageId ,selectedId,packageprice){
+    if(selectedUserWallet >= packageprice){
+      if(window.confirm('سوف يتم خصم قيمة الباقة من محفظة العميل')){
+        buyPackage(packageId ,selectedId)
+      }
+    }else if(selectedUserCredit >= packageprice){
+      if(window.confirm('سوف يتم خصم قيمة الباقة من كرديت (رصيد الحد الائتمانى) للعميل')){
+        buyPackage(packageId ,selectedId)
+      }
+    }else{
+      if(window.confirm('رصيد العميل لا يكفى لشراء الباقة سوف يتم شراء الباقة من محفظتك')){
+        buyPackage(packageId ,selectedId)
+      }
     }
   }
   const [packageDetails, setPackageDetails] =useState('')
@@ -102,9 +122,16 @@ export default function PackegesMarketers() {
     }
   }
   const [showModal, setShowModal] = useState(false);
-  function openModal(clientid){
+  function openModal(clientid,clientWallet,clientCredit,clientCreditStatus){
     setShowModal(true)
     setSelectedUserId(clientid)
+    setSelectedUserWallet(clientWallet)
+    setSelectedUserCreditStatus(clientCreditStatus)
+    if(clientCreditStatus == 'accepted'){
+      setSelectedUserCredit(clientCredit)
+    }else{
+      setSelectedUserCredit(0)
+    }
   }
   function closeModal(){
     setShowModal(false)
@@ -175,7 +202,7 @@ export default function PackegesMarketers() {
                 {item.credit.status}</td>:<td>0</td>}
                 <td>
                     <button className="btn btn-orange" onClick={()=>{
-                        openModal(item._id)}}>
+                        openModal(item._id,item.wallet,item.credit?item.credit.limet:0,item.credit?item.credit.status:'notFound')}}>
                         شراء باقة 
                     </button>
                 </td>
@@ -202,7 +229,7 @@ export default function PackegesMarketers() {
                       console.log(response)
                       getUserBalance()
                       alert('تم الغاء الباقة بنجاح وتم استرجاع المال')
-
+                      getClientsList()
                     }
                   })
                   .catch((error) => {
@@ -270,7 +297,7 @@ export default function PackegesMarketers() {
                 
                 <td>
                     <button type='button' className="btn btn-orange" 
-                    onClick={()=> {buyPackage(item._id,selectedUserId)}}
+                    onClick={()=> {confirmBuyPackage(item._id,selectedUserId,item.price)}}
                     >
                         شراء
                     </button>
