@@ -329,10 +329,10 @@ body{
 
 .login-container,
 .register-container{
-  /* background-color: var(--bg-color); */
+  background-color: var(--bg-color);
   /* background-image: url(../src/assets/ramdan-kareem.jpg); */
   /*eid */
-  background-image: url(../src/assets/eid1\ \(3\).jpg);  
+  /* background-image: url(../src/assets/عبارات-جميلة-عن-عيد-الفطر.jpg);   */
   background-size: 100% 100%;
 }
 
@@ -343,13 +343,13 @@ body{
 }
 .login-box,
 .register-box{
-  /* border: 2px solid var(--dark--color); */
+  border: 2px solid var(--dark--color);
   /* border: 2px solid #1d7253; */
   border-radius: 10px;
-  /*background-color: #fff;
-  */background-color: rgba(255, 255, 255, 0.6);
-  /* box-shadow: 5px 5px 10px #8ca0aa; */
-  width: 40%;
+  background-color: #fff;
+ /* background-color: rgba(255, 255, 255, 0.6); */
+  box-shadow: 5px 5px 10px #8ca0aa;
+  width: 60%;
   padding: 50px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -360,10 +360,10 @@ input:focus{
   box-shadow: none !important;
 }
 .login-box .btn-login{
-  /* background-color: var(--orange-color) !important; */
+  background-color: var(--orange-color) !important;
   /* background-color: #cd9644 !important; */
   /*eid*/
-  background-color: #963f2b !important;  
+  /* background-color: #963f2b !important;   */
   color: #fff !important;
   margin-top: 10px;
   box-shadow: 5px 5px 5px #e8cea7;
@@ -371,10 +371,10 @@ input:focus{
   border: none !important;
 }
 .btn-signup{
-  /* background-color: var(--orange-color) !important; */
+  background-color: var(--orange-color) !important;
+  /* background-color: #963f2b !important;   */
+
   /* background-color: #1d7253 !important; */
-  /*eid*/
-  background-color: #963f2b !important;  
   color: #fff !important;
   box-shadow: 5px 5px 5px #ec9873;
   /* box-shadow: 5px 5px 5px #1d7253; */
@@ -387,10 +387,10 @@ input:focus{
 }
 .login-box .btn-login:hover,
 .btn-signup:hover{
-  /* background-color: #dc4606 !important; */
+  background-color: #dc4606 !important;
   /* background-color: #d4a45b !important;    */
   /*eid*/
-  background-color: #963f2b !important;  
+  /* background-color: #963f2b !important;   */
   color: #fff !important;
   border: none !important;
 
@@ -492,12 +492,12 @@ html, body ,
   bottom: 0;
   width: 280px;
   height: 100vh !important;
-  /* background: #f2f2f2; */
+  background: #f2f2f2;
   /* background: rgba(8, 204, 132, 0.4) ; */
   /* background:#D0F2CB */
   /* background: #6bc983; */
   /* background: #efeae4; bige */
-  background: #ede5e0;
+  /* background: #ede5e0; */
 ;
   z-index: 999;
   transition: all 0.3s ease;
@@ -708,10 +708,10 @@ left: 0px;
 /* start navbar */
 #navb{
   height: 56px;
-  /* background-color: #f2f2f2; */
+  background-color: #f2f2f2;
   /* background-color: #D0F2CB; */
   /* background:#efeae4;big */
-  background: #ede5e0;
+  /* background: #ede5e0; */
    /* #6bc983; */
   padding: 0 20px;
   grid-gap: 24px;
@@ -789,12 +789,12 @@ nav form .form-input button{
 /* end navbar */
 /* start companies */
 .company{
-  /*background-color: var(--dark--color);
-  *//*background-color: #1d7253;
+  background-color: var(--dark--color);
+ /*background-color: #1d7253;
   */
   /* background-image: url(../src/assets/ramdan-kareem.jpg); */
   /*eid*/
-  background-image: url(../src/assets/eid1\ \(3\).jpg);
+  /* background-image: url(../src/assets/عبارات-جميلة-عن-عيد-الفطر.jpg); */
   opacity: 0.9;
   padding: 15px;
   border-radius: 15px;
@@ -805,7 +805,7 @@ nav form .form-input button{
   height: 110px;
 }
 
-/* .saee{
+.saee{
   background-image: url(../src/assets/saee2.jpg);
 }
 .smsa{
@@ -834,7 +834,7 @@ nav form .form-input button{
 }
 .aymkan{
   background-image: url(../src/assets/aymkan2.jpg);
-} */
+}
 .company img{
   width: 160px;
   height: 80px;
@@ -848,10 +848,10 @@ nav form .form-input button{
 }
 
 .area{
-  /* background:#dfe0e5  ;   */
+  background:#dfe0e5  ;  
   /* background-image: url(../src/assets/ramdan-kareem.jpg); */
   /*eid*/
-  background-image: url(../src/assets/eid1\ \(3\).jpg);
+  /* background-image: url(../src/assets/عبارات-جميلة-عن-عيد-الفطر.jpg); */
   opacity: 0.9;
   background-size: 100% 100%;
   /* background: #1d7253;   */
