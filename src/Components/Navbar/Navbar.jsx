@@ -313,12 +313,12 @@ export default function Navbar({userData ,logout}) {
             </li>
             
             ):null}
-            <li>
+            {/* <li>
                 <Link to="#">
                 <i class="fa-solid fa-receipt bx"></i>
                 <span class="text"></span>
                 </Link>
-            </li>
+            </li> */}
 
             {/* <li>
                 <Link onClick={waitingAlert}>
