@@ -311,7 +311,14 @@ export default function Navbar({userData ,logout}) {
                 <span class="text">الفواتير</span>
                 </Link>
             </li>
+            
             ):null}
+            <li>
+                <Link to="#">
+                <i class="fa-solid fa-receipt bx"></i>
+                <span class="text"></span>
+                </Link>
+            </li>
 
             {/* <li>
                 <Link onClick={waitingAlert}>
