@@ -129,12 +129,12 @@ export default function Companies(userData) {
               <div className="text-center">
               <img src={logo} className='bg-white' alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center my-3">
+              {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div className=" pt-4"></div>):
