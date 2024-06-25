@@ -70,7 +70,7 @@ export default function ImileShippments(userData) {
     markterCode:"",
     cod:false, 
     clintid:'',
-    daftraid:'',
+    // daftraid:'',
     shipmentValue:"",
     clintid:"",
     
@@ -214,7 +214,7 @@ function getOrderData(e) {
         // SenderMobileNumber: itemMobile,
         p_address: itemAddress,
         clintid: itemClientId,
-        daftraid:itemId,
+        // daftraid:itemId,
         // clintid:clientId,
       };
     } else {
@@ -269,7 +269,7 @@ function validateOrderUserForm(){
         p_address:Joi.string().allow(null, ''),
         p_mobile:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.string().allow(null, ''),
+        // daftraid:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
 
     });
@@ -1313,7 +1313,7 @@ function validateOrderUserForm(){
                            setItemMobile0(item.mobile);
                            setItemAddress0(item.address);
                       // setClientId(item._id)
-                      setItemId(item.daftraClientId);
+                      // setItemId(item.daftraClientId);
                       setItemClientId(item._id);
                       setPackageCompanies(item.package.companies)
                         setPackageOrders(item.package.availableOrders)
@@ -1885,13 +1885,13 @@ function validateOrderUserForm(){
         handleConvertAndDownload(item.data.data.imileAwb)
       }}>تحميل الاستيكر</button>
       </td>
-      {item.inovicedaftra?.id?(<td><button
+      {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
       {/* <td>{item.data.Items[0].Barcode}</td>
       <td>{item.data.Message}</td>
       {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}

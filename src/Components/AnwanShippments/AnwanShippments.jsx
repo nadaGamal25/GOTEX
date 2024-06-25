@@ -96,7 +96,7 @@ export default function AnwanShippments(userData) {
       shipmentValue:'',
       markterCode:'',
       clintid:'',
-      daftraid:'',
+      // daftraid:'',
   
     })
     const [error , setError]= useState('')
@@ -238,7 +238,7 @@ export default function AnwanShippments(userData) {
       c_phone: itemMobile2,
       c_address: itemAddress2,
       clintid: itemClientId,
-      daftraid: itemId,
+      // daftraid: itemId,
       // s_email: itemEmail,
     };
   } else {
@@ -287,7 +287,7 @@ export default function AnwanShippments(userData) {
             shipmentValue:Joi.number().allow(null, ''),  
             markterCode:Joi.string().allow(null, ''),
             clintid:Joi.string().allow(null, ''),
-            daftraid:Joi.string().allow(null, ''),
+            // daftraid:Joi.string().allow(null, ''),
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
@@ -801,7 +801,7 @@ export default function AnwanShippments(userData) {
                            setItemMobile0(item.mobile);
                            setItemAddress0(item.address);
                       //  setItemEmail(item.email);
-                       setItemId(item.daftraClientId);
+                      //  setItemId(item.daftraClientId);
                        setItemClientId(item._id);
                        setPhoneValue(item.mobile)
                        setPackageCompanies(item.package.companies)
@@ -1608,13 +1608,13 @@ onChange={(phoneValue) => {
     </button>
                 </td>
         {/* {item.inovicedaftra?.id?(<td></td>):(<td>_</td>)} */}
-        {item.inovicedaftra?.id?(<td><button
+        {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
       </tr>
     );
   })}
