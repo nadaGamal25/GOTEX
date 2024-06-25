@@ -69,7 +69,7 @@ export default function JtShippments(userData) {
     markterCode:"", 
     clintid:'',
     cod: false,
-    daftraid:'',
+    // daftraid:'',
     shipmentValue:"",
   })
   const [error , setError]= useState('')
@@ -202,7 +202,7 @@ function getOrderData(e) {
         re_mobile: itemMobile2,
         re_address: itemAddress2,
         clintid: itemClientId,
-        daftraid:itemId,
+        // daftraid:itemId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -251,7 +251,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.string().allow(null, ''),
+        // daftraid:Joi.string().allow(null, ''),
 
     });
     return scheme.validate(orderData, {abortEarly:false});
@@ -1553,7 +1553,7 @@ async function getPackageDetails() {
                         setItemName0(item.name);
                            setItemMobile0(item.mobile);
                            setItemAddress0(item.address);
-                        setItemId(item.daftraClientId);
+                        // setItemId(item.daftraClientId);
                         setItemClientId(item._id)
                         setPhoneValue(item.mobile)
                         setPackageCompanies(item.package.companies)
@@ -2337,13 +2337,13 @@ onChange={(phoneValue) => {
      <td>
        <button className="btn btn-success"  onClick={()=>{getSticker(item._id)}}>عرض الاستيكر</button>
      </td>
-     {item.inovicedaftra?.id?(<td><button
+     {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
      {/* <td>
      <div>
       <button className="btn btn-success" onClick={() => fetchPdfData(item._id)}>عرض الاستيكر</button>

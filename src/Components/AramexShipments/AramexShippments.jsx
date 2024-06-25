@@ -64,7 +64,7 @@ export default function AramexShippments(userData) {
     markterCode:'',
     description:'',
     clintid:'',
-    daftraid:'',
+    // daftraid:'',
 
   })
   const [error , setError]= useState('')
@@ -207,7 +207,7 @@ export default function AramexShippments(userData) {
         c_phone: itemMobile2,
         c_line1: itemAddress2,
         clintid: itemClientId,
-        daftraid:itemId,
+        // daftraid:itemId,
         // p_email:itemEmail
       };
     } else {
@@ -266,7 +266,7 @@ export default function AramexShippments(userData) {
           markterCode:Joi.string().allow(null, ''),
           description: Joi.string().required(),
           clintid:Joi.string().allow(null, ''),
-          daftraid:Joi.string().allow(null, ''),
+          // daftraid:Joi.string().allow(null, ''),
   
       });
       return scheme.validate(orderData, {abortEarly:false});
@@ -631,7 +631,7 @@ export default function AramexShippments(userData) {
                            setItemMobile0(item.mobile);
                            setItemAddress0(item.address);
                           //  setItemEmail(item.email);
-                           setItemId(item.daftraClientId);
+                          //  setItemId(item.daftraClientId);
                            setItemClientId(item._id);
                            setPhoneValue(item.mobile)
                            setPackageCompanies(item.package.companies)
@@ -1518,13 +1518,13 @@ export default function AramexShippments(userData) {
     عرض الاستيكر
   </button>
               </td>
-              {item.inovicedaftra?.id?(<td><button
+              {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
       </tr>
     );
   })}

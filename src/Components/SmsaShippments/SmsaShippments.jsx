@@ -82,7 +82,7 @@ export default function SmsaShippments(userData) {
     shipmentValue:'',
     markterCode:'',
     clintid:'',
-    daftraid:'',
+    // daftraid:'',
 
   })
   const [error , setError]= useState('')
@@ -264,7 +264,7 @@ export default function SmsaShippments(userData) {
         c_ContactPhoneNumber: itemMobile2,
         c_AddressLine1: itemAddress2,
         clintid: itemClientId,
-        daftraid:itemId,
+        // daftraid:itemId,
       };
     } else {
       myOrderData = { ...orderData };
@@ -317,7 +317,7 @@ export default function SmsaShippments(userData) {
           shipmentValue:Joi.number().allow(null, ''),
           markterCode:Joi.string().allow(null, ''),
           clintid:Joi.string().allow(null, ''),
-          daftraid:Joi.string().allow(null, ''),
+          // daftraid:Joi.string().allow(null, ''),
 
   
       });
@@ -911,7 +911,7 @@ export default function SmsaShippments(userData) {
                        setItemName0(item.name);
                            setItemMobile0(item.mobile);
                            setItemAddress0(item.address);
-                       setItemId(item.daftraClientId);
+                      //  setItemId(item.daftraClientId);
                        setItemClientId(item._id);
                        setPhoneValue(item.mobile);
                        setPackageCompanies(item.package.companies)
@@ -1749,13 +1749,15 @@ export default function SmsaShippments(userData) {
 
     })}
   </ul> */}
-                {item.inovicedaftra?.id?(<td><button
+  {/*
+    {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
     </button></td>):(<td>_</td>)}
+    */}
       </tr>
     );
   })}

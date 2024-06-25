@@ -68,7 +68,7 @@ export default function SplShippments(userData) {
     Pieces: pieces, 
     markterCode:"", 
     clintid:'',
-    daftraid:'',
+    // daftraid:'',
     shipmentValue:"",
     pickUpDistrict:"",
     deliveryDistrict:"",
@@ -218,7 +218,7 @@ function getOrderData(e) {
         reciverMobile: itemMobile2,
         deliveryAddress1: itemAddress2,
         clintid: itemClientId,
-        daftraid:itemId,
+        // daftraid:itemId,
         deliveryDistrictID:recieverCityId,
         pickUpDistrict:senderCityName,
         pickUpGovernorate:senderGovernoretName,
@@ -269,7 +269,7 @@ function validateOrderUserForm(){
         shipmentValue:Joi.number().allow(null, ''),
         markterCode:Joi.string().allow(null, ''),
         clintid:Joi.string().allow(null, ''),
-        daftraid:Joi.string().allow(null, ''),
+        // daftraid:Joi.string().allow(null, ''),
         pickUpDistrict:Joi.string().required(),
         deliveryDistrict:Joi.string().required(),
         pickUpGovernorate:Joi.string().required(),
@@ -646,7 +646,7 @@ async function getPackageDetails() {
                          setItemName0(item.name);
                            setItemMobile0(item.mobile);
                            setItemAddress0(item.address);
-                         setItemId(item.daftraClientId);
+                        //  setItemId(item.daftraClientId);
                          setItemClientId(item._id);
                          setPhoneValue(item.mobile)
                          setPackageCompanies(item.package.companies)
@@ -1475,13 +1475,13 @@ async function getPackageDetails() {
     عرض الاستيكر
   </button> */}
               </td>
-              {item.inovicedaftra?.id?(<td><button
+              {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
              
     </tr>
   );
