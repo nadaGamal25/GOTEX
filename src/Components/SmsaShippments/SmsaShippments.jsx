@@ -134,7 +134,20 @@ export default function SmsaShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response.data?.msg?.message||error.response.data?.msg || "An error occurred.";
+      let errorMessage = '';
+      const errors = error.response.data?.msg?.errors;
+      if (errors) {
+        for (const key in errors) {
+          if (errors.hasOwnProperty(key) && Array.isArray(errors[key])) {
+            errorMessage += errors[key].join(' & ') + ' & ';
+          }
+        }
+      }
+  
+      errorMessage = errorMessage.trim().replace(/&$/, '') || 
+                     error.response.data?.msg?.message || 
+                     error.response.data?.msg || 
+                     "An error occurred.";
       window.alert(errorMessage);
     }
   }
