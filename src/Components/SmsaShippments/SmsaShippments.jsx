@@ -134,7 +134,20 @@ export default function SmsaShippments(userData) {
       // Handle error
       console.error(error);
       setisLoading(false);
-      const errorMessage = error.response.data?.msg?.message||error.response.data?.msg || "An error occurred.";
+      let errorMessage = '';
+      const errors = error.response.data?.msg?.errors;
+      if (errors) {
+        for (const key in errors) {
+          if (errors.hasOwnProperty(key) && Array.isArray(errors[key])) {
+            errorMessage += errors[key].join(' & ') + ' & ';
+          }
+        }
+      }
+  
+      errorMessage = errorMessage.trim().replace(/&$/, '') || 
+                     error.response.data?.msg?.message || 
+                     error.response.data?.msg || 
+                     "An error occurred.";
       window.alert(errorMessage);
     }
   }
@@ -289,12 +302,12 @@ export default function SmsaShippments(userData) {
           c_District: Joi.string().required(),
           c_AddressLine1: Joi.string().required(),
           c_AddressLine2: Joi.string().allow(null, ''),
-          c_City: Joi.string().required(),
+          c_City: Joi.string().allow(null, ''),
           p_name: Joi.string().required(),
           p_ContactPhoneNumber: Joi.string().required(),
           p_AddressLine2:Joi.string().allow(null, ''),
           p_AddressLine1: Joi.string().required(),
-          p_City: Joi.string().required(),
+          p_City: Joi.string().allow(null, ''),
           p_District: Joi.string().required(),
           weight: Joi.number().required(),
           pieces: Joi.number().required(),
