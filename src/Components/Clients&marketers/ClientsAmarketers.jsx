@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,useRef} from 'react'
 import axios from 'axios'
 export default function ClientsAmarketers() {
     useEffect(()=>{
-        getMarketerssAdmin()
+      getClientsAdmin()
+      getMarketerssAdmin()
       },[])
       const [marketersAdmin,setMarketersAdmin]=useState([])
      
     async function getMarketerssAdmin() {
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/api/admin/get-all-clients',
+          const response = await axios.get('https://dashboard.go-tex.net/api/markter/get-all-markter',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -21,6 +22,54 @@ export default function ClientsAmarketers() {
           console.error(error);
         }
       }
+      const [Clients,setClientsAdmin]=useState([])
+     
+    async function getClientsAdmin() {
+        try {
+          const response = await axios.get('https://dashboard.go-tex.net/api/admin/get-all-clients',
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          const clients = response.data.data;
+          console.log(clients)
+          setClientsAdmin(clients)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      const [searchClients, setSearchClients]= useState('')
+
+      const [showClientsList, setClientsList] = useState(false);
+      const openClientsList = () => {
+        setClientsList(true);
+      };
+    
+      const closeClientsList = () => {
+        setClientsList(false);
+      };
+      const clientsListRef = useRef(null);
+
+    useEffect(() => {
+      const handleOutsideClick = (e) => {
+        if (
+          clientsListRef.current &&
+          !clientsListRef.current.contains(e.target) &&
+          e.target.getAttribute('name') !== 'client'
+        ) {
+          closeClientsList();
+        }
+      };
+  
+      if (showClientsList) {
+        window.addEventListener('click', handleOutsideClick);
+      }
+  
+      return () => {
+        window.removeEventListener('click', handleOutsideClick);
+      };
+    }, [showClientsList]);
       const [search, setSearch]= useState('')
       async function connectMarketerWithClient() {
         try {
@@ -93,7 +142,7 @@ const closeModal4 = () => {
           </tr>
         </thead>
         <tbody>
-          {marketersAdmin && marketersAdmin.filter((item)=>{
+          {Clients && Clients.filter((item)=>{
           return search === ''? item : item.name.includes(search);
           }).map((item,index) =>{
             return(
@@ -138,31 +187,77 @@ const closeModal4 = () => {
     <div className="modal-dialog">
       <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title">ربط المسوّق بالمتجر</h5>
+          <h5 className="modal-title">ربط المسوّقة بالمتجر</h5>
           <button type="button" className="close" onClick={closeModal4}>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div className="modal-body">
           <div className="form-group">
-            <label htmlFor="">كود المسوق:</label>
+          <div className="search-box p-4 mt-2 ">
+           
+           <div className="">
+           <input type="search" className="form-control ic" name='client' placeholder='اسم المسوقة'
+                   onChange={(e)=>{ 
+                     const searchValue = e.target.value;
+                     setSearchClients(searchValue);
+                     const matchingClients = marketersAdmin.filter((item) => {
+                       return searchValue === '' ? item : item.name.toLowerCase().includes(searchValue.toLowerCase());
+                     });
+                 
+                     if (matchingClients.length === 0) {
+                       closeClientsList();
+                     } else {
+                       openClientsList();
+                     }
+                     }}
+                     onClick={openClientsList}
+                     />
+                     {showClientsList && (
+                       <ul  className='ul-cities ul-clients' ref={clientsListRef}>
+                         
+                       {marketersAdmin && marketersAdmin.filter((item)=>{
+                       return searchClients === ''? item : item.name.toLowerCase().includes(searchClients.toLowerCase());
+                       }).map((item,index) =>{
+                        return(
+                         <>
+                         <li key={item._id} name='' 
+                         onClick={(e)=>{ 
+                          setMarketerid(item.code)
+                           const selectedCity = e.target.innerText;
+                       
+  
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           closeClientsList();
+                       }}
+                         >
+                           {item.name} , {item.code} 
+                        </li>
+                        </>
+                        )
+                       }
+                       )}
+                       <li onClick={(e)=>{ 
+                           const selectedCity = e.target.innerText;
+                           document.querySelector('input[name="client"]').value = selectedCity;
+                           closeClientsList();
+                       }}>غير ذلك</li>
+                       </ul>
+                     )}
+                   
+                   
+           </div>
+         </div>
+            {/* <label htmlFor="">كود المسوق:</label>
             <input
               type="text"
               className="form-control"
               value={marketerid}
               onChange={handleMarketeridChange}
-            />
+            /> */}
+
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="marketerid">معرّف المسوّق:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="marketerid"
-              value={marketerid}
-              readOnly
-            />
-          </div> */}
+          
         </div>
         <div className="modal-footer">
           <button
