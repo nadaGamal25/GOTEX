@@ -89,7 +89,7 @@ export default function PackageDetails(userData) {
             {packegeDetails.companies ? (
           <span>
             {packegeDetails.companies.map((company) => (
-              <span >{company === "anwan" ? "gotex" : company} , </span>
+              <span >{company} , </span>
             ))}
           </span>
         ) : (

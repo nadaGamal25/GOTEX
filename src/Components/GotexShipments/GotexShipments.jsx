@@ -6,7 +6,7 @@ import axios from 'axios';
 import Joi from 'joi';
 import { Link } from 'react-router-dom';
 
-export default function AnwanShippments(userData) {
+export default function GotexShipments(userData) {
     const [companiesDetails,setCompaniesDetails]=useState([])
     async function getCompaniesDetailsOrders() {
       try {
@@ -14,7 +14,7 @@ export default function AnwanShippments(userData) {
         const companies = response.data.data;
         console.log(companies)
         setCompaniesDetails(companies)
-        const filteredCompanies = companies.find(company => company.name === 'anwan');
+        const filteredCompanies = companies.find(company => company.name === 'gotex');
 
     if (filteredCompanies) {
       const KgPrice = filteredCompanies.kgprice;
@@ -77,21 +77,25 @@ export default function AnwanShippments(userData) {
   const [itemEmail, setItemEmail] = useState('');
   const [itemId, setItemId] = useState('');
   const [itemClientId, setItemClientId] = useState('');
+  const [districtsLoading, setDistrictsLoading] = useState(true);
+  const [districtsLoading2, setDistrictsLoading2] = useState(true);
 
     const [orderData,setOrderData] =useState({
-      pieces: '',
-      description: '',
-      // s_email:'',
-      // c_email:'',
-      weight: '',
-      s_address: '',
-      s_city: '',
-      s_phone: '',
-      s_name: '',
-      c_name: "",
-      c_address: "",
-      c_city: '',
-      c_phone: '',
+    sendername: "",
+    senderaddress: "",
+    sendercity: "",
+    senderdistrict: "",
+    senderdistrictId: "",
+    senderphone: "",
+    recivername: "",
+    reciveraddress: "",
+    recivercity: "",
+    reciverdistrict: "",
+    reciverdistrictId: "",
+    reciverphone: "",
+    weight: "",
+    pieces: "",
+    description: "",
       cod: false,
       shipmentValue:'',
       markterCode:'',
@@ -107,7 +111,7 @@ export default function AnwanShippments(userData) {
       console.log(localStorage.getItem('userToken'))
       try {
         const response = await axios.post(
-          "https://dashboard.go-tex.net/test/anwan/create-user-order",
+          "https://dashboard.go-tex.net/test/gotex/create-user-order",
           orderData,
           {
             headers: {
@@ -115,19 +119,19 @@ export default function AnwanShippments(userData) {
             },
           }
         );
-    
-        if (response.status === 200) {
+        console.log(response);
+
           setisLoading(false);
           window.alert("تم تسجيل الشحنة بنجاح");
           getUserBalance()
           getPackageDetails()
-          // getClientsList()
-          if (response.data.clientData && response.data.clientData.package && response.data.clientData.package.availableOrders) {
+          getClientsList()
+          if (response.data?.clientData && response.data.clientData?.package && response.data.clientData?.package?.availableOrders) {
             setPackageOrders(response.data.clientData.package.availableOrders);
           } else {
             setPackageOrders('');
           }
-          if (response.data.clientData.credit && response.data.clientData.credit.limet && response.data.clientData.credit.status === 'accepted') {
+          if (response.data.clientData?.credit && response.data.clientData?.credit?.limet && response.data.clientData?.credit?.status === 'accepted') {
             setClientCredit(response.data.clientData.credit.limet);
             setClientCreditStatus(response.data.clientData.credit.status);
           } else {
@@ -135,16 +139,10 @@ export default function AnwanShippments(userData) {
           }
               setClientWallet(response.data.clientData.wallet)
           
-          console.log(response);
           const shipment = response.data.data;
           setShipments(prevShipments => [...prevShipments, shipment]);
           console.log(shipments)
-          }else if (response.status === 400) {
-          setisLoading(false);
-          const errorMessage = response.data.msg || "An error occurred.";
-          window.alert(`${errorMessage}`);
-          console.log(response.data);
-        }
+          
       } catch (error) {
         // Handle error
         console.error(error);
@@ -153,19 +151,7 @@ export default function AnwanShippments(userData) {
         window.alert(`${errorMessage}`);
       }
     }
-    // function submitOrderUserForm(e){
-    //   e.preventDefault();
-    //   setisLoading(true)
-    //   let validation = validateOrderUserForm();
-    //   console.log(validation);
-    //   if(validation.error){
-    //     setisLoading(false)
-    //     seterrorList(validation.error.details)
-    
-    //   }else{
-    //     sendOrderDataToApi();
-    //   }
-    // }
+
 
     
   function submitOrderUserForm(e) {
@@ -191,7 +177,7 @@ export default function AnwanShippments(userData) {
         seterrorList(validation.error.details);
       } else if(isClient === false){
         sendOrderDataToApi();
-      } else if(isClient === true && (packageCompanies.includes('anwan')||packageCompanies.includes('all') && packageOrders > 0)){
+      } else if(isClient === true && (packageCompanies.includes('gotex')||packageCompanies.includes('all') && packageOrders > 0)){
         if(window.confirm('سوف يتم عمل الشحنة من باقة العميل')){
           sendOrderDataToApi()
         }else{
@@ -230,16 +216,15 @@ export default function AnwanShippments(userData) {
   if (userData.userData.data.user.rolle === "marketer") {
     myOrderData = {
       ...orderData,
-      s_name: itemName,
-      s_city: itemCity,
-      s_phone: itemMobile,
-      s_address: itemAddress,
-      c_name: itemName2,
-      c_phone: itemMobile2,
-      c_address: itemAddress2,
+      sendername: itemName,
+      sendercity: itemCity,
+      senderphone: itemMobile,
+      senderaddress: itemAddress,
+      recivername: itemName2,
+      reciverphone: itemMobile2,
+      reciveraddress: itemAddress2,
       clintid: itemClientId,
-      // daftraid: itemId,
-      // s_email: itemEmail,
+   
     };
   } else {
     myOrderData = { ...orderData };
@@ -258,55 +243,49 @@ export default function AnwanShippments(userData) {
       console.log(myOrderData.cod);
     }
     
-      // function getOrderData(e){
-      //   let myOrderData={...orderData};
-      //   myOrderData[e.target.name]= e.target.value;
-      //   setOrderData(myOrderData);
-      //   console.log(myOrderData);
-      //   console.log(myOrderData.cod);
-        
-      // }
-    
       function validateOrderUserForm(){
         let scheme= Joi.object({
-            s_name:Joi.string().required(),
-            s_city:Joi.string().required(),
-            s_phone:Joi.string().required(),
-            s_address:Joi.string().required(),
+            sendername:Joi.string().required(),
+            sendercity:Joi.string().required(),
+            senderphone:Joi.string().required(),
+            senderaddress:Joi.string().required(),
             weight:Joi.number().required(),
             pieces:Joi.number().required(),
-            c_name:Joi.string().required(),
-            c_city:Joi.string().required(),
-            c_address:Joi.string().required(),
-            c_phone:Joi.string().required(),
+            recivername:Joi.string().required(),
+            recivercity:Joi.string().required(),
+            reciveraddress:Joi.string().required(),
+            reciverphone:Joi.string().required(),
             description:Joi.string().required(),
-            // s_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
-            // c_email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
-            // value:Joi.string().required(),
+            senderdistrict: Joi.string().required(),
+            senderdistrictId:Joi.number().required(),
+            reciverdistrict:Joi.string().required(),
+            reciverdistrictId:Joi.number().required(),
             cod:Joi.required(),
             shipmentValue:Joi.number().allow(null, ''),  
             markterCode:Joi.string().allow(null, ''),
             clintid:Joi.string().allow(null, ''),
-            // daftraid:Joi.string().allow(null, ''),
         });
         return scheme.validate(orderData, {abortEarly:false});
       }
-      // const [cities,setCities]=useState()
+      const [cities,setCities]=useState()
       async function getCities() {
         console.log(localStorage.getItem('userToken'))
         try {
-          const response = await axios.get('https://dashboard.go-tex.net/test/anwan/cities',
+          const response = await axios.get('https://dashboard.go-tex.net/logistics-test/cities',
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             },
           });
-          // setCities(response.data.data.data)
-          console.log(response.data.data)
+          setCities(response.data.cities)
+          console.log(response)
         } catch (error) {
           console.error(error);
         }
       }
+      useEffect(() => {
+        getCities()
+      }, [])
       const [search, setSearch]= useState('')
       const [search2, setSearch2]= useState('')
     
@@ -337,6 +316,106 @@ export default function AnwanShippments(userData) {
       const closeClientsList = () => {
         setClientsList(false);
       };
+
+      const [districts,setDistricts]=useState([])
+      async function getDistricts(districtid) {
+        setDistrictsLoading(true);
+        try {
+          const response = await axios.get(`https://dashboard.go-tex.net/logistics-test/districts/${districtid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+            },
+          });
+          setDistricts([...response.data.districts])
+          // setDistricts(response.data.districts)
+          console.log(response)
+        } catch (error) {
+          console.error(error);
+        }finally {
+          setDistrictsLoading(false);
+        }
+      }
+      const [districts2,setDistricts2]=useState([])
+        async function getDistricts2(districtid) {
+          setDistrictsLoading2(true);
+          try {
+            const response = await axios.get(`https://dashboard.go-tex.net/logistics-test/districts/${districtid}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
+              },
+            });
+            setDistricts2([...response.data.districts])
+            // setDistricts2(response.data.districts)
+            console.log(response)
+          } catch (error) {
+            console.error(error);
+          }finally {
+            setDistrictsLoading2(false);
+          }
+        }
+        const [searchDistricts, setSearchDistricts] = useState('')
+      const [searchDistricts2, setSearchDistricts2] = useState('')
+    
+      const [showDistrictsList, setDistrictsList] = useState(false);
+      const openDistrictsList = () => {
+        setDistrictsList(true);
+      };
+    
+      const closeDistrictsList = () => {
+        setDistrictsList(false);
+      };
+      const [showDistrictsList2, setDistrictsList2] = useState(false);
+      const openDistrictsList2 = () => {
+        setDistrictsList2(true);
+      };
+    
+      const closeDistrictsList2 = () => {
+        setDistrictsList2(false);
+      };
+    
+      const districtsListRef = useRef(null);
+    
+      useEffect(() => {
+        const handleOutsideClick = (e) => {
+          if (
+            districtsListRef.current &&
+            !districtsListRef.current.contains(e.target) &&
+            e.target.getAttribute('name') !== 'senderdistrict'
+          ) {
+            closeDistrictsList();
+          }
+        };
+    
+        if (showDistrictsList) {
+          window.addEventListener('click', handleOutsideClick);
+        }
+    
+        return () => {
+          window.removeEventListener('click', handleOutsideClick);
+        };
+      }, [showDistrictsList]);
+    
+      const districtsListRef2 = useRef(null);
+      useEffect(() => {
+        const handleOutsideClick = (e) => {
+          if (
+            districtsListRef2.current &&
+            !districtsListRef2.current.contains(e.target) &&
+            e.target.getAttribute('name') !== 'reciverdistrict'
+          ) {
+            closeDistrictsList2();
+          }
+        };
+    
+        if (showDistrictsList2) {
+          window.addEventListener('click', handleOutsideClick);
+        }
+        return () => {
+          window.removeEventListener('click', handleOutsideClick);
+        };
+      }, [showDistrictsList2]);
       const[clients,setClients]=useState([])
       async function getClientsList() {
         try {
@@ -354,246 +433,24 @@ export default function AnwanShippments(userData) {
         }
       }
     
-      const cities=['Buraydah','Al Badayea','Al Bukayriyah','Al Fuwaileq','Al Hilaliyah','Al Mithnab',
-        'Alnabhanya','Alrass','Ayn Fuhayd','Badaya','Bukeiriah','Midinhab','Muzneb','Onaiza','Oyoon Al Jawa',
-        'Riyadh Al Khabra','Unayzah','Uyun Al Jawa','Al Asyah','Al Batra','Uqlat Al Suqur',
-        'Al Amar in qasim','Al Dalemya','Al Khishaybi','AlDalemya','Dulay Rashid','Qusayba',
-        'Ar Rishawiyah','Al Wasayta','An Nuqrah','Hail','Qufar','Sadyan','Baqa Ash Sharqiyah','Baqaa',
-        'Ghazalah','Mawqaq','Moqaq','Munifat Al Qaid','Al Ajfar','Al hait','Ash Shamli','Ash Shananah',
-        'Shinanh','Simira','Al Jawf','Qurayat','Sakaka','Al Laqayit','Ar Radifah','At Tuwayr','Domat Al Jandal',
-        'Hadeethah','Qara','Tabrjal','Zallum','Abu Ajram','Al Adari','An Nabk Abu Qasr',
-        'Jouf','Arar','Hazm Al Jalamid','Rafha','Turaif',
-        'Abha','Ahad Rufaidah','Al Wadeen','Asir','Balahmar','Balasmar','Harajah',
-'Khamis Mushait','Sarat Abidah','Sarat Obeida','Tendaha','Wadeien','Wadi Bin Hasbal','Samakh',
-'Khaiber Al Janoub','Mohayel Aseer','Muhayil','Al Namas','Almajaridah',`Rejal Alma'A`,'Tanomah',
-'Tanuma','turaib','Al Birk',`Kara'a`,'Subheka','Tatleeth','Al Baha','Bisha','Biljurashi','Majarda',
-'Namas','Adham','Bareq','Bariq','Al Mada','Sabt El Alaya','Aqiq','Atawleh','Gilwa','Mandak','Nimra',
-'Almuzaylif','Al Qunfudhah','Al Salamah','Birk','Amaq','Muthaleif','Rania','Qunfudah','Al Jifah',
-'Bani Hamim','Al Majma','Al Khaniq','Haddadah','Hubuna','Lahumah','Al Husayniyah','Al Mishaliah',
-'Najran','Khbash','Dhahran Al Janoob','Badr Al Janoub','Bir Askar','Khabash','Al Harajah','Al Hijf',
-'Thar','Sharourah','Al Wadiah','Yadamah','Jazan','Sabkah','Al Husayni','Alarjeen','Sunbah',
-'Al Gamri','Al Rayyan','Al Ataya','Either','Alabadilah','Al-Batna','Al Haqu','Harub','El Edabi',
-'Al Henayah','Al khoba','Al Fatiha','Fayfa','Alaliya','Alshuqayri','Al-MNSALA','Samrat Al Jed',
-'Al kadami','Al Sahalil','Alshqayri','Ad Darb','Al Reeth','Al Araq','Al Kadarah','Al Aridhah',
-'Al Edabi','Al Idabi','Khasawyah','Abu Areish','Abu Arish','Ahad Al Masarihah','Ahad Masarha',
-'Al Jaradiyah','Al Madaya','Al-Matan','Algayed','Alsilaa','Bish','Darb','Gizan','Jazan Economic City',
-'Mahalah','Sabya','Samtah','Thabya','Addayer','Al Ardah','Al Harth','Al Mubarakah','Al Shuqaiq','Al Tuwal',
-'Damad','Karboos','Shoaiba','Al Shuqaiq Hofuf','Al Hassa','Al Hofuf','Hofuf','Mubaraz','Al Qarah' ,
-'Uyun',
-'Juatha',
-'Abqaiq',
-'Baqayq - Hofuf',
-'Baqiq',
-'Othmanyah',
-'Ain Dar',
-'Salwa',
-'Udhailiyah',
-'Harad',
-'Al Oyun Hofuf',
-'Qarah',
-'Al Khobar',
-'Dammam',
-'Dhahran',
-'Khobar',
-'Rahima',
-'Thuqba',
-'Al Jsh',
-'Al Qatif',
-'Anak',
-'Awamiah',
-'Nabiya',
-'Al Awjam',
-'Qatif',
-'Ras Tanura',
-'Safwa',
-'Seihat',
-'Tarout',
-'Tarut',
-'AlQaisumah',
-'Hafer Al Batin',
-'Nisab',
-'As Sufayri',
-'Qaisumah',
-'As Sadawi',
-'An Nazim',
-'Rafha',
-'King Khalid Military City',
-'Ath Thybiyah',
-'Rawdat Habbas',
-'Al Jubail',
-'Jubail',
-'Satorp tank farm',
-'Tanjeeb',
-'Ras Al Kheir',
-'As sarar' ,
-'Satorp',
-'Nayriyah',
-'Khafji',
-'Mulaija',
-'Qariya Al Olaya',
-'Safanyah',
-'Jeddah',
-'Taiba',
-'Asfan',
-'Bahara',
-'Bahrat Al Moujoud',
-'Dhahban',
-'Khulais',
-'King Abdullah Economic City',
-'Mastorah',
-'Mastura',
-'Thuwal',
-'Zahban',
-'Laith',
-'Rabigh',
-'An Nawwariyyah',
-`Ja'araneh`,
-'Jumum',
-'Makkah',
-'Mecca',
-'Nwariah',
-`Shraie'E`,
-'Shumeisi',
-'Al Jumum',
-'Al Huwaya',
-'Alhada',
-`Ash-Sharaʼi`,
-'Taif',
-`Hawea/Taif`,
-'Khurma',
-'Turba',
-'Al Ais',
-'Wadi farah',
-'Madinah',
-'Hinakeya',
-'Khaibar',
-'Umluj',
-'Oula',
-'Yanbu',
-'Bader',
-'Mahad Al Dahab',
-'Yanbu Al Baher',
-'Yanbu Al Sinaiyah',
-'Yanbu Nakhil',
-'Tabuk',
-'Al Bada',
-'Duba',
-'Halat Ammar',
-'Haqil',
-'Sharmaa',
-'Tayma',
-`Wajeh (Al Wajh)`,
-'Ad Diriyah',
-'Dhurma',
-'Huraymila',
-'Muzahmiyah',
-'Uyaynah',
-'Remah',
-'Salbookh',
-'Thadek',
-'Hawtat Bani Tamim',
-'Ad Dilam',
-'Al Kharj',
-'Al Hariq',
-'Al Jubaylah',
-'Ar Ruwaydah',
-'Quweiyah',
-'Malham',
-'Mrat',
-'Tebrak',
-'Qasab',
-'Ar Rayn',
-'Al Furuthi',
-'Jalajil',
-'Al Dahinah',
-'Al Jurayfah',
-'Al Muashibah',
-'As Suh',
-'Umm Tulayhah',
-'Al Ghurabah',
-'Shaqra',
-'Ushaiqer',
-'Hautat Sudair',
-'Al Hurayyiq',
-'Raudat Sudair',
-'Audat Sudair',
-'Ushairat Sudair',
-'Al Hasi',
-'Al Tuwaim',
-'Tumair',
-'Sudair Industry and Business City',
-'Mabayid',
-'Al Sheib',
-'Al Shahmah',
-'Al Ghat',
-'Al Wusayyiah',
-'Mulayh',
-'Al Zulfi',
-'Al Zulfi -North  Albutain',
-'Imarat Almistawi',
-'Mushrifa',
-'Mishash Awad',
-'Al Uqlah',
-'Al Artawiyah',
-'Al Qaiyah',
-'An Nughayq',
-'Masada Artawiyah',
-'Umm Al Jamajm',
-'Afif',
-'Sajir',
-'Bejadiyah',
-'Nifi',
-'Al Artawi',
-'Arja',
-'AL Qaiyah',
-'Alsalhiya',
-'Wabrah',
-'Hadri',
-'Al Qurayn',
-'Afqara',
-'Musaddah',
-'Al Ulu',
-'As sumayrah',
-'Ash Shuara',
-'Jefin',
-'Abu sidayrah',
-'Sulaiyl',
-'Khamaseen',
-'Khairan',
-'Wadi', 
-'Kumdah',
-        ]
+     
 
-        async function getGotexSticker(orderId) {
-          try {
-            const response = await axios.get(`https://dashboard.go-tex.net/test/anwan/print-sticker/${orderId}`, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-              },
-            });
-                 console.log(response.data.data)
-            const stickerUrl = `${response.data.data}`;
-            const newTab = window.open();
-            newTab.location.href = stickerUrl;
-          } catch (error) {
-            console.error(error);
-          }
-        }
-        async function getInvoice(daftraId) {
-          try {
-            const response = await axios.get(`https://dashboard.go-tex.net/test/daftra/get-invoice/${daftraId}`, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-              },
-            });
-                 console.log(response)
-            const stickerUrl = `${response.data.data}`;
-            const newTab = window.open();
-            newTab.location.href = stickerUrl;
-          } catch (error) {
-            console.error(error);
-          }
-        }
+      async function getGotexSticker(orderId) {
+        try {
+       const response = await axios.get(`https://dashboard.go-tex.net/test/gotex/print-sticker/${orderId}`, {
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+         },
+       });
+       console.log(response)
+       const stickerUrl = `${response.data.data}`;
+       const newTab = window.open();
+       newTab.location.href = stickerUrl;
+     } catch (error) {
+       console.error(error);
+     }
+       }
+       
 
         const citiesListRef = useRef(null);
 
@@ -602,7 +459,7 @@ export default function AnwanShippments(userData) {
             if (
               citiesListRef.current &&
               !citiesListRef.current.contains(e.target) &&
-              e.target.getAttribute('name') !== 's_city'
+              e.target.getAttribute('name') !== 'sendercity'
             ) {
               closeCitiesList();
             }
@@ -623,7 +480,7 @@ export default function AnwanShippments(userData) {
             if (
               citiesListRef2.current &&
               !citiesListRef2.current.contains(e.target) &&
-              e.target.getAttribute('name') !== 'c_city'
+              e.target.getAttribute('name') !== 'recivercity'
             ) {
               closeCitiesList2();
             }
@@ -664,13 +521,13 @@ export default function AnwanShippments(userData) {
         
         useEffect(() => {
           getOrderData({
-            target: { name: 's_city', value: itemCity },
+            target: { name: 'sendercity', value: itemCity },
           });
         }, [itemCity]); 
         
         useEffect(() => {
           getOrderData({
-            target: { name: 's_address', value: itemAddress },
+            target: { name: 'senderaddress', value: itemAddress },
           });
         }, [itemAddress]);
         useEffect(()=>{
@@ -707,7 +564,7 @@ export default function AnwanShippments(userData) {
             setPhone3('')
           } else {
             const value = phoneValue
-            getOrderData({ target: { name: 's_phone', value } });
+            getOrderData({ target: { name: 'senderphone', value } });
           }
         };
   return (
@@ -828,22 +685,22 @@ export default function AnwanShippments(userData) {
                       //  setItemId(Number(item.Client.id));
                       //  setPhoneValue(item.Client.phone1)
                          
-                       document.querySelector('input[name="s_name"]').value = item.name;
-                       document.querySelector('input[name="s_phone"]').value = phoneValue;
-                      //  document.querySelector('input[name="s_city"]').value = item.city;
-                       document.querySelector('input[name="s_address"]').value = item.address;
+                       document.querySelector('input[name="sendername"]').value = item.name;
+                       document.querySelector('input[name="senderphone"]').value = phoneValue;
+                      //  document.querySelector('input[name="sendercity"]').value = item.city;
+                       document.querySelector('input[name="senderaddress"]').value = item.address;
 
-                       document.querySelector('input[name="s_name"]').readOnly = true;
-                       document.querySelector('input[name="s_phone"]').readOnly = true;
-                       document.querySelector('input[name="s_address"]').readOnly = true;
+                       document.querySelector('input[name="sendername"]').readOnly = true;
+                       document.querySelector('input[name="senderphone"]').readOnly = true;
+                       document.querySelector('input[name="senderaddress"]').readOnly = true;
                      
                       //  document.querySelector('input[name="s_email"]').value = item.email; 
-                      // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name;
-                      // document.querySelector('input[name="s_name"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
+                      // document.querySelector('input[name="sendername"]').value = item.Client.first_name && item.Client.last_name;
+                      // document.querySelector('input[name="sendername"]').value = item.Client.first_name && item.Client.last_name ? `${item.Client.first_name} ${item.Client.last_name}` : '';
 
-                      // document.querySelector('input[name="s_phone"]').value = value;
-                      //  document.querySelector('input[name="s_city"]').value = item.Client.city;
-                      //  document.querySelector('input[name="s_address"]').value = item.Client.address1;
+                      // document.querySelector('input[name="senderphone"]').value = value;
+                      //  document.querySelector('input[name="sendercity"]').value = item.Client.city;
+                      //  document.querySelector('input[name="senderaddress"]').value = item.Client.address1;
                       //  document.querySelector('input[name="s_email"]').value = item.Client.email;                    
    
                            document.querySelector('input[name="client"]').value = selectedCity;
@@ -902,7 +759,7 @@ export default function AnwanShippments(userData) {
                 {packageCompanies ? (
               <span className='fw-bold text-primary'>
                 {packageCompanies.map((company) => (
-                  <span >{company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  <span >{company === "gotex" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
                   ))}
               </span>
             ) : (
@@ -929,7 +786,7 @@ export default function AnwanShippments(userData) {
             <div className="prices-box text-center">
             {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
-                item.name === "anwan" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
+                item.name === "gotex" ? (<p>قيمة الشحن من <span>{item.mincodmarkteer} ر.س</span> الى <span>{item.maxcodmarkteer} ر.س</span></p>):
                 null))}
           </div>
           <div className="text-center">
@@ -964,18 +821,18 @@ export default function AnwanShippments(userData) {
           //     </>
           //  )}
 
-          document.querySelector('input[name="c_name"]').value = itemName0;
-            document.querySelector('input[name="c_phone"]').value = itemMobile0;
-            document.querySelector('input[name="c_address"]').value =itemAddress0;
+          document.querySelector('input[name="recivername"]').value = itemName0;
+            document.querySelector('input[name="reciverphone"]').value = itemMobile0;
+            document.querySelector('input[name="reciveraddress"]').value =itemAddress0;
            
-            document.querySelector('input[name="s_name"]').value = '';
-            document.querySelector('input[name="s_phone"]').value = '';
+            document.querySelector('input[name="sendername"]').value = '';
+            document.querySelector('input[name="senderphone"]').value = '';
            //  document.querySelector('input[name="p_city"]').value = item.city;
-            document.querySelector('input[name="s_address"]').value = '';
+            document.querySelector('input[name="senderaddress"]').value = '';
 
-            document.querySelector('input[name="s_name"]').readOnly = false;
-            document.querySelector('input[name="s_phone"]').readOnly = false;
-            document.querySelector('input[name="s_address"]').readOnly = false;
+            document.querySelector('input[name="sendername"]').readOnly = false;
+            document.querySelector('input[name="senderphone"]').readOnly = false;
+            document.querySelector('input[name="senderaddress"]').readOnly = false;
            
         }}
           >تبديل العميل لمستلم</button>
@@ -991,44 +848,32 @@ export default function AnwanShippments(userData) {
                 {/* <p>{cities[0].name}</p> */}
                 <div className='pb-3'>
                 <label htmlFor=""> الاسم<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='s_name' onChange={(e) => {
+                <input type="text" className="form-control" name='sendername' onChange={(e) => {
     setItemName(e.target.value);
     getOrderData(e);
   }}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='s_name'){
+      if(err.context.label ==='sendername'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
     })}
             </div>
-            {/* <div className='pb-3'>
-                <label htmlFor=""> الايميل<span className="star-requered">*</span></label>
-                <input type="email" className="form-control" name='s_email' onChange={(e) => {
-    setItemEmail(e.target.value);
-    getOrderData(e);
-  }}/>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='s_email'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div> */}
+            
             { userData.userData.data.user.rolle === "marketer"?(
               <>
             <div className={`pb-3 main-box ${isChecked ? 'opacity-50' : ''}`}>
                 <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control" /> */}
-                <PhoneInput name='s_phone' 
+                <PhoneInput name='senderphone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
     onChange={(phoneValue) => {
       setItemMobile(phoneValue);
       setPhoneValue(phoneValue);
-      getOrderData({ target: { name: 's_phone', value: phoneValue } });
+      getOrderData({ target: { name: 'senderphone', value: phoneValue } });
     }}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='s_phone'){
+      if(err.context.label ==='senderphone'){
         return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
       }
       
@@ -1040,14 +885,14 @@ export default function AnwanShippments(userData) {
             <label htmlFor="" className='txt-blue'>إضافة رقم هاتف آخر </label>
             <div className={`phone-checkBox ${isChecked ? '' : 'd-none'}`}>
             
-    <PhoneInput name='s_phone' 
+    <PhoneInput name='senderphone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone3}
     onChange={(phone3) => {
       setPhone3(phone3);
-      getOrderData({ target: { name: 's_phone', value: phone3} });
+      getOrderData({ target: { name: 'senderphone', value: phone3} });
     }}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='s_phone'){
+      if(err.context.label ==='senderphone'){
         return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
       }
     })}
@@ -1058,15 +903,15 @@ export default function AnwanShippments(userData) {
             <div className='pb-3'>
             <label htmlFor="">رقم الهاتف<span className="star-requered">*</span></label>
             {/* <input type="text" className="form-control" /> */}
-            <PhoneInput name='s_phone' 
+            <PhoneInput name='senderphone' 
 labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phoneValue}
 onChange={(phoneValue) => {
   setItemMobile(phoneValue);
   setPhoneValue(phoneValue);
-  getOrderData({ target: { name: 's_phone', value: phoneValue } });
+  getOrderData({ target: { name: 'senderphone', value: phoneValue } });
 }}/>
 {errorList.map((err,index)=>{
-  if(err.context.label ==='s_phone'){
+  if(err.context.label ==='senderphone'){
     return <div key={index} className="alert alert-danger my-2">يجب ملئ جميع البيانات </div>
   }
   
@@ -1074,8 +919,8 @@ onChange={(phoneValue) => {
   
         </div>}
             <div className='pb-3 ul-box'>
-            <label htmlFor="">  الموقع(الفرع الرئيسى)<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='s_city'
+            <label htmlFor="">  المدينة(الفرع الرئيسى)<span className="star-requered">*</span></label>
+                <input type="text" className="form-control" name='sendercity'
                 onChange={(e)=>{ 
                   setItemCity(e.target.value);
 
@@ -1083,7 +928,7 @@ onChange={(phoneValue) => {
                   setSearch(searchValue);
                   getOrderData(e)
                   const matchingCities = cities.filter((item) => {
-                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+                    return searchValue === '' ? item : item.name_ar.includes(searchValue);
                   });
               
                   if (matchingCities.length === 0) {
@@ -1097,19 +942,20 @@ onChange={(phoneValue) => {
                   {showCitiesList && (
                     <ul  className='ul-cities' ref={citiesListRef}>  
                     {cities && cities.filter((item)=>{
-                    return search === ''? item : item.toLowerCase().includes(search.toLowerCase());
+                    return search === ''? item : item.name_ar.includes(search);
                     }).map((item,index) =>{
                      return(
-                      <li key={index} name='s_city' 
+                      <li key={index} name='sendercity' 
                       onClick={(e)=>{ 
                         const selectedCity = e.target.innerText;
+                        getDistricts(item.city_id)
                         setItemCity(selectedCity)
-                        getOrderData({ target: { name: 's_city', value: selectedCity } });
-                        document.querySelector('input[name="s_city"]').value = selectedCity;
+                        getOrderData({ target: { name: 'sendercity', value: selectedCity } });
+                        document.querySelector('input[name="sendercity"]').value = selectedCity;
                         closeCitiesList();
                     }}
                       >
-                        {item}
+                        {item.name_ar}
                      </li>
                      )
                     }
@@ -1117,42 +963,76 @@ onChange={(phoneValue) => {
                     </ul>
                   )}
                  
-                {/* <select className="form-control" name='s_city' onChange={getOrderData}>
+                {/* <select className="form-control" name='sendercity' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
                 </select> */}
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='s_city'){
+      if(err.context.label ==='sendercity'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
     })}
             </div>
-            {/* <div className='pb-3'>
-                <label htmlFor=""> الموقع</label>
-                <select className="form-control" name='s_city' onChange={getOrderData}>
-                <option></option>
-                {cities && cities.map((item, index) => (
-                  <option key={index}>{item.name}</option>
-                  ))}
-                </select>
-                {errorList.map((err,index)=>{
-      if(err.context.label ==='s_city'){
-        return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
-      }
-      
-    })}
-            </div> */}
+            <div className='pb-3 ul-box'>
+              <label htmlFor="">المنطقة<span className='text-danger'>(اختر المدينة أولاً)</span>: <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='senderdistrict' disabled={districtsLoading}
+                  onChange={(e)=>{ 
+                    openDistrictsList()
+                    const searchValue = e.target.value;
+                    setSearchDistricts(searchValue);
+                    getOrderData(e)
+                    
+                    }}
+                    onFocus={openDistrictsList}
+                    onClick={openDistrictsList}
+                    />
+                    {showDistrictsList && (
+                      <ul  className='ul-cities' ref={districtsListRef}>  
+                      {districts && districts.filter((item)=>{
+                      return searchDistricts === ''? item : item.name_ar.includes(searchDistricts);
+                      }).map((item,index) =>{
+                       return(
+                        <li key={index} name='senderdistrict' 
+                        onClick={(e)=>{ 
+                          const selected = e.target.innerText;
+                          getOrderData({ target: { name: 'senderdistrict', value: selected } });
+                          setOrderData(prevOrderData => ({
+                              ...prevOrderData,
+                              senderdistrictId: Number(item.district_id)
+                            }));                                           
+
+                          document.querySelector('input[name="senderdistrict"]').value = selected;
+                          closeDistrictsList();
+                      }}
+                        >
+                          {item.name_ar}
+                       </li>
+                       )
+                      }
+                      )}
+                      </ul>
+                    )}
+                   
+                  
+                  {errorList.map((err,index)=>{
+        if(err.context.label ==='senderdistrict'){
+          return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+        }
+        
+      })}
+              </div>
+            
             <div className='pb-3'>
                 <label htmlFor=""> العنوان <span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='s_address' onChange={(e) => {
+                <input type="text" className="form-control" name='senderaddress' onChange={(e) => {
     setItemAddress(e.target.value);
     getOrderData(e);
   }}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='s_address'){
+      if(err.context.label ==='senderaddress'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -1204,10 +1084,10 @@ onChange={(phoneValue) => {
       setItemCity(selectedBranch.city, () => {
         // This code will be executed after setItemCity updates the state
         getOrderData({
-          target: { name: 's_city', value: selectedBranch.city },
+          target: { name: 'sendercity', value: selectedBranch.city },
         });
         getOrderData({
-          target: { name: 's_address', value: selectedBranch.address },
+          target: { name: 'senderaddress', value: selectedBranch.address },
         });
       });
     }
@@ -1250,7 +1130,8 @@ onChange={(phoneValue) => {
                 <label htmlFor=""> الوزن<span className="star-requered">*</span></label>
                 <input 
                 // type="number" step="0.001" 
-                className="form-control" name='weight' onChange={getOrderData}/>
+                className="form-control" name='weight' onChange={(e)=>{getOrderData({target:{name:'weight',value:Number(e.target.value)}});
+              }}  />
                 {errorList.map((err,index)=>{
       if(err.context.label ==='weight'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1277,7 +1158,8 @@ onChange={(phoneValue) => {
                 <label htmlFor=""> عدد القطع<span className="star-requered">*</span></label>
                 <input
                 //  type="number" 
-                 className="form-control" name='pieces' onChange={getOrderData}/>
+                 className="form-control" name='pieces' onChange={(e)=>{getOrderData({target:{name:'pieces',value:Number(e.target.value)}});
+                }}  />
                 {errorList.map((err,index)=>{
       if(err.context.label ==='pieces'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
@@ -1437,12 +1319,12 @@ onChange={(phoneValue) => {
                 
         <div className='pb-3'>
                 <label htmlFor=""> الاسم<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_name' onChange={(e)=>{
+                <input type="text" className="form-control" name='recivername' onChange={(e)=>{
                   setItemName2(e.target.value)
                   getOrderData(e)
                 }}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='c_name'){
+      if(err.context.label ==='recivername'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -1461,15 +1343,15 @@ onChange={(phoneValue) => {
             <div className='pb-3'>
                 <label htmlFor=""> رقم الهاتف<span className="star-requered">*</span></label>
                 {/* <input type="text" className="form-control"/> */}
-                <PhoneInput name='c_phone' 
+                <PhoneInput name='reciverphone' 
     labels={ar} defaultCountry='SA' dir='ltr' className='phoneInput' value={phone2}
     onChange={(phone2) => {
       setItemMobile2(phone2)
       setPhone2(phone2);
-      getOrderData({ target: { name: 'c_phone', value: phone2 } });
+      getOrderData({ target: { name: 'reciverphone', value: phone2 } });
     }}/>
     {errorList.map((err,index)=>{
-      if(err.context.label ==='c_phone'){
+      if(err.context.label ==='reciverphone'){
         return <div key={index} className="alert alert-danger my-2"> يجب ملئ جميع البيانات</div>
       }
       
@@ -1477,14 +1359,14 @@ onChange={(phoneValue) => {
       
             </div>
             <div className='pb-3 ul-box'>
-                <label htmlFor=""> الموقع<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_city'
+                <label htmlFor=""> المدينة<span className="star-requered">*</span></label>
+                <input type="text" className="form-control" name='recivercity'
                 onChange={(e)=>{ 
                   const searchValue = e.target.value;
                   setSearch2(searchValue);
                   getOrderData(e)
                   const matchingCities = cities.filter((item) => {
-                    return searchValue === '' ? item : item.toLowerCase().includes(searchValue.toLowerCase());
+                    return searchValue === '' ? item : item.name_ar.includes(searchValue);
                   });
               
                   if (matchingCities.length === 0) {
@@ -1498,47 +1380,96 @@ onChange={(phoneValue) => {
                   {showCitiesList2 && (
                     <ul  className='ul-cities' ref={citiesListRef2}>
                     {cities && cities.filter((item)=>{
-                    return search2 === ''? item : item.toLowerCase().includes(search2.toLowerCase());
+                    return search2 === ''? item : item.name_ar.includes(search2);
                     }).map((item,index) =>{
                      return(
-                      <li key={index} name='c_city' 
+                      <li key={index} name='recivercity' 
                       onClick={(e)=>{ 
                         const selectedCity = e.target.innerText;
-                        getOrderData({ target: { name: 'c_city', value: selectedCity } });
-                        document.querySelector('input[name="c_city"]').value = selectedCity;
+                        getDistricts2(item.city_id)
+                        getOrderData({ target: { name: 'recivercity', value: selectedCity } });
+                        document.querySelector('input[name="recivercity"]').value = selectedCity;
                         closeCitiesList2();
                     }}
                       >
-                        {item}
+                        {item.name_ar}
                      </li>
                      )
                     }
                     )}
                     </ul>
                   )}
-                {/* <select className="form-control" name='c_city' onChange={getOrderData}>
+                {/* <select className="form-control" name='recivercity' onChange={getOrderData}>
                   <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}                
                 </select> */}
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='c_city'){
+      if(err.context.label ==='recivercity'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
     })}
             </div>
+            <div className='pb-3 ul-box'>
+              <label htmlFor="">المنطقة<span className='text-danger'>(اختر المدينة أولاً)</span>: <span className="star-requered">*</span></label>
+              <input type="text" className="form-control" name='reciverdistrict' disabled={districtsLoading2}
+                  onChange={(e)=>{ 
+                    openDistrictsList2()
+                    const searchValue = e.target.value;
+                    setSearchDistricts2(searchValue);
+                    getOrderData(e)
+                    
+                    }}
+                    onFocus={openDistrictsList2}
+                    onClick={openDistrictsList2}
+                    />
+                    {showDistrictsList2 && (
+                      <ul  className='ul-cities' ref={districtsListRef2}>  
+                      {districts2 && districts2.filter((item)=>{
+                      return searchDistricts2 === ''? item : item.name_ar.includes(searchDistricts2);
+                      }).map((item,index) =>{
+                       return(
+                        <li key={index} name='reciverdistrict' 
+                        onClick={(e)=>{ 
+                          const selected = e.target.innerText;
+                          getOrderData({ target: { name: 'reciverdistrict', value: selected } });
+                          setOrderData(prevOrderData => ({
+                              ...prevOrderData,
+                              reciverdistrictId: Number(item.district_id)
+                            })); 
+                          
+                          document.querySelector('input[name="reciverdistrict"]').value = selected;
+                          closeDistrictsList2();
+                      }}
+                        >
+                          {item.name_ar}
+                       </li>
+                       )
+                      }
+                      )}
+                      </ul>
+                    )}
+                   
+                  
+                  {errorList.map((err,index)=>{
+        if(err.context.label ==='reciverdistrict'){
+          return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
+        }
+        
+      })}
+              </div>
             {/* <div className='pb-3'>
                 <label htmlFor=""> الموقع</label>
-                <select className="form-control" name='c_city' onChange={getOrderData}>
+                <select className="form-control" name='recivercity' onChange={getOrderData}>
                 <option></option>
                 {cities && cities.map((item, index) => (
                   <option key={index}>{item.name}</option>
                   ))}
                 </select>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='c_city'){
+      if(err.context.label ==='recivercity'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -1546,12 +1477,12 @@ onChange={(phoneValue) => {
             </div> */}
             <div className='pb-3'>
                 <label htmlFor=""> العنوان<span className="star-requered">*</span></label>
-                <input type="text" className="form-control" name='c_address' onChange={(e)=>{
+                <input type="text" className="form-control" name='reciveraddress' onChange={(e)=>{
                   setItemAddress2(e.target.value)
                   getOrderData(e)
                 }}/>
                 {errorList.map((err,index)=>{
-      if(err.context.label ==='c_address'){
+      if(err.context.label ==='reciveraddress'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء هذه الخانة </div>
       }
       
@@ -1577,11 +1508,11 @@ onChange={(phoneValue) => {
               <tr>
                <th scope="col">#</th>
                <th scope="col"> الشركة</th>
-               <th scope="col">رقم الشحنة</th>
+               {/* <th scope="col">رقم الشحنة</th> */}
                <th scope="col">رقم التتبع </th>
                <th scope="col">طريقة الدفع</th>
                <th scope="col">السعر </th>
-               <th scope="col">id_الفاتورة</th>                
+               {/* <th scope="col">id_الفاتورة</th>                 */}
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th></th>
@@ -1592,12 +1523,12 @@ onChange={(phoneValue) => {
     return (
       <tr key={index}>
         <td>{index + 1}</td>
-        <td>{item.company}</td>
-        <td>{item.ordernumber}</td>
-        <td>{item.data.awb_no}</td>
-        <td>{item.paytype}</td>
+        <td>gotex</td>
+        <td>{item.data.ordernumber}</td>
+        {/* <td>{item.data.awb_no}</td> */}
+        <td>{item.data.paytype}</td>
         <td>{item.price}</td>
-        {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+        {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
         <td>
                 <button
       

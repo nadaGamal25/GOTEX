@@ -526,7 +526,7 @@ function getOrderData(e) {
                 {packegeDetails.companies ? (
               <span>
                 {packegeDetails.companies.map((company) => (
-                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  <span >{company === "all" ? " جميع الشركات " : company + " , "} </span>
                 ))}
               </span>
             ) : (
@@ -695,7 +695,7 @@ function getOrderData(e) {
                 {packageCompanies ? (
               <span className='fw-bold text-primary'>
                 {packageCompanies.map((company) => (
-                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  <span >{company === "all" ? " جميع الشركات " : company + " , "} </span>
                   ))}
               </span>
             ) : (

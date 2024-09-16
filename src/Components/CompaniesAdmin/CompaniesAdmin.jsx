@@ -9,6 +9,7 @@ import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
 import logo from '../../assets/logo.png';
+import anwan from '../../assets/anwan.PNG';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
@@ -69,7 +70,7 @@ export default function CompaniesAdmin() {
             item !== null ? (
               <tr key={index}>
                 <td>{index+1}</td>
-                {item.name ==="anwan"?<td>gotex</td>:<td>{item.name}</td>}
+                {item.name?<td>{item.name}</td>:<td>_</td>}
                 {item.userprice?<td>{item.userprice}</td>:<td>_</td>}
                 {item.marketerprice?<td>{item.marketerprice}</td>:<td>_</td>}
                 {item.kgprice?<td>{item.kgprice}</td>:<td>_</td>}
@@ -102,7 +103,25 @@ export default function CompaniesAdmin() {
               <div className="text-center">
               <img className='bg-white' src={logo} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-3"> 
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              </div>
+              <div className="d-flex pt-4 justify-content-between">
+                <h4></h4>
+                <Link to="/gotexEdit" className="btn btn-choose">تعديل</Link>
+              </div>
+            </div>
+          </div>
+        <div className="col-md-6">
+            <div className="company">
+              <div className="text-center">
+              <img className='bg-white' src={anwan} alt="company" />
+              </div>
+              <div className="stars text-center mt-3"> 
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>

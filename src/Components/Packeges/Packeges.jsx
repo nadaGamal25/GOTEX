@@ -69,7 +69,7 @@ export default function Packeges() {
           item.companies ? (
             <b>
               {item.companies.map((company) => (
-                <b><span >{company === "anwan" ? "gotex" :company === "all" ? "جميع الشركات" : company} 
+                <b><span >{company === "all" ? "جميع الشركات" : company} 
  </span>{item.companies.length > 1 ? "& " : ""}
 </b>
               ))}

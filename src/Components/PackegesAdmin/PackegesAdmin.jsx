@@ -133,8 +133,10 @@ export default function PackegesAdmin() {
         <label for="" className='blue-txt'> جميع الشركات</label><br/>
         <input type="checkbox" id="" className='me-2' name="" value="saee" onChange={handleCheckboxChange}/>
         <label for="" className='blue-txt'> saee</label><br/>
-        <input type="checkbox" id="" className='me-2' name="" value="anwan" onChange={handleCheckboxChange}/>
+        <input type="checkbox" id="" className='me-2' name="" value="gotex" onChange={handleCheckboxChange}/>
         <label for="" className='blue-txt'> gotex</label><br/>
+        <input type="checkbox" id="" className='me-2' name="" value="anwan" onChange={handleCheckboxChange}/>
+        <label for="" className='blue-txt'> anwan</label><br/>
         <input type="checkbox" id="" className='me-2' name="" value="smsa" onChange={handleCheckboxChange}/>
         <label for="" className='blue-txt'> smsa</label><br/>
         <input type="checkbox" id="" className='me-2' name="" value="aramex" onChange={handleCheckboxChange}/>
@@ -267,7 +269,7 @@ Companies.map((item, index) => (
                 {item.companies ? (
           <td>
             {item.companies.map((company) => (
-              <span >{company === "anwan" ? "gotex ," : company === "all" ? "جميع الشركات" : company + ` , `}  </span>
+              <span >{company === "all" ? "جميع الشركات" : company + ` , `}  </span>
             ))}
           </td>
         ) : (

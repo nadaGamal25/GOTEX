@@ -576,7 +576,7 @@ async function getPackageDetails() {
                 {packegeDetails.companies ? (
               <span>
                 {packegeDetails.companies.map((company) => (
-                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  <span >{company === "all" ? " جميع الشركات " : company + " , "} </span>
                   ))}
               </span>
             ) : (
@@ -745,7 +745,7 @@ async function getPackageDetails() {
                 {packageCompanies ? (
               <span className='fw-bold text-primary'>
                 {packageCompanies.map((company) => (
-                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  <span >{company === "all" ? " جميع الشركات " : company + " , "} </span>
                   ))}
               </span>
             ) : (

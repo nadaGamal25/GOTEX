@@ -88,6 +88,10 @@ import ActivateUser from './Components/ActivateUser/ActivateUser';
 import MarketersClients from './Components/MarketersClients/MarketersClients';
 import MarketerGenerateLink from './Components/MarketerGenerateLink/MarketerGenerateLink';
 import RegisterClient from './Components/RegisterClient/RegisterClient';
+import CancelRequestsAdmin from './Components/CancelRequestsAdmin/CancelRequestsAdmin';
+import GotexEdit from './Components/GotexEdit/GotexEdit';
+import GotexShipments from './Components/GotexShipments/GotexShipments';
+import UserAllShipments from './Components/UserAllShipments/UserAllShipments';
 
 function App() {
   
@@ -169,6 +173,7 @@ function App() {
       {path:'/shipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><Shipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/shipmentForms',element:<ErrorBoundary><ProtectedRoute userData={userData}><ShipmentForms userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/saeeShipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><SaeeShipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/gotexShipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><GotexShipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/gltShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GltShipments/></ProtectedRoute>},
       {path:'/aramexShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><AramexShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/smsaShipment',element:<ErrorBoundary><ProtectedRoute userData={userData}><SmsaShippments userData={userData}/></ProtectedRoute></ErrorBoundary>},
@@ -187,6 +192,7 @@ function App() {
       {path:'/packageDetails',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackageDetails userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/packageMarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesMarketers userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/generateLinkPayment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GenerateLinkPayment userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/userAllShipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><UserAllShipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
@@ -210,6 +216,8 @@ function App() {
     {path:'marketersAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketersAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'clientsAmarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><ClientsAmarketers/></ProtectedRoute></ErrorBoundary>},
     {path:'packegesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'cancelRequestsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CancelRequestsAdmin/></ProtectedRoute></ErrorBoundary>},
+    {path:'gotexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GotexEdit/></ProtectedRoute></ErrorBoundary>},
    
     ]},
     {path:'/',element:<LayoutMarketers setmarketerData={setmarketerData} marketerData={marketerData}/> ,children:[

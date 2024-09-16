@@ -4,14 +4,15 @@ import Joi from 'joi'
 import { useState } from 'react'
 import { useEffect } from 'react';
 
-export default function AnwanEdit() {
+export default function GotexEdit() {
     const [errorList, seterrorList]= useState([]); 
   const [Prices,setPrices] =useState({
+    name: "gotex",
     status :'',
     userprice :'',
     marketerprice:'',
     kgprice :'',
-    userCodPrice : '',
+    codprice : '',
     maxcodmarkteer :'',
     mincodmarkteer :'',
   })
@@ -21,7 +22,7 @@ export default function AnwanEdit() {
   async function sendPricesToApi() {
     console.log(localStorage.getItem('userToken'))
     try {
-      const {data} = await axios.post(`https://dashboard.go-tex.net/test/anwan/edit`, Prices,
+      const {data} = await axios.post(`https://dashboard.go-tex.net/test/gotex/edit`, Prices,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
@@ -78,11 +79,12 @@ function getPrices(e) {
 
   function validatePricesForm(){
     let scheme= Joi.object({
+      name:Joi.string().required(),
       status:Joi.boolean().required(),
         userprice:Joi.number().required(),
         marketerprice:Joi.number().required(),
         kgprice :Joi.number().required(),
-        userCodPrice :Joi.number().required(),
+        codprice :Joi.number().required(),
         maxcodmarkteer :Joi.number().required(),
         mincodmarkteer :Joi.number().required(),
 
@@ -101,13 +103,13 @@ function getPrices(e) {
       setCompaniesDetails(companiesPrices)
       setPrices({
         ...Prices,
-        status:companiesPrices[4].status, 
-        userprice:companiesPrices[4].userprice,
-        marketerprice:companiesPrices[4].marketerprice,
-        kgprice:companiesPrices[4].kgprice,
-        userCodPrice:companiesPrices[4].codprice,
-        maxcodmarkteer:companiesPrices[4].maxcodmarkteer,
-        mincodmarkteer: companiesPrices[4].mincodmarkteer, 
+        status:companiesPrices[8].status, 
+        userprice:companiesPrices[8].userprice,
+        marketerprice:companiesPrices[8].marketerprice,
+        kgprice:companiesPrices[8].kgprice,
+        codprice:companiesPrices[8].codprice,
+        maxcodmarkteer:companiesPrices[8].maxcodmarkteer,
+        mincodmarkteer: companiesPrices[8].mincodmarkteer, 
       });
     } catch (error) {
       console.error(error);
@@ -119,7 +121,7 @@ function getPrices(e) {
             <div className=" py-3">
               <div className="edit-form">
                 <div className="p-saee p-3">
-                  <h5 className="text-center mb-3">أسعار شركة Anwan </h5>
+                  <h5 className="text-center mb-3">أسعار شركة Gotex </h5>
                   <form onSubmit={submitPricesForm} action="">
                     <label htmlFor="">سعر المسخدم</label>
                     <input onChange={getPrices} type="number" value={Prices.userprice} step="0.001" className='my-input my-2 form-control' name='userprice' />
@@ -146,9 +148,9 @@ function getPrices(e) {
       
     })}
                     <label htmlFor="">سعر الدفع عند الاستلام</label>
-                    <input onChange={getPrices} type="number" value={Prices.userCodPrice} step="0.001" className='my-input my-2 form-control' name='userCodPrice' />
+                    <input onChange={getPrices} type="number" value={Prices.codprice} step="0.001" className='my-input my-2 form-control' name='codprice' />
                     {errorList.map((err,index)=>{
-      if(err.context.label ==='userCodPrice'){
+      if(err.context.label ==='codprice'){
         return <div key={index} className="alert alert-danger my-2">يجب ملىء جميع البيانات</div>
       }
       

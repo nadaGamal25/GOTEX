@@ -179,6 +179,9 @@ body{
   -ms-border-radius: 15px;
   -o-border-radius: 15px;
 }
+.bg-gray{
+  background-color: #e2e3e8 !important;
+}
 /* Modal styles 
 .modal-overlay {
   position: fixed;

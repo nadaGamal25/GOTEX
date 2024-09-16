@@ -286,7 +286,7 @@ export default function PackegesMarketers() {
                 {item.companies ? (
           <td>
             {item.companies.map((company) => (
-                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  <span >{company === "all" ? " جميع الشركات " : company + " , "} </span>
                   ))}
           </td>
         ) : (
@@ -366,7 +366,7 @@ export default function PackegesMarketers() {
       {packageDetails.companies ? (
     <span>
       {packageDetails.companies.map((company) => (
-                  <span >{company === "anwan" ? "gotex , " :company === "all" ? " جميع الشركات " : company + " , "} </span>
+                  <span >{company === "all" ? " جميع الشركات " : company + " , "} </span>
                   ))}
     </span>
   ) : (

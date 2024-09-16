@@ -178,8 +178,14 @@ export default function Navbar({userData ,logout}) {
                     <span class="text">العملاء</span>
                 </Link>
             </li> */}
-            <li>
+            {/* <li>
                 <Link to="shipments">
+                <i class="fa-solid fa-box-open bx"></i>
+                    <span class="text">الشحنات</span>
+                </Link>
+            </li> */}
+            <li>
+                <Link to="userAllShipments">
                 <i class="fa-solid fa-box-open bx"></i>
                     <span class="text">الشحنات</span>
                 </Link>

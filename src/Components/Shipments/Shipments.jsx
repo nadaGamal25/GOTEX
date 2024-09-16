@@ -434,6 +434,26 @@ export default function Shipments(userData) {
             convertBase64ToPDF(base64String, sawb);
             
           }
+
+          //cancel order
+          async function cancelOrder(orderId,cancelReason,getFunc) {
+             try {
+          const response = await axios.post('https://dashboard.go-tex.net/test/orders/cancel-order-request',
+            { orderId , cancelReason },
+            {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          });
+          getFunc();
+          window.alert("تم حفظ طلب الالغاء..فى انتظار موافقة الادمن")
+          console.log(response)
+        } catch (error) {
+          console.error(error);
+          alert("error")
+        }
+            
+          }
   return (
     <>
     
@@ -470,7 +490,7 @@ export default function Shipments(userData) {
 
              <th scope="col">طريقة الدفع</th>
              <th scope="col"> التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
+             {/* <th scope="col">id_الفاتورة</th>                 */}
 
              <th scope="col"></th>
              <th scope="col"></th>
@@ -487,7 +507,7 @@ export default function Shipments(userData) {
     );
   }).map((item,index) =>{
             return(
-              <tr key={index}>
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''} >
               <td>{index+1}</td>
               <td>gotex</td>
               <td>{item.ordernumber}</td>
@@ -500,7 +520,7 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
 
               <td>
               <button
@@ -511,13 +531,28 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
-              {item.inovicedaftra?.id?(<td><button
+              {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
+    {item.status=== "canceled" ?
+                <td><span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span></td>:
+                item.cancel?.request=== true?
+                  <td><span className='text-center text-danger fw-bold'>الالغاء قيد الانتظار</span></td>:<td><button
+            className="btn btn-danger"
+            onClick={() => {
+                const orderId = item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
+                cancelOrder(orderId, cancelReason,getGotexUserOrders)
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button> </td>}
              
               {/* <td>
                 <button
@@ -549,7 +584,7 @@ export default function Shipments(userData) {
 
             <th scope="col">طريقة الدفع</th>
             <th scope="col">التاريخ</th>
-            <th scope="col">id_الفاتورة</th>                
+            {/* <th scope="col">id_الفاتورة</th>                 */}
 
             {/* <th scope="col">message</th> */}
             <th scope="col"></th>
@@ -583,7 +618,7 @@ export default function Shipments(userData) {
               <td>{item.paytype}</td>
               {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
               {/* <td>{item.data.message}</td> */}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
 
               <td>
 
@@ -603,13 +638,13 @@ export default function Shipments(userData) {
                       تتبع الشحنة
                     </a>
               </td>
-              {item.inovicedaftra?.id?(<td><button
+              {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
               <td >
                 
                 {item.status=== "canceled" ?
@@ -671,7 +706,7 @@ export default function Shipments(userData) {
              {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طريقة الدفع</th>
              <th scope="col">التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
+             {/* <th scope="col">id_الفاتورة</th>                 */}
              {/* <th scope="col">Tracking_Number</th> */}
              <th scope="col"></th>
              <th scope="col"></th>
@@ -688,7 +723,7 @@ export default function Shipments(userData) {
     );
   }).map((item,index) =>{
             return(
-              <tr key={index}>
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''} >
               <td>{index+1}</td>
               <td>{item.company}</td>
               <td>{item.ordernumber}</td>
@@ -699,7 +734,7 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
 
               {/* <td>{item.data.orderTrackingNumber}</td> */}
               <td>
@@ -711,13 +746,28 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
-              {item.inovicedaftra?.id?(<td><button
+              {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
+     {item.status=== "canceled" ?
+                <td><span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span></td>:
+                item.cancel?.request=== true?
+                  <td><span className='text-center text-danger fw-bold'>الالغاء قيد الانتظار</span></td>:<td><button
+            className="btn btn-danger"
+            onClick={() => {
+                const orderId = item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
+                cancelOrder(orderId, cancelReason,getAramexUserOrders)
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button> </td>}
               {/* <td>
                 <button
                       className="btn btn-info text-white"
@@ -746,7 +796,7 @@ export default function Shipments(userData) {
             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
+             {/* <th scope="col">id_الفاتورة</th>                 */}
 
              <th scope="col"></th>
              <th scope="col"></th>
@@ -763,7 +813,7 @@ export default function Shipments(userData) {
     );
   }).map((item,index) =>{
             return(
-              <tr key={index}>
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''} >
               <td>{index+1}</td>
               <td>{item.company}</td>
               <td>{item.ordernumber}</td>
@@ -773,7 +823,7 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               <td>{item.created_at.slice(0, 10)}</td>
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
               <td>
         <div class="dropdown">
   <button class="btn btn-success dropdown-toggle"
@@ -825,13 +875,28 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td> */}
-              {item.inovicedaftra?.id?(<td><button
+              {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
+     {item.status=== "canceled" ?
+                <td><span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span></td>:
+                item.cancel?.request=== true?
+                  <td><span className='text-center text-danger fw-bold'>الالغاء قيد الانتظار</span></td>:<td><button
+            className="btn btn-danger"
+            onClick={() => {
+                const orderId = item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
+                cancelOrder(orderId, cancelReason,getSmsaUserOrders)
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button> </td>}
               
             </tr>
             )
@@ -857,7 +922,7 @@ export default function Shipments(userData) {
             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
+             {/* <th scope="col">id_الفاتورة</th>                 */}
 
              <th scope="col"></th>
              <th scope="col"></th>
@@ -886,7 +951,7 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
               <td>
         <button className="btn btn-success"  onClick={() => {
         //  setbase64String(bs)
@@ -894,13 +959,13 @@ export default function Shipments(userData) {
         // openBase64PDFInNewWindow(item.data.data.imileAwb)
       }}>تحميل الاستيكر</button>
       </td>
-      {item.inovicedaftra?.id?(<td><button
+      {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
        <td>
         {item.status=== "canceled" ? 
           <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
@@ -959,7 +1024,7 @@ export default function Shipments(userData) {
             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
+             {/* <th scope="col">id_الفاتورة</th>                 */}
 
              <th scope="col"></th>
              <th scope="col"></th>
@@ -988,19 +1053,19 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
               <td>
         <button className="btn btn-success"  onClick={() => {
           getJtSticker(item._id)
       }}>عرض الاستيكر</button>
       </td>
-      {item.inovicedaftra?.id?(<td><button
+      {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
        <td>
         {item.status=== "canceled" ? 
           <span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span>:
@@ -1060,7 +1125,7 @@ export default function Shipments(userData) {
             {userData.userData.data.user.rolle === "marketer"?(<th scope="col">كود المسوق </th>):null}
              <th scope="col">طرقة الدفع</th>
              <th scope="col">التاريخ</th>
-             <th scope="col">id_الفاتورة</th>                
+             {/* <th scope="col">id_الفاتورة</th>                 */}
 
              <th scope="col"></th>
              <th scope="col"></th>
@@ -1077,7 +1142,7 @@ export default function Shipments(userData) {
   );
   }).map((item,index) =>{
             return(
-              <tr key={index}>
+              <tr key={index} className={item.status=== "canceled" ? 'cancel' : ''} >
               <td>{index+1}</td>
               <td>{item.company}</td>
               <td>{item.ordernumber}</td>
@@ -1088,7 +1153,7 @@ export default function Shipments(userData) {
 ) : null}
               <td>{item.paytype}</td>
               {item.created_at?(<td>{item.created_at.slice(0,10)}</td>):(<td> _ </td>)}
-              {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)}
+              {/* {item.inovicedaftra?.id?(<td>{item.inovicedaftra.id}</td>):(<td>_</td>)} */}
 
               <td>
               <button
@@ -1099,13 +1164,28 @@ export default function Shipments(userData) {
     عرض الاستيكر
   </button>
               </td>
-              {item.inovicedaftra?.id?(<td><button
+              {/* {item.inovicedaftra?.id?(<td><button
       
       className="btn btn-orange"
       onClick={() => getInvoice(item.inovicedaftra.id)}
     >
       عرض الفاتورة
-    </button></td>):(<td>_</td>)}
+    </button></td>):(<td>_</td>)} */}
+     {item.status=== "canceled" ?
+                <td><span className='text-center text-danger fw-bold'>(Canceled) {item.cancelReason}</span></td>:
+                item.cancel?.request=== true?
+                  <td><span className='text-center text-danger fw-bold'>الالغاء قيد الانتظار</span></td>:<td><button
+            className="btn btn-danger"
+            onClick={() => {
+                const orderId = item._id;
+                const cancelReason = window.prompt('لإلغاء الشحنة اكتب سبب الإلغاء :')
+                if (cancelReason !== null) {
+                cancelOrder(orderId, cancelReason,getSplUserOrders)
+              }
+            }}
+          >
+             الغاء الشحنة
+          </button> </td>}
               
             </tr>
             )

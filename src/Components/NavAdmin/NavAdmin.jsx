@@ -76,6 +76,12 @@ export default function NavAdmin({userData ,logout}) {
                     <span class="text">الشحنات </span>
                 </Link>
             </li>
+            <li>
+                <Link to="/cancelRequestsAdmin">
+                <i class="fa-solid fa-ban bx"></i>
+                <span class="text">طلبات الغاء الشحنات </span>
+                </Link>
+            </li>
             
             <li>
                 <Link to="/userListAdmin">
@@ -83,12 +89,7 @@ export default function NavAdmin({userData ,logout}) {
                     <span class="text">المستخدمين</span>
                 </Link>
             </li>
-            <li>
-                <Link to="/InvitedWaiting">
-                <i class="fa-solid fa-clipboard-list bx"></i>
-                    <span class="text">قائمة انتظار المدعويين</span>
-                </Link>
-            </li>
+           
             <li>
                 <Link to="/daftraStaff">
                 <i class="bx fa-solid fa-clipboard-user"></i>
@@ -113,12 +114,7 @@ export default function NavAdmin({userData ,logout}) {
                     <span class="text">ربط المتاجر بالمسوقات</span>
                 </Link>
             </li>
-            <li>
-                <Link to="/invocesAdmin">
-                <i class="fa-solid fa-receipt bx"></i>
-                <span class="text">الفواتير</span>
-                </Link>
-            </li>
+           
             <li>
                 <Link to="/clientsCreditAdmin">
                 <i class="fa-regular fa-credit-card bx"></i>
@@ -131,6 +127,18 @@ export default function NavAdmin({userData ,logout}) {
                     <span class="text"> الباقات
                
                 </span>
+                </Link>
+            </li>
+            <li>
+                <Link to="/InvitedWaiting">
+                <i class="fa-solid fa-clipboard-list bx"></i>
+                    <span class="text">قائمة انتظار المدعويين</span>
+                </Link>
+            </li>
+            <li>
+                <Link to="/invocesAdmin">
+                <i class="fa-solid fa-receipt bx"></i>
+                <span class="text">الفواتير</span>
                 </Link>
             </li>
             {/* <li>
