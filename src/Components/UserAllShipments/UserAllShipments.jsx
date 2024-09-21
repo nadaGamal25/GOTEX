@@ -605,26 +605,9 @@ async function getSearchShipmentsPage() {
 
                 {item.company?<td>{item.company}</td>:<td>_</td>}
                 {/* {item.company?<td>{item.company}</td>:<td>_</td>} */}
-                {item.data && item.data.awb_no ? (
-  <td>{item.data.awb_no}</td>
-): item.data.data && item.data.data.expressNo? (
-  <td>{item.data.data.expressNo}</td>
-): item.data && item.data.Items && item.data.Items[0]?.Barcode? (
-  <td>{item.data.Items[0].Barcode}</td>
-)
- : item.data && item.data.waybill ? (
-  <td>{item.data.waybill}</td>
-) :item.data.data && item.data.data.billCode?(
-    <td>{item.data.data.billCode}</td>
-) : item.data && item.data.orderTrackingNumber ? (
-  <td>{item.data.orderTrackingNumber}</td>
-) : item.data && item.data.Shipments && item.data.Shipments[0]?.ID ? (
-  <td>{item.data.Shipments[0].ID}</td>
-) : item.data && item.data.sawb ? (
-  <td>{item.data.sawb}</td>
-) : item.data.ordernumber? (
-    <td>{item.data.ordernumber}</td>
-  ): (
+                {item.billCode ? (
+  <td>{item.billCode}</td>
+): (
   <td>_</td>
 )}
                 {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
@@ -773,7 +756,7 @@ onClick={() => getSaeeSticker(item._id)}
   </button>
 
   <ul class="dropdown-menu">
-  {item.data.waybills ?( item.data.waybills.map((sticker, index) => (
+  {item.data?.waybills ?( item.data.waybills.map((sticker, index) => (
     <li key={index}>
       <a class="dropdown-item"  onClick={() => {
         handleConvertAndDownloadSmsa(sticker.awbFile , item.data.sawb)
