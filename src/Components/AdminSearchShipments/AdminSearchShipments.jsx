@@ -774,9 +774,8 @@ className='mx-1'
     ) : (
       <>
         <td>{index+1}</td>
-                {item.createdate ? (<td>{item.createdate.slice(0, 10)}</td>
-) : item.data && item.data.createDate ? (
-  <td>{item.data.createDate.slice(0, 10)}</td>): item.created_at ? (
+                {item.createdate ? (<td>{item.createdate.slice(0, 10)}</td>)
+              : item.created_at ? (
     <td>{item.created_at.slice(0, 10)}</td>) : (<td>_</td>)}
                     {item.sender && item.sender.name ? <td>{item.sender.name}</td> : <td>_</td>}
                     {item.sender && item.sender.mobile ? <td>{item.sender.mobile}</td> : <td>_</td>}
@@ -785,7 +784,8 @@ className='mx-1'
 
                 {item.company ==="anwan"?<td>gotex</td>:<td>{item.company}</td>}
                 {/* {item.company?<td>{item.company}</td>:<td>_</td>} */}
-                {item.data && item.data.awb_no ? (
+                {item.billCode?<td>{item.billCode}</td>:<td>_</td>}
+                {/* {item.data && item.data.awb_no ? (
   <td>{item.data.awb_no}</td>
 ): item.data.data && item.data.data.expressNo? (
   <td>{item.data.data.expressNo}</td>
@@ -804,7 +804,7 @@ className='mx-1'
   <td>{item.data.sawb}</td>
 ) : (
   <td>_</td>
-)}
+)} */}
                 {item.paytype?<td>{item.paytype}</td>:<td>_</td>}
                 {item.price?<td>{item.price}</td>:<td>_</td>}
                 {item.codPrice?<td>{item.codPrice}</td>:<td>_</td>}

@@ -334,6 +334,8 @@ body{
   /*eid */
   /* background-image: url(../src/assets/adha5.webp); */
   /* background-image: url(../src/assets/عبارات-جميلة-عن-عيد-الفطر.jpg);   */
+  /* fday */
+  background-image: url(../src/assets/اليوم\ الوطنى94.webp);
   background-size: 100% 100%;
 }
 
@@ -344,12 +346,12 @@ body{
 }
 .login-box,
 .register-box{
-  border: 2px solid var(--dark--color);
+  /* border: 2px solid var(--dark--color); */
   /* border: 2px solid #1d7253; */
   border-radius: 10px;
-  /* eid */
+  /* eid fday */ 
   background-color: #fff;
- /* background-color: rgba(255, 255, 255, 0.4); */
+ background-color: rgba(255, 255, 255, 0.4);
   box-shadow: 5px 5px 10px #8ca0aa;
   width: 55%;
   padding: 50px;
@@ -502,7 +504,8 @@ html, body ,
   /* background: #6bc983; */
   /* background: #efeae4; bige */
   /* background: #ede5e0; */
-;
+  /* fday */
+  background: #b4e1e0;
   z-index: 999;
   transition: all 0.3s ease;
   overflow-y: scroll;
@@ -514,13 +517,17 @@ html, body ,
 #sidebar::-webkit-scrollbar{
   width: 5px;
   background-color: #f2f2f2;
+  
 }
 #sidebar::-webkit-scrollbar-thumb{
   background-color: #dadada;
   border-radius: 20px;
+  
 }
 #sidebar::-webkit-scrollbar-track{
   background-color: #f2f2f2;
+  /* fday */
+  background: #b4e1e0;
 }
 #sidebar.hide{
   width: 60px;
@@ -719,6 +726,8 @@ left: 0px;
   /* background:#efeae4;big */
   /* background: #ede5e0; */
    /* #6bc983; */
+   /* fday */
+  background: #b4e1e0;
   padding: 0 20px;
   grid-gap: 24px;
   z-index: 99;
@@ -799,9 +808,10 @@ nav form .form-input button{
  /*background-color: #1d7253;
   */
   /* background-image: url(../src/assets/ramdan-kareem.jpg); */
-  /*eid*/
+  /*eid fday*/
   /* background-image: url(../src/assets/adha6.jpg); */
   /* background-image: url(../src/assets/عبارات-جميلة-عن-عيد-الفطر.jpg); */
+  background-image: url(../src/assets/اليوم\ الوطنى94.webp);
   opacity: 0.9;
   padding: 15px;
   border-radius: 15px;
@@ -811,8 +821,8 @@ nav form .form-input button{
 .h-80{
   height: 110px;
 }
-
-.saee{
+/* eid fday*/
+/* .saee{
   background-image: url(../src/assets/saee2.jpg);
 }
 .smsa{
@@ -841,7 +851,7 @@ nav form .form-input button{
 }
 .aymkan{
   background-image: url(../src/assets/aymkan2.jpg);
-}
+} */
 .company img{
   width: 160px;
   height: 80px;
@@ -857,9 +867,10 @@ nav form .form-input button{
 .area{
   background:#dfe0e5  ;  
   /* background-image: url(../src/assets/ramdan-kareem.jpg); */
-  /*eid*/
+  /*eid fday*/
   /* background-image: url(../src/assets/adha6.jpg); */
   /* background-image: url(../src/assets/عبارات-جميلة-عن-عيد-الفطر.jpg); */
+  background-image: url(../src/assets/اليوم\ الوطنى94.webp);
   opacity: 0.9;
   background-size: 100% 100%;
   /* background: #1d7253;   */
