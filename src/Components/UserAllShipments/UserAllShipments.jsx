@@ -756,10 +756,10 @@ onClick={() => getSaeeSticker(item._id)}
   </button>
 
   <ul class="dropdown-menu">
-  {item.data?.waybills ?( item.data.waybills.map((sticker, index) => (
+  {item.billFile ?( item.billFile.map((sticker, index) => (
     <li key={index}>
       <a class="dropdown-item"  onClick={() => {
-        handleConvertAndDownloadSmsa(sticker.awbFile , item.data.sawb)
+        handleConvertAndDownloadSmsa(sticker , item.billCode)
       }}>
         استيكر {index+1}
       </a>
