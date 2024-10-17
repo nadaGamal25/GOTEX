@@ -461,7 +461,7 @@ export default function Shipments(userData) {
             </div>
           </div>
           ): null}
-      <div className="clients-table p-4 mt-4">
+      {/* <div className="clients-table p-4 mt-4">
         <h5>شركة gotex</h5>
        <table className="table">
          <thead>
@@ -533,7 +533,7 @@ export default function Shipments(userData) {
                     >
                       تتبع الشحنة
                     </button>
-              </td> */}
+              </td> 
             </tr>
             )
           }
@@ -541,7 +541,7 @@ export default function Shipments(userData) {
       
         </tbody>
       </table>
-     </div> 
+     </div>  */}
      <div className="clients-table p-4 my-4">
         <h5>شركة saee</h5>
       <table className="table">

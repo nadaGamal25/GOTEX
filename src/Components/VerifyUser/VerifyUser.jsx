@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../../assets/logo.png'
+import logo from '../../assets/tup.PNG'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 

@@ -5,7 +5,7 @@ import ar from 'react-phone-number-input/locale/ar'
 import axios from 'axios';
 import Joi from 'joi';
 import { useParams } from 'react-router-dom'
-import logo from '../../assets/logo.png';
+import logo from '../../assets/tup.PNG';
 
 export default function RegisterClient() {
     let allparams= useParams()

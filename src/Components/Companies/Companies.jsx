@@ -9,7 +9,7 @@ import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
 import dhl from '../../assets/dhl.jpg'
-import logo from '../../assets/logo.png';
+import logo from '../../assets/tup.PNG';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import {Modal, Button } from 'react-bootstrap';
@@ -100,7 +100,7 @@ export default function Companies(userData) {
         </tbody>
       </table>
      </div> */}
-        <div className="row g-4">
+        <div className="row g-4 py-4">
           {/* <div className="col-md-12 ">
           { userData.userData.data.user.rolle === "user"?
             <div className='text-center package-poster '>
@@ -112,7 +112,7 @@ export default function Companies(userData) {
               
             </div>:null}
           </div> */}
-            <div className="col-md-12  position-relative">
+            {/* <div className="col-md-12  position-relative">
             <div className="company-main company area position-relative">
             <ul class="circles">
                     <li></li>
@@ -134,7 +134,7 @@ export default function Companies(userData) {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i> */}
+              <i class="fa-solid fa-star"></i> 
               </div>
               {companiesDetails.map((item, index) => (
                 item === null?(<div className=" pt-4"></div>):
@@ -151,7 +151,7 @@ export default function Companies(userData) {
                 ) : null
                 ))}
             </div>
-          </div>
+          </div> */}
     {/* </div >
     
           </div> */}
@@ -162,7 +162,7 @@ export default function Companies(userData) {
               <div className="text-center h-80">
              <img src={sae} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -172,11 +172,11 @@ export default function Companies(userData) {
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "saee" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
+                  <div key={index} className="d-flex pt-2 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "saee" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
+                  <div key={index} className="d-flex pt-2 justify-content-between">
                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                    userData.userData.data.user.rolle === "marketer"?(<h4></h4>):
                    <h4></h4>}
@@ -192,7 +192,7 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={jt} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -205,11 +205,11 @@ export default function Companies(userData) {
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "jt" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
+                  <div key={index} className="d-flex pt-2 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "jt" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
+                  <div key={index} className="d-flex pt-2 justify-content-between">
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
                 <Link className="btn btn-choose" to='/jtShippments'>أختر</Link>
@@ -223,7 +223,7 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={armx} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -233,11 +233,11 @@ export default function Companies(userData) {
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "aramex" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
+                  <div key={index} className="d-flex pt-2 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "aramex" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
+                  <div key={index} className="d-flex pt-2 justify-content-between">
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
                     <Link to="/aramexShipment" className="btn btn-choose">أختر</Link>
@@ -251,7 +251,7 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={sms} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -261,11 +261,11 @@ export default function Companies(userData) {
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "smsa" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
+                  <div key={index} className="d-flex pt-2 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "smsa" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
+                  <div key={index} className="d-flex pt-2 justify-content-between">
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
                     <Link to="/smsaShipment" className="btn btn-choose">أختر</Link>
@@ -279,7 +279,7 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={spl} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -292,11 +292,11 @@ export default function Companies(userData) {
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "spl" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
+                  <div key={index} className="d-flex pt-2 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "spl" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
+                  <div key={index} className="d-flex pt-2 justify-content-between">
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
                     <Link to="/splShipment" className="btn btn-choose">أختر</Link>
@@ -313,7 +313,7 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={imile} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -323,7 +323,7 @@ export default function Companies(userData) {
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "imile" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
+                  <div key={index} className="d-flex pt-2 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "imile" ? (
@@ -333,7 +333,7 @@ export default function Companies(userData) {
                     //   <div className="d-flex pt-4 justify-content-center">
                     // <p className="soon-word"> قريباً  ...</p>
                     // </div>
-                    <div className="d-flex pt-4 justify-content-between">
+                    <div className="d-flex pt-2 justify-content-between">
                     <h4>SAR {item.userprice}</h4>
                    <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
                    </div>
@@ -360,14 +360,14 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={dhl} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i> */}
               </div>
-              <div className="d-flex pt-4 justify-content-center">
+              <div className="d-flex pt-2 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
               </div>
             </div>
@@ -377,14 +377,14 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={jonex} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i> */}
               </div>
-              <div className="d-flex pt-4 justify-content-center">
+              <div className="d-flex pt-2 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
               </div>
             </div>
@@ -395,14 +395,14 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={mkan} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i> */}
               </div>
-              <div className="d-flex pt-4 justify-content-center">
+              <div className="d-flex pt-2 justify-content-center">
                 <p className="soon-word">قريباً ...</p>
               </div>
             </div>
@@ -413,7 +413,7 @@ export default function Companies(userData) {
               <div className="text-center h-80">
               <img src={glt} alt="company" />
               </div>
-              <div className="stars text-center mt-3">
+              <div className="stars text-center mt-0">
               {/* <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -423,11 +423,11 @@ export default function Companies(userData) {
               {companiesDetails.map((item, index) => (
                 item === null?(<div></div>):
                 item.status === false && item.name === "glt" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-center">
+                  <div key={index} className="d-flex pt-2 justify-content-center">
                     <p className="soon-word">متوقفة مؤقتاً ...</p>
                   </div>
                 ) : item.status === true && item.name === "glt" ? (
-                  <div key={index} className="d-flex pt-4 justify-content-between">
+                  <div key={index} className="d-flex pt-2 justify-content-between">
                     {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
                     <h4></h4>}
                    {/* userData.userData.data.user.roll === "admin"?(<h4>SAR {item.marketerprice}</h4>):null} */}

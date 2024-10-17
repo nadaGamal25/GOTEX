@@ -8,7 +8,7 @@ import sae from '../../assets/sae.jpg'
 import sms from '../../assets/sms.jpg'
 import spl from '../../assets/spl.jpg'
 import armx from '../../assets/armx.jpg'
-import logo from '../../assets/logo.png';
+import logo from '../../assets/tup.PNG';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
@@ -69,7 +69,7 @@ export default function CompaniesAdmin() {
             item !== null ? (
               <tr key={index}>
                 <td>{index+1}</td>
-                {item.name ==="anwan"?<td>gotex</td>:<td>{item.name}</td>}
+                {item.name?<td>{item.name}</td>:<td>_</td>}
                 {item.userprice?<td>{item.userprice}</td>:<td>_</td>}
                 {item.marketerprice?<td>{item.marketerprice}</td>:<td>_</td>}
                 {item.kgprice?<td>{item.kgprice}</td>:<td>_</td>}
@@ -97,7 +97,7 @@ export default function CompaniesAdmin() {
       </table>
      </div>
         <div className="row g-4">
-        <div className="col-md-6">
+        {/* <div className="col-md-6">
             <div className="company">
               <div className="text-center">
               <img className='bg-white' src={logo} alt="company" />
@@ -114,7 +114,7 @@ export default function CompaniesAdmin() {
                 <Link to="/anwanEdit" className="btn btn-choose">تعديل</Link>
               </div>
             </div>
-          </div>
+          </div> */}
         <div className="col-md-6">
             <div className="company">
               <div className="text-center">

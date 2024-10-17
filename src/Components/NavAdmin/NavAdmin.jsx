@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.png'
+import logo from '../../assets/tup.PNG'
 import { useNavigate } from 'react-router-dom';
 
 export default function NavAdmin({userData ,logout}) {

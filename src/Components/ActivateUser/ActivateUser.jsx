@@ -3,7 +3,7 @@ import Joi from 'joi';
 import React, { useState ,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
-import logo from '../../assets/logo.png'
+import logo from '../../assets/tup.PNG'
 import { Link } from 'react-router-dom'
 
 export default function ActivateUser() {

@@ -9,7 +9,7 @@
 :root{
   --orange-color:#fa4c03;
   --bg-color:#f2f2f2;
-  --dark--color:#08354c;
+  --dark--color:#2c2c2c;
   /* --dark--color: #1d7253; */
   /* --dark--color: #4e382d; */
 
@@ -332,6 +332,7 @@ body{
   background-color: var(--bg-color);
   /* background-image: url(../src/assets/ramdan-kareem.jpg); */
   /*eid */
+  background-image: url(../src/assets/bg1.avif);
   /* background-image: url(../src/assets/adha5.webp); */
   /* background-image: url(../src/assets/عبارات-جميلة-عن-عيد-الفطر.jpg);   */
   /* fday */
@@ -346,12 +347,12 @@ body{
 }
 .login-box,
 .register-box{
-  border: 2px solid var(--dark--color);
+  /* border: 2px solid var(--dark--color); */
   /* border: 2px solid #1d7253; */
   border-radius: 10px;
   /* eid fday */ 
   background-color: #fff;
- /* background-color: rgba(255, 255, 255, 0.4); */
+ background-color: rgba(255, 255, 255, 0.4);
   box-shadow: 5px 5px 10px #8ca0aa;
   width: 55%;
   padding: 50px;
@@ -370,7 +371,7 @@ input:focus{
   /* background-color: #963f2b !important;   */
   color: #fff !important;
   margin-top: 10px;
-  box-shadow: 5px 5px 5px #e8cea7;
+  /* box-shadow: 5px 5px 5px #e8cea7; */
   /* box-shadow: 5px 5px 5px #1d7253; */
   border: none !important;
 }
@@ -498,6 +499,7 @@ html, body ,
   height: 100vh !important;
   background: #f2f2f2;
   /* eid */
+  background-color: #2c2c2c;
   /* background-color: #f7efe9; */
   /* background: rgba(8, 204, 132, 0.4) ; */
   /* background:#D0F2CB */
@@ -528,6 +530,7 @@ html, body ,
   background-color: #f2f2f2;
   /* fday */
   /* background: #b4e1e0; */
+  background-color: #2c2c2c;
 }
 #sidebar.hide{
   width: 60px;
@@ -540,6 +543,9 @@ html, body ,
   align-items: center;
   color: var(--blue);
   overflow-x: hidden;
+}
+#sidebar .brand img{
+  width: 80px;
 }
 .brand .bx{
   min-width: 60px;
@@ -721,6 +727,7 @@ left: 0px;
   height: 56px;
   background-color: #f2f2f2;
   /* eid */
+  background-color: #2c2c2c;
   /* background-color: #f7efe9; */
   /* background-color: #D0F2CB; */
   /* background:#efeae4;big */
@@ -765,7 +772,8 @@ nav .nav-link{
 }
 nav .nav-link:hover,
 .fa-bars:hover{
-  color: var(--blue);
+  /* color: var(--blue); */
+  color: #e0e0e0;
 }
 nav form{
   max-width: 400px;
@@ -799,12 +807,14 @@ nav form .form-input button{
 }
 .fa-bars{
   font-size: 22px;
+  color: #e0e0e0;
 }
 
 /* end navbar */
 /* start companies */
 .company{
-  background-color: var(--dark--color);
+  /* background-color: var(--dark--color); */
+  background-color: #e0e0e0;
  /*background-color: #1d7253;
   */
   /* background-image: url(../src/assets/ramdan-kareem.jpg); */
@@ -822,7 +832,7 @@ nav form .form-input button{
   height: 110px;
 }
 /* eid fday*/
-.saee{
+/* .saee{
   background-image: url(../src/assets/saee2.jpg);
 }
 .smsa{
@@ -851,7 +861,7 @@ nav form .form-input button{
 }
 .aymkan{
   background-image: url(../src/assets/aymkan2.jpg);
-}
+} */
 .company img{
   width: 160px;
   height: 80px;
@@ -1003,7 +1013,8 @@ nav form .form-input button{
 }
 .company h4{
   /* color: #f9f9f9; */
-  color: #fff;
+  /* color: #fff; */
+  color: #2c2c2c;
   /* letter-spacing: 1px; */
   padding-right: 15px;
 
@@ -1026,7 +1037,8 @@ nav form .form-input button{
 }
 .soon-word{
   font-weight: 600;
-  color: #fff;
+  /* color: #fff; */
+  color: #2c2c2c;
   padding-right: 15px;
   padding-left: 10px;
   letter-spacing: 1px;

@@ -54,7 +54,7 @@ export default function ForgetPassword() {
   
     function validateForm(){
       let scheme= Joi.object({
-        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol'] }}).required(),
+        email:Joi.string().email({ tlds: { allow: ['com', 'net','lol','pro'] }}).required(),
   
       });
       return scheme.validate(theUser, {abortEarly:false});

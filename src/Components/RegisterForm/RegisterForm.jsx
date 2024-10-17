@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Joi from 'joi';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/tup.PNG';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 import ar from 'react-phone-number-input/locale/ar'
