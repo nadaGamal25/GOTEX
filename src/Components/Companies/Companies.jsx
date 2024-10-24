@@ -246,34 +246,7 @@ export default function Companies(userData) {
                 ))}
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="company smsa">
-              <div className="text-center h-80">
-              <img src={sms} alt="company" />
-              </div>
-              <div className="stars text-center mt-0">
-              {/* <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i> */}
-              </div>
-              {companiesDetails.map((item, index) => (
-                item === null?(<div></div>):
-                item.status === false && item.name === "smsa" ? (
-                  <div key={index} className="d-flex pt-2 justify-content-center">
-                    <p className="soon-word">متوقفة مؤقتاً ...</p>
-                  </div>
-                ) : item.status === true && item.name === "smsa" ? (
-                  <div key={index} className="d-flex pt-2 justify-content-between">
-                    {userData.userData.data.user.rolle === "user"?(<h4>SAR {item.userprice}</h4>):
-                    <h4></h4>}
-                    <Link to="/smsaShipment" className="btn btn-choose">أختر</Link>
-                  </div>
-                ) : null
-                ))}
-            </div>
-          </div>
+         
           <div className="col-md-6">
             <div className="company spl">
               <div className="text-center h-80">
@@ -353,6 +326,23 @@ export default function Companies(userData) {
                 <h4></h4>
                 <Link className="btn btn-choose" onClick={openModal}>أختر</Link>
               </div> */}
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="company smsa">
+              <div className="text-center h-80">
+              <img src={sms} alt="company" />
+              </div>
+              <div className="stars text-center mt-0">
+              {/* <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i> */}
+              </div>
+              <div className="d-flex pt-2 justify-content-center">
+                <p className="soon-word">قريباً ...</p>
+              </div>
             </div>
           </div>
           <div className="col-md-6">

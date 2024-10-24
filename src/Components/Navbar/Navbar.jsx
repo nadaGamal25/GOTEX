@@ -187,18 +187,20 @@ export default function Navbar({userData ,logout}) {
             {userData?.data?.user?.rolle === "user"?(
             <>
             <li>
-                <Link to="#" onClick={openModal}>
+                <Link onClick={waitingAlert}
+                //  to="#" onClick={openModal}
+                >
                 <i class="fa-solid fa-credit-card bx"></i>
                   <span class="text">إضافة رصيد </span>
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link to="/paymentOrders">
                 <i class="fa-solid fa-file-invoice bx"></i>
                     <span class="text">طلبات الدفع
                 </span>
                 </Link>
-            </li>
+            </li> */}
             </>
             ):null}
             
@@ -230,7 +232,9 @@ export default function Navbar({userData ,logout}) {
             ):null}
             {userData?.data?.user?.rolle === "marketer"?(
             <li>
-                <Link to="/generateLinkPayment">
+                <Link onClick={waitingAlert}
+                // to="/generateLinkPayment"
+                >
                 <i class="fa-solid fa-link bx"></i>
                     <span class="text">  إنشاء رابط للرصيد 
                
