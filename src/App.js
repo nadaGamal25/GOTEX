@@ -92,6 +92,8 @@ import CancelRequestsAdmin from './Components/CancelRequestsAdmin/CancelRequests
 import GotexEdit from './Components/GotexEdit/GotexEdit';
 import GotexShipments from './Components/GotexShipments/GotexShipments';
 import UserAllShipments from './Components/UserAllShipments/UserAllShipments';
+import AdminStoreCategory from './Components/AdminStoreCategory/AdminStoreCategory';
+import AdminStoreProducts from './Components/AdminStoreProducts/AdminStoreProducts';
 
 function App() {
   
@@ -218,6 +220,8 @@ function App() {
     {path:'packegesAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'cancelRequestsAdmin',element:<ErrorBoundary><ProtectedRoute userData={userData}><CancelRequestsAdmin/></ProtectedRoute></ErrorBoundary>},
     {path:'gotexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GotexEdit/></ProtectedRoute></ErrorBoundary>},
+    {path:'adminStoreCategory',element:<ErrorBoundary><ProtectedRoute userData={userData}><AdminStoreCategory/></ProtectedRoute></ErrorBoundary>},
+    {path:'adminStoreProducts',element:<ErrorBoundary><ProtectedRoute userData={userData}><AdminStoreProducts/></ProtectedRoute></ErrorBoundary>},
    
     ]},
     {path:'/',element:<LayoutMarketers setmarketerData={setmarketerData} marketerData={marketerData}/> ,children:[

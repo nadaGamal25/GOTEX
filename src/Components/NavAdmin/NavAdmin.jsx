@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom';
+import {Modal, Button } from 'react-bootstrap';
 
 export default function NavAdmin({userData ,logout}) {
     let navigate= useNavigate();
@@ -47,6 +48,16 @@ export default function NavAdmin({userData ,logout}) {
     };
   }, []);
 
+  const [showModal, setShowModal] = useState(false);
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+
   return (
     <>
     {/* <!-- start side navbar --> */}
@@ -90,12 +101,7 @@ export default function NavAdmin({userData ,logout}) {
                 </Link>
             </li>
            
-            <li>
-                <Link to="/daftraStaff">
-                <i class="bx fa-solid fa-clipboard-user"></i>
-                    <span class="text">الموظفين  </span>
-                </Link>
-            </li>
+           
             <li>
                 <Link to="/clientsAdmin">
                 <i class="fa-solid fa-users bx"></i>
@@ -130,9 +136,23 @@ export default function NavAdmin({userData ,logout}) {
                 </Link>
             </li>
             <li>
+                <Link onClick={openModal}>
+                <i class="fa-solid fa-cart-shopping bx"></i>
+                 <span class="text"> المتجر
+               
+                </span>
+                </Link>
+            </li>
+            <li>
                 <Link to="/InvitedWaiting">
                 <i class="fa-solid fa-clipboard-list bx"></i>
                     <span class="text">قائمة انتظار المدعويين</span>
+                </Link>
+            </li>
+            <li>
+                <Link to="/daftraStaff">
+                <i class="bx fa-solid fa-clipboard-user"></i>
+                    <span class="text">الموظفين  </span>
                 </Link>
             </li>
             <li>
@@ -174,6 +194,26 @@ export default function NavAdmin({userData ,logout}) {
         </nav>
         {/* <!--end navbar --> */}
         </section>
+
+        <Modal show={showModal} onHide={closeModal}>
+        <Modal.Header >
+          <Modal.Title>متجر مستلزمات الشحن </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {/* Your content inside the modal */}
+          <div className='text-center'>
+          <Link to="/adminStoreCategory" className="btn btn-primary m-2" onClick={closeModal}>الفئات</Link>
+          <Link to="/adminStoreProducts" className="btn btn-orange m-2" onClick={closeModal}>المنتجات  </Link>            
+          <Link to="#" className="btn btn-success m-2" onClick={closeModal}>الاوردرات </Link>            
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+          إغلاق
+          </Button>
+          {/* Additional buttons or actions can be added here */}
+        </Modal.Footer>
+      </Modal>
         
     </>  )
 }
