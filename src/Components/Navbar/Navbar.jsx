@@ -101,8 +101,9 @@ export default function Navbar({userData ,logout}) {
               window.alert('يرجى ملئ جميع البيانات التالية ')
               // navigate(response.data.data.order.url);
               const stickerUrl = `${response.data.data.transaction.url}`;
-           const newTab = window.open();
-           newTab.location.href = stickerUrl;
+          //  const newTab = window.open();
+          //  newTab.location.href = stickerUrl;
+             window.location.href = stickerUrl;
 
               // if (response.data.msg === 'ok') {
                 closeModal();
