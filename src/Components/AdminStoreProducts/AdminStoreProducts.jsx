@@ -61,11 +61,11 @@ export default function AdminStoreProducts() {
       const response = await axios.post(
         `https://dashboard.go-tex.net/test/products`,
         formData,
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-        //   },
-        // }
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+          },
+        }
       );
 
       alert("تمت اضافة المنتج بنجاح")
@@ -96,7 +96,7 @@ setEditedData(
   description: data?.description || '',
   price: data?.price || '',
   stock: data?.stock || '',
-  category: data?.category || '',
+  category: data?.category.name || '',
  
   
 }
@@ -125,11 +125,11 @@ try {
 const response = await axios.put(
   `https://dashboard.go-tex.net/test/products/${eData._id}`,
   {...editedData},
-//   {
-//     headers: {
-//       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-//     },
-//   }
+  {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+    },
+  }
 );
 console.log(editedData)
 console.log(response);
@@ -279,7 +279,7 @@ const [selectedImages, setSelectedImages] = useState([]);
        {item.description?<td>{item.description}</td>:<td>_</td>}
        {item.price?<td>{item.price}</td>:<td>_</td>}
        {item.stock?<td>{item.stock}</td>:<td>_</td>}
-       {item.category?<td>{item.category}</td>:<td>_</td>}
+       {item.category.name?<td>{item.category.name}</td>:<td>_</td>}
        {item.images && item.images?.length !== 0 ?<td>
         <a className="text-primary" onClick={() => openCarousel(item.images)}>الصور</a>
        </td>:<td>_</td>}
@@ -291,11 +291,11 @@ const [selectedImages, setSelectedImages] = useState([]);
      if (window.confirm('هل انت بالتأكيد تريد حذف هذه المنتج ؟')) {
        axios
          .delete(`https://dashboard.go-tex.net/test/products/${item._id}`, 
-       //    {
-       //     headers: {
-       //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-       //     },
-       //   }
+          {
+           headers: {
+             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+           },
+         }
        )
          .then((response) => {
            if (response.status === 200) {
@@ -451,7 +451,7 @@ const [selectedImages, setSelectedImages] = useState([]);
                   <select
                     className="form-control my-2"
                     name="category"
-                    value={editedData.category}
+                    value={editedData.category.name}
                     onChange={handleInputChangeData}
                     required
                   >

@@ -1602,3 +1602,21 @@ border-radius: 5px;
 }
 
 /*up*/
+/*store*/
+.card{
+  border:none !important ;
+}
+.bg-orange{
+  background-color: #fde8e0 !important; 
+}
+.bg-product{
+  background-color: #f2f2f2 !important;
+}
+.cart-price{
+  font-size: 13px;
+}
+.btn-outline-orange{
+  background-color: transparent;
+  border: var(--orange-color) 1px solid !important;
+  color: var(--orange-color) !important;
+}

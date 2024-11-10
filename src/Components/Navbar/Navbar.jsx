@@ -207,6 +207,24 @@ export default function Navbar({userData ,logout}) {
             </li>
             </>
             ):null}
+              <li>
+              <Link to="/store">
+              <i class="fa-solid fa-keyboard bx"></i>
+                    <span class="text">مستلزمات الشحن</span>
+              </Link>
+          </li>
+          <li>
+              <Link to="/cart">
+              <i class="fa-solid fa-cart-shopping bx"></i>
+                    <span class="text">عربة التسوق </span>
+              </Link>
+          </li>
+          <li>
+                <Link to="/storeOrders">
+                <i class="fa-solid fa-basket-shopping bx"></i>
+                 <span class="text">طلبات التسوق</span>
+                </Link>
+            </li>
             
             {/* {userData?.data?.user?.rolle === "marketer"?( */}
               <li className=''>
@@ -262,12 +280,7 @@ export default function Navbar({userData ,logout}) {
           </li>
 
             ):null} */}
-            <li>
-              <Link onClick={waitingAlert}>
-              <i class="fa-solid fa-keyboard bx"></i>
-                    <span class="text">مستلزمات الشحن(قريباً)</span>
-              </Link>
-          </li>
+          
             {/* {userData?.data?.user?.rolle !== "marketer"?(
               <li>
               <Link onClick={waitingAlert}>

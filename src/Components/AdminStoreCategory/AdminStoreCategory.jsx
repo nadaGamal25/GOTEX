@@ -33,11 +33,11 @@ export default function AdminStoreCategory() {
         try {
           const response = await axios.post(`https://dashboard.go-tex.net/test/category`,
            newCategory,
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-        //     },
-        //   }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
         );
             console.log(response)
             setisLoading(false)
@@ -121,11 +121,11 @@ const handleEditSubmitData = async (event) => {
     const response = await axios.put(
       `https://dashboard.go-tex.net/test/category/${eData._id}`,
       {...editedData},
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-    //     },
-    //   }
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+        },
+      }
     );
     console.log(editedData)
     console.log(response);
@@ -205,11 +205,11 @@ return <div key={index} className="alert alert-danger my-2">يجب ملىء جم
       if (window.confirm('هل انت بالتأكيد تريد حذف هذه الفئة ؟')) {
         axios
           .delete(`https://dashboard.go-tex.net/test/category/${item._id}`, 
-        //    {
-        //     headers: {
-        //       Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-        //     },
-        //   }
+           {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            },
+          }
         )
           .then((response) => {
             if (response.status === 200) {

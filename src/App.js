@@ -94,7 +94,11 @@ import GotexShipments from './Components/GotexShipments/GotexShipments';
 import UserAllShipments from './Components/UserAllShipments/UserAllShipments';
 import AdminStoreCategory from './Components/AdminStoreCategory/AdminStoreCategory';
 import AdminStoreProducts from './Components/AdminStoreProducts/AdminStoreProducts';
-
+import Store from './Components/Store/Store';
+import Cart from './Components/Cart/Cart';
+import Checkout from './Components/Checkout/Checkout';
+import StoreOrders from './Components/StoreOrders/StoreOrders';
+import AdminStoreOrders from './Components/AdminStoreOrders/AdminStoreOrders'
 function App() {
   
   useEffect(()=>{
@@ -195,6 +199,10 @@ function App() {
       {path:'/packageMarketers',element:<ErrorBoundary><ProtectedRoute userData={userData}><PackegesMarketers userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/generateLinkPayment',element:<ErrorBoundary><ProtectedRoute userData={userData}><GenerateLinkPayment userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/userAllShipments',element:<ErrorBoundary><ProtectedRoute userData={userData}><UserAllShipments userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/store',element:<ErrorBoundary><ProtectedRoute userData={userData}><Store userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/cart',element:<ErrorBoundary><ProtectedRoute userData={userData}><Cart userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/checkout',element:<ErrorBoundary><ProtectedRoute userData={userData}><Checkout userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/storeOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><StoreOrders userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
@@ -222,6 +230,7 @@ function App() {
     {path:'gotexEdit',element:<ErrorBoundary><ProtectedRoute userData={userData}><GotexEdit/></ProtectedRoute></ErrorBoundary>},
     {path:'adminStoreCategory',element:<ErrorBoundary><ProtectedRoute userData={userData}><AdminStoreCategory/></ProtectedRoute></ErrorBoundary>},
     {path:'adminStoreProducts',element:<ErrorBoundary><ProtectedRoute userData={userData}><AdminStoreProducts/></ProtectedRoute></ErrorBoundary>},
+    {path:'adminStoreOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><AdminStoreOrders/></ProtectedRoute></ErrorBoundary>},
    
     ]},
     {path:'/',element:<LayoutMarketers setmarketerData={setmarketerData} marketerData={marketerData}/> ,children:[

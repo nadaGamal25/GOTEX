@@ -204,7 +204,7 @@ export default function NavAdmin({userData ,logout}) {
           <div className='text-center'>
           <Link to="/adminStoreCategory" className="btn btn-primary m-2" onClick={closeModal}>الفئات</Link>
           <Link to="/adminStoreProducts" className="btn btn-orange m-2" onClick={closeModal}>المنتجات  </Link>            
-          <Link to="#" className="btn btn-success m-2" onClick={closeModal}>الاوردرات </Link>            
+          <Link to="/adminStoreOrders" className="btn btn-success m-2" onClick={closeModal}>الاوردرات </Link>            
           </div>
         </Modal.Body>
         <Modal.Footer>
