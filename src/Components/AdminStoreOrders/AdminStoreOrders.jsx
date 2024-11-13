@@ -49,6 +49,8 @@ export default function AdminStoreOrders() {
                <th scope="col">طريقة الدفع </th>
                <th scope="col">السعر</th>
                <th scope="col">الحالة </th>
+               <th scope="col">العميل </th>
+               <th scope="col">المدخل </th>
                
                 <th></th>
               </tr>
@@ -71,6 +73,8 @@ export default function AdminStoreOrders() {
         <td>{item.paymentMethod}</td>
         <td>{item.totalAmount}</td>
         <td>{item.status}</td>
+        {item.client?.name?<td>{item.client.name}</td>:<td>_</td>}
+        {item.user?.name?<td>{item.user.name}</td>:<td>_</td>}
        <td>
        <button
             className="btn btn-danger"

@@ -207,6 +207,16 @@ export default function Navbar({userData ,logout}) {
             </li>
             </>
             ):null}
+            {userData?.data?.user?.rolle === "marketer"?(
+              <li>
+              <Link to="/marketerStore">
+              <i class="fa-solid fa-keyboard bx"></i>
+                    <span class="text">مستلزمات الشحن</span>
+              </Link>
+          </li>
+            ):null}
+          {userData?.data?.user?.rolle === "user"?(
+            <>
               <li>
               <Link to="/store">
               <i class="fa-solid fa-keyboard bx"></i>
@@ -219,6 +229,7 @@ export default function Navbar({userData ,logout}) {
                     <span class="text">عربة التسوق </span>
               </Link>
           </li>
+          </>):null}
           <li>
                 <Link to="/storeOrders">
                 <i class="fa-solid fa-basket-shopping bx"></i>

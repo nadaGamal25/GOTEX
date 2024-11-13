@@ -99,6 +99,7 @@ import Cart from './Components/Cart/Cart';
 import Checkout from './Components/Checkout/Checkout';
 import StoreOrders from './Components/StoreOrders/StoreOrders';
 import AdminStoreOrders from './Components/AdminStoreOrders/AdminStoreOrders'
+import MarketerStore from './Components/MarketerStore/MarketerStore';
 function App() {
   
   useEffect(()=>{
@@ -203,6 +204,7 @@ function App() {
       {path:'/cart',element:<ErrorBoundary><ProtectedRoute userData={userData}><Cart userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/checkout',element:<ErrorBoundary><ProtectedRoute userData={userData}><Checkout userData={userData}/></ProtectedRoute></ErrorBoundary>},
       {path:'/storeOrders',element:<ErrorBoundary><ProtectedRoute userData={userData}><StoreOrders userData={userData}/></ProtectedRoute></ErrorBoundary>},
+      {path:'/marketerStore',element:<ErrorBoundary><ProtectedRoute userData={userData}><MarketerStore userData={userData}/></ProtectedRoute></ErrorBoundary>},
       // {path:'/EditClientModal',element:<ErrorBoundary><ProtectedRoute userData={userData}><EditClientModal userData={userData}/></ProtectedRoute></ErrorBoundary>},
     ]},
     {path:'/',element:<LayoutAdmin setuserData={setuserData} userData={userData}/> ,children:[
